@@ -1,0 +1,791 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-04 11:22+0200\n"
+"PO-Revision-Date: 2013-11-04 11:22+0200\n"
+"Last-Translator:  \n"
+"Language-Team:  \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;lang\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+
+#: ./application/modules/menu/templates/module_selector.tpl:9
+#: ./application/modules/menu/templates/url_selector.tpl:9
+#: ./application/modules/menu/templates/category_selector.tpl:9
+#: ./application/modules/menu/templates/create_item.tpl:92
+#: ./application/modules/menu/templates/create_item.tpl:247
+msgid "Options"
+msgstr "Опции"
+
+#: ./application/modules/menu/templates/module_selector.tpl:27
+#: ./application/modules/menu/templates/edit_item.tpl:103
+#: ./application/modules/menu/templates/edit_item.tpl:257
+#: ./application/modules/menu/templates/edit_item.tpl:395
+#: ./application/modules/menu/templates/main.tpl:49
+#: ./application/modules/menu/templates/pages_selector.tpl:95
+#: ./application/modules/menu/templates/category_selector.tpl:23
+#: ./application/modules/menu/templates/edit_item_origin.tpl:101
+#: ./application/modules/menu/templates/edit_item_origin.tpl:243
+#: ./application/modules/menu/templates/edit_item_origin.tpl:381
+#: ./application/modules/menu/templates/create_item.tpl:102
+#: ./application/modules/menu/templates/create_item.tpl:257
+#: ./application/modules/menu/templates/create_item.tpl:395
+msgid "Type"
+msgstr "Тип"
+
+#: ./application/modules/menu/templates/module_selector.tpl:29
+#: ./application/modules/menu/templates/edit_item.tpl:20
+#: ./application/modules/menu/templates/edit_item.tpl:398
+#: ./application/modules/menu/templates/pages_selector.tpl:19
+#: ./application/modules/menu/templates/edit_item_origin.tpl:20
+#: ./application/modules/menu/templates/edit_item_origin.tpl:384
+#: ./application/modules/menu/templates/create_item.tpl:21
+#: ./application/modules/menu/templates/create_item.tpl:398
+msgid "Module"
+msgstr "Модуль"
+
+#: ./application/modules/menu/templates/module_selector.tpl:33
+#: ./application/modules/menu/templates/edit_item.tpl:403
+#: ./application/modules/menu/templates/main.tpl:47
+#: ./application/modules/menu/templates/create_menu.tpl:32
+#: ./application/modules/menu/templates/edit_item_origin.tpl:389
+#: ./application/modules/menu/templates/edit_menu.tpl:36
+#: ./application/modules/menu/templates/menu_list.tpl:48
+#: ./application/modules/menu/templates/create_item.tpl:403
+#: ./application/modules/menu/admin.php:819
+#: ./application/modules/menu/admin.php:820
+#: ./application/modules/menu/admin.php:869
+#: ./application/modules/menu/admin.php:870
+msgid "Name"
+msgstr "Имя"
+
+#: ./application/modules/menu/templates/module_selector.tpl:38
+#: ./application/modules/menu/templates/edit_item.tpl:115
+#: ./application/modules/menu/templates/edit_item.tpl:269
+#: ./application/modules/menu/templates/edit_item.tpl:409
+#: ./application/modules/menu/templates/edit_item.tpl:561
+#: ./application/modules/menu/templates/create_menu.tpl:38
+#: ./application/modules/menu/templates/url_selector.tpl:24
+#: ./application/modules/menu/templates/pages_selector.tpl:107
+#: ./application/modules/menu/templates/category_selector.tpl:36
+#: ./application/modules/menu/templates/edit_item_origin.tpl:113
+#: ./application/modules/menu/templates/edit_item_origin.tpl:255
+#: ./application/modules/menu/templates/edit_item_origin.tpl:395
+#: ./application/modules/menu/templates/edit_item_origin.tpl:547
+#: ./application/modules/menu/templates/edit_menu.tpl:42
+#: ./application/modules/menu/templates/create_item.tpl:115
+#: ./application/modules/menu/templates/create_item.tpl:269
+#: ./application/modules/menu/templates/create_item.tpl:409
+#: ./application/modules/menu/templates/create_item.tpl:561
+#: ./application/modules/menu/admin.php:106
+#: ./application/modules/menu/admin.php:442
+#: ./application/modules/menu/admin.php:445
+msgid "Title"
+msgstr "Заголовок"
+
+#: ./application/modules/menu/templates/module_selector.tpl:44
+#: ./application/modules/menu/templates/create_item.tpl:415
+msgid "Function"
+msgstr "Функция"
+
+#: ./application/modules/menu/templates/module_selector.tpl:52
+#: ./application/modules/menu/templates/edit_item.tpl:121
+#: ./application/modules/menu/templates/edit_item.tpl:275
+#: ./application/modules/menu/templates/edit_item.tpl:422
+#: ./application/modules/menu/templates/edit_item.tpl:567
+#: ./application/modules/menu/templates/url_selector.tpl:31
+#: ./application/modules/menu/templates/pages_selector.tpl:113
+#: ./application/modules/menu/templates/category_selector.tpl:43
+#: ./application/modules/menu/templates/edit_item_origin.tpl:119
+#: ./application/modules/menu/templates/edit_item_origin.tpl:261
+#: ./application/modules/menu/templates/edit_item_origin.tpl:408
+#: ./application/modules/menu/templates/edit_item_origin.tpl:553
+#: ./application/modules/menu/templates/create_item.tpl:121
+#: ./application/modules/menu/templates/create_item.tpl:275
+#: ./application/modules/menu/templates/create_item.tpl:422
+#: ./application/modules/menu/templates/create_item.tpl:567
+msgid "Parent"
+msgstr "Родитель"
+
+#: ./application/modules/menu/templates/module_selector.tpl:55
+#: ./application/modules/menu/templates/module_selector.tpl:68
+#: ./application/modules/menu/templates/module_selector.tpl:102
+#: ./application/modules/menu/templates/module_selector.tpl:112
+#: ./application/modules/menu/templates/edit_item.tpl:124
+#: ./application/modules/menu/templates/edit_item.tpl:135
+#: ./application/modules/menu/templates/edit_item.tpl:183
+#: ./application/modules/menu/templates/edit_item.tpl:198
+#: ./application/modules/menu/templates/edit_item.tpl:278
+#: ./application/modules/menu/templates/edit_item.tpl:289
+#: ./application/modules/menu/templates/edit_item.tpl:334
+#: ./application/modules/menu/templates/edit_item.tpl:353
+#: ./application/modules/menu/templates/edit_item.tpl:425
+#: ./application/modules/menu/templates/edit_item.tpl:436
+#: ./application/modules/menu/templates/edit_item.tpl:483
+#: ./application/modules/menu/templates/edit_item.tpl:502
+#: ./application/modules/menu/templates/edit_item.tpl:570
+#: ./application/modules/menu/templates/edit_item.tpl:581
+#: ./application/modules/menu/templates/edit_item.tpl:628
+#: ./application/modules/menu/templates/edit_item.tpl:647
+#: ./application/modules/menu/templates/url_selector.tpl:34
+#: ./application/modules/menu/templates/url_selector.tpl:47
+#: ./application/modules/menu/templates/url_selector.tpl:81
+#: ./application/modules/menu/templates/url_selector.tpl:91
+#: ./application/modules/menu/templates/pages_selector.tpl:116
+#: ./application/modules/menu/templates/pages_selector.tpl:127
+#: ./application/modules/menu/templates/pages_selector.tpl:156
+#: ./application/modules/menu/templates/pages_selector.tpl:163
+#: ./application/modules/menu/templates/category_selector.tpl:46
+#: ./application/modules/menu/templates/category_selector.tpl:59
+#: ./application/modules/menu/templates/category_selector.tpl:91
+#: ./application/modules/menu/templates/category_selector.tpl:101
+#: ./application/modules/menu/templates/edit_item_origin.tpl:122
+#: ./application/modules/menu/templates/edit_item_origin.tpl:133
+#: ./application/modules/menu/templates/edit_item_origin.tpl:177
+#: ./application/modules/menu/templates/edit_item_origin.tpl:185
+#: ./application/modules/menu/templates/edit_item_origin.tpl:264
+#: ./application/modules/menu/templates/edit_item_origin.tpl:275
+#: ./application/modules/menu/templates/edit_item_origin.tpl:320
+#: ./application/modules/menu/templates/edit_item_origin.tpl:339
+#: ./application/modules/menu/templates/edit_item_origin.tpl:411
+#: ./application/modules/menu/templates/edit_item_origin.tpl:422
+#: ./application/modules/menu/templates/edit_item_origin.tpl:469
+#: ./application/modules/menu/templates/edit_item_origin.tpl:488
+#: ./application/modules/menu/templates/edit_item_origin.tpl:556
+#: ./application/modules/menu/templates/edit_item_origin.tpl:567
+#: ./application/modules/menu/templates/edit_item_origin.tpl:614
+#: ./application/modules/menu/templates/edit_item_origin.tpl:633
+#: ./application/modules/menu/templates/create_item.tpl:124
+#: ./application/modules/menu/templates/create_item.tpl:135
+#: ./application/modules/menu/templates/create_item.tpl:183
+#: ./application/modules/menu/templates/create_item.tpl:198
+#: ./application/modules/menu/templates/create_item.tpl:278
+#: ./application/modules/menu/templates/create_item.tpl:289
+#: ./application/modules/menu/templates/create_item.tpl:334
+#: ./application/modules/menu/templates/create_item.tpl:353
+#: ./application/modules/menu/templates/create_item.tpl:425
+#: ./application/modules/menu/templates/create_item.tpl:436
+#: ./application/modules/menu/templates/create_item.tpl:483
+#: ./application/modules/menu/templates/create_item.tpl:502
+#: ./application/modules/menu/templates/create_item.tpl:570
+#: ./application/modules/menu/templates/create_item.tpl:581
+#: ./application/modules/menu/templates/create_item.tpl:628
+#: ./application/modules/menu/templates/create_item.tpl:647
+#: ./application/modules/menu/admin.php:1203
+msgid "No"
+msgstr "Нет"
+
+#: ./application/modules/menu/templates/module_selector.tpl:69
+#: ./application/modules/menu/templates/edit_item.tpl:136
+#: ./application/modules/menu/templates/edit_item.tpl:290
+#: ./application/modules/menu/templates/edit_item.tpl:437
+#: ./application/modules/menu/templates/edit_item.tpl:582
+#: ./application/modules/menu/templates/url_selector.tpl:48
+#: ./application/modules/menu/templates/pages_selector.tpl:128
+#: ./application/modules/menu/templates/category_selector.tpl:60
+#: ./application/modules/menu/templates/edit_item_origin.tpl:134
+#: ./application/modules/menu/templates/edit_item_origin.tpl:276
+#: ./application/modules/menu/templates/edit_item_origin.tpl:423
+#: ./application/modules/menu/templates/edit_item_origin.tpl:568
+#: ./application/modules/menu/templates/create_item.tpl:136
+#: ./application/modules/menu/templates/create_item.tpl:290
+#: ./application/modules/menu/templates/create_item.tpl:437
+#: ./application/modules/menu/templates/create_item.tpl:582
+#: ./application/modules/menu/admin.php:1204
+msgid "First"
+msgstr "Первый"
+
+#: ./application/modules/menu/templates/module_selector.tpl:78
+#: ./application/modules/menu/templates/edit_item.tpl:145
+#: ./application/modules/menu/templates/edit_item.tpl:299
+#: ./application/modules/menu/templates/edit_item.tpl:446
+#: ./application/modules/menu/templates/edit_item.tpl:591
+#: ./application/modules/menu/templates/url_selector.tpl:57
+#: ./application/modules/menu/templates/pages_selector.tpl:136
+#: ./application/modules/menu/templates/category_selector.tpl:67
+#: ./application/modules/menu/templates/edit_item_origin.tpl:143
+#: ./application/modules/menu/templates/edit_item_origin.tpl:285
+#: ./application/modules/menu/templates/edit_item_origin.tpl:432
+#: ./application/modules/menu/templates/edit_item_origin.tpl:577
+#: ./application/modules/menu/templates/create_item.tpl:145
+#: ./application/modules/menu/templates/create_item.tpl:299
+#: ./application/modules/menu/templates/create_item.tpl:446
+#: ./application/modules/menu/templates/create_item.tpl:591
+msgid "Image"
+msgstr "Изображение"
+
+#: ./application/modules/menu/templates/module_selector.tpl:81
+msgid "Select Image"
+msgstr "Выбрать изображение"
+
+#: ./application/modules/menu/templates/module_selector.tpl:85
+#: ./application/modules/menu/templates/edit_item.tpl:157
+#: ./application/modules/menu/templates/edit_item.tpl:311
+#: ./application/modules/menu/templates/edit_item.tpl:458
+#: ./application/modules/menu/templates/edit_item.tpl:603
+#: ./application/modules/menu/templates/url_selector.tpl:64
+#: ./application/modules/menu/templates/pages_selector.tpl:142
+#: ./application/modules/menu/templates/category_selector.tpl:74
+#: ./application/modules/menu/templates/edit_item_origin.tpl:155
+#: ./application/modules/menu/templates/edit_item_origin.tpl:297
+#: ./application/modules/menu/templates/edit_item_origin.tpl:444
+#: ./application/modules/menu/templates/edit_item_origin.tpl:589
+#: ./application/modules/menu/templates/create_item.tpl:157
+#: ./application/modules/menu/templates/create_item.tpl:311
+#: ./application/modules/menu/templates/create_item.tpl:458
+#: ./application/modules/menu/templates/create_item.tpl:603
+msgid "Access level"
+msgstr "Уровень доступа"
+
+#: ./application/modules/menu/templates/module_selector.tpl:88
+#: ./application/modules/menu/templates/edit_item.tpl:164
+#: ./application/modules/menu/templates/edit_item.tpl:314
+#: ./application/modules/menu/templates/edit_item.tpl:461
+#: ./application/modules/menu/templates/edit_item.tpl:606
+#: ./application/modules/menu/templates/url_selector.tpl:67
+#: ./application/modules/menu/templates/pages_selector.tpl:145
+#: ./application/modules/menu/templates/category_selector.tpl:77
+#: ./application/modules/menu/templates/edit_item_origin.tpl:162
+#: ./application/modules/menu/templates/edit_item_origin.tpl:300
+#: ./application/modules/menu/templates/edit_item_origin.tpl:447
+#: ./application/modules/menu/templates/edit_item_origin.tpl:592
+#: ./application/modules/menu/templates/create_item.tpl:164
+#: ./application/modules/menu/templates/create_item.tpl:314
+#: ./application/modules/menu/templates/create_item.tpl:461
+#: ./application/modules/menu/templates/create_item.tpl:606
+msgid "All"
+msgstr "Все"
+
+#: ./application/modules/menu/templates/module_selector.tpl:98
+#: ./application/modules/menu/templates/edit_item.tpl:172
+#: ./application/modules/menu/templates/edit_item.tpl:322
+#: ./application/modules/menu/templates/edit_item.tpl:469
+#: ./application/modules/menu/templates/edit_item.tpl:614
+#: ./application/modules/menu/templates/url_selector.tpl:77
+#: ./application/modules/menu/templates/pages_selector.tpl:153
+#: ./application/modules/menu/templates/category_selector.tpl:87
+#: ./application/modules/menu/templates/edit_item_origin.tpl:170
+#: ./application/modules/menu/templates/edit_item_origin.tpl:308
+#: ./application/modules/menu/templates/edit_item_origin.tpl:455
+#: ./application/modules/menu/templates/edit_item_origin.tpl:600
+#: ./application/modules/menu/templates/create_item.tpl:172
+#: ./application/modules/menu/templates/create_item.tpl:322
+#: ./application/modules/menu/templates/create_item.tpl:469
+#: ./application/modules/menu/templates/create_item.tpl:614
+msgid "Hide"
+msgstr "Скрывать"
+
+#: ./application/modules/menu/templates/module_selector.tpl:101
+#: ./application/modules/menu/templates/module_selector.tpl:111
+#: ./application/modules/menu/templates/edit_item.tpl:177
+#: ./application/modules/menu/templates/edit_item.tpl:193
+#: ./application/modules/menu/templates/edit_item.tpl:328
+#: ./application/modules/menu/templates/edit_item.tpl:346
+#: ./application/modules/menu/templates/edit_item.tpl:477
+#: ./application/modules/menu/templates/edit_item.tpl:495
+#: ./application/modules/menu/templates/edit_item.tpl:621
+#: ./application/modules/menu/templates/edit_item.tpl:640
+#: ./application/modules/menu/templates/url_selector.tpl:80
+#: ./application/modules/menu/templates/url_selector.tpl:90
+#: ./application/modules/menu/templates/pages_selector.tpl:155
+#: ./application/modules/menu/templates/pages_selector.tpl:162
+#: ./application/modules/menu/templates/category_selector.tpl:90
+#: ./application/modules/menu/templates/category_selector.tpl:100
+#: ./application/modules/menu/templates/edit_item_origin.tpl:173
+#: ./application/modules/menu/templates/edit_item_origin.tpl:184
+#: ./application/modules/menu/templates/edit_item_origin.tpl:314
+#: ./application/modules/menu/templates/edit_item_origin.tpl:332
+#: ./application/modules/menu/templates/edit_item_origin.tpl:463
+#: ./application/modules/menu/templates/edit_item_origin.tpl:481
+#: ./application/modules/menu/templates/edit_item_origin.tpl:607
+#: ./application/modules/menu/templates/edit_item_origin.tpl:626
+#: ./application/modules/menu/templates/create_item.tpl:177
+#: ./application/modules/menu/templates/create_item.tpl:193
+#: ./application/modules/menu/templates/create_item.tpl:328
+#: ./application/modules/menu/templates/create_item.tpl:346
+#: ./application/modules/menu/templates/create_item.tpl:477
+#: ./application/modules/menu/templates/create_item.tpl:495
+#: ./application/modules/menu/templates/create_item.tpl:621
+#: ./application/modules/menu/templates/create_item.tpl:640
+msgid "Yes"
+msgstr "Да"
+
+#: ./application/modules/menu/templates/module_selector.tpl:119
+#: ./application/modules/menu/templates/create_menu.tpl:11
+#: ./application/modules/menu/templates/url_selector.tpl:98
+#: ./application/modules/menu/templates/category_selector.tpl:108
+msgid "Create"
+msgstr "Создать"
+
+#: ./application/modules/menu/templates/module_selector.tpl:121
+#: ./application/modules/menu/templates/main.tpl:14
+#: ./application/modules/menu/templates/url_selector.tpl:99
+#: ./application/modules/menu/templates/category_selector.tpl:109
+#: ./application/modules/menu/templates/menu_list.tpl:14
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ./application/modules/menu/templates/edit_item.tpl:56
+#: ./application/modules/menu/templates/pages_selector.tpl:48
+#: ./application/modules/menu/templates/edit_item_origin.tpl:56
+#: ./application/modules/menu/templates/create_item.tpl:57
+msgid "On page"
+msgstr "На странице"
+
+#: ./application/modules/menu/templates/edit_item.tpl:69
+#: ./application/modules/menu/templates/pages_selector.tpl:61
+#: ./application/modules/menu/templates/edit_item_origin.tpl:69
+#: ./application/modules/menu/templates/create_item.tpl:70
+msgid "Pages list"
+msgstr "Список страниц"
+
+#: ./application/modules/menu/templates/edit_item.tpl:93
+#: ./application/modules/menu/templates/edit_item.tpl:247
+#: ./application/modules/menu/templates/edit_item.tpl:385
+#: ./application/modules/menu/templates/pages_selector.tpl:85
+#: ./application/modules/menu/templates/edit_item_origin.tpl:91
+#: ./application/modules/menu/templates/edit_item_origin.tpl:233
+#: ./application/modules/menu/templates/edit_item_origin.tpl:371
+#: ./application/modules/menu/templates/create_item.tpl:385
+msgid "Parameters"
+msgstr "Параметры"
+
+#: ./application/modules/menu/templates/edit_item.tpl:415
+#: ./application/modules/menu/templates/edit_item_origin.tpl:401
+msgid "Method"
+msgstr "Метод"
+
+#: ./application/modules/menu/templates/edit_item.tpl:418
+#: ./application/modules/menu/templates/edit_item_origin.tpl:404
+msgid "Example"
+msgstr "Например"
+
+#: ./application/modules/menu/templates/main.tpl:50
+msgid "Show"
+msgstr "Показать"
+
+#: ./application/modules/menu/templates/pages_selector.tpl:5
+msgid "Edit link"
+msgstr "Редактировать ссылку"
+
+#: ./application/modules/menu/templates/edit_item.tpl:9
+#: ./application/modules/menu/templates/main.tpl:29
+#: ./application/modules/menu/templates/create_menu.tpl:10
+#: ./application/modules/menu/templates/pages_selector.tpl:9
+#: ./application/modules/menu/templates/translate_item.tpl:9
+#: ./application/modules/menu/templates/edit_item_origin.tpl:9
+#: ./application/modules/menu/templates/edit_menu.tpl:11
+#: ./application/modules/menu/templates/create_item.tpl:9
+msgid "Go back"
+msgstr "Назад"
+
+#: ./application/modules/menu/templates/edit_item.tpl:18
+#: ./application/modules/menu/templates/edit_item.tpl:105
+#: ./application/modules/menu/templates/pages_selector.tpl:17
+#: ./application/modules/menu/templates/pages_selector.tpl:97
+#: ./application/modules/menu/templates/edit_item_origin.tpl:18
+#: ./application/modules/menu/templates/edit_item_origin.tpl:103
+#: ./application/modules/menu/templates/create_item.tpl:19
+#: ./application/modules/menu/templates/create_item.tpl:104
+msgid "Page"
+msgstr "Страница"
+
+#: ./application/modules/menu/templates/pages_selector.tpl:18
+msgid "Category"
+msgstr "Категория"
+
+#: ./application/modules/menu/templates/edit_item.tpl:21
+#: ./application/modules/menu/templates/main.tpl:48
+#: ./application/modules/menu/templates/pages_selector.tpl:20
+#: ./application/modules/menu/templates/edit_item_origin.tpl:21
+#: ./application/modules/menu/templates/create_item.tpl:22
+msgid "Link"
+msgstr "Ссылка"
+
+#: ./application/modules/menu/templates/category_selector.tpl:148
+#: ./application/modules/menu/templates/category_selector.tpl:157
+#: ./application/modules/menu/admin.php:218
+msgid "Error"
+msgstr "Ошибка"
+
+#: ./application/modules/menu/templates/category_selector.tpl:149
+msgid "Choose category."
+msgstr "Выберите категорию."
+
+#: ./application/modules/menu/templates/category_selector.tpl:158
+msgid "Enter title."
+msgstr "Введите название."
+
+#: ./application/modules/menu/templates/_menulistitem.tpl:18
+msgid "hide menu"
+msgstr "скрыть меню"
+
+#: ./application/modules/menu/templates/_menulistitem.tpl:23
+msgid "expand menu"
+msgstr "развернуть меню"
+
+#: ./application/modules/menu/templates/edit_item.tpl:5
+#: ./application/modules/menu/templates/edit_item_origin.tpl:5
+#: ./application/modules/menu/templates/_menulistitem.tpl:29
+#: ./application/modules/menu/templates/edit_menu.tpl:7
+#: ./application/modules/menu/templates/create_item.tpl:5
+msgid "Edit menu item"
+msgstr "Редактировать пункт меню"
+
+#: ./application/modules/menu/templates/_menulistitem.tpl:30
+msgid "Translate menu item"
+msgstr "Перевести пункт меню"
+
+#: ./application/modules/menu/templates/_menulistitem.tpl:42
+msgid "show"
+msgstr "показать"
+
+#: ./application/modules/menu/templates/edit_menu.tpl:14
+msgid "Save and exit"
+msgstr "Сохранить и выйти"
+
+#: ./application/modules/menu/templates/edit_item.tpl:303
+#: ./application/modules/menu/templates/edit_item.tpl:450
+#: ./application/modules/menu/templates/edit_item.tpl:595
+#: ./application/modules/menu/templates/edit_item_origin.tpl:147
+#: ./application/modules/menu/templates/edit_item_origin.tpl:289
+#: ./application/modules/menu/templates/edit_item_origin.tpl:436
+#: ./application/modules/menu/templates/edit_item_origin.tpl:581
+#: ./application/modules/menu/templates/create_item.tpl:149
+#: ./application/modules/menu/templates/create_item.tpl:303
+#: ./application/modules/menu/templates/create_item.tpl:450
+#: ./application/modules/menu/templates/create_item.tpl:595
+msgid "Choose an image "
+msgstr "Выберите изображение"
+
+#: ./application/modules/menu/templates/create_item.tpl:418
+msgid "For example"
+msgstr "Например"
+
+#: ./application/modules/menu/templates/public/error.tpl:12
+msgid "Attention"
+msgstr "Внимание"
+
+#: ./application/modules/menu/templates/public/error.tpl:13
+msgid "Not found the required template file for menu"
+msgstr "Не нашли нужного файла шаблона для меню"
+
+#: ./application/modules/menu/templates/public/error.tpl:21
+msgid "Check file or change the settings menu"
+msgstr "Проверьте файл или изменить настройки меню"
+
+#: ./application/modules/menu/templates/public/error.tpl:23
+msgid "Reinstall the module menu"
+msgstr "Установите модуль меню"
+
+#: ./application/modules/menu/templates/module_selector.tpl:5
+#: ./application/modules/menu/templates/edit_item.tpl:367
+#: ./application/modules/menu/templates/edit_item_origin.tpl:353
+#: ./application/modules/menu/templates/create_item.tpl:367
+msgid "Select module"
+msgstr "Выберите модуль"
+
+#: ./application/modules/menu/templates/module_selector.tpl:65
+#: ./application/modules/menu/templates/edit_item.tpl:132
+#: ./application/modules/menu/templates/edit_item.tpl:286
+#: ./application/modules/menu/templates/edit_item.tpl:433
+#: ./application/modules/menu/templates/edit_item.tpl:578
+#: ./application/modules/menu/templates/url_selector.tpl:44
+#: ./application/modules/menu/templates/pages_selector.tpl:124
+#: ./application/modules/menu/templates/category_selector.tpl:56
+#: ./application/modules/menu/templates/edit_item_origin.tpl:130
+#: ./application/modules/menu/templates/edit_item_origin.tpl:272
+#: ./application/modules/menu/templates/edit_item_origin.tpl:419
+#: ./application/modules/menu/templates/edit_item_origin.tpl:564
+#: ./application/modules/menu/templates/create_item.tpl:132
+#: ./application/modules/menu/templates/create_item.tpl:286
+#: ./application/modules/menu/templates/create_item.tpl:433
+#: ./application/modules/menu/templates/create_item.tpl:578
+msgid "Position after"
+msgstr "Положение после"
+
+#: ./application/modules/menu/templates/module_selector.tpl:108
+#: ./application/modules/menu/templates/edit_item.tpl:188
+#: ./application/modules/menu/templates/edit_item.tpl:339
+#: ./application/modules/menu/templates/edit_item.tpl:488
+#: ./application/modules/menu/templates/edit_item.tpl:633
+#: ./application/modules/menu/templates/url_selector.tpl:87
+#: ./application/modules/menu/templates/pages_selector.tpl:160
+#: ./application/modules/menu/templates/category_selector.tpl:97
+#: ./application/modules/menu/templates/edit_item_origin.tpl:182
+#: ./application/modules/menu/templates/edit_item_origin.tpl:325
+#: ./application/modules/menu/templates/edit_item_origin.tpl:474
+#: ./application/modules/menu/templates/edit_item_origin.tpl:619
+#: ./application/modules/menu/templates/create_item.tpl:188
+#: ./application/modules/menu/templates/create_item.tpl:339
+#: ./application/modules/menu/templates/create_item.tpl:488
+#: ./application/modules/menu/templates/create_item.tpl:633
+msgid "Open in the new window"
+msgstr "Открыть в новом окне"
+
+#: ./application/modules/menu/templates/edit_item.tpl:10
+#: ./application/modules/menu/templates/pages_selector.tpl:10
+#: ./application/modules/menu/templates/translate_item.tpl:10
+#: ./application/modules/menu/templates/edit_item_origin.tpl:10
+#: ./application/modules/menu/templates/edit_menu.tpl:13
+#: ./application/modules/menu/templates/create_item.tpl:10
+msgid "Save"
+msgstr "Сохранить"
+
+#: ./application/modules/menu/templates/edit_item.tpl:11
+#: ./application/modules/menu/templates/create_menu.tpl:12
+#: ./application/modules/menu/templates/edit_item_origin.tpl:11
+#: ./application/modules/menu/templates/create_item.tpl:11
+msgid "Save and go back"
+msgstr "Сохранить и вернуться"
+
+#: ./application/modules/menu/templates/edit_item.tpl:19
+#: ./application/modules/menu/templates/edit_item.tpl:46
+#: ./application/modules/menu/templates/edit_item.tpl:259
+#: ./application/modules/menu/templates/pages_selector.tpl:39
+#: ./application/modules/menu/templates/category_selector.tpl:25
+#: ./application/modules/menu/templates/edit_item_origin.tpl:19
+#: ./application/modules/menu/templates/edit_item_origin.tpl:46
+#: ./application/modules/menu/templates/edit_item_origin.tpl:245
+#: ./application/modules/menu/templates/create_item.tpl:20
+#: ./application/modules/menu/templates/create_item.tpl:47
+#: ./application/modules/menu/templates/create_item.tpl:259
+msgid "Categories"
+msgstr "Категории"
+
+#: ./application/modules/menu/templates/edit_item.tpl:36
+#: ./application/modules/menu/templates/edit_item.tpl:220
+#: ./application/modules/menu/templates/pages_selector.tpl:29
+#: ./application/modules/menu/templates/edit_item_origin.tpl:36
+#: ./application/modules/menu/templates/edit_item_origin.tpl:206
+#: ./application/modules/menu/templates/create_item.tpl:37
+#: ./application/modules/menu/templates/create_item.tpl:220
+msgid "Pages"
+msgstr "Страницы"
+
+#: ./application/modules/menu/templates/edit_item.tpl:49
+#: ./application/modules/menu/templates/pages_selector.tpl:42
+#: ./application/modules/menu/templates/edit_item_origin.tpl:49
+#: ./application/modules/menu/templates/create_item.tpl:50
+msgid "Root"
+msgstr "Корень"
+
+#: ./application/modules/menu/templates/edit_item.tpl:109
+#: ./application/modules/menu/templates/edit_item.tpl:263
+#: ./application/modules/menu/templates/main.tpl:46
+#: ./application/modules/menu/templates/pages_selector.tpl:101
+#: ./application/modules/menu/templates/category_selector.tpl:29
+#: ./application/modules/menu/templates/edit_item_origin.tpl:107
+#: ./application/modules/menu/templates/edit_item_origin.tpl:249
+#: ./application/modules/menu/templates/menu_list.tpl:46
+#: ./application/modules/menu/templates/create_item.tpl:109
+#: ./application/modules/menu/templates/create_item.tpl:263
+msgid "ID"
+msgstr "ID"
+
+#: ./application/modules/menu/templates/edit_item.tpl:149
+msgid "Choose image "
+msgstr "Выберите изображение"
+
+#: ./application/modules/menu/templates/edit_item.tpl:230
+#: ./application/modules/menu/templates/category_selector.tpl:5
+#: ./application/modules/menu/templates/edit_item_origin.tpl:216
+#: ./application/modules/menu/templates/create_item.tpl:230
+msgid "Choose a category"
+msgstr "Выберите категорию"
+
+#: ./application/modules/menu/templates/edit_item.tpl:525
+#: ./application/modules/menu/templates/url_selector.tpl:16
+#: ./application/modules/menu/templates/edit_item_origin.tpl:511
+#: ./application/modules/menu/templates/create_item.tpl:525
+msgid "URL"
+msgstr "URL"
+
+#: ./application/modules/menu/templates/edit_item.tpl:535
+#: ./application/modules/menu/templates/url_selector.tpl:5
+#: ./application/modules/menu/templates/edit_item_origin.tpl:521
+#: ./application/modules/menu/templates/create_item.tpl:535
+msgid "Specify or select a link to the page"
+msgstr "Указать или выбрать ссылку на страницу"
+
+#: ./application/modules/menu/templates/edit_item.tpl:550
+#: ./application/modules/menu/templates/create_menu.tpl:22
+#: ./application/modules/menu/templates/translate_item.tpl:19
+#: ./application/modules/menu/templates/edit_item_origin.tpl:536
+#: ./application/modules/menu/templates/create_item.tpl:550
+msgid "Settings"
+msgstr "Настройки"
+
+#: ./application/modules/menu/templates/main.tpl:7
+#: ./application/modules/menu/templates/menu_list.tpl:7
+msgid "Menu deleting"
+msgstr "Удаления меню"
+
+#: ./application/modules/menu/templates/main.tpl:10
+#: ./application/modules/menu/templates/menu_list.tpl:10
+msgid "Delete selected menu?"
+msgstr "Удалить выбранное меню?"
+
+#: ./application/modules/menu/templates/main.tpl:13
+#: ./application/modules/menu/templates/main.tpl:31
+#: ./application/modules/menu/templates/menu_list.tpl:13
+#: ./application/modules/menu/templates/menu_list.tpl:30
+msgid "Delete"
+msgstr "Удалять"
+
+#: ./application/modules/menu/templates/main.tpl:25
+#: ./application/modules/menu/module_info.php:4
+msgid "Menu"
+msgstr "Меню"
+
+#: ./application/modules/menu/templates/main.tpl:30
+msgid "Create link"
+msgstr "Создать ссылку"
+
+#: ./application/modules/menu/templates/create_menu.tpl:6
+#: ./application/modules/menu/templates/menu_list.tpl:29
+msgid "Create a menu"
+msgstr "Создать меню"
+
+#: ./application/modules/menu/templates/create_menu.tpl:44
+#: ./application/modules/menu/templates/edit_menu.tpl:48
+#: ./application/modules/menu/templates/menu_list.tpl:49
+#: ./application/modules/menu/admin.php:821
+#: ./application/modules/menu/admin.php:871
+msgid "Description"
+msgstr "Описание"
+
+#: ./application/modules/menu/templates/create_menu.tpl:50
+#: ./application/modules/menu/templates/edit_menu.tpl:54
+msgid "Template folder"
+msgstr "Папка шаблона"
+
+# �
+#: ./application/modules/menu/templates/create_menu.tpl:56
+#: ./application/modules/menu/templates/edit_menu.tpl:60
+msgid "Open a menu, level"
+msgstr "Раскрывать меню, уровень"
+
+#: ./application/modules/menu/templates/url_selector.tpl:60
+#: ./application/modules/menu/templates/category_selector.tpl:70
+msgid "Select an image"
+msgstr "Выберите изображение"
+
+#: ./application/modules/menu/templates/translate_item.tpl:5
+msgid "Menu item translate"
+msgstr "Перевод пункта меню"
+
+#: /var/www/image.loc/_tempLangs.php:366
+msgid "don't show"
+msgstr "не показывать"
+
+#: ./application/modules/menu/templates/edit_menu.tpl:26
+msgid "Edit a menu"
+msgstr "Редактировать меню"
+
+#: ./application/modules/menu/templates/menu_list.tpl:25
+msgid "Menu list"
+msgstr "Список меню"
+
+#: ./application/modules/menu/templates/menu_list.tpl:47
+msgid "Denotation"
+msgstr "Название"
+
+#: ./application/modules/menu/templates/menu_list.tpl:50
+msgid "Created"
+msgstr "Создано"
+
+#: ./application/modules/menu/templates/menu_list.tpl:51
+#: ./application/modules/menu/templates/menu_list.tpl:73
+msgid "Editing"
+msgstr "Редактировать"
+
+#: ./application/modules/menu/admin.php:109
+#: ./application/modules/menu/admin.php:446
+#: ./application/modules/menu/admin.php:456
+msgid "Page ID"
+msgstr "ID страницы"
+
+#: ./application/modules/menu/admin.php:112
+msgid "category ID"
+msgstr "ID категории"
+
+#: ./application/modules/menu/admin.php:115
+#: ./application/modules/menu/admin.php:454
+msgid "Module name"
+msgstr "Имя модуля"
+
+#: ./application/modules/menu/admin.php:117
+msgid "Module ID"
+msgstr "ID модуля"
+
+#: ./application/modules/menu/admin.php:223
+msgid "The menu item was successfully created"
+msgstr "Пункт меню был успешно создан"
+
+#: ./application/modules/menu/admin.php:450
+msgid "Category ID"
+msgstr "ID категории"
+
+#: ./application/modules/menu/admin.php:607
+msgid "Invalid parent identifier"
+msgstr "Неверный идентификатор родителя"
+
+#: ./application/modules/menu/admin.php:609
+msgid "Can not be root menu in subparagraph"
+msgstr "Не может быть корневого меню в подпункте"
+
+#: ./application/modules/menu/admin.php:615
+msgid "Changes successfully saved"
+msgstr "Изменения успешно сохранены"
+
+#: ./application/modules/menu/admin.php:801
+msgid "Positions updated"
+msgstr "Позиции обновлены"
+
+# �
+#: ./application/modules/menu/admin.php:812
+#: ./application/modules/menu/admin.php:858
+msgid "Name field sieve"
+msgstr "Имя поля сито"
+
+#: ./application/modules/menu/admin.php:822
+#: ./application/modules/menu/admin.php:872
+msgid "Template"
+msgstr "Шаблон"
+
+#: ./application/modules/menu/admin.php:823
+#: ./application/modules/menu/admin.php:873
+msgid "Nesting level"
+msgstr "Уровень вложенности"
+
+#: ./application/modules/menu/admin.php:839
+msgid "Menu created"
+msgstr "Меню создано"
+
+#: ./application/modules/menu/admin.php:899
+#: ./application/modules/menu/admin.php:1160
+msgid "Changes saved"
+msgstr "Изменения сохранены"
+
+#: ./application/modules/menu/admin.php:944
+#: ./application/modules/menu/admin.php:961
+msgid "Menu removed"
+msgstr "Меню удалено"
+
+#: ./application/modules/menu/admin.php:1054
+msgid "Without category"
+msgstr "Без категории"
+
+#: ./application/modules/menu/module_info.php:5
+msgid "Site Menu Editor"
+msgstr "Редактор Меню Сайта"
+

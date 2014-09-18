@@ -1,0 +1,720 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+
+if (!function_exists('shop_url')) {
+
+    function shop_url($url) {
+        if (empty($url))
+            return '/';
+        return site_url('shop/' . $url);
+    }
+
+}
+
+if (!function_exists('productMainImageUrl')) {
+
+    function productMainImageUrl($model) {
+        if ($model->MainImage != null)
+            $name = $model->MainImage;
+        elseif ($model->SProducts->MainImage != null)
+            $name = $model->SProducts->MainImage;
+
+        return (!empty($name)) ? media_url('uploads/shop/' . $name) : media_url('uploads/shop/nophoto/nophoto.jpg');
+    }
+
+}
+if (!function_exists('productSmallImageUrl')) {
+
+    function productSmallImageUrl($model) {
+
+        if ($model->firstVariant->getSmallImage() != null) {
+            $name = $model->firstVariant->getSmallImage();
+        } elseif ($model->firstVariant->getMainImage() != null) {
+            $name = $model->firstVariant->getMainImage();
+        }
+        return media_url('uploads/shop/' . $name);
+    }
+
+}
+
+if (!function_exists('productImageUrl')) {
+
+    function productImageUrl($name, $useRand = FALSE) {
+        $rand = ($useRand === TRUE) ? ('?' . rand(1, 1000)) : null;
+        return (!empty($name)) ? media_url('uploads/shop/' . $name . $rand) : media_url('uploads/shop/nophoto/nophoto.jpg' . $rand);
+    }
+
+}
+
+if (!function_exists('getAddti')) {
+
+    function productThumbUrl($name, $useRand = false) {
+        return media_url('uploads/shop/additionalImageThumbs/' . $name);
+    }
+
+}
+
+/**
+ * @deprecated since version number 4.2+
+ */
+if (!function_exists('renderCategoryPath')) {
+
+    function renderCategoryPath(SCategory $model) {
+        $path = $model->buildCategoryPath();
+        $size = sizeof($path);
+
+        echo '<div xmlns:v="http://rdf.data-vocabulary.org/#" class="crumbs">' . "\n";
+        if ($size > 0) {
+            echo '<span typeof="v:Breadcrumb">' . anchor('', lang('s_home'), 'property="v:title" rel="v:url"') . '</span>';
+            echo ' /  ';
+
+            $n = 0;
+            foreach ($path as $category) {
+                echo '<span typeof="v:Breadcrumb">' . anchor(shop_url('category/' . $category->getFullPath()), ShopCore::encode($category->getName()), 'property="v:title" rel="v:url"') . '</span>';
+                if ($n < $size - 1)
+                    echo ' /  ';
+                $n++;
+            }
+        }
+        else {
+            echo '<span typeof="v:Breadcrumb">' . anchor('', ShopCore::$ci->core->settings['site_short_title'], 'property="v:title" rel="v:url"') . '</span>';
+            echo ' →  ';
+            echo '<span typeof="v:Breadcrumb">' . anchor(shop_url('category/' . $model->getFullPath()), ShopCore::encode($model->getName()), 'property="v:title" rel="v:url"') . '</span>';
+        }
+        echo '</div>';
+    }
+
+}
+if (!function_exists('countRating')) {
+
+    function countRating($productId) {
+        $rating = SProductsRatingQuery::create()->findPk($productId);
+        if ($rating !== null)
+            $rating = round($rating->getRating() / $rating->getVotes());
+        else
+            $rating = 0;
+
+        return $rating;
+    }
+
+}
+
+if (!function_exists('renderCategoryPathNoSeo')) {
+
+    function renderCategoryPathNoSeo(SCategory $model) {
+        $path = $model->buildCategoryPath();
+        $size = sizeof($path);
+
+        if ($size > 0) {
+            echo anchor('', ShopCore::t(lang('s_home')));
+            echo ' /  ';
+
+            $n = 0;
+            foreach ($path as $category) {
+                echo anchor(shop_url('category/' . $category->getFullPath()), ShopCore::encode($category->getName()));
+                if ($n < $size - 1)
+                    echo ' /  ';
+
+                $n++;
+            }
+        }
+        else {
+            echo anchor('shop', ShopCore::t(lang('s_home')));
+            echo ' /  ';
+            echo anchor(shop_url('category/' . $model->getFullPath()), ShopCore::encode($model->getName()));
+        }
+    }
+
+}
+
+if (!function_exists('is_property_in_get')) {
+
+    function is_property_in_get($pId, $index) {
+        if (isset($_GET['f'][$pId]) && in_array($index, $_GET['f'][$pId])) {
+            return true;
+        }
+
+        return false;
+    }
+
+}
+
+if (!function_exists('get_currencies')) {
+
+    function get_currencies() {
+        return SCurrenciesQuery::create()->find();
+    }
+
+}
+
+// For Windows
+if (!function_exists('money_format')) {
+
+    function money_format($format, $price) {
+        return round($price, ShopCore::app()->SSettings->pricePrecision);
+    }
+
+}
+
+if (!function_exists('getDefaultLanguage')) {
+
+    /**
+     * Get default language
+     */
+    function getDefaultLanguage() {
+        $default = NULL;
+        $languages = ShopCore::$ci->db->get('languages');
+        $languages = $languages->result_array();
+
+        foreach ($languages as $language) {
+            if ($language['default'] == TRUE) {
+                $default = $language;
+            }
+        }
+
+        return $default;
+    }
+
+}
+
+if (!function_exists('setCurentLanguage')) {
+
+    /**
+     * Get default language
+     */
+    function setDefaultLanguage($model) {
+        $curentLanguage = getDefaultLanguage();
+        $curentLanguage = $curentLanguage['identif'];
+        $model->setLocale($curentLanguage);
+    }
+
+}
+
+if (!function_exists('setCurentLanguage')) {
+
+    /**
+     * Get default language
+     */
+    function setDefaultLanguage1($model) {
+        $curentLanguage = getDefaultLanguage();
+        $curentLanguage = $curentLanguage['identif'];
+        $model->setLocale($curentLanguage);
+    }
+
+}
+
+if (!function_exists('getPromoBlock')) {
+
+    function getPromoBlock($type = 'action', $limit = 10, $idCategory = NULL, $idBrand = NULL) {
+
+
+
+        $model = SProductsQuery::create()
+                ->joinWithI18n(ShopController::getCurrentLocale())
+                ->orderByCreated('DESC');
+        if ($idCategory) {
+            $model = $model->filterByCategoryId($idCategory);
+        }
+        if ($idBrand) {
+            $model = $model->filterByBrandId($idBrand);
+        }
+
+        $explodeType = explode(',', $type);
+        for ($i = 0; $i < count($explodeType); $i++) {
+
+            if ($explodeType[$i] == 'hit') {
+                $model = $model->_or();
+                $model = $model->filterByHit(true);
+            }
+            if ($explodeType[$i] == 'hot') {
+                $model = $model->_or();
+                $model = $model->filterByHot(true);
+            }
+            if ($explodeType[$i] == 'action') {
+                $model = $model->_or();
+                $model = $model->filterByAction(true);
+            }
+            if ($explodeType[$i] == 'oldPrice')
+                $model = $model->filterByOldPrice(true);
+            if ($explodeType[$i] == 'category' AND ($categoryId = filterCategoryId()) !== false)
+                $model = $model->useShopProductCategoriesQuery()->filterByCategoryId($categoryId)->endUse();
+            if ($explodeType[$i] == 'popular')
+                $model = $model->where('SProducts.Views > ?', 1)->orderByViews(Criteria::DESC);
+            if ($explodeType[$i] == 'date')
+                $model = $model->orderByUpdated(Criteria::DESC);
+        }
+        $model = $model->filterByActive(true)->limit($limit)->find();
+
+        return $model;
+    }
+
+}
+
+function filterCategoryId() {
+
+    $CI = & get_instance();
+    $core_data = $CI->core->core_data;
+    if ($core_data['data_type'] == 'product') {
+
+        $productId = $core_data['id'];
+        $CI->db->select('shop_category.id');
+        $CI->db->from('shop_category');
+        $CI->db->join('shop_products', 'shop_products.category_id = shop_category.id');
+        $CI->db->where('shop_products.id', $productId);
+        $query = $CI->db->get()->result_array();
+
+        $idCategory = (int) $query[0]['id'];
+    } elseif ($core_data['data_type'] == 'shop_category') {
+        $idCategory = (int) $core_data['id'];
+    } else {
+        $idCategory = (bool) false;
+    }
+    return $idCategory;
+}
+
+/**
+ * @return Product category.
+ * @access Private
+ * @author PefoliosInc
+ * @copyright ImageCMS (c) 2012, <m.mamonchuk@imagecms.net>
+ */
+//if (!function_exists('getPromoBlock')) {
+//    
+//    function productActive(){
+//        $CI = & get_instance();
+//        $productId = $CI->core->core_data;
+//
+//        $CI->db->select('full_path');
+//        $CI->db->from('shop_products');
+//        $CI->db->where('shop_products.id', $productId['id']);
+//        $CI->db->join('shop_category', 'shop_category.id = shop_products.category_id');
+//        $query = $CI->db->get()->result_array();
+//
+////        $explode = explode('/', $query[0]['full_path']);
+//
+//        return $query;
+//    }
+//}
+
+/* if (!function_exists('getBanners')) {
+
+  function getBanners($limit = 3) {
+  return ShopBanersQuery::create()->joinWithI18n(ShopController::getCurrentLocale())
+  ->filterByActive(1)
+  ->filterByOnMain(1)
+  ->where('espdate > '.strtotime(date('Y-m-d')))
+  ->orderByPosition()
+  ->find();
+  }
+
+  }
+  if (!function_exists('getBannersCat')) {
+
+  function getBannersCat($limit = 3, $id_cat =null) {
+  if($id_cat != NULL){
+  return ShopBanersQuery::create()->joinWithI18n(ShopController::getCurrentLocale())
+  ->filterByCategories('%'.$id_cat.'%')
+  ->_or()->filterByCategories('all')
+  ->filterByActive(1)
+  ->where('espdate > '.strtotime(date('Y-m-d')))
+  ->orderByPosition()
+  ->find();
+  }
+  else {return null;}
+
+  }
+
+  }
+ */
+if (!function_exists('productInCart')) {
+
+    function productInCart(&$haystack, $prodId, $varProdId, $stock = 1) {
+        $response = array(
+            array('message' => lang('s_buy'), 'class' => 'button_gs', 'identif' => 'goBuy', 'link' => shop_url('product/' . $prodId)),
+            array('message' => lang('s_MO'), 'class' => 'button_middle_blue', 'identif' => 'goToCart', 'link' => '/shop/cart'),
+            array('message' => 'Сообщить <br />о появлении', 'class' => 'button_greys', 'identif' => 'goNotifMe', 'link' => shop_url('product/' . $prodId)));
+        if (!$stock) {
+            return $response[2];
+            exit();
+        }
+        if (!isset($haystack['SProducts_' . $prodId . '_' . $varProdId]))
+            return $response[0];
+        else
+            return $response[1];
+    }
+
+}
+
+if (!function_exists('productInCartI')) {
+
+    function productInCartI(&$haystack, $prodId, $varProdId, $stock = 1) {
+        $response = array(
+            array('message' => lang('s_buy'), 'class' => 'buttons button_big_green', 'identif' => 'goBuy', 'link' => '#'),
+            array('message' => lang('s_c_of_z_'), 'class' => 'buttons button_big_blue', 'identif' => 'goToCart', 'link' => '/shop/cart'),
+            array('message' => lang('s_message_not_found'), 'class' => 'buttons button_big_greys', 'identif' => 'goNotifMe', 'link' => shop_url('product/' . $prodId)));
+        if (!$stock) {
+            return $response[2];
+            exit();
+        }
+        if (!isset($haystack['SProducts_' . $prodId . '_' . $varProdId]))
+            return $response[0];
+        else
+            return $response[1];
+    }
+
+}
+/**
+ * @deprecated since version number 4.2+
+ */
+if (!function_exists('getLimiPrice')) {
+
+    function getLimiPrice($cat_id, $way = 'min') {
+        $CI = &get_instance();
+
+        $child_cats = SCategoryQuery::create()
+                ->where('SCategory.ParentId = ?', $cat_id)
+                ->select(array('Id'))
+                ->find()
+                ->toArray();
+        $additional_goods = $CI->db->select('product_id')->where('category_id', $cat_id)->get('shop_product_categories')->result_array();
+        $add_filter = array();
+        foreach ($additional_goods as $item) {
+            array_push($add_filter, $item['product_id']);
+        }
+        array_push($child_cats, $cat_id);
+        if ($way == 'min') {
+            $min_price = SProductsQuery::create()
+                    ->leftJoin('ProductVariant')
+                    ->filterByCategoryId($child_cats)
+                    ->filterByActive(true)
+                    ->select(array('ProductVariant.PriceInMain'))
+                    ->limit(1)
+                    ->orderBy('ProductVariant.PriceInMain', Criteria::ASC)
+                    ->find()
+                    ->toArray();
+            if (count($add_filter) > 0)
+                $min_price_2 = $CI->db->where_in('product_id', $add_filter)->order_by('price_in_main')->limit(1)->get('shop_product_variants')->row_array();
+
+            if ($min_price[0] > $min_price_2['price_in_main'])
+                $min_price[0] = $min_price_2['price_in_main'];
+        } else {
+            $min_price = SProductsQuery::create()
+                    ->leftJoin('ProductVariant')
+                    ->filterByCategoryId($child_cats)
+                    ->filterByActive(true)
+                    ->select(array('ProductVariant.Price'))
+                    ->limit(1)
+                    ->orderBy('ProductVariant.Price', Criteria::DESC)
+                    ->find()
+                    ->toArray();
+            if (count($add_filter) > 0)
+                $min_price_2 = $CI->db->where_in('product_id', $add_filter)->order_by('price_in_main', 'desc')->limit(1)->get('shop_product_variants')->row_array();
+
+            if ($min_price[0] < $min_price_2['price_in_main'])
+                $min_price[0] = $min_price_2['price_in_main'];
+        }
+        return round($min_price[0], 0);
+    }
+
+}
+/**
+ * @deprecated since version number 4.2+
+ */
+if (!function_exists('getLimitAllPrice')) {
+
+    function getLimitAllPrice($way = 'min') {
+
+        if ($way == 'min') {
+            $min_price = SProductsQuery::create()
+                    ->leftJoin('ProductVariant')
+                    ->filterByActive(true)
+                    ->select(array('ProductVariant.Price'))
+                    ->limit(1)
+                    ->orderBy('ProductVariant.Price', Criteria::ASC)
+                    ->find()
+                    ->toArray();
+        } else {
+            $min_price = SProductsQuery::create()
+                    ->leftJoin('ProductVariant')
+                    ->filterByActive(true)
+                    ->select(array('ProductVariant.Price'))
+                    ->limit(1)
+                    ->orderBy('ProductVariant.Price', Criteria::DESC)
+                    ->find()
+                    ->toArray();
+        }
+
+        return round($min_price[0], 0);
+    }
+
+}
+if (!function_exists('is_in_cart')) {
+
+    function is_in_cart($id) {
+        $result = ShopCore::app()->SCart->getData();
+        if ($result) {
+            $res = 0;
+            foreach ($result as $item) {
+                if ($item['productId'] == $id) {
+                    $res = 1;
+                }
+            }
+        }
+        return $res;
+    }
+
+}
+if (!function_exists('is_in_wish')) {
+
+    function is_in_wish($id) {
+        $result = ShopCore::app()->SWishList->getData();
+        if ($result) {
+            $res = 0;
+            foreach ($result as $item) {
+                if ($item[0] == (int) $id) {
+                    $res = 1;
+                }
+            }
+        }
+        return $res;
+    }
+
+}
+
+if (!function_exists('is_in_spy')) {
+
+    function is_in_spy($userid, $productid) {
+        $model = ShopSpyQuery::create()->filterByUserId($userid)->filterByProductId($productid)->find();
+        if (count($model) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+}
+
+function getProduct($id) {
+    return SProductsQuery::create()->findPk($id);
+}
+
+//Simular Function-------------------------------
+
+if (!function_exists('getSimilarProduct')) {
+
+    function getSimilarProduct($model, $limit = 8) {
+        $currentLocale = ShopController::getCurrentLocale();
+        $vpOne = $model->firstVariant->PriceInMain;
+
+        $max = ($vpOne + $vpOne / 100 * 20);
+        $min = ($vpOne - $vpOne / 100 * 20);
+
+        $product = SProductsQuery::create()
+                ->filterById($model->getId(), Criteria::ALT_NOT_EQUAL)
+                ->joinWithI18n($currentLocale)
+                ->filterByCategoryId($model->getCategoryId())
+                ->filterByActive(true)
+                ->useProductVariantQuery()
+                ->filterByPrice(array('min' => $min, 'max' => $max))
+                ->endUse()
+                ->limit($limit)
+                ->find();
+
+        return $product;
+    }
+
+}
+
+//Simular Function END----------------------------
+
+if (!function_exists('get_lang_admin_folders')) {
+
+    function getVariant($pid, $vid) {
+        return SProductVariantsQuery::create()->filterByProductId($pid)->filterById($vid)->findOne();
+    }
+
+}
+
+if (!function_exists('currency_convert')) {
+
+    function currency_convert($val, $currencyId) {
+        $currentCurrency = ShopCore::app()->SCurrencyHelper->current;
+        $nextCurrency = ShopCore::app()->SCurrencyHelper->additional;
+        if ($currencyId == Null) {
+            $currencyId = $currentCurrency->getId();
+        }
+        if ($currentCurrency->getId() == $currencyId) {
+            $result['main']['price'] = $val;
+            if (count(ShopCore::app()->SCurrencyHelper->getCurrencies()) > 1) {
+                $result['second']['price'] = ShopCore::app()->SCurrencyHelper->convertnew($val, $nextCurrency->getId());
+            }
+        } else {
+            $result['main']['price'] = ShopCore::app()->SCurrencyHelper->convert($val, $currencyId);
+            if (count(ShopCore::app()->SCurrencyHelper->getCurrencies()) > 1) {
+                if ($nextCurrency->getId() == $currencyId)
+                    $result['second']['price'] = $val;
+                else
+                    $result['second']['price'] = ShopCore::app()->SCurrencyHelper->convertnew($result['main']['price'], $nextCurrency->getId());
+            }
+        }
+        $result['main']['symbol'] = $currentCurrency->getSymbol();
+        if (count(ShopCore::app()->SCurrencyHelper->getCurrencies()) > 1) {
+            $result['second']['symbol'] = $nextCurrency->getSymbol();
+        }
+        return $result;
+    }
+
+}
+
+if (!function_exists('count_star')) {
+
+    function count_star($rate) {
+        switch ($rate) {
+            case 0:
+                $result = 'nostar';
+                break;
+            case 1:
+                $result = 'onestar';
+                break;
+            case 2:
+                $result = 'twostar';
+                break;
+            case 3:
+                $result = 'threestar';
+                break;
+            case 4:
+                $result = 'fourstar';
+                break;
+            case 5:
+                $result = 'fivestar';
+                break;
+            default :
+                $result = 'nosrtar';
+        }
+        echo $result;
+    }
+
+}
+
+if (!function_exists('getVariants')) {
+
+    function getVariants($productId) {
+        if ($productId != Null) {
+            $CI = & get_instance();
+            return $CI->db->query("SELECT * FROM `shop_product_variants` JOIN `shop_product_variants_i18n` ON shop_product_variants.id=shop_product_variants_i18n.id WHERE locale='" . ShopController::getCurrentLocale() . "' AND `product_id`=" . $productId)->result();
+        }
+    }
+
+}
+/**
+ * @deprecated since version number 4.2+
+ */
+if (!function_exists('totalComments')) {
+
+    function totalComments($productId) {
+        $ci = & get_instance();
+        $ci->db->select('id');
+        $ci->db->where('item_id = ', $productId);
+        $ci->db->where('status', 0);
+        $ci->db->where('module = ', 'shop');
+        $query = $ci->db->get('comments');
+
+        if ($query->num_rows() > 0) {
+            return $query->num_rows();
+        }
+        return 0;
+    }
+
+}
+/**
+ * @deprecated since version number 4.2+
+ */
+if (!function_exists('makeBreadCrumbs')) {
+
+    function makeBreadCrumbs(SCategory $category) {
+        $ci = &get_instance();
+        $ci->db->cache_on();
+        $locale = BaseAdminController::getCurrentLocale();
+        $forbread = explode("/", $category->getFullPath());
+        if (count($forbread) == 1) {
+            $result[0]['url'] = site_url();
+            $result[0]['name'] = 'На главную';
+            $result[1]['url'] = shop_url("category/" . $forbread[0]);
+            $result[1]['name'] = $ci->db->select('shop_category_i18n.name')
+                    ->join('shop_category_i18n', 'shop_category_i18n.id=shop_category.id')
+                    ->where(array('url' => $forbread[0], 'locale' => $locale))
+                    ->get('shop_category')
+                    ->row_array();
+            $result[1]['name'] = $result[1]['name']['name'];
+        } elseif (count($forbread) > 1) {
+            $result[0]['url'] = site_url();
+            $result[0]['name'] = 'На главную';
+            $url = $forbread[0];
+            foreach ($forbread as $k => $v) {
+                $result[$k + 1]['url'] = shop_url("category/" . $url);
+                $result[$k + 1]['name'] = $ci->db->select('shop_category_i18n.name')
+                        ->join('shop_category_i18n', 'shop_category_i18n.id=shop_category.id')
+                        ->where(array('url' => $v, 'locale' => $locale))
+                        ->get('shop_category')
+                        ->row_array();
+                $result[$k + 1]['name'] = $result[$k + 1]['name']['name'];
+                $url .= "/" . $forbread[$k + 1];
+            }
+        }
+        $ci->db->cache_off();
+        if (is_array($result)) {
+            $crumbs = '<div class="breadCrumbs" xmlns:v="http://rdf.data-vocabulary.org/#">';
+            foreach ($result as $key => $item) {
+                $crumbs .= '<span typeof="v:Breadcrumb">';
+                $crumbs .= '<a rel="v:url" property="v:title" href="' . $item['url'] . '">' . $item['name'] . '</a>';
+                $crumbs .= '</span>';
+                if (count($result) - 1 > $key)
+                    $crumbs .= " / ";
+                else
+                    $crumbs .= "</div>";
+            }
+            return $crumbs;
+        }else {
+            return false;
+        }
+    }
+
+}
+
+function var_dumps($arg) {
+    echo '<pre>';
+    var_dump($arg);
+    echo '</pre>';
+}
+
+if (!function_exists('getPaymentMethodsList')) {
+
+    function getPaymentMethodsList() {
+        $ci = &get_instance();
+        $locale = ShopController::getCurrentLocale();
+        $ci->db->where('locale', $locale);
+        $ci->db->order_by('position', Criteria::ASC);
+        $result = $ci->db->join('shop_payment_methods', 'shop_payment_methods_i18n.id = shop_payment_methods.id')->get('shop_payment_methods_i18n')->result_array();
+
+        return $result;
+    }
+
+}
+if (!function_exists('getDeliveryMethodsList')) {
+
+    function getDeliveryMethodsList() {
+        $ci = &get_instance();
+        $locale = ShopController::getCurrentLocale();
+        $ci->db->where('locale', $locale);
+        $result = $ci->db->join('shop_delivery_methods', 'shop_delivery_methods_i18n.id = shop_delivery_methods.id')->get('shop_delivery_methods_i18n')->result_array();
+
+        return $result;
+    }
+
+}
+
+
+    

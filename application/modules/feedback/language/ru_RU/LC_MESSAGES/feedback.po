@@ -1,0 +1,159 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-04 11:19+0200\n"
+"PO-Revision-Date: 2013-11-04 11:19+0200\n"
+"Last-Translator:  \n"
+"Language-Team:  \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;lang\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+
+#: ./application/modules/feedback/templates/feedback.tpl:6
+msgid "Contacts"
+msgstr "Контакты"
+
+#: ./application/modules/feedback/templates/feedback.tpl:17
+msgid "Your message has been sent."
+msgstr "Ваше сообщение было отправлено."
+
+#: ./application/modules/feedback/templates/feedback.tpl:23
+#: ./application/modules/feedback/templates/feedback.tpl:25
+msgid "Your name"
+msgstr "Ваше имя"
+
+#: ./application/modules/feedback/templates/feedback.tpl:29
+#: ./application/modules/feedback/templates/feedback.tpl:30
+msgid "Email"
+msgstr "Email"
+
+#: ./application/modules/feedback/templates/feedback.tpl:34
+#: ./application/modules/feedback/templates/feedback.tpl:35
+msgid "Subject"
+msgstr "Тема"
+
+#: ./application/modules/feedback/templates/feedback.tpl:40
+#: ./application/modules/feedback/feedback.php:79
+#: ./application/modules/feedback/feedback.php:86
+#: ./application/modules/feedback/feedback.php:104
+msgid "Message"
+msgstr "Сообщение"
+
+#: ./application/modules/feedback/templates/feedback.tpl:41
+msgid "Message text"
+msgstr "Текст сообщения"
+
+#: ./application/modules/feedback/templates/feedback.tpl:48
+msgid "Protection code"
+msgstr "Защитный код"
+
+#: ./application/modules/feedback/templates/feedback.tpl:52
+msgid "Enter protection code"
+msgstr "Введите код защиты"
+
+#: ./application/modules/feedback/templates/feedback.tpl:59
+msgid "Send"
+msgstr "Отправить"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:6
+msgid "Feedback settings"
+msgstr "Настройки обратной связи"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:10
+msgid "Go back"
+msgstr "Назад"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:11
+msgid "Save"
+msgstr "Сохранить"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:22
+msgid "Properties"
+msgstr "Свойства"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:33
+#: ./application/modules/feedback/admin.php:46
+#: ./application/modules/feedback/feedback.php:71
+msgid "E-Mail"
+msgstr "E-Mail"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:36
+msgid "Specify the e-mail address for mailing"
+msgstr "Укажите адрес электронной почты для рассылки"
+
+#: ./application/modules/feedback/templates/admin/settings.tpl:40
+#: ./application/modules/feedback/admin.php:47
+msgid "Maximum message length"
+msgstr "Максимальная длина сообщения"
+
+#: ./application/modules/feedback/admin.php:59
+msgid "Settings have been saved"
+msgstr "Настройки сохранены"
+
+#: ./application/modules/feedback/module_info.php:4
+#: ./application/modules/feedback/feedback.php:59
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#: ./application/modules/feedback/module_info.php:5
+msgid "Manage and configure the feedback form on the site"
+msgstr "Управление и настройки формы обратной связи на сайте"
+
+#: ./application/modules/feedback/feedback.php:26
+msgid "Field is required"
+msgstr "Поле необходимо заполнить"
+
+#: ./application/modules/feedback/feedback.php:27
+msgid "Length is less than the minimum"
+msgstr "Длина меньше минимальной"
+
+#: ./application/modules/feedback/feedback.php:28
+msgid "Email is not valid"
+msgstr "Не правильный Email"
+
+#: ./application/modules/feedback/feedback.php:29
+msgid "Length greater than the maximum"
+msgstr "Длина больше максимальной"
+
+#: ./application/modules/feedback/feedback.php:50
+msgid "Improper protection code"
+msgstr "Неправильная защита кода"
+
+#: ./application/modules/feedback/feedback.php:70
+#: ./application/modules/feedback/feedback.php:84
+#: ./application/modules/feedback/feedback.php:102
+msgid "Name"
+msgstr "Название"
+
+#: ./application/modules/feedback/feedback.php:72
+#: ./application/modules/feedback/feedback.php:83
+#: ./application/modules/feedback/feedback.php:101
+msgid "Theme"
+msgstr "Тема"
+
+#: ./application/modules/feedback/feedback.php:75
+#: ./application/modules/feedback/feedback.php:77
+msgid "Code protection"
+msgstr "Защитный код"
+
+#: ./application/modules/feedback/feedback.php:85
+#: ./application/modules/feedback/feedback.php:103
+msgid "E-mail"
+msgstr "Электронная почта"
+
+#: ./application/modules/feedback/feedback.php:87
+msgid "Captcha"
+msgstr "Код защити"
+
+#: ./application/modules/feedback/feedback.php:94
+msgid "Error"
+msgstr "Ошибка"
+

@@ -1,0 +1,202 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-04 11:17+0200\n"
+"PO-Revision-Date: 2013-11-04 11:17+0200\n"
+"Last-Translator:  \n"
+"Language-Team:  \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;lang\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+
+#: ./application/modules/banners/assets/admin/create.tpl:6
+msgid "Banner creating"
+msgstr "Создание баннера"
+
+#: ./application/modules/banners/assets/admin/create.tpl:10
+#: ./application/modules/banners/assets/admin/edit.tpl:9
+msgid "Back"
+msgstr "Назад"
+
+#: ./application/modules/banners/assets/admin/create.tpl:11
+#: ./application/modules/banners/assets/admin/edit.tpl:10
+msgid "Save"
+msgstr "Сохранить"
+
+#: ./application/modules/banners/assets/admin/create.tpl:20
+#: ./application/modules/banners/assets/admin/edit.tpl:21
+msgid "Options"
+msgstr "Опции"
+
+#: ./application/modules/banners/assets/admin/create.tpl:31
+#: ./application/modules/banners/assets/admin/list.tpl:37
+#: ./application/modules/banners/assets/admin/edit.tpl:32
+msgid "Name"
+msgstr "Название"
+
+#: ./application/modules/banners/assets/admin/create.tpl:40
+#: ./application/modules/banners/assets/admin/edit.tpl:41
+msgid "Active"
+msgstr "Активный"
+
+#: ./application/modules/banners/assets/admin/create.tpl:47
+#: ./application/modules/banners/assets/admin/edit.tpl:48
+msgid "Text banner"
+msgstr "Текст баннера"
+
+#: ./application/modules/banners/assets/admin/create.tpl:53
+#: ./application/modules/banners/assets/admin/edit.tpl:54
+msgid "URL"
+msgstr "URL"
+
+#: ./application/modules/banners/assets/admin/create.tpl:63
+#: ./application/modules/banners/assets/admin/edit.tpl:64
+msgid "Selected items"
+msgstr "Выбранные элементы"
+
+#: ./application/modules/banners/assets/admin/create.tpl:69
+#: ./application/modules/banners/assets/admin/edit.tpl:73
+msgid "Double click to deleting"
+msgstr "Дважды щелкните для удаления"
+
+#: ./application/modules/banners/assets/admin/create.tpl:74
+#: ./application/modules/banners/assets/admin/edit.tpl:78
+msgid "Show in categories (select items)"
+msgstr "Показать в категориях (выбранные элементы)"
+
+#: ./application/modules/banners/assets/admin/create.tpl:77
+#: ./application/modules/banners/assets/admin/edit.tpl:82
+msgid "select essence"
+msgstr "выберите сущность"
+
+#: ./application/modules/banners/admin.php:225
+#: ./application/modules/banners/assets/admin/create.tpl:78
+#: ./application/modules/banners/assets/admin/edit.tpl:83
+#: ./application/modules/banners/helpers/banners_helper.php:37
+msgid "Main"
+msgstr "Главная"
+
+#: ./application/modules/banners/assets/admin/create.tpl:80
+#: ./application/modules/banners/assets/admin/edit.tpl:85
+msgid "Product"
+msgstr "Товар"
+
+#: ./application/modules/banners/assets/admin/create.tpl:81
+#: ./application/modules/banners/assets/admin/edit.tpl:86
+msgid "Product category"
+msgstr "Категория товара"
+
+#: ./application/modules/banners/assets/admin/create.tpl:82
+#: ./application/modules/banners/assets/admin/edit.tpl:87
+msgid "Brand"
+msgstr "Бренд"
+
+#: ./application/modules/banners/assets/admin/create.tpl:84
+#: ./application/modules/banners/assets/admin/edit.tpl:89
+msgid "Pages categories"
+msgstr "Категории страниц"
+
+#: ./application/modules/banners/assets/admin/create.tpl:85
+#: ./application/modules/banners/assets/admin/edit.tpl:90
+msgid "Pages"
+msgstr "Страницы"
+
+#: ./application/modules/banners/assets/admin/create.tpl:99
+#: ./application/modules/banners/assets/admin/edit.tpl:104
+msgid "Active until"
+msgstr "Активно до"
+
+#: ./application/modules/banners/admin.php:98
+#: ./application/modules/banners/assets/admin/create.tpl:107
+#: ./application/modules/banners/assets/admin/edit.tpl:112
+msgid "Image"
+msgstr "Изображение"
+
+#: ./application/modules/banners/assets/admin/create.tpl:114
+#: ./application/modules/banners/assets/admin/edit.tpl:117
+msgid "Choose an image "
+msgstr "Выберите изображение"
+
+#: ./application/modules/banners/assets/admin/list.tpl:6
+#: ./application/modules/banners/module_info.php:4
+msgid "Banners management"
+msgstr "Управление баннерами"
+
+#: ./application/modules/banners/assets/admin/list.tpl:12
+msgid "Template settings"
+msgstr "Настройки шаблона"
+
+#: ./application/modules/banners/assets/admin/list.tpl:14
+msgid "Use different templates for different pages"
+msgstr "Используйте различные шаблоны для разных страниц"
+
+#: ./application/modules/banners/assets/admin/list.tpl:18
+msgid "Create a banner"
+msgstr "Создать баннер"
+
+#: ./application/modules/banners/assets/admin/list.tpl:19
+msgid "Delete"
+msgstr "Удалить"
+
+#: ./application/modules/banners/assets/admin/list.tpl:36
+msgid "ID"
+msgstr "ID"
+
+#: ./application/modules/banners/assets/admin/list.tpl:38
+msgid "Active to"
+msgstr "Активно на"
+
+#: ./application/modules/banners/assets/admin/list.tpl:39
+msgid "Status"
+msgstr "Статус"
+
+#: ./application/modules/banners/assets/admin/list.tpl:53
+#: ./application/modules/banners/assets/admin/list.tpl:55
+msgid "Editing"
+msgstr "Редактирование"
+
+#: ./application/modules/banners/assets/admin/list.tpl:60
+msgid "show"
+msgstr "показывать"
+
+#: ./application/modules/banners/assets/admin/list.tpl:75
+msgid "Empty banner list."
+msgstr "Список баннеров пуст."
+
+#: ./application/modules/banners/assets/admin/edit.tpl:5
+msgid "Editing banner"
+msgstr "Редактирование баннера"
+
+#: ./application/modules/banners/assets/admin/edit.tpl:11
+msgid "Save and exit"
+msgstr "Сохранить и выйти"
+
+#: /var/www/image.loc/_tempLangs.php:68
+msgid "don't show"
+msgstr "не показывать"
+
+#: ./application/modules/banners/admin.php:97
+#: ./application/modules/banners/admin.php:156
+msgid "Banner name"
+msgstr "Название баннера"
+
+#: ./application/modules/banners/admin.php:157
+msgid "Photo"
+msgstr "Фото"
+
+#: ./application/modules/banners/admin.php:179
+msgid "Data saved"
+msgstr "Данные сохраненны"
+
+#: ./application/modules/banners/module_info.php:5
+msgid "Allows you to create banners for any page on the site or online store"
+msgstr "Позволяет создавать баннеры для любых страниц на сайте либо интернет-магазине"
+

@@ -1,0 +1,141 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-04 11:25+0200\n"
+"PO-Revision-Date: 2013-11-04 11:25+0200\n"
+"Last-Translator:  \n"
+"Language-Team:  \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;lang\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+
+#: ./application/modules/trash/templates/admin/main.tpl:6
+msgid "Redirect links removing"
+msgstr "Удаление ссылки редиректа"
+
+#: ./application/modules/trash/templates/admin/main.tpl:9
+msgid "Remove links?"
+msgstr "Удалить ссылки?"
+
+#: ./application/modules/trash/templates/admin/main.tpl:21
+#: ./application/modules/trash/templates/admin/main.tpl:49
+msgid "Redirect"
+msgstr "Редирект"
+
+#: ./application/modules/trash/templates/admin/main.tpl:28
+msgid "Create redirect"
+msgstr "Создать редирект"
+
+#: ./application/modules/trash/templates/admin/main.tpl:46
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:39
+msgid "Old URL"
+msgstr "Старый URL"
+
+#: ./application/modules/trash/templates/admin/main.tpl:47
+msgid "Redirect type"
+msgstr "Тип редиректа"
+
+#: ./application/modules/trash/templates/admin/main.tpl:48
+msgid "Redirect kind"
+msgstr "Вид редиректа"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:6
+msgid "New redirect creation"
+msgstr "Создание нового редиректа"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:23
+msgid "New trash data"
+msgstr "Новые данные"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:43
+#: ./application/modules/trash/templates/admin/create_trash.tpl:81
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:47
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:85
+msgid "Type"
+msgstr "Тип"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:56
+#: ./application/modules/trash/templates/admin/create_trash.tpl:107
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:60
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:110
+msgid "Product"
+msgstr "Продукт"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:62
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:66
+msgid "Category"
+msgstr "Категория"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:69
+#: ./application/modules/trash/templates/admin/create_trash.tpl:130
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:73
+msgid "Category of Base"
+msgstr "Категория Базы"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:99
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:103
+msgid "Redirect Url"
+msgstr "URL редиректа"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:118
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:121
+msgid "Categories"
+msgstr "Категории"
+
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:5
+msgid "Link editing"
+msgstr "Редактирования ссылки"
+
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:19
+msgid "Link edit"
+msgstr "Редактирования ссылки"
+
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:132
+msgid "Categories of Base"
+msgstr "Категории базы"
+
+#: ./application/modules/trash/templates/admin/main.tpl:12
+#: ./application/modules/trash/templates/admin/main.tpl:29
+msgid "Delete"
+msgstr "Удалить"
+
+#: ./application/modules/trash/templates/admin/main.tpl:13
+msgid "Cancel"
+msgstr "Отменить"
+
+#: ./application/modules/trash/templates/admin/main.tpl:25
+#: ./application/modules/trash/templates/admin/create_trash.tpl:10
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:9
+msgid "Go back"
+msgstr "Назад"
+
+#: ./application/modules/trash/templates/admin/main.tpl:63
+msgid "Editing"
+msgstr "Редактирование"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:11
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:10
+msgid "Save"
+msgstr "Сохранить"
+
+#: ./application/modules/trash/templates/admin/create_trash.tpl:12
+#: ./application/modules/trash/templates/admin/edit_trash.tpl:11
+msgid "Save and exit"
+msgstr "Сохранить и выйти"
+
+#: ./application/modules/trash/module_info.php:7
+msgid "Module of redirects"
+msgstr "Модуль редиректов"
+
+#: ./application/modules/trash/module_info.php:8
+msgid "Module for creating redirects 301, 302"
+msgstr "Модуль для создания редиректов 301, 302"
+

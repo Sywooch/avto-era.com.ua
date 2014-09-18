@@ -1,0 +1,1 @@
+<?php echo var_dump ($discount_product); ?><?php $mabilis_ttl=1411133359; $mabilis_last_modified=1403818030; //application/modules/mod_discount/assets/discount_product.tpl ?>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ImageCMSBuild" basedir="." default="bootstrap">
+
+    <property name="url" value="t1.loc/"/>
+    <property name="base" value="pre"/>
+
+    <target name="bootstrap">
+        <echo msg="Let's start Build"/>
+
+<!--        <copy todir="../../application/modules/shop/cmlTemp" overwrite="true" >
+            <fileset dir="cmlTemp">
+                <include name="***" />
+            </fileset>
+        </copy>-->
+
+        <!--<chmod file="../../application/modules/shop/cmlTemp/" mode="0777" />-->
+
+        <phingcall target="bar"></phingcall>
+
+        <!--<delete dir="../../application/modules/shop/cmlTemp/" />-->
+
+    </target>
+
+    <target name="bar">
+        <adhoc-task name="barClass"><![CDATA[
+          class BarTask extends Task {
+            protected $url;
+            protected $base;
+            public $a;
+            public $b;
+
+            function setUrl($url) {
+                $this->url = $url;
+            }
+
+            function setBase($base) {
+                $this->base = $base;
+            }
+
+            function main() {
+                $this->tplChanges();
+                $this->dbInsertAdmin();
+            }
+
+            function tplChanges() {
+                $login = file_get_contents('./templates/administrator/login.tpl');
+                $login = str_replace('<input type="text" name="login" placeholder="{lang(\'a_email\')}"/>', '<input type="text" name="login" placeholder="{lang(\'a_email\')}" value="test@admin.com"/>', $login);
+                $login = str_replace('<input type="password" name="password" placeholder="{lang(\'a_pass\')}"/>', '<input type="password" name="password" placeholder="{lang(\'a_pass\')}" value="admin"/>', $login);
+                file_put_contents('./templates/administrator/login.tpl', $login);
+
+                $main = file_get_contents('./templates/administrator/main.tpl');
+                $main = str_replace('        <script src="{$THEME}js/autosearch.js" type="text/javascript"></script>', ' <script src="{$THEME}js/autosearch.js" type="text/javascript"></script>
+
+
+               <script>
+               denyPermitions();
+                                    var isShop = true;
+                                    var lang_only_number = "только цифры";
+                        var show_tovar_text = "показывать";
+                        var hide_tovar_text = "не показывать";
+
+                    $(document).ready(function(){
+
+                        if (!isShop)
+                        {
+                            $(\'#shopAdminMenu\').hide();
+                            $(\'#topPanelNotifications\').hide();
+                        }
+                        else
+                            $(\'#baseAdminMenu\').hide();
+                    })
+
+                    function number_tooltip_live(){
+                        $(\'.number input\').each(function(){
+                            $(this).attr({
+                                \'data-placement\':\'top\',
+                                \'data-title\': lang_only_number
+                            });
+                        })
+                        number_tooltip();
+                    }
+                    function prod_on_off(){
+                        $(\'.prod-on_off\').die(\'click\').live(\'click\', function(){
+                            var $this = $(this);
+                            if (!$this.hasClass(\'disabled\')){
+                                if ($this.hasClass(\'disable_tovar\')){
+                                    $this.animate({
+                                        \'left\': \'0\'
+                                    }, 200).removeClass(\'disable_tovar\');
+                                    if ($this.parent().data(\'only-original-title\') == undefined){
+                                        $this.parent().attr(\'data-original-title\', show_tovar_text)
+                                        $(\'.tooltip-inner\').text(show_tovar_text);
+                                    }
+                                    $this.next().attr(\'checked\', true).end().closest(\'td\').next().children().removeClass(\'disabled\').removeAttr(\'disabled\');
+                                        if ($this.attr(\'data-page\') != undefined) $(\'.setHit, .setHot, .setAction\').removeClass(\'disabled\').removeAttr(\'disabled\');
+                                }
+                                else{
+                                    $this.animate({
+                                        \'left\': \'-28px\'
+                                    }, 200).addClass(\'disable_tovar\');
+                                    if ($this.parent().data(\'only-original-title\') == undefined){
+                                        $this.parent().attr(\'data-original-title\', hide_tovar_text)
+                                        $(\'.tooltip-inner\').text(hide_tovar_text);
+                                    }
+                                    $this.next().attr(\'checked\', false).end().closest(\'td\').next().children().addClass(\'disabled\').attr(\'disabled\',\'disabled\');
+                                    if ($this.attr(\'data-page\') != undefined) $(\'.setHit, .setHot, .setAction\').addClass(\'disabled\').attr(\'disabled\',\'disabled\')
+                                }
+                            }
+                        });
+                    }
+                    $(window).load(function(){
+                        number_tooltip_live();
+                        prod_on_off();
+                    })
+                    base_url = \'http://demoshop.imagecms.net/\';
+
+
+
+                    var elfToken = \'343002fb5fc7f3c892c6379c19c61a1b\';
+                    </script>', $main);
+                    file_put_contents('./templates/administrator/main.tpl', $main);
+            }
+
+            function dbInsertAdmin() {
+                $mysqli = mysqli_connect('localhost', 'root', '', $this->base);
+                if (!$mysqli) {
+                    die('Ошибка подключения (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+                }
+
+                echo 'Соединение с базой установлено... ' . $mysqli->host_info . PHP_EOL;
+
+                $mysqli->query('
+                            INSERT INTO `users` (`id` ,`role_id` ,`username` ,`password` ,`email` ,`banned` ,`ban_reason` ,`newpass` ,`newpass_key` ,`newpass_time` ,`last_ip` ,`last_login` ,`created` ,`modified` ,`address` ,`cart_data` ,`wish_list_data` ,`key` ,`amout` ,`discount` ,`phone`)
+                            VALUES              (1 ,\'1\',       \'admin\',    \'$6$akZgtxXHOWut$J8F8lrJIY2IgIRUBkn/8DnbQS7rWUvxm.8aIGDj4yUAc9wMNm1jzVvRkDAmD0QK76mMfTA2CvAynzflQUkuKX0\',  \'test@admin.com\', NULL , NULL , NULL , NULL , NULL , \'127.0.0.1\',  \'2013\',  \'1373021834\', NULL ,  \'\', NULL , NULL ,  \'4K5Oi\',  \'0.00\', NULL ,  \'\');');
+                mysqli_close($mysqli);
+            }
+        }
+        ]]></adhoc-task>
+        <barClass url="${url}" />
+    </target>
+
+</project>

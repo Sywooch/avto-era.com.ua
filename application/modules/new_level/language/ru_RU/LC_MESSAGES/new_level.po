@@ -1,0 +1,163 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-04 11:23+0200\n"
+"PO-Revision-Date: 2013-11-04 11:23+0200\n"
+"Last-Translator:  \n"
+"Language-Team:  \n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;lang\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+
+#: ./application/modules/new_level/assets/js/script.js:26
+#: ./application/modules/new_level/assets/js/script.js:55
+#: ./application/modules/new_level/assets/js/script.js:95
+#: ./application/modules/new_level/assets/js/script.js:112
+#: ./application/modules/new_level/assets/js/script.js:127
+#: ./application/modules/new_level/assets/js/script.js:143
+#: ./application/modules/new_level/assets/js/script.js:160
+#: ./application/modules/new_level/assets/js/script.js:175
+#: ./application/modules/new_level/assets/js/script.js:191
+msgid "Message"
+msgstr "Сообщение"
+
+#: ./application/modules/new_level/assets/js/script.js:27
+msgid "Property type updated"
+msgstr "Типы свойства обновлен"
+
+#: ./application/modules/new_level/assets/js/script.js:56
+#: ./application/modules/new_level/assets/js/script.js:161
+#: ./application/modules/new_level/assets/js/script.js:192
+#: ./application/modules/new_level/assets/admin/index.tpl:95
+#: ./application/modules/new_level/assets/admin/_columns.tpl:20
+msgid "Column"
+msgstr "Колонка"
+
+#: ./application/modules/new_level/assets/js/script.js:57
+msgid "updated"
+msgstr "обновлена"
+
+#: ./application/modules/new_level/assets/js/script.js:96
+msgid "Data successfully saved"
+msgstr "Успешно сохранено"
+
+#: ./application/modules/new_level/assets/js/script.js:113
+msgid "Type of property successfully removed"
+msgstr "Тип свойства успешно удален"
+
+#: ./application/modules/new_level/assets/js/script.js:128
+msgid "Type of property successfully updated"
+msgstr "Тип свойства успешно обновлен"
+
+#: ./application/modules/new_level/assets/js/script.js:144
+msgid "Type of property successfully added"
+msgstr "Тип свойства успешно додан"
+
+#: ./application/modules/new_level/assets/js/script.js:162
+msgid "removed"
+msgstr "удалена"
+
+#: ./application/modules/new_level/assets/js/script.js:176
+msgid "Column successfully removed"
+msgstr "Колонка успешно удалена"
+
+#: ./application/modules/new_level/assets/js/script.js:193
+msgid "successfully added"
+msgstr "успешно обновлена"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:6
+#: ./application/modules/new_level/module_info.php:6
+msgid "Online store template settings"
+msgstr "Настройки шаблона интернет-магазина"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:13
+#: ./application/modules/new_level/assets/admin/settings.tpl:12
+msgid "Back"
+msgstr "Назад"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:19
+#: ./application/modules/new_level/assets/admin/index.tpl:126
+#: ./application/modules/new_level/assets/admin/settings.tpl:5
+#: ./application/modules/new_level/assets/admin/settings_thema.tpl:17
+msgid "Settings"
+msgstr "Настройки"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:27
+msgid "Properties"
+msgstr "Свойства"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:28
+#: ./application/modules/new_level/assets/admin/settings.tpl:96
+msgid "Columns"
+msgstr "Колонки"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:29
+#: ./application/modules/new_level/assets/admin/index.tpl:136
+#: ./application/modules/new_level/assets/admin/settings_thema.tpl:27
+msgid "Colour scheme"
+msgstr "Цветовая схема"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:39
+msgid "Id"
+msgstr "Id"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:42
+msgid "Name"
+msgstr "Название"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:45
+msgid "Type"
+msgstr "Тип"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:80
+#: ./application/modules/new_level/assets/admin/_columns.tpl:5
+msgid "Categories columns"
+msgstr "Столбци категорий"
+
+#: ./application/modules/new_level/assets/admin/index.tpl:106
+#: ./application/modules/new_level/assets/admin/index.tpl:159
+#: ./application/modules/new_level/assets/admin/_columns.tpl:31
+#: ./application/modules/new_level/assets/admin/settings_thema.tpl:11
+msgid "Save"
+msgstr "Сохранить"
+
+#: ./application/modules/new_level/assets/admin/settings.tpl:20
+msgid "Properties settings"
+msgstr "Настройки свойств"
+
+#: ./application/modules/new_level/assets/admin/settings.tpl:21
+msgid "Columns settings"
+msgstr "Настройки колонок"
+
+#: ./application/modules/new_level/assets/admin/settings.tpl:31
+msgid "Properties types"
+msgstr "Типы свойства"
+
+#: ./application/modules/new_level/assets/admin/settings.tpl:78
+msgid "Add new properties type"
+msgstr "Добавить новый тип свойства"
+
+#: ./application/modules/new_level/assets/admin/settings.tpl:143
+msgid "Add new column"
+msgstr "Добавить новый столбец"
+
+#: ./application/modules/new_level/assets/admin/settings_thema.tpl:6
+msgid "Additional settings of NewLevel module"
+msgstr "Дополнительная настройка модуля NewLevel"
+
+#: ./application/modules/new_level/assets/admin/settings_thema.tpl:10
+msgid "Go back"
+msgstr "Назад"
+
+#: ./application/modules/new_level/module_info.php:7
+msgid "New Level template settings. Managing blocks and columns."
+msgstr "Настройки шаблона New Level. Управление блоками и колонками."
+

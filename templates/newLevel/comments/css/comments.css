@@ -1,0 +1,67 @@
+/*comments*/
+.comment__icsi-css .main-form-comments__icsi-css{margin-bottom: 10px;}
+.comment__icsi-css .main-form-comments .title__icsi-css{width: 85px;}
+.comment__icsi-css .title__icsi-css{font-weight: bold;}
+.comment__icsi-css .main-form-comments .frame_form_field__icsi-css{margin-left: 95px;}
+.comment__icsi-css .author-comment__icsi-css{color: #000;font-size:13px; font-weight: bold;}
+.comment__icsi-css .date-comment__icsi-css{color: #999;}
+.frame-list-comment__icsi-css > .sub-1{margin-bottom: 30px;margin: 0;}
+.frame-list-comment__icsi-css > .sub-1 > li > .frame-comment__icsi-css{width:655px; padding: 3px 0 1px;-moz-border-radius: 2px;-webkit-border-radius: 2px;border-radius: 2px;}
+.frame-comment__icsi-css p{margin-bottom: 0;}
+.comment__icsi-css .frame-list-comment__icsi-css.sub-2{float: none;width: auto;padding-left:45px;max-height: 100px;overflow: hidden; padding-top: 10px;}
+.comment__icsi-css .frame-list-comment__icsi-css.sub-2 > li .frame-comment__icsi-css {width: auto;}
+.frame-comment__icsi-css {float: left; vertical-align: top; width: 655px;}
+.frame-list-comment__icsi-css-wrap {border:1px solid #e5e5e5; padding: 0 35px; margin-bottom: 50px; padding-bottom: 30px; font-size: 12px;}
+.main-form-comments__icsi-css {border:1px solid #e5e5e5; padding: 0 35px;}
+.frame-comment__icsi-css_right {float: right; width:200px; vertical-align: top; position: relative; top:-22px;}
+.comment__icsi-css .btn__icsi-css > *, .comment__icsi-css input.btn__icsi-css{padding: 0 !important;}
+.comment__icsi-css .frame-list-comment__icsi-css .btn__icsi-css{background-image: none !important;border: none !important; margin-right: 10px;}
+.comment__icsi-css .frame-list-comment__icsi-css .btn__icsi-css.active{-moz-box-shadow: none;-webkit-box-shadow: none;box-shadow: none;}
+.comment__icsi-css .icon-comment__icsi-css{background-image: none;width: 0;height: 0;margin-right: 0!important;}
+.comment__icsi-css .frame-list-comment__icsi-css li{border-top: 0;padding: 0;}
+.comment__icsi-css .frame-list-comment__icsi-css li:after {visibility: hidden;display: block;font-size: 0;content: ".";clear: both;height: 0;}
+.comment__icsi-css .frame-list-comment__icsi-css > .sub-1 > li:first-child {margin-top: 25px;}
+.comment__icsi-css .frame-list-comment__icsi-css > .sub-1 > li{margin-top: 35px; position: relative;}
+.comment__icsi-css .frame-list-comment__icsi-css > .product-view > li:before {border-top: 1px solid #e3e3e3; content: ""; position: absolute; width: 100%;top: -20px;}
+.comment__icsi-css .frame-list-comment__icsi-css > .product-view > li:first-child:before {border:none;}
+.frame-list-comment__icsi-css.sub-2 + .s-all-comments{margin-left: 33px;}
+.comment__icsi-css .frame-list-comment__icsi-css.sub-2 > li{padding-bottom: 15px;}
+.comment__icsi-css .funcs-buttons-comment__icsi-css + .frame-list-comment__icsi-css{padding-top: 1px;}
+.comment__icsi-css .like__icsi-css > button span span, .comment__icsi-css .dis-like__icsi-css > button span span{font-weight: normal;}
+.comment__icsi-css .author-data-comment__icsi-css{margin-bottom: 5px;}
+.s-all-comments{margin-top: 7px;}
+
+.comment__icsi-css .frame-comments__icsi-css{}
+.comment__icsi-css .btn-form input{padding: 0 33px !important;}
+.comment__icsi-css .frame-drop-comment__icsi-css{padding-bottom: 0;display: none;width: 98%;margin: auto;}
+
+.frame-list-comment__icsi-css .frame-drop-comment__icsi-css{padding:0;}
+.frame-drop-comment__icsi-css + .frame-list-comment__icsi-css{padding-top: 25px;}
+.comment__icsi-css .title_h2__icsi-css, .title_h2__icsi-css.title-default{font-size: 15px;font-weight: normal; color:#eb5344; background: #fff; display: inline-block; padding: 0 10px; margin-left: 25px;position: relative;top: 11px;}
+.title_h2__icsi-css.title-default {margin: 0; top:-11px; margin-left: -10px;}
+.title_h2__icsi-css.title-default.help {top: 15px; margin-left: 0; padding: 0;}
+.title_h2__icsi-css.title-default.help .title {padding: 0;}
+.f_l__icsi-css{float: left;}
+.f_r__icsi-css{float: right;}
+.frame-comments__icsi-css .inside-padd{}
+.comment__icsi-css label{display: block;}
+.form__icsi-css label, .form__icsi-css .frameLabel__icsi-css{margin-bottom: 12px;}
+.form__icsi-css .title__icsi-css{float: left;width: 128px;padding-right: 10px;margin-top: 6px; font-weight: normal; color:#999;}
+.frame_form_field__icsi-css{position: relative;display: block;}
+.comment__icsi-css textarea{height: 134px; padding-top: 5px; background: #f4f4f4;}
+.comment__icsi-css textarea:focus {background: #fff;}
+.comment__icsi-css .btn__icsi-css{display: inline-block;cursor: pointer;color: #555;text-decoration: none;position: relative;}
+.comment__icsi-css .btn__icsi-css > *, .comment__icsi-css input.btn__icsi-css{padding: 5px 15px 5px;}
+.comment__icsi-css .btn__icsi-css.active{cursor: default;}
+.comment__icsi-css .btn__icsi-css.active{color: #979797;}
+.func-button-comment__icsi-css{}
+.comment__icsi-css .like__icsi-css > button, .comment__icsi-css .dis-like__icsi-css > button{font-weight: bold;}
+.comment__icsi-css .like__icsi-css > button{color: #65ba00; border-bottom: 1px dotted #65ba00;}
+.comment__icsi-css .like__icsi-css > button:hover {color:#3d7000; border-bottom: 1px dotted #3d7000;}
+.dis-like__icsi-css > button{color: #eb5344; border-bottom: 1px dotted #eb5344;}
+.dis-like__icsi-css > button:hover {color:#980d00; border-bottom-color:#980d00;}
+.form__icsi-css .frame_form_field__icsi-css{}
+.func-button-comment__icsi-css + .frame-list-comment__icsi-css{padding-top: 25px;}
+.mark-pr{margin-bottom: 4px;}
+.mark-pr > .star-small{position: relative;top: 1px;}
+/*/comments*/
