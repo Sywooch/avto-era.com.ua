@@ -101,6 +101,7 @@ class Permitions {
      * @return array with class name and class method
      */
     private static function checkUrl($checkLink = FALSE, $link = '') {
+    	$uri_array = array();
         $ci = & get_instance();
 
         if ($checkLink AND $link != '') {
@@ -120,7 +121,7 @@ class Permitions {
                 $controller_method = 3;
                 $classNamePrep = 'Base';
             }
-            if ($ci->uri->segment(4) == 'shop' OR $uri_array[3] == 'shop') {
+            if ($ci->uri->segment(4) == 'shop' OR (array_key_exists(3, $uri_array) AND $uri_array[3] == 'shop')) {
                 $classNamePrep = 'ShopAdmin';
                 $controller_segment = 5;
                 $controller_method = 6;
