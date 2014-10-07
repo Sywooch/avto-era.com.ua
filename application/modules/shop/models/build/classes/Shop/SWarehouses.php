@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_warehouse' table.
  *
@@ -14,26 +12,21 @@
  * @package    propel.generator.Shop
  */
 class SWarehouses extends BaseSWarehouses {
-
-	public function attributeLabels()
-	{
-		return array(
-			'Name'=>ShopCore::t('Название'),
-			'Address'=>ShopCore::t('Адрес'),
-			'Phone'=>ShopCore::t('Телефон'),
-			'Description'=>ShopCore::t('Описание'),
+	public function attributeLabels() {
+		return array (
+				'Name' => ShopCore::t ( 'Название' ),
+				'Address' => ShopCore::t ( 'Адрес' ),
+				'Phone' => ShopCore::t ( 'Телефон' ),
+				'Description' => ShopCore::t ( 'Описание' ) 
 		);
 	}
-
-    public function rules()
-    {
-        return array(
-           array(
-                 'field'=>'Name',
-                 'label'=>$this->getLabel('Name'),
-                 'rules'=>'required'
-              ),
-        );
-    }    
-
+	public function rules() {
+		return array (
+				array (
+						'field' => 'Name',
+						'label' => $this->getLabel ( 'Name' ),
+						'rules' => 'required' 
+				) 
+		);
+	}
 } // SWarehouses

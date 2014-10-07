@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_products_rating' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SProductsRating extends BaseSProductsRating {
-
 } // SProductsRating

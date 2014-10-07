@@ -12,17 +12,12 @@
  * @package    propel.generator.Shop
  */
 class SProductPropertiesData extends BaseSProductPropertiesData {
-
-    public function setValue($v) {
-        parent::setValue(htmlspecialchars($v));
-    }
-
-    public function getSProperties(PropelPDO $con = null) {
-
-        return SPropertiesQuery::create()->joinWithI18n(MY_Controller::getCurrentLocale())
-                        ->filterbyid($this->property_id)->findone();
-    }
-
+	public function setValue($v) {
+		parent::setValue ( htmlspecialchars ( $v ) );
+	}
+	public function getSProperties(PropelPDO $con = null) {
+		return SPropertiesQuery::create ()->joinWithI18n ( MY_Controller::getCurrentLocale () )->filterbyid ( $this->property_id )->findone ();
+	}
 }
 
 // SProductPropertiesData

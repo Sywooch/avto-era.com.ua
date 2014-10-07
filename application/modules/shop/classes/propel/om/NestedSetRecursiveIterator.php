@@ -11,59 +11,45 @@
 /**
  * Pre-order node iterator for Node objects.
  *
- * @author     Heltem <heltem@o2php.com>
- * @version    $Revision$
- * @package    propel.runtime.om
+ * @author Heltem <heltem@o2php.com>
+ * @version $Revision$
+ * @package propel.runtime.om
  */
-class NestedSetRecursiveIterator implements RecursiveIterator
-{
+class NestedSetRecursiveIterator implements RecursiveIterator {
 	protected $topNode = null;
-
 	protected $curNode = null;
-
-	public function __construct($node)
-	{
+	public function __construct($node) {
 		$this->topNode = $node;
 		$this->curNode = $node;
 	}
-
-	public function rewind()
-	{
+	public function rewind() {
 		$this->curNode = $this->topNode;
 	}
-
-	public function valid()
-	{
+	public function valid() {
 		return ($this->curNode !== null);
 	}
-
-	public function current()
-	{
+	public function current() {
 		return $this->curNode;
 	}
-
-	public function key()
-	{
-		$method = method_exists($this->curNode, 'getPath') ? 'getPath' : 'getAncestors';
-		$key = array();
-		foreach ($this->curNode->$method() as $node) {
-			$key[] = $node->getPrimaryKey();
+	public function key() {
+		$method = method_exists ( $this->curNode, 'getPath' ) ? 'getPath' : 'getAncestors';
+		$key = array ();
+		foreach ( $this->curNode->$method () as $node ) {
+			$key [] = $node->getPrimaryKey ();
 		}
-		return implode('.', $key);
+		return implode ( '.', $key );
 	}
-
-	public function next()
-	{
+	public function next() {
 		$nextNode = null;
-		$method = method_exists($this->curNode, 'retrieveNextSibling') ? 'retrieveNextSibling' : 'getNextSibling';
-		if ($this->valid()) {
-			while (null === $nextNode) {
+		$method = method_exists ( $this->curNode, 'retrieveNextSibling' ) ? 'retrieveNextSibling' : 'getNextSibling';
+		if ($this->valid ()) {
+			while ( null === $nextNode ) {
 				if (null === $this->curNode) {
 					break;
 				}
-
-				if ($this->curNode->hasNextSibling()) {
-					$nextNode = $this->curNode->$method();
+				
+				if ($this->curNode->hasNextSibling ()) {
+					$nextNode = $this->curNode->$method ();
 				} else {
 					break;
 				}
@@ -72,15 +58,11 @@ class NestedSetRecursiveIterator implements RecursiveIterator
 		}
 		return $this->curNode;
 	}
-
-	public function hasChildren()
-	{
-		return $this->curNode->hasChildren();
+	public function hasChildren() {
+		return $this->curNode->hasChildren ();
 	}
-
-	public function getChildren()
-	{
-		$method = method_exists($this->curNode, 'retrieveFirstChild') ? 'retrieveFirstChild' : 'getFirstChild';
-		return new NestedSetRecursiveIterator($this->curNode->$method());
+	public function getChildren() {
+		$method = method_exists ( $this->curNode, 'retrieveFirstChild' ) ? 'retrieveFirstChild' : 'getFirstChild';
+		return new NestedSetRecursiveIterator ( $this->curNode->$method () );
 	}
 }

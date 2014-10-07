@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_banners' table.
  *
@@ -13,24 +11,20 @@
  *
  * @package    propel.generator.Shop
  */
-class ShopBanersQuery extends BaseShopBanersQuery 
-{
-    public function joinWithI18n($locale = 'ru', $joinType = null)
-	{
-        if ($joinType == null)
-        {
-            switch (ShopController::getShowUntranslated()) {
-                case FALSE:
-                    $joinType = Criteria::INNER_JOIN;
-                    break;
-                default:
-                    $joinType = Criteria::LEFT_JOIN;
-                    break;
-            }
-        }        
-        
-        parent::joinWithI18n($locale, $joinType);
+class ShopBanersQuery extends BaseShopBanersQuery {
+	public function joinWithI18n($locale = 'ru', $joinType = null) {
+		if ($joinType == null) {
+			switch (ShopController::getShowUntranslated ()) {
+				case FALSE :
+					$joinType = Criteria::INNER_JOIN;
+					break;
+				default :
+					$joinType = Criteria::LEFT_JOIN;
+					break;
+			}
+		}
+		
+		parent::joinWithI18n ( $locale, $joinType );
 		return $this;
 	}
-
 } // ShopBanersQuery

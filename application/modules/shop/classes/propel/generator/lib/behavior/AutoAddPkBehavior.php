@@ -11,43 +11,42 @@
 /**
  * Adds a primary key to models defined without one
  *
- * @author     François Zaninotto
- * @version    $Revision$
- * @package    propel.generator.behavior
+ * @author François Zaninotto
+ * @version $Revision$
+ * @package propel.generator.behavior
  */
-class AutoAddPkBehavior extends Behavior
-{
-
+class AutoAddPkBehavior extends Behavior {
+	
 	// default parameters value
-	protected $parameters = array(
-		'name'					=> 'id',
-		'autoIncrement' => 'true',
-		'type'					=> 'INTEGER'
+	protected $parameters = array (
+			'name' => 'id',
+			'autoIncrement' => 'true',
+			'type' => 'INTEGER' 
 	);
-
+	
 	/**
 	 * Copy the behavior to the database tables
 	 * Only for tables that have no Pk
 	 */
-	public function modifyDatabase()
-	{
-		foreach ($this->getDatabase()->getTables() as $table) {
-			if(!$table->hasPrimaryKey()) {
+	public function modifyDatabase() {
+		foreach ( $this->getDatabase ()->getTables () as $table ) {
+			if (! $table->hasPrimaryKey ()) {
 				$b = clone $this;
-				$table->addBehavior($b);
+				$table->addBehavior ( $b );
 			}
 		}
 	}
-
+	
 	/**
 	 * Add the primary key to the current table
 	 */
-	public function modifyTable()
-	{
-		$table = $this->getTable();
-		if (!$table->hasPrimaryKey() && !$table->hasBehavior('concrete_inheritance')) {
-			$columnAttributes = array_merge(array('primaryKey' => 'true'), $this->getParameters());
-			$this->getTable()->addColumn($columnAttributes);
+	public function modifyTable() {
+		$table = $this->getTable ();
+		if (! $table->hasPrimaryKey () && ! $table->hasBehavior ( 'concrete_inheritance' )) {
+			$columnAttributes = array_merge ( array (
+					'primaryKey' => 'true' 
+			), $this->getParameters () );
+			$this->getTable ()->addColumn ( $columnAttributes );
 		}
 	}
 }

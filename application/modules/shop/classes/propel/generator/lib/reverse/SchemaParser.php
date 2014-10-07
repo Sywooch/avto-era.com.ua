@@ -11,53 +11,54 @@
 /**
  * Interface for reverse engineering schema parsers.
  *
- * @author     Hans Lellelid <hans@xmpl.org>
- * @version    $Revision$
- * @package    propel.generator.reverse
+ * @author Hans Lellelid <hans@xmpl.org>
+ * @version $Revision$
+ * @package propel.generator.reverse
  */
-interface SchemaParser
-{
-
+interface SchemaParser {
+	
 	/**
 	 * Gets the database connection.
-	 * @return     PDO
+	 * 
+	 * @return PDO
 	 */
 	public function getConnection();
-
+	
 	/**
 	 * Sets the database connection.
 	 *
-	 * @param      PDO $dbh
+	 * @param PDO $dbh        	
 	 */
 	public function setConnection(PDO $dbh);
-
+	
 	/**
 	 * Sets the GeneratorConfig to use in the parsing.
 	 *
-	 * @param      GeneratorConfigInterface $config
+	 * @param GeneratorConfigInterface $config        	
 	 */
 	public function setGeneratorConfig(GeneratorConfigInterface $config);
-
+	
 	/**
 	 * Gets a specific propel (renamed) property from the build.
 	 *
-	 * @param      string $name
-	 * @return     mixed
+	 * @param string $name        	
+	 * @return mixed
 	 */
 	public function getBuildProperty($name);
-
+	
 	/**
 	 * Gets array of warning messages.
-	 * @return     array string[]
+	 * 
+	 * @return array string[]
 	 */
 	public function getWarnings();
-
+	
 	/**
 	 * Parse the schema and populate passed-in Database model object.
 	 *
-	 * @param      Database $database
+	 * @param Database $database        	
 	 *
-	 * @return     int number of generated tables
+	 * @return int number of generated tables
 	 */
 	public function parse(Database $database, Task $task = null);
 }

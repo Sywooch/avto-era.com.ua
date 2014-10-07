@@ -7,16 +7,13 @@
  *
  * @license    MIT License
  */
-
 require_once 'builder/sql/DataSQLBuilder.php';
 
 /**
  * Oracle class for building data dump SQL.
  *
- * @author     Hans Lellelid <hans@xmpl.org>
- * @package    propel.generator.builder.sql.oracle
+ * @author Hans Lellelid <hans@xmpl.org>
+ * @package propel.generator.builder.sql.oracle
  */
-class OracleDataSQLBuilder extends DataSQLBuilder
-{
-
+class OracleDataSQLBuilder extends DataSQLBuilder {
 }

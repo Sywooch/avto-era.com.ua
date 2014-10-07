@@ -12,30 +12,29 @@
  * A validator for minimum string length.
  *
  * <code>
- *   <column name="password" type="VARCHAR" size="34" required="true" />
+ * <column name="password" type="VARCHAR" size="34" required="true" />
  *
- *   <validator column="password">
- *     <rule name="minLength" value="5" message="Passwort must be at least ${value} characters !" />
- *   </validator>
+ * <validator column="password">
+ * <rule name="minLength" value="5" message="Passwort must be at least ${value} characters !" />
+ * </validator>
  * </code>
  *
- * @author     Michael Aichler <aichler@mediacluster.de>
- * @version    $Revision$
- * @package    propel.runtime.validator
+ * @author Michael Aichler <aichler@mediacluster.de>
+ * @version $Revision$
+ * @package propel.runtime.validator
  */
-class MinLengthValidator implements BasicValidator
-{
+class MinLengthValidator implements BasicValidator {
 	/**
-	 * @see       BasicValidator::isValid()
 	 *
-	 * @param     ValidatorMap  $map
-	 * @param     string        $str
+	 * @see BasicValidator::isValid()
 	 *
-	 * @return    boolean
+	 * @param ValidatorMap $map        	
+	 * @param string $str        	
+	 *
+	 * @return boolean
 	 */
-	public function isValid(ValidatorMap $map, $str)
-	{
-		$len = function_exists('mb_strlen') ? mb_strlen($str) : strlen($str);
-		return $len >= intval($map->getValue());
+	public function isValid(ValidatorMap $map, $str) {
+		$len = function_exists ( 'mb_strlen' ) ? mb_strlen ( $str ) : strlen ( $str );
+		return $len >= intval ( $map->getValue () );
 	}
 }

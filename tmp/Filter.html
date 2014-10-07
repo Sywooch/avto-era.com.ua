@@ -1,9 +1,12 @@
-			<ul class="tabFilter">
-				<li class="tab1"><a href="/" class="activ">Шины<span></span></a></li>
-				<li class="tab2"><a href="/disks/popular/" class="">Диски<span></span></a></li>
-				<li class="tab3"><a href="/selection" class="">подбор по марке<span></span></a></li>
-			</ul>
-			<div class="cart"><div class="total">Корзина пуста</div></div>
+
+<ul class="tabFilter">
+	<li class="tab1"><a href="/" class="activ">Шины<span></span></a></li>
+	<li class="tab2"><a href="/disks/popular/" class="">Диски<span></span></a></li>
+	<li class="tab3"><a href="/selection" class="">подбор по марке<span></span></a></li>
+</ul>
+<div class="cart">
+	<div class="total">Корзина пуста</div>
+</div>
 <div class="clear"></div>
 <script type="text/javascript">
     function set_selects (text) {
@@ -45,160 +48,171 @@
 	//-->
 </script>
 <div class="boxFilter" id="filter">
-	<form action="/tyres" id="filterForm" method="get" accept-charset="utf-8"><input name="stud" id="ProductStud" type="hidden"><input name="in_stock" id="ProductInStock" type="hidden"><input name="in_stock4" id="ProductInStock4" type="hidden">	
-	<div class="boxParam">
-		<label for="ProductBrandId">производитель</label>
-		<div class="select1">
-			<div class="textSel">Все</div>
-			<select name="brand_id" id="ProductBrandId">
-<option value="">Все</option>
-<option value="141">Accelera</option>
-<option value="142">Achilles</option>
-<option value="156">Amtel</option>
-<option value="168">Barum</option>
-<option value="171">Bfgoodrich</option>
-<option value="173">Bridgestone</option>
-<option value="181">Continental</option>
-<option value="183">Cooper</option>
-<option value="185">Cordiant</option>
-<option value="187">Daewoo</option>
-<option value="189">Dayton</option>
-<option value="191">Debica</option>
-<option value="202">Dunlop</option>
-<option value="213">Falken</option>
-<option value="216">Federal</option>
-<option value="219">Firestone</option>
-<option value="226">Fulda</option>
-<option value="232">General</option>
-<option value="237">Gislaved</option>
-<option value="243">Goodyear</option>
-<option value="249">Hankook</option>
-<option value="658">Headway</option>
-<option value="266">Kleber</option>
-<option value="269">Kormoran</option>
-<option value="273">Kumho</option>
-<option value="276">Lassa</option>
-<option value="286">Marshal</option>
-<option value="288">Matador</option>
-<option value="601">Mentor</option>
-<option value="295">Michelin</option>
-<option value="297">Minerva</option>
-<option value="303">Nexen</option>
-<option value="304">Nitto</option>
-<option value="305">Nokian</option>
-<option value="316">Pirelli</option>
-<option value="319">Point s</option>
-<option value="334">Roadstone</option>
-<option value="339">Sailun</option>
-<option value="340">Sava</option>
-<option value="359">Sunny</option>
-<option value="365">Tigar</option>
-<option value="366">Toyo</option>
-<option value="373">Tunga</option>
-<option value="379">Viking</option>
-<option value="381">Vredestein</option>
-<option value="394">Yokohama</option>
-<option value="395">Zeetex</option>
-<option value="400">Белшина</option>
-<option value="406">Кама</option>
-<option value="408">Киров</option>
-<option value="414">Росава</option>
-</select>		</div>
-	</div>
-	<div class="boxParam">
-		<label for="ProductBrandId">ширина</label>
-		<div class="select2">
-			<div class="textSel">Все</div>
-			<select name="size1" id="ProductSize1">
-<option value="">Все</option>
-<option value="155">155</option>
-<option value="165">165</option>
-<option value="175">175</option>
-<option value="185">185</option>
-<option value="195">195</option>
-<option value="205">205</option>
-<option value="215">215</option>
-<option value="225">225</option>
-<option value="235">235</option>
-<option value="245">245</option>
-<option value="255">255</option>
-<option value="265">265</option>
-<option value="275">275</option>
-<option value="285">285</option>
-<option value="295">295</option>
-</select>		</div>
-	</div>
-	<div class="boxParam">
-		<label for="ProductBrandId">высота</label>
-		<div class="select2">
-			<div class="textSel">Все</div>
-			<select name="size2" id="ProductSize2">
-<option value="">Все</option>
-<option value="35">35</option>
-<option value="40">40</option>
-<option value="45">45</option>
-<option value="50">50</option>
-<option value="55">55</option>
-<option value="60">60</option>
-<option value="65">65</option>
-<option value="70">70</option>
-<option value="75">75</option>
-<option value="80">80</option>
-</select>		</div>
-	</div>
-	<div class="boxParam">
-		<label for="ProductBrandId">диаметр</label>
-		<div class="select2">
-			<div class="textSel">Все</div>
-			<select name="size3" id="ProductSize3">
-<option value="">Все</option>
-<option value="13">13</option>
-<option value="14">14</option>
-<option value="14C">14C</option>
-<option value="15">15</option>
-<option value="15C">15C</option>
-<option value="16">16</option>
-<option value="16C">16C</option>
-<option value="17">17</option>
-<option value="18">18</option>
-<option value="19">19</option>
-<option value="20">20</option>
-<option value="55">55</option>
-</select>		</div>
-	</div>
-	<div class="boxParam">
-		<label for="ProductBrandId">сезонность</label>
-		<div class="select3">
-			<div class="textSel">Все</div>
-			<select name="season" id="ProductSeason">
-<option value="">Все</option>
-<option value="winter">Зима</option>
-<option value="summer">Лето</option>
-<option value="all">Всесезонные</option>
-</select>		</div>
-	</div>
-	<div class="boxParam">
-		<label for="ProductBrandId">тип транспорта</label>
-		<div class="select3">
-			<div class="textSel">Все</div>
-			<select name="auto" id="ProductAuto">
-<option value="">Все</option>
-<option value="cars">Легковые</option>
-<option value="light_trucks">Легкогрузовые</option>
-</select>		</div>
-	</div>
-	<div style="display: none;" class="boxParam axis-select">
-		<label for="ProductAxis">ось</label>
-		<div class="select3">
-			<div class="textSel">Все</div>
-			<select name="axis" id="ProductAxis">
-<option value="">Все</option>
-</select>		</div>
-	</div>
-	<div class="btBoxFilter">
-		<button class="btVer1">Подобрать</button>
-	</div>
-	<div class="clear"></div>
+	<form action="/tyres" id="filterForm" method="get"
+		accept-charset="utf-8">
+		<input name="stud" id="ProductStud" type="hidden"><input
+			name="in_stock" id="ProductInStock" type="hidden"><input
+			name="in_stock4" id="ProductInStock4" type="hidden">
+		<div class="boxParam">
+			<label for="ProductBrandId">производитель</label>
+			<div class="select1">
+				<div class="textSel">Все</div>
+				<select name="brand_id" id="ProductBrandId">
+					<option value="">Все</option>
+					<option value="141">Accelera</option>
+					<option value="142">Achilles</option>
+					<option value="156">Amtel</option>
+					<option value="168">Barum</option>
+					<option value="171">Bfgoodrich</option>
+					<option value="173">Bridgestone</option>
+					<option value="181">Continental</option>
+					<option value="183">Cooper</option>
+					<option value="185">Cordiant</option>
+					<option value="187">Daewoo</option>
+					<option value="189">Dayton</option>
+					<option value="191">Debica</option>
+					<option value="202">Dunlop</option>
+					<option value="213">Falken</option>
+					<option value="216">Federal</option>
+					<option value="219">Firestone</option>
+					<option value="226">Fulda</option>
+					<option value="232">General</option>
+					<option value="237">Gislaved</option>
+					<option value="243">Goodyear</option>
+					<option value="249">Hankook</option>
+					<option value="658">Headway</option>
+					<option value="266">Kleber</option>
+					<option value="269">Kormoran</option>
+					<option value="273">Kumho</option>
+					<option value="276">Lassa</option>
+					<option value="286">Marshal</option>
+					<option value="288">Matador</option>
+					<option value="601">Mentor</option>
+					<option value="295">Michelin</option>
+					<option value="297">Minerva</option>
+					<option value="303">Nexen</option>
+					<option value="304">Nitto</option>
+					<option value="305">Nokian</option>
+					<option value="316">Pirelli</option>
+					<option value="319">Point s</option>
+					<option value="334">Roadstone</option>
+					<option value="339">Sailun</option>
+					<option value="340">Sava</option>
+					<option value="359">Sunny</option>
+					<option value="365">Tigar</option>
+					<option value="366">Toyo</option>
+					<option value="373">Tunga</option>
+					<option value="379">Viking</option>
+					<option value="381">Vredestein</option>
+					<option value="394">Yokohama</option>
+					<option value="395">Zeetex</option>
+					<option value="400">Белшина</option>
+					<option value="406">Кама</option>
+					<option value="408">Киров</option>
+					<option value="414">Росава</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">ширина</label>
+			<div class="select2">
+				<div class="textSel">Все</div>
+				<select name="size1" id="ProductSize1">
+					<option value="">Все</option>
+					<option value="155">155</option>
+					<option value="165">165</option>
+					<option value="175">175</option>
+					<option value="185">185</option>
+					<option value="195">195</option>
+					<option value="205">205</option>
+					<option value="215">215</option>
+					<option value="225">225</option>
+					<option value="235">235</option>
+					<option value="245">245</option>
+					<option value="255">255</option>
+					<option value="265">265</option>
+					<option value="275">275</option>
+					<option value="285">285</option>
+					<option value="295">295</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">высота</label>
+			<div class="select2">
+				<div class="textSel">Все</div>
+				<select name="size2" id="ProductSize2">
+					<option value="">Все</option>
+					<option value="35">35</option>
+					<option value="40">40</option>
+					<option value="45">45</option>
+					<option value="50">50</option>
+					<option value="55">55</option>
+					<option value="60">60</option>
+					<option value="65">65</option>
+					<option value="70">70</option>
+					<option value="75">75</option>
+					<option value="80">80</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">диаметр</label>
+			<div class="select2">
+				<div class="textSel">Все</div>
+				<select name="size3" id="ProductSize3">
+					<option value="">Все</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="14C">14C</option>
+					<option value="15">15</option>
+					<option value="15C">15C</option>
+					<option value="16">16</option>
+					<option value="16C">16C</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="55">55</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">сезонность</label>
+			<div class="select3">
+				<div class="textSel">Все</div>
+				<select name="season" id="ProductSeason">
+					<option value="">Все</option>
+					<option value="winter">Зима</option>
+					<option value="summer">Лето</option>
+					<option value="all">Всесезонные</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">тип транспорта</label>
+			<div class="select3">
+				<div class="textSel">Все</div>
+				<select name="auto" id="ProductAuto">
+					<option value="">Все</option>
+					<option value="cars">Легковые</option>
+					<option value="light_trucks">Легкогрузовые</option>
+				</select>
+			</div>
+		</div>
+		<div style="display: none;" class="boxParam axis-select">
+			<label for="ProductAxis">ось</label>
+			<div class="select3">
+				<div class="textSel">Все</div>
+				<select name="axis" id="ProductAxis">
+					<option value="">Все</option>
+				</select>
+			</div>
+		</div>
+		<div class="btBoxFilter">
+			<button class="btVer1">Подобрать</button>
+		</div>
+		<div class="clear"></div>
 	</form>
 </div>
 
@@ -246,4 +260,4 @@ $(function(){
 	});
 });
 //-->
-</script>		
+</script>

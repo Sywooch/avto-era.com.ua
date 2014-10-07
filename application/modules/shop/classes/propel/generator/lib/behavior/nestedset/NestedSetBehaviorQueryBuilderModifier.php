@@ -11,68 +11,55 @@
 /**
  * Behavior to adds nested set tree structure columns and abilities
  *
- * @author     François Zaninotto
- * @package    propel.generator.behavior.nestedset
+ * @author François Zaninotto
+ * @package propel.generator.behavior.nestedset
  */
-class NestedSetBehaviorQueryBuilderModifier
-{
+class NestedSetBehaviorQueryBuilderModifier {
 	protected $behavior, $table, $builder, $objectClassname, $peerClassname;
-
-	public function __construct($behavior)
-	{
+	public function __construct($behavior) {
 		$this->behavior = $behavior;
-		$this->table = $behavior->getTable();
+		$this->table = $behavior->getTable ();
 	}
-
-	protected function getParameter($key)
-	{
-		return $this->behavior->getParameter($key);
+	protected function getParameter($key) {
+		return $this->behavior->getParameter ( $key );
 	}
-
-	protected function getColumn($name)
-	{
-		return $this->behavior->getColumnForParameter($name);
+	protected function getColumn($name) {
+		return $this->behavior->getColumnForParameter ( $name );
 	}
-
-	protected function setBuilder($builder)
-	{
+	protected function setBuilder($builder) {
 		$this->builder = $builder;
-		$this->objectClassname = $builder->getStubObjectBuilder()->getClassname();
-		$this->queryClassname = $builder->getStubQueryBuilder()->getClassname();
-		$this->peerClassname = $builder->getStubPeerBuilder()->getClassname();
+		$this->objectClassname = $builder->getStubObjectBuilder ()->getClassname ();
+		$this->queryClassname = $builder->getStubQueryBuilder ()->getClassname ();
+		$this->peerClassname = $builder->getStubPeerBuilder ()->getClassname ();
 	}
-
-	public function queryMethods($builder)
-	{
-		$this->setBuilder($builder);
+	public function queryMethods($builder) {
+		$this->setBuilder ( $builder );
 		$script = '';
-
+		
 		// select filters
-		if ($this->behavior->useScope()) {
-			$this->addTreeRoots($script);
-			$this->addInTree($script);
+		if ($this->behavior->useScope ()) {
+			$this->addTreeRoots ( $script );
+			$this->addInTree ( $script );
 		}
-		$this->addDescendantsOf($script);
-		$this->addBranchOf($script);
-		$this->addChildrenOf($script);
-		$this->addSiblingsOf($script);
-		$this->addAncestorsOf($script);
-		$this->addRootsOf($script);
+		$this->addDescendantsOf ( $script );
+		$this->addBranchOf ( $script );
+		$this->addChildrenOf ( $script );
+		$this->addSiblingsOf ( $script );
+		$this->addAncestorsOf ( $script );
+		$this->addRootsOf ( $script );
 		// select orders
-		$this->addOrderByBranch($script);
-		$this->addOrderByLevel($script);
+		$this->addOrderByBranch ( $script );
+		$this->addOrderByLevel ( $script );
 		// select termination methods
-		$this->addFindRoot($script);
-		if ($this->behavior->useScope()) {
-			$this->addFindRoots($script);
+		$this->addFindRoot ( $script );
+		if ($this->behavior->useScope ()) {
+			$this->addFindRoots ( $script );
 		}
-		$this->addFindTree($script);
-
+		$this->addFindTree ( $script );
+		
 		return $script;
 	}
-
-	protected function addTreeRoots(&$script)
-	{
+	protected function addTreeRoots(&$script) {
 		$script .= "
 /**
  * Filter the query to restrict the result to root objects
@@ -85,9 +72,7 @@ public function treeRoots()
 }
 ";
 	}
-
-	protected function addInTree(&$script)
-	{
+	protected function addInTree(&$script) {
 		$script .= "
 /**
  * Returns the objects in a certain tree, from the tree scope
@@ -102,10 +87,8 @@ public function inTree(\$scope = null)
 }
 ";
 	}
-
-	protected function addDescendantsOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addDescendantsOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to descendants of an object
@@ -117,7 +100,7 @@ public function inTree(\$scope = null)
 public function descendantsOf($objectName)
 {
 	return \$this";
-		if ($this->behavior->useScope()) {
+		if ($this->behavior->useScope ()) {
 			$script .= "
 		->inTree({$objectName}->getScopeValue())";
 		}
@@ -127,10 +110,8 @@ public function descendantsOf($objectName)
 }
 ";
 	}
-
-	protected function addBranchOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addBranchOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to the branch of an object.
@@ -143,7 +124,7 @@ public function descendantsOf($objectName)
 public function branchOf($objectName)
 {
 	return \$this";
-		if ($this->behavior->useScope()) {
+		if ($this->behavior->useScope ()) {
 			$script .= "
 		->inTree({$objectName}->getScopeValue())";
 		}
@@ -153,10 +134,8 @@ public function branchOf($objectName)
 }
 ";
 	}
-
-	protected function addChildrenOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addChildrenOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to children of an object
@@ -173,10 +152,8 @@ public function childrenOf($objectName)
 }
 ";
 	}
-
-	protected function addSiblingsOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addSiblingsOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to siblings of an object.
@@ -200,10 +177,8 @@ public function siblingsOf($objectName, PropelPDO \$con = null)
 }
 ";
 	}
-
-	protected function addAncestorsOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addAncestorsOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to ancestors of an object
@@ -215,7 +190,7 @@ public function siblingsOf($objectName, PropelPDO \$con = null)
 public function ancestorsOf($objectName)
 {
 	return \$this";
-		if ($this->behavior->useScope()) {
+		if ($this->behavior->useScope ()) {
 			$script .= "
 		->inTree({$objectName}->getScopeValue())";
 		}
@@ -225,10 +200,8 @@ public function ancestorsOf($objectName)
 }
 ";
 	}
-
-	protected function addRootsOf(&$script)
-	{
-		$objectName = '$' . $this->table->getStudlyPhpName();
+	protected function addRootsOf(&$script) {
+		$objectName = '$' . $this->table->getStudlyPhpName ();
 		$script .= "
 /**
  * Filter the query to restrict the result to roots of an object.
@@ -241,7 +214,7 @@ public function ancestorsOf($objectName)
 public function rootsOf($objectName)
 {
 	return \$this";
-		if ($this->behavior->useScope()) {
+		if ($this->behavior->useScope ()) {
 			$script .= "
 		->inTree({$objectName}->getScopeValue())";
 		}
@@ -251,9 +224,7 @@ public function rootsOf($objectName)
 }
 ";
 	}
-
-	protected function addOrderByBranch(&$script)
-	{
+	protected function addOrderByBranch(&$script) {
 		$script .= "
 /**
  * Order the result by branch, i.e. natural tree order
@@ -274,9 +245,7 @@ public function orderByBranch(\$reverse = false)
 }
 ";
 	}
-
-	protected function addOrderByLevel(&$script)
-	{
+	protected function addOrderByLevel(&$script) {
 		$script .= "
 /**
  * Order the result by level, the closer to the root first
@@ -297,18 +266,16 @@ public function orderByLevel(\$reverse = false)
 }
 ";
 	}
-
-	protected function addFindRoot(&$script)
-	{
-		$useScope = $this->behavior->useScope();
+	protected function addFindRoot(&$script) {
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
- * Returns " . ($useScope ? 'a' : 'the') ." root node for the tree
+ * Returns " . ($useScope ? 'a' : 'the') . " root node for the tree
  *";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which root node to return";
- 		}
+		}
 		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  *
@@ -327,9 +294,7 @@ public function findRoot(" . ($useScope ? "\$scope = null, " : "") . "\$con = nu
 }
 ";
 	}
-
-	protected function addFindRoots(&$script)
-	{
+	protected function addFindRoots(&$script) {
 		$script .= "
 /**
  * Returns the root objects for all trees.
@@ -346,18 +311,16 @@ public function findRoots(\$con = null)
 }
 ";
 	}
-
-	protected function addFindTree(&$script)
-	{
-		$useScope = $this->behavior->useScope();
+	protected function addFindTree(&$script) {
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
- * Returns " . ($useScope ? 'a' : 'the') ." tree of objects
+ * Returns " . ($useScope ? 'a' : 'the') . " tree of objects
  *";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which tree node to return";
- 		}
+		}
 		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  *

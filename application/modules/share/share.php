@@ -1,7 +1,6 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
 
 /**
  * Image CMS
@@ -9,85 +8,81 @@ if (!defined('BASEPATH'))
  * Comments component
  */
 class Share extends MY_Controller {
-
-    public $settings = array();
-
-    public function __construct() {
-        parent::__construct();
-        $lang = new MY_Lang();
-        $lang->load('share');
-        $this->load->module('core');
-
-        $this->db->select('settings');
-        $this->settings = unserialize(implode(',', $this->db->get_where('components', array('name' => 'share'))->row_array()));
-    }
-
-    /**
-     * Default function to access module by URL
-     */
-    public function index() {
-        return false;
-//        $this->template->add_array('ss', array(
-//            'html' => $this->_make_share_form(),
-//        ));
-    }
-
-    public function _install() {
-        $this->load->dbforge();
-        ($this->dx_auth->is_admin()) OR exit;
-    }
-
-    public function _deinstall() {
-        $this->load->dbforge();
-        ($this->dx_auth->is_admin()) OR exit;
-    }
-
-    public function _make_share_form($url = '') {
-        $settings = $this->settings;
-        if ($settings['yaru'] == 1) {
-            $html .= 'yaru,';
-        }
-        if ($settings['vkcom'] == 1) {
-            $html .= 'vkontakte,';
-        }
-        if ($settings['facebook'] == 1) {
-            $html .= 'facebook,';
-        }
-        if ($settings['twitter'] == 1) {
-            $html .= 'twitter,';
-        }
-        if ($settings['odnoclass'] == 1) {
-            $html .= 'odnoklassniki,';
-        }
-        if ($settings['myworld'] == 1) {
-            $html .= 'moimir,';
-        }
-        if ($settings['lj'] == 1) {
-            $html .= 'lj,';
-        }
-        if ($settings['ff'] == 1) {
-            $html .= 'friendfeed,';
-        }
-        if ($settings['mc'] == 1) {
-            $html .= 'moikrug,';
-        }
-        if ($settings['gg'] == 1) {
-            $html .= 'gplus,';
-        }
-        $type = $settings['type'];
-        $html = '<script async="async" defer="defer" type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+	public $settings = array ();
+	public function __construct() {
+		parent::__construct ();
+		$lang = new MY_Lang ();
+		$lang->load ( 'share' );
+		$this->load->module ( 'core' );
+		
+		$this->db->select ( 'settings' );
+		$this->settings = unserialize ( implode ( ',', $this->db->get_where ( 'components', array (
+				'name' => 'share' 
+		) )->row_array () ) );
+	}
+	
+	/**
+	 * Default function to access module by URL
+	 */
+	public function index() {
+		return false;
+		// $this->template->add_array('ss', array(
+		// 'html' => $this->_make_share_form(),
+		// ));
+	}
+	public function _install() {
+		$this->load->dbforge ();
+		($this->dx_auth->is_admin ()) or exit ();
+	}
+	public function _deinstall() {
+		$this->load->dbforge ();
+		($this->dx_auth->is_admin ()) or exit ();
+	}
+	public function _make_share_form($url = '') {
+		$settings = $this->settings;
+		if ($settings ['yaru'] == 1) {
+			$html .= 'yaru,';
+		}
+		if ($settings ['vkcom'] == 1) {
+			$html .= 'vkontakte,';
+		}
+		if ($settings ['facebook'] == 1) {
+			$html .= 'facebook,';
+		}
+		if ($settings ['twitter'] == 1) {
+			$html .= 'twitter,';
+		}
+		if ($settings ['odnoclass'] == 1) {
+			$html .= 'odnoklassniki,';
+		}
+		if ($settings ['myworld'] == 1) {
+			$html .= 'moimir,';
+		}
+		if ($settings ['lj'] == 1) {
+			$html .= 'lj,';
+		}
+		if ($settings ['ff'] == 1) {
+			$html .= 'friendfeed,';
+		}
+		if ($settings ['mc'] == 1) {
+			$html .= 'moikrug,';
+		}
+		if ($settings ['gg'] == 1) {
+			$html .= 'gplus,';
+		}
+		$type = $settings ['type'];
+		$html = '<script async="async" defer="defer" type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
                  <span class="yashare-auto-init"
                        data-yashareL10n="ru"
                        data-yashareType="' . $type . '"
                        data-yashareLink="' . $url . '"
                        data-yashareQuickServices="' . $html . '"></span> ';
-        return $html;
-    }
-
-    public function _make_like_buttons() {
-        $settings = $this->settings;
-        if ($settings['facebook_like'] == 1) {
-            $string['facebook'] = '<td>   <div id="fb-root"></div>
+		return $html;
+	}
+	public function _make_like_buttons() {
+		$settings = $this->settings;
+		if ($settings ['facebook_like'] == 1) {
+			$string ['facebook'] = '<td>   <div id="fb-root"></div>
                         <script async="async" defer="defer">(function(d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
                         if (d.getElementById(id)) return;
@@ -96,9 +91,9 @@ class Share extends MY_Controller {
                         fjs.parentNode.insertBefore(js, fjs);
                         }(document, "script", "facebook-jssdk"));</script>
                         <div class="fb-like" data-send="false" data-layout="button_count" data-width="60" data-show-faces="true"></div></td>';
-        }
-        if ($settings['vk_like'] == 1 && $settings['vk_apiid']) {
-            $string['vk'] = "<td>
+		}
+		if ($settings ['vk_like'] == 1 && $settings ['vk_apiid']) {
+			$string ['vk'] = "<td>
 
                         <!-- Put this script tag to the <head> of your page -->
                         <script type='text/javascript' src='//vk.com/js/api/openapi.js?101'></script>
@@ -113,9 +108,9 @@ class Share extends MY_Controller {
                         VK.Widgets.Like('vk_like', {type: 'mini', height: 18});
                         </script>
                         </td>";
-        }
-        if ($settings['gg_like'] == 1) {
-            $string['google'] = "<td><!-- Place this tag in your head or just before your close body tag. -->
+		}
+		if ($settings ['gg_like'] == 1) {
+			$string ['google'] = "<td><!-- Place this tag in your head or just before your close body tag. -->
                         <script type='text/javascript' src='https://apis.google.com/js/plusone.js'>
                           {lang: 'ru', parsetags: 'explicit'}
                         </script>
@@ -125,22 +120,16 @@ class Share extends MY_Controller {
 
                         <!-- Place this render call where appropriate. -->
                         <script type='text/javascript'>gapi.plusone.go();</script></td>";
-        }
-        if ($settings['twitter_like'] == 1) {
-            $string['twitter'] = '<td><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+		}
+		if ($settings ['twitter_like'] == 1) {
+			$string ['twitter'] = '<td><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
                     <script async="async" defer="defer">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id))
                     {js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></td>';
-        }
-        $html = '<table>
-                    <tr>'
-                . $string['facebook']
-                . $string['vk']
-                . $string['google']
-                . $string['twitter'] .
-                '</tr>
+		}
+		$html = '<table>
+                    <tr>' . $string ['facebook'] . $string ['vk'] . $string ['google'] . $string ['twitter'] . '</tr>
                 </table>';
-        return $html;
-    }
-
+		return $html;
+	}
 }
 

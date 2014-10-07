@@ -7,52 +7,48 @@
  *
  * @license    MIT License
  */
-
-require_once dirname(__FILE__) . '/Index.php';
+require_once dirname ( __FILE__ ) . '/Index.php';
 
 /**
- * Information about unique columns of a table.  This class assumes
+ * Information about unique columns of a table.
+ * This class assumes
  * that in the underlying RDBMS, unique constraints and unique indices
- * are roughly equivalent.  For example, adding a unique constraint to
+ * are roughly equivalent. For example, adding a unique constraint to
  * a column also creates an index on that column (this is known to be
  * true for MySQL and Oracle).
  *
- * @author     Hans Lellelid <hans@xmpl.org> (Propel)
- * @author     Jason van Zyl <jvanzyl@apache.org> (Torque)
- * @author     Daniel Rall <dlr@collab.net> (Torque)
- * @version    $Revision$
- * @package    propel.generator.model
+ * @author Hans Lellelid <hans@xmpl.org> (Propel)
+ * @author Jason van Zyl <jvanzyl@apache.org> (Torque)
+ * @author Daniel Rall <dlr@collab.net> (Torque)
+ * @version $Revision$
+ * @package propel.generator.model
  */
-class Unique extends Index
-{
-
+class Unique extends Index {
+	
 	/**
 	 * Returns <code>true</code>.
 	 */
-	public function isUnique()
-	{
+	public function isUnique() {
 		return true;
 	}
-
+	
 	/**
-	 * @see        XMLElement::appendXml(DOMNode)
+	 *
+	 * @see XMLElement::appendXml(DOMNode)
 	 */
-	public function appendXml(DOMNode $node)
-	{
+	public function appendXml(DOMNode $node) {
 		$doc = ($node instanceof DOMDocument) ? $node : $node->ownerDocument;
-
-		$uniqueNode = $node->appendChild($doc->createElement('unique'));
-		$uniqueNode->setAttribute('name', $this->getName());
-		$columns = $this->getColumns();
-		foreach ($this->getColumns() as $colname) {
-			$uniqueColNode = $uniqueNode->appendChild($doc->createElement('unique-column'));
-			$uniqueColNode->setAttribute('name', $colname);
+		
+		$uniqueNode = $node->appendChild ( $doc->createElement ( 'unique' ) );
+		$uniqueNode->setAttribute ( 'name', $this->getName () );
+		$columns = $this->getColumns ();
+		foreach ( $this->getColumns () as $colname ) {
+			$uniqueColNode = $uniqueNode->appendChild ( $doc->createElement ( 'unique-column' ) );
+			$uniqueColNode->setAttribute ( 'name', $colname );
 		}
-
-		foreach ($this->vendorInfos as $vi) {
-			$vi->appendXml($uniqueNode);
+		
+		foreach ( $this->vendorInfos as $vi ) {
+			$vi->appendXml ( $uniqueNode );
 		}
 	}
-
-
 }

@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * This class defines the structure of the 'shop_product_properties_data' table.
  *
@@ -14,45 +12,45 @@
  *
  * @package    propel.generator.Shop.map
  */
-class SProductPropertiesDataTableMap extends TableMap
-{
-
+class SProductPropertiesDataTableMap extends TableMap {
+	
 	/**
 	 * The (dot-path) name of this class
 	 */
 	const CLASS_NAME = 'Shop.map.SProductPropertiesDataTableMap';
-
+	
 	/**
 	 * Initialize the table attributes, columns and validators
 	 * Relations are not initialized by this method since they are lazy loaded
 	 *
-	 * @return     void
-	 * @throws     PropelException
+	 * @return void
+	 * @throws PropelException
 	 */
-	public function initialize()
-	{
+	public function initialize() {
 		// attributes
-		$this->setName('shop_product_properties_data');
-		$this->setPhpName('SProductPropertiesData');
-		$this->setClassname('SProductPropertiesData');
-		$this->setPackage('Shop');
-		$this->setUseIdGenerator(true);
+		$this->setName ( 'shop_product_properties_data' );
+		$this->setPhpName ( 'SProductPropertiesData' );
+		$this->setClassname ( 'SProductPropertiesData' );
+		$this->setPackage ( 'Shop' );
+		$this->setUseIdGenerator ( true );
 		// columns
-		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addForeignKey('PROPERTY_ID', 'PropertyId', 'INTEGER', 'shop_product_properties', 'ID', false, null, null);
-		$this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'shop_products', 'ID', false, null, null);
-		$this->addColumn('VALUE', 'Value', 'VARCHAR', true, 500, null);
-		$this->addColumn('LOCALE', 'Locale', 'VARCHAR', true, 5, null);
+		$this->addPrimaryKey ( 'ID', 'Id', 'INTEGER', true, null, null );
+		$this->addForeignKey ( 'PROPERTY_ID', 'PropertyId', 'INTEGER', 'shop_product_properties', 'ID', false, null, null );
+		$this->addForeignKey ( 'PRODUCT_ID', 'ProductId', 'INTEGER', 'shop_products', 'ID', false, null, null );
+		$this->addColumn ( 'VALUE', 'Value', 'VARCHAR', true, 500, null );
+		$this->addColumn ( 'LOCALE', 'Locale', 'VARCHAR', true, 5, null );
 		// validators
 	} // initialize()
-
+	
 	/**
 	 * Build the RelationMap objects for this table relationships
 	 */
-	public function buildRelations()
-	{
-		$this->addRelation('SProperties', 'SProperties', RelationMap::MANY_TO_ONE, array('property_id' => 'id', ), 'CASCADE', null);
-		$this->addRelation('Product', 'SProducts', RelationMap::MANY_TO_ONE, array('product_id' => 'id', ), 'CASCADE', null);
+	public function buildRelations() {
+		$this->addRelation ( 'SProperties', 'SProperties', RelationMap::MANY_TO_ONE, array (
+				'property_id' => 'id' 
+		), 'CASCADE', null );
+		$this->addRelation ( 'Product', 'SProducts', RelationMap::MANY_TO_ONE, array (
+				'product_id' => 'id' 
+		), 'CASCADE', null );
 	} // buildRelations()
-
 } // SProductPropertiesDataTableMap

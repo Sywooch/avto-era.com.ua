@@ -11,109 +11,87 @@
 /**
  * Behavior to adds nested set tree structure columns and abilities
  *
- * @author     François Zaninotto
- * @author     heltem <heltem@o2php.com>
- * @package    propel.generator.behavior.nestedset
+ * @author François Zaninotto
+ * @author heltem <heltem@o2php.com>
+ * @package propel.generator.behavior.nestedset
  */
-class NestedSetBehaviorPeerBuilderModifier
-{
+class NestedSetBehaviorPeerBuilderModifier {
 	protected $behavior, $table, $builder, $objectClassname, $peerClassname;
-
-	public function __construct($behavior)
-	{
+	public function __construct($behavior) {
 		$this->behavior = $behavior;
-		$this->table = $behavior->getTable();
+		$this->table = $behavior->getTable ();
 	}
-
-	protected function getParameter($key)
-	{
-		return $this->behavior->getParameter($key);
+	protected function getParameter($key) {
+		return $this->behavior->getParameter ( $key );
 	}
-
-	protected function getColumn($name)
-	{
-		return $this->behavior->getColumnForParameter($name);
+	protected function getColumn($name) {
+		return $this->behavior->getColumnForParameter ( $name );
 	}
-
-	protected function getColumnAttribute($name)
-	{
-		return strtolower($this->getColumn($name)->getName());
+	protected function getColumnAttribute($name) {
+		return strtolower ( $this->getColumn ( $name )->getName () );
 	}
-
-	protected function getColumnConstant($name)
-	{
-		return strtoupper($this->getColumn($name)->getName());
+	protected function getColumnConstant($name) {
+		return strtoupper ( $this->getColumn ( $name )->getName () );
 	}
-
-	protected function getColumnPhpName($name)
-	{
-		return $this->getColumn($name)->getPhpName();
+	protected function getColumnPhpName($name) {
+		return $this->getColumn ( $name )->getPhpName ();
 	}
-
-	protected function setBuilder($builder)
-	{
+	protected function setBuilder($builder) {
 		$this->builder = $builder;
-		$this->objectClassname = $builder->getStubObjectBuilder()->getClassname();
-		$this->peerClassname = $builder->getStubPeerBuilder()->getClassname();
+		$this->objectClassname = $builder->getStubObjectBuilder ()->getClassname ();
+		$this->peerClassname = $builder->getStubPeerBuilder ()->getClassname ();
 	}
-
-	public function staticAttributes($builder)
-	{
-		$tableName = $this->table->getName();
-
+	public function staticAttributes($builder) {
+		$tableName = $this->table->getName ();
+		
 		$script = "
 /**
  * Left column for the set
  */
-const LEFT_COL = '" . $tableName . '.' . $this->getColumnConstant('left_column') . "';
+const LEFT_COL = '" . $tableName . '.' . $this->getColumnConstant ( 'left_column' ) . "';
 
 /**
  * Right column for the set
  */
-const RIGHT_COL = '" . $tableName . '.' . $this->getColumnConstant('right_column') . "';
+const RIGHT_COL = '" . $tableName . '.' . $this->getColumnConstant ( 'right_column' ) . "';
 
 /**
  * Level column for the set
  */
-const LEVEL_COL = '" . $tableName . '.' . $this->getColumnConstant('level_column') . "';
+const LEVEL_COL = '" . $tableName . '.' . $this->getColumnConstant ( 'level_column' ) . "';
 ";
-
-		if ($this->behavior->useScope()) {
-			$script .= 	"
+		
+		if ($this->behavior->useScope ()) {
+			$script .= "
 /**
  * Scope column for the set
  */
-const SCOPE_COL = '" . $tableName . '.' . $this->getColumnConstant('scope_column') . "';
+const SCOPE_COL = '" . $tableName . '.' . $this->getColumnConstant ( 'scope_column' ) . "';
 ";
 		}
-
+		
 		return $script;
 	}
-
-	public function staticMethods($builder)
-	{
-		$this->setBuilder($builder);
+	public function staticMethods($builder) {
+		$this->setBuilder ( $builder );
 		$script = '';
-
-		if ($this->getParameter('use_scope') == 'true')
-		{
-			$this->addRetrieveRoots($script);
+		
+		if ($this->getParameter ( 'use_scope' ) == 'true') {
+			$this->addRetrieveRoots ( $script );
 		}
-		$this->addRetrieveRoot($script);
-		$this->addRetrieveTree($script);
-		$this->addIsValid($script);
-		$this->addDeleteTree($script);
-		$this->addShiftRLValues($script);
-		$this->addShiftLevel($script);
-		$this->addUpdateLoadedNodes($script);
-		$this->addMakeRoomForLeaf($script);
-		$this->addFixLevels($script);
-
+		$this->addRetrieveRoot ( $script );
+		$this->addRetrieveTree ( $script );
+		$this->addIsValid ( $script );
+		$this->addDeleteTree ( $script );
+		$this->addShiftRLValues ( $script );
+		$this->addShiftLevel ( $script );
+		$this->addUpdateLoadedNodes ( $script );
+		$this->addMakeRoomForLeaf ( $script );
+		$this->addFixLevels ( $script );
+		
 		return $script;
 	}
-
-	protected function addRetrieveRoots(&$script)
-	{
+	protected function addRetrieveRoots(&$script) {
 		$peerClassname = $this->peerClassname;
 		$script .= "
 /**
@@ -133,20 +111,18 @@ public static function retrieveRoots(Criteria \$criteria = null, PropelPDO \$con
 }
 ";
 	}
-
-	protected function addRetrieveRoot(&$script)
-	{
+	protected function addRetrieveRoot(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Returns the root node for a given scope
  *";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which root node to return";
- 		}
- 		$script .= "
+		}
+		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  * @return     {$this->objectClassname}			Propel object for root node
  */
@@ -154,7 +130,7 @@ public static function retrieveRoot(" . ($useScope ? "\$scope = null, " : "") . 
 {
 	\$c = new Criteria($peerClassname::DATABASE_NAME);
 	\$c->add($peerClassname::LEFT_COL, 1, Criteria::EQUAL);";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
 	\$c->add($peerClassname::SCOPE_COL, \$scope, Criteria::EQUAL);";
 		}
@@ -164,20 +140,18 @@ public static function retrieveRoot(" . ($useScope ? "\$scope = null, " : "") . 
 }
 ";
 	}
-
-	protected function addRetrieveTree(&$script)
-	{
+	protected function addRetrieveTree(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Returns the whole tree node for a given scope
  *";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which root node to return";
- 		}
- 		$script .= "
+		}
+		$script .= "
  * @param      Criteria \$criteria	Optional Criteria to filter the query
  * @param      PropelPDO \$con	Connection to use.
  * @return     {$this->objectClassname}			Propel object for root node
@@ -188,7 +162,7 @@ public static function retrieveTree(" . ($useScope ? "\$scope = null, " : "") . 
 		\$criteria = new Criteria($peerClassname::DATABASE_NAME);
 	}
 	\$criteria->addAscendingOrderByColumn($peerClassname::LEFT_COL);";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
 	\$criteria->add($peerClassname::SCOPE_COL, \$scope, Criteria::EQUAL);";
 		}
@@ -198,9 +172,7 @@ public static function retrieveTree(" . ($useScope ? "\$scope = null, " : "") . 
 }
 ";
 	}
-
-	protected function addIsValid(&$script)
-	{
+	protected function addIsValid(&$script) {
 		$objectClassname = $this->objectClassname;
 		$script .= "
 /**
@@ -219,27 +191,25 @@ public static function isValid($objectClassname \$node = null)
 }
 ";
 	}
-
-	protected function addDeleteTree(&$script)
-	{
+	protected function addDeleteTree(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Delete an entire tree
  * ";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which tree to delete";
- 		}
- 		$script .= "
+		}
+		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  *
  * @return     int  The number of deleted nodes
  */
 public static function deleteTree(" . ($useScope ? "\$scope = null, " : "") . "PropelPDO \$con = null)
 {";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
 	\$c = new Criteria($peerClassname::DATABASE_NAME);
 	\$c->add($peerClassname::SCOPE_COL, \$scope, Criteria::EQUAL);
@@ -252,11 +222,9 @@ public static function deleteTree(" . ($useScope ? "\$scope = null, " : "") . "P
 }
 ";
 	}
-
-	protected function addShiftRLValues(&$script)
-	{
+	protected function addShiftRLValues(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Adds \$delta to all L and R values that are >= \$first and <= \$last.
@@ -265,14 +233,14 @@ public static function deleteTree(" . ($useScope ? "\$scope = null, " : "") . "P
  * @param      int \$delta		Value to be shifted by, can be negative
  * @param      int \$first		First node to be shifted
  * @param      int \$last			Last node to be shifted (optional)";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
  * @param      int \$scope		Scope to use for the shift";
 		}
 		$script .= "
  * @param      PropelPDO \$con		Connection to use.
  */
-public static function shiftRLValues(\$delta, \$first, \$last = null" . ($useScope ? ", \$scope = null" : ""). ", PropelPDO \$con = null)
+public static function shiftRLValues(\$delta, \$first, \$last = null" . ($useScope ? ", \$scope = null" : "") . ", PropelPDO \$con = null)
 {
 	if (\$con === null) {
 		\$con = Propel::getConnection($peerClassname::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -316,11 +284,9 @@ public static function shiftRLValues(\$delta, \$first, \$last = null" . ($useSco
 }
 ";
 	}
-
-	protected function addShiftLevel(&$script)
-	{
+	protected function addShiftLevel(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Adds \$delta to level for nodes having left value >= \$first and right value <= \$last.
@@ -329,14 +295,14 @@ public static function shiftRLValues(\$delta, \$first, \$last = null" . ($useSco
  * @param      int \$delta		Value to be shifted by, can be negative
  * @param      int \$first		First node to be shifted
  * @param      int \$last			Last node to be shifted";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
  * @param      int \$scope		Scope to use for the shift";
 		}
 		$script .= "
  * @param      PropelPDO \$con		Connection to use.
  */
-public static function shiftLevel(\$delta, \$first, \$last" . ($useScope ? ", \$scope = null" : ""). ", PropelPDO \$con = null)
+public static function shiftLevel(\$delta, \$first, \$last" . ($useScope ? ", \$scope = null" : "") . ", PropelPDO \$con = null)
 {
 	if (\$con === null) {
 		\$con = Propel::getConnection($peerClassname::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -358,9 +324,7 @@ public static function shiftLevel(\$delta, \$first, \$last" . ($useScope ? ", \$
 }
 ";
 	}
-
-	protected function addUpdateLoadedNodes(&$script)
-	{
+	protected function addUpdateLoadedNodes(&$script) {
 		$peerClassname = $this->peerClassname;
 		$objectClassname = $this->objectClassname;
 		$script .= "
@@ -384,24 +348,25 @@ public static function updateLoadedNodes(\$prune = null, PropelPDO \$con = null)
 			// We don't need to alter the object instance pool; we're just modifying these ones
 			// already in the pool.
 			\$criteria = new Criteria($peerClassname::DATABASE_NAME);";
-		if (count($this->table->getPrimaryKey()) === 1) {
-			$pkey = $this->table->getPrimaryKey();
-			$col = array_shift($pkey);
+		if (count ( $this->table->getPrimaryKey () ) === 1) {
+			$pkey = $this->table->getPrimaryKey ();
+			$col = array_shift ( $pkey );
 			$script .= "
-			\$criteria->add(".$this->builder->getColumnConstant($col).", \$keys, Criteria::IN);";
+			\$criteria->add(" . $this->builder->getColumnConstant ( $col ) . ", \$keys, Criteria::IN);";
 		} else {
-			$fields = array();
-			foreach ($this->table->getPrimaryKey() as $k => $col) {
-				$fields[] = $this->builder->getColumnConstant($col);
-			};
+			$fields = array ();
+			foreach ( $this->table->getPrimaryKey () as $k => $col ) {
+				$fields [] = $this->builder->getColumnConstant ( $col );
+			}
+			;
 			$script .= "
 
 			// Loop on each instances in pool
 			foreach (\$keys as \$values) {
 			  // Create initial Criterion
-				\$cton = \$criteria->getNewCriterion(" . $fields[0] . ", \$values[0]);";
-			unset($fields[0]);
-			foreach ($fields as $k => $col) {
+				\$cton = \$criteria->getNewCriterion(" . $fields [0] . ", \$values[0]);";
+			unset ( $fields [0] );
+			foreach ( $fields as $k => $col ) {
 				$script .= "
 
 				// Create next criterion
@@ -415,27 +380,28 @@ public static function updateLoadedNodes(\$prune = null, PropelPDO \$con = null)
 				\$criteria->addOr(\$cton);
 			}";
 		}
-
+		
 		$script .= "
 			\$stmt = $peerClassname::doSelectStmt(\$criteria, \$con);
 			while (\$row = \$stmt->fetch(PDO::FETCH_NUM)) {
 				\$key = $peerClassname::getPrimaryKeyHashFromRow(\$row, 0);
 				if (null !== (\$object = $peerClassname::getInstanceFromPool(\$key))) {";
 		$n = 0;
-		foreach ($this->table->getColumns() as $col) {
-			if ($col->isLazyLoad()) continue;
-			if ($col->getPhpName() == $this->getColumnPhpName('left_column')) {
+		foreach ( $this->table->getColumns () as $col ) {
+			if ($col->isLazyLoad ())
+				continue;
+			if ($col->getPhpName () == $this->getColumnPhpName ( 'left_column' )) {
 				$script .= "
 					\$object->setLeftValue(\$row[$n]);";
-			} else if ($col->getPhpName() == $this->getColumnPhpName('right_column')) {
+			} else if ($col->getPhpName () == $this->getColumnPhpName ( 'right_column' )) {
 				$script .= "
 					\$object->setRightValue(\$row[$n]);";
-			} else if ($col->getPhpName() == $this->getColumnPhpName('level_column')) {
+			} else if ($col->getPhpName () == $this->getColumnPhpName ( 'level_column' )) {
 				$script .= "
 					\$object->setLevel(\$row[$n]);
 					\$object->clearNestedSetChildren();";
 			}
-			$n++;
+			$n ++;
 		}
 		$script .= "
 				}
@@ -446,25 +412,23 @@ public static function updateLoadedNodes(\$prune = null, PropelPDO \$con = null)
 }
 ";
 	}
-
-	protected function addMakeRoomForLeaf(&$script)
-	{
+	protected function addMakeRoomForLeaf(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Update the tree to allow insertion of a leaf at the specified position
  *
  * @param      int \$left	left column value";
- 		if ($useScope) {
- 			 		$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      integer \$scope	scope column value";
- 		}
- 		$script .= "
+		}
+		$script .= "
  * @param      mixed \$prune	Object to prune from the shift
  * @param      PropelPDO \$con	Connection to use.
  */
-public static function makeRoomForLeaf(\$left" . ($useScope ? ", \$scope" : ""). ", \$prune = null, PropelPDO \$con = null)
+public static function makeRoomForLeaf(\$left" . ($useScope ? ", \$scope" : "") . ", \$prune = null, PropelPDO \$con = null)
 {
 	// Update database nodes
 	$peerClassname::shiftRLValues(2, \$left, null" . ($useScope ? ", \$scope" : "") . ", \$con);
@@ -474,23 +438,21 @@ public static function makeRoomForLeaf(\$left" . ($useScope ? ", \$scope" : "").
 }
 ";
 	}
-
-	protected function addFixLevels(&$script)
-	{
+	protected function addFixLevels(&$script) {
 		$peerClassname = $this->peerClassname;
-		$useScope = $this->behavior->useScope();
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Update the tree to allow insertion of a leaf at the specified position
  *";
- 		if ($useScope) {
- 			 		$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      integer \$scope	scope column value";
- 		}
- 		$script .= "
+		}
+		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  */
-public static function fixLevels(" . ($useScope ? "\$scope, " : ""). "PropelPDO \$con = null)
+public static function fixLevels(" . ($useScope ? "\$scope, " : "") . "PropelPDO \$con = null)
 {
 	\$c = new Criteria();";
 		if ($useScope) {
@@ -501,12 +463,12 @@ public static function fixLevels(" . ($useScope ? "\$scope, " : ""). "PropelPDO 
 	\$c->addAscendingOrderByColumn($peerClassname::LEFT_COL);
 	\$stmt = $peerClassname::doSelectStmt(\$c, \$con);
 	";
-		if (!$this->table->getChildrenColumn()) {
+		if (! $this->table->getChildrenColumn ()) {
 			$script .= "
 	// set the class once to avoid overhead in the loop
 	\$cls = $peerClassname::getOMClass(false);";
 		}
-
+		
 		$script .= "
 	\$level = null;
 	// iterate over the statement
@@ -515,17 +477,17 @@ public static function fixLevels(" . ($useScope ? "\$scope, " : ""). "PropelPDO 
 		// hydrate object
 		\$key = $peerClassname::getPrimaryKeyHashFromRow(\$row, 0);
 		if (null === (\$obj = $peerClassname::getInstanceFromPool(\$key))) {";
-		if ($this->table->getChildrenColumn()) {
+		if ($this->table->getChildrenColumn ()) {
 			$script .= "
 			// class must be set each time from the record row
 			\$cls = $peerClassname::getOMClass(\$row, 0);
 			\$cls = substr('.'.\$cls, strrpos('.'.\$cls, '.') + 1);
-			" . $this->builder->buildObjectInstanceCreationCode('$obj', '$cls') . "
+			" . $this->builder->buildObjectInstanceCreationCode ( '$obj', '$cls' ) . "
 			\$obj->hydrate(\$row);
 			$peerClassname::addInstanceToPool(\$obj, \$key);";
 		} else {
 			$script .= "
-			" . $this->builder->buildObjectInstanceCreationCode('$obj', '$cls') . "
+			" . $this->builder->buildObjectInstanceCreationCode ( '$obj', '$cls' ) . "
 			\$obj->hydrate(\$row);
 			$peerClassname::addInstanceToPool(\$obj, \$key);";
 		}

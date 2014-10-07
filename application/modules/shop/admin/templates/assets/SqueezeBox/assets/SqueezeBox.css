@@ -10,7 +10,6 @@
  * @author		Harald Kirschner <mail [at] digitarald.de>
  * @copyright	Author
  */
-
 #sbox-overlay {
 	position: absolute;
 	background-color: #000;
@@ -81,11 +80,39 @@
 	overflow: hidden;
 }
 /* Hides flash (Firefox problem) and selects (IE) */
-.body-overlayed embed, .body-overlayed object, {
-	visibility: hidden;
+.body-overlayed
+ 
+embed
+,
+.body-overlayed
+ 
+object
+,
+{
+visibility
+:
+ 
+hidden
+;
+
+
 }
-#sbox-window embed, #sbox-window object, {
-	visibility: visible;
+#sbox-window
+ 
+embed
+,
+#sbox-window
+ 
+object
+,
+{
+visibility
+:
+ 
+visible
+;
+
+
 }
 
 /* Shadows */
@@ -101,39 +128,46 @@
 	width: 100%;
 	background: url(bg_n.png) repeat-x;
 }
+
 .sbox-bg-ne {
 	right: -33px;
 	top: -40px;
 	background: url(bg_ne.png) no-repeat;
 }
+
 .sbox-bg-e {
 	right: -33px;
 	top: 0;
 	height: 100%;
 	background: url(bg_e.png) repeat-y;
 }
+
 .sbox-bg-se {
 	right: -33px;
 	bottom: -40px;
 	background: url(bg_se.png) no-repeat;
 }
+
 .sbox-bg-s {
 	left: 0;
 	bottom: -40px;
 	width: 100%;
 	background: url(bg_s.png) repeat-x;
 }
+
 .sbox-bg-sw {
 	left: -33px;
 	bottom: -40px;
 	background: url(bg_sw.png) no-repeat;
 }
+
 .sbox-bg-w {
 	left: -33px;
 	top: 0;
 	height: 100%;
 	background: url(bg_w.png) repeat-y;
 }
+
 .sbox-bg-nw {
 	left: -33px;
 	top: -40px;

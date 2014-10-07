@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_banners_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class ShopBanersI18nQuery extends BaseShopBanersI18nQuery {
-
 } // ShopBanersI18nQuery

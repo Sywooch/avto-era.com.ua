@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_product_variants_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SProductVariantsI18nQuery extends BaseSProductVariantsI18nQuery {
-
 } // SProductVariantsI18nQuery

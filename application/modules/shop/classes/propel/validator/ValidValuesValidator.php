@@ -9,32 +9,32 @@
  */
 
 /**
- * A validator for valid values (e.g. for enum fields)
+ * A validator for valid values (e.g.
+ * for enum fields)
  *
  * <code>
- *   <column name="address_type" type="VARCHAR" required="true" default="delivery" />
+ * <column name="address_type" type="VARCHAR" required="true" default="delivery" />
  *
- *   <validator column="address_type">
- *     <rule name="validValues" value="account|delivery" message="Please select a valid address type." />
- *   </validator>
+ * <validator column="address_type">
+ * <rule name="validValues" value="account|delivery" message="Please select a valid address type." />
+ * </validator>
  * </code>
  *
- * @author     Michael Aichler <aichler@mediacluster.de>
- * @version    $Revision$
- * @package    propel.runtime.validator
+ * @author Michael Aichler <aichler@mediacluster.de>
+ * @version $Revision$
+ * @package propel.runtime.validator
  */
-class ValidValuesValidator implements BasicValidator
-{
+class ValidValuesValidator implements BasicValidator {
 	/**
-	 * @see       BasicValidator::isValid()
 	 *
-	 * @param     ValidatorMap  $map
-	 * @param     string        $str
+	 * @see BasicValidator::isValid()
 	 *
-	 * @return    boolean
+	 * @param ValidatorMap $map        	
+	 * @param string $str        	
+	 *
+	 * @return boolean
 	 */
-	public function isValid(ValidatorMap $map, $str)
-	{
-		return in_array($str, preg_split("/[|,]/", $map->getValue()));
+	public function isValid(ValidatorMap $map, $str) {
+		return in_array ( $str, preg_split ( "/[|,]/", $map->getValue () ) );
 	}
 }

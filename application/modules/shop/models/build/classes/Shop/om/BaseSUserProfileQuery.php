@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a query for the 'users' table.
  *
@@ -103,176 +102,177 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseSUserProfileQuery extends ModelCriteria
-{
+abstract class BaseSUserProfileQuery extends ModelCriteria {
 	
 	/**
 	 * Initializes internal state of BaseSUserProfileQuery object.
 	 *
-	 * @param     string $dbName The dabase name
-	 * @param     string $modelName The phpName of a model, e.g. 'Book'
-	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+	 * @param string $dbName
+	 *        	The dabase name
+	 * @param string $modelName
+	 *        	The phpName of a model, e.g. 'Book'
+	 * @param string $modelAlias
+	 *        	The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'Shop', $modelName = 'SUserProfile', $modelAlias = null)
-	{
-		parent::__construct($dbName, $modelName, $modelAlias);
+	public function __construct($dbName = 'Shop', $modelName = 'SUserProfile', $modelAlias = null) {
+		parent::__construct ( $dbName, $modelName, $modelAlias );
 	}
-
+	
 	/**
 	 * Returns a new SUserProfileQuery object.
 	 *
-	 * @param     string $modelAlias The alias of a model in the query
-	 * @param     Criteria $criteria Optional Criteria to build the query from
-	 *
-	 * @return    SUserProfileQuery
+	 * @param string $modelAlias
+	 *        	The alias of a model in the query
+	 * @param Criteria $criteria
+	 *        	Optional Criteria to build the query from
+	 *        	
+	 * @return SUserProfileQuery
 	 */
-	public static function create($modelAlias = null, $criteria = null)
-	{
+	public static function create($modelAlias = null, $criteria = null) {
 		if ($criteria instanceof SUserProfileQuery) {
 			return $criteria;
 		}
-		$query = new SUserProfileQuery();
+		$query = new SUserProfileQuery ();
 		if (null !== $modelAlias) {
-			$query->setModelAlias($modelAlias);
+			$query->setModelAlias ( $modelAlias );
 		}
 		if ($criteria instanceof Criteria) {
-			$query->mergeWith($criteria);
+			$query->mergeWith ( $criteria );
 		}
 		return $query;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 * Propel uses the instance pool to skip the database if the object exists.
 	 * Go fast if the query is untouched.
 	 *
 	 * <code>
-	 * $obj  = $c->findPk(12, $con);
+	 * $obj = $c->findPk(12, $con);
 	 * </code>
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    SUserProfile|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return SUserProfile|array|mixed the result, formatted by the current formatter
 	 */
-	public function findPk($key, $con = null)
-	{
+	public function findPk($key, $con = null) {
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = SUserProfilePeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = SUserProfilePeer::getInstanceFromPool ( ( string ) $key ))) && ! $this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(SUserProfilePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( SUserProfilePeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		if ($this->formatter || $this->modelAlias || $this->with || $this->select
-		 || $this->selectColumns || $this->asColumns || $this->selectModifiers
-		 || $this->map || $this->having || $this->joins) {
-			return $this->findPkComplex($key, $con);
+		$this->basePreSelect ( $con );
+		if ($this->formatter || $this->modelAlias || $this->with || $this->select || $this->selectColumns || $this->asColumns || $this->selectModifiers || $this->map || $this->having || $this->joins) {
+			return $this->findPkComplex ( $key, $con );
 		} else {
-			return $this->findPkSimple($key, $con);
+			return $this->findPkSimple ( $key, $con );
 		}
 	}
-
+	
 	/**
 	 * Find object by primary key using raw SQL to go fast.
 	 * Bypass doSelect() and the object formatter by using generated code.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    SUserProfile A model object, or null if the key is not found
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return SUserProfile A model object, or null if the key is not found
 	 */
-	protected function findPkSimple($key, $con)
-	{
+	protected function findPkSimple($key, $con) {
 		$sql = 'SELECT `ID`, `USERNAME`, `PASSWORD`, `EMAIL`, `ADDRESS`, `PHONE`, `BANNED`, `BAN_REASON`, `NEWPASS`, `NEWPASS_KEY`, `NEWPASS_TIME`, `CREATED`, `LAST_IP`, `LAST_LOGIN`, `MODIFIED`, `CART_DATA`, `WISH_LIST_DATA`, `KEY`, `AMOUT`, `DISCOUNT`, `ROLE_ID` FROM `users` WHERE `ID` = :p0';
 		try {
-			$stmt = $con->prepare($sql);			
-			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), $e);
+			$stmt = $con->prepare ( $sql );
+			$stmt->bindValue ( ':p0', $key, PDO::PARAM_INT );
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute SELECT statement [%s]', $sql ), $e );
 		}
 		$obj = null;
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new SUserProfile();
-			$obj->hydrate($row);
-			SUserProfilePeer::addInstanceToPool($obj, (string) $key);
+		if ($row = $stmt->fetch ( PDO::FETCH_NUM )) {
+			$obj = new SUserProfile ();
+			$obj->hydrate ( $row );
+			SUserProfilePeer::addInstanceToPool ( $obj, ( string ) $key );
 		}
-		$stmt->closeCursor();
-
+		$stmt->closeCursor ();
+		
 		return $obj;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    SUserProfile|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return SUserProfile|array|mixed the result, formatted by the current formatter
 	 */
-	protected function findPkComplex($key, $con)
-	{
+	protected function findPkComplex($key, $con) {
 		// As the query uses a PK condition, no limit(1) is necessary.
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKey($key)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->formatOne($stmt);
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKey ( $key )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->formatOne ( $stmt );
 	}
-
+	
 	/**
 	 * Find objects by primary key
 	 * <code>
 	 * $objs = $c->findPks(array(12, 56, 832), $con);
 	 * </code>
-	 * @param     array $keys Primary keys to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
+	 * 
+	 * @param array $keys
+	 *        	Primary keys to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
 	 */
-	public function findPks($keys, $con = null)
-	{
+	public function findPks($keys, $con = null) {
 		if ($con === null) {
-			$con = Propel::getConnection($this->getDbName(), Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( $this->getDbName (), Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKeys($keys)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->format($stmt);
+		$this->basePreSelect ( $con );
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKeys ( $keys )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->format ( $stmt );
 	}
-
+	
 	/**
 	 * Filter the query by primary key
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKey($key)
-	{
-		return $this->addUsingAlias(SUserProfilePeer::ID, $key, Criteria::EQUAL);
+	public function filterByPrimaryKey($key) {
+		return $this->addUsingAlias ( SUserProfilePeer::ID, $key, Criteria::EQUAL );
 	}
-
+	
 	/**
 	 * Filter the query by a list of primary keys
 	 *
-	 * @param     array $keys The list of primary key to use for the query
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param array $keys
+	 *        	The list of primary key to use for the query
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKeys($keys)
-	{
-		return $this->addUsingAlias(SUserProfilePeer::ID, $keys, Criteria::IN);
+	public function filterByPrimaryKeys($keys) {
+		return $this->addUsingAlias ( SUserProfilePeer::ID, $keys, Criteria::IN );
 	}
-
+	
 	/**
 	 * Filter the query on the id column
 	 *
@@ -283,162 +283,168 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterById(array('min' => 12)); // WHERE id > 12
 	 * </code>
 	 *
-	 * @param     mixed $id The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $id
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterById($id = null, $comparison = null)
-	{
-		if (is_array($id) && null === $comparison) {
+	public function filterById($id = null, $comparison = null) {
+		if (is_array ( $id ) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(SUserProfilePeer::ID, $id, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::ID, $id, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the username column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByName('fooValue');   // WHERE username = 'fooValue'
+	 * $query->filterByName('fooValue'); // WHERE username = 'fooValue'
 	 * $query->filterByName('%fooValue%'); // WHERE username LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $name The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $name
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByName($name = null, $comparison = null)
-	{
+	public function filterByName($name = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($name)) {
+			if (is_array ( $name )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $name)) {
-				$name = str_replace('*', '%', $name);
+			} elseif (preg_match ( '/[\%\*]/', $name )) {
+				$name = str_replace ( '*', '%', $name );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::USERNAME, $name, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::USERNAME, $name, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the password column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByPassword('fooValue');   // WHERE password = 'fooValue'
+	 * $query->filterByPassword('fooValue'); // WHERE password = 'fooValue'
 	 * $query->filterByPassword('%fooValue%'); // WHERE password LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $password The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $password
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByPassword($password = null, $comparison = null)
-	{
+	public function filterByPassword($password = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($password)) {
+			if (is_array ( $password )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $password)) {
-				$password = str_replace('*', '%', $password);
+			} elseif (preg_match ( '/[\%\*]/', $password )) {
+				$password = str_replace ( '*', '%', $password );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::PASSWORD, $password, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::PASSWORD, $password, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the email column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserEmail('fooValue');   // WHERE email = 'fooValue'
+	 * $query->filterByUserEmail('fooValue'); // WHERE email = 'fooValue'
 	 * $query->filterByUserEmail('%fooValue%'); // WHERE email LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userEmail The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $userEmail
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByUserEmail($userEmail = null, $comparison = null)
-	{
+	public function filterByUserEmail($userEmail = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userEmail)) {
+			if (is_array ( $userEmail )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userEmail)) {
-				$userEmail = str_replace('*', '%', $userEmail);
+			} elseif (preg_match ( '/[\%\*]/', $userEmail )) {
+				$userEmail = str_replace ( '*', '%', $userEmail );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::EMAIL, $userEmail, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::EMAIL, $userEmail, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the address column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByAddress('fooValue');   // WHERE address = 'fooValue'
+	 * $query->filterByAddress('fooValue'); // WHERE address = 'fooValue'
 	 * $query->filterByAddress('%fooValue%'); // WHERE address LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $address The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $address
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByAddress($address = null, $comparison = null)
-	{
+	public function filterByAddress($address = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($address)) {
+			if (is_array ( $address )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $address)) {
-				$address = str_replace('*', '%', $address);
+			} elseif (preg_match ( '/[\%\*]/', $address )) {
+				$address = str_replace ( '*', '%', $address );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::ADDRESS, $address, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::ADDRESS, $address, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the phone column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByPhone('fooValue');   // WHERE phone = 'fooValue'
+	 * $query->filterByPhone('fooValue'); // WHERE phone = 'fooValue'
 	 * $query->filterByPhone('%fooValue%'); // WHERE phone LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $phone The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $phone
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByPhone($phone = null, $comparison = null)
-	{
+	public function filterByPhone($phone = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($phone)) {
+			if (is_array ( $phone )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $phone)) {
-				$phone = str_replace('*', '%', $phone);
+			} elseif (preg_match ( '/[\%\*]/', $phone )) {
+				$phone = str_replace ( '*', '%', $phone );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::PHONE, $phone, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::PHONE, $phone, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the banned column
 	 *
@@ -449,24 +455,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByBanned(array('min' => 12)); // WHERE banned > 12
 	 * </code>
 	 *
-	 * @param     mixed $banned The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $banned
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByBanned($banned = null, $comparison = null)
-	{
-		if (is_array($banned)) {
+	public function filterByBanned($banned = null, $comparison = null) {
+		if (is_array ( $banned )) {
 			$useMinMax = false;
-			if (isset($banned['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::BANNED, $banned['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $banned ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::BANNED, $banned ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($banned['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::BANNED, $banned['max'], Criteria::LESS_EQUAL);
+			if (isset ( $banned ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::BANNED, $banned ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -476,93 +483,96 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::BANNED, $banned, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::BANNED, $banned, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the ban_reason column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByBanReason('fooValue');   // WHERE ban_reason = 'fooValue'
+	 * $query->filterByBanReason('fooValue'); // WHERE ban_reason = 'fooValue'
 	 * $query->filterByBanReason('%fooValue%'); // WHERE ban_reason LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $banReason The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $banReason
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByBanReason($banReason = null, $comparison = null)
-	{
+	public function filterByBanReason($banReason = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($banReason)) {
+			if (is_array ( $banReason )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $banReason)) {
-				$banReason = str_replace('*', '%', $banReason);
+			} elseif (preg_match ( '/[\%\*]/', $banReason )) {
+				$banReason = str_replace ( '*', '%', $banReason );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::BAN_REASON, $banReason, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::BAN_REASON, $banReason, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the newpass column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByNewpass('fooValue');   // WHERE newpass = 'fooValue'
+	 * $query->filterByNewpass('fooValue'); // WHERE newpass = 'fooValue'
 	 * $query->filterByNewpass('%fooValue%'); // WHERE newpass LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $newpass The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $newpass
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByNewpass($newpass = null, $comparison = null)
-	{
+	public function filterByNewpass($newpass = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($newpass)) {
+			if (is_array ( $newpass )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $newpass)) {
-				$newpass = str_replace('*', '%', $newpass);
+			} elseif (preg_match ( '/[\%\*]/', $newpass )) {
+				$newpass = str_replace ( '*', '%', $newpass );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::NEWPASS, $newpass, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::NEWPASS, $newpass, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the newpass_key column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByNewpassKey('fooValue');   // WHERE newpass_key = 'fooValue'
+	 * $query->filterByNewpassKey('fooValue'); // WHERE newpass_key = 'fooValue'
 	 * $query->filterByNewpassKey('%fooValue%'); // WHERE newpass_key LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $newpassKey The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $newpassKey
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByNewpassKey($newpassKey = null, $comparison = null)
-	{
+	public function filterByNewpassKey($newpassKey = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($newpassKey)) {
+			if (is_array ( $newpassKey )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $newpassKey)) {
-				$newpassKey = str_replace('*', '%', $newpassKey);
+			} elseif (preg_match ( '/[\%\*]/', $newpassKey )) {
+				$newpassKey = str_replace ( '*', '%', $newpassKey );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::NEWPASS_KEY, $newpassKey, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::NEWPASS_KEY, $newpassKey, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the newpass_time column
 	 *
@@ -573,24 +583,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByNewpassTime(array('min' => 12)); // WHERE newpass_time > 12
 	 * </code>
 	 *
-	 * @param     mixed $newpassTime The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $newpassTime
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByNewpassTime($newpassTime = null, $comparison = null)
-	{
-		if (is_array($newpassTime)) {
+	public function filterByNewpassTime($newpassTime = null, $comparison = null) {
+		if (is_array ( $newpassTime )) {
 			$useMinMax = false;
-			if (isset($newpassTime['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::NEWPASS_TIME, $newpassTime['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $newpassTime ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::NEWPASS_TIME, $newpassTime ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($newpassTime['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::NEWPASS_TIME, $newpassTime['max'], Criteria::LESS_EQUAL);
+			if (isset ( $newpassTime ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::NEWPASS_TIME, $newpassTime ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -600,9 +611,9 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::NEWPASS_TIME, $newpassTime, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::NEWPASS_TIME, $newpassTime, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the created column
 	 *
@@ -613,24 +624,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByDateCreated(array('min' => 12)); // WHERE created > 12
 	 * </code>
 	 *
-	 * @param     mixed $dateCreated The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $dateCreated
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByDateCreated($dateCreated = null, $comparison = null)
-	{
-		if (is_array($dateCreated)) {
+	public function filterByDateCreated($dateCreated = null, $comparison = null) {
+		if (is_array ( $dateCreated )) {
 			$useMinMax = false;
-			if (isset($dateCreated['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::CREATED, $dateCreated['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $dateCreated ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::CREATED, $dateCreated ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($dateCreated['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::CREATED, $dateCreated['max'], Criteria::LESS_EQUAL);
+			if (isset ( $dateCreated ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::CREATED, $dateCreated ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -640,37 +652,38 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::CREATED, $dateCreated, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::CREATED, $dateCreated, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the last_ip column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByLastIp('fooValue');   // WHERE last_ip = 'fooValue'
+	 * $query->filterByLastIp('fooValue'); // WHERE last_ip = 'fooValue'
 	 * $query->filterByLastIp('%fooValue%'); // WHERE last_ip LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $lastIp The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $lastIp
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByLastIp($lastIp = null, $comparison = null)
-	{
+	public function filterByLastIp($lastIp = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($lastIp)) {
+			if (is_array ( $lastIp )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $lastIp)) {
-				$lastIp = str_replace('*', '%', $lastIp);
+			} elseif (preg_match ( '/[\%\*]/', $lastIp )) {
+				$lastIp = str_replace ( '*', '%', $lastIp );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::LAST_IP, $lastIp, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::LAST_IP, $lastIp, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the last_login column
 	 *
@@ -681,24 +694,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByLastLogin(array('min' => 12)); // WHERE last_login > 12
 	 * </code>
 	 *
-	 * @param     mixed $lastLogin The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $lastLogin
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByLastLogin($lastLogin = null, $comparison = null)
-	{
-		if (is_array($lastLogin)) {
+	public function filterByLastLogin($lastLogin = null, $comparison = null) {
+		if (is_array ( $lastLogin )) {
 			$useMinMax = false;
-			if (isset($lastLogin['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::LAST_LOGIN, $lastLogin['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $lastLogin ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::LAST_LOGIN, $lastLogin ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($lastLogin['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::LAST_LOGIN, $lastLogin['max'], Criteria::LESS_EQUAL);
+			if (isset ( $lastLogin ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::LAST_LOGIN, $lastLogin ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -708,9 +722,9 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::LAST_LOGIN, $lastLogin, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::LAST_LOGIN, $lastLogin, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the modified column
 	 *
@@ -721,26 +735,27 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByModified(array('max' => 'yesterday')); // WHERE modified > '2011-03-13'
 	 * </code>
 	 *
-	 * @param     mixed $modified The value to use as filter.
-	 *              Values can be integers (unix timestamps), DateTime objects, or strings.
-	 *              Empty strings are treated as NULL.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $modified
+	 *        	The value to use as filter.
+	 *        	Values can be integers (unix timestamps), DateTime objects, or strings.
+	 *        	Empty strings are treated as NULL.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByModified($modified = null, $comparison = null)
-	{
-		if (is_array($modified)) {
+	public function filterByModified($modified = null, $comparison = null) {
+		if (is_array ( $modified )) {
 			$useMinMax = false;
-			if (isset($modified['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::MODIFIED, $modified['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $modified ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::MODIFIED, $modified ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($modified['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::MODIFIED, $modified['max'], Criteria::LESS_EQUAL);
+			if (isset ( $modified ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::MODIFIED, $modified ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -750,93 +765,96 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::MODIFIED, $modified, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::MODIFIED, $modified, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the cart_data column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByCartData('fooValue');   // WHERE cart_data = 'fooValue'
+	 * $query->filterByCartData('fooValue'); // WHERE cart_data = 'fooValue'
 	 * $query->filterByCartData('%fooValue%'); // WHERE cart_data LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $cartData The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $cartData
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByCartData($cartData = null, $comparison = null)
-	{
+	public function filterByCartData($cartData = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($cartData)) {
+			if (is_array ( $cartData )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $cartData)) {
-				$cartData = str_replace('*', '%', $cartData);
+			} elseif (preg_match ( '/[\%\*]/', $cartData )) {
+				$cartData = str_replace ( '*', '%', $cartData );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::CART_DATA, $cartData, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::CART_DATA, $cartData, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the wish_list_data column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByWishListData('fooValue');   // WHERE wish_list_data = 'fooValue'
+	 * $query->filterByWishListData('fooValue'); // WHERE wish_list_data = 'fooValue'
 	 * $query->filterByWishListData('%fooValue%'); // WHERE wish_list_data LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $wishListData The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $wishListData
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByWishListData($wishListData = null, $comparison = null)
-	{
+	public function filterByWishListData($wishListData = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($wishListData)) {
+			if (is_array ( $wishListData )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $wishListData)) {
-				$wishListData = str_replace('*', '%', $wishListData);
+			} elseif (preg_match ( '/[\%\*]/', $wishListData )) {
+				$wishListData = str_replace ( '*', '%', $wishListData );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::WISH_LIST_DATA, $wishListData, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::WISH_LIST_DATA, $wishListData, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the key column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByKey('fooValue');   // WHERE key = 'fooValue'
+	 * $query->filterByKey('fooValue'); // WHERE key = 'fooValue'
 	 * $query->filterByKey('%fooValue%'); // WHERE key LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $key The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $key
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByKey($key = null, $comparison = null)
-	{
+	public function filterByKey($key = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($key)) {
+			if (is_array ( $key )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $key)) {
-				$key = str_replace('*', '%', $key);
+			} elseif (preg_match ( '/[\%\*]/', $key )) {
+				$key = str_replace ( '*', '%', $key );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::KEY, $key, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::KEY, $key, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the amout column
 	 *
@@ -847,24 +865,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByAmout(array('min' => 12)); // WHERE amout > 12
 	 * </code>
 	 *
-	 * @param     mixed $amout The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $amout
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByAmout($amout = null, $comparison = null)
-	{
-		if (is_array($amout)) {
+	public function filterByAmout($amout = null, $comparison = null) {
+		if (is_array ( $amout )) {
 			$useMinMax = false;
-			if (isset($amout['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::AMOUT, $amout['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $amout ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::AMOUT, $amout ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($amout['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::AMOUT, $amout['max'], Criteria::LESS_EQUAL);
+			if (isset ( $amout ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::AMOUT, $amout ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -874,37 +893,38 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::AMOUT, $amout, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::AMOUT, $amout, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the discount column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByDiscount('fooValue');   // WHERE discount = 'fooValue'
+	 * $query->filterByDiscount('fooValue'); // WHERE discount = 'fooValue'
 	 * $query->filterByDiscount('%fooValue%'); // WHERE discount LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $discount The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param string $discount
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByDiscount($discount = null, $comparison = null)
-	{
+	public function filterByDiscount($discount = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($discount)) {
+			if (is_array ( $discount )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $discount)) {
-				$discount = str_replace('*', '%', $discount);
+			} elseif (preg_match ( '/[\%\*]/', $discount )) {
+				$discount = str_replace ( '*', '%', $discount );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::DISCOUNT, $discount, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::DISCOUNT, $discount, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the role_id column
 	 *
@@ -915,24 +935,25 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 	 * $query->filterByRoleId(array('min' => 12)); // WHERE role_id > 12
 	 * </code>
 	 *
-	 * @param     mixed $roleId The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param mixed $roleId
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function filterByRoleId($roleId = null, $comparison = null)
-	{
-		if (is_array($roleId)) {
+	public function filterByRoleId($roleId = null, $comparison = null) {
+		if (is_array ( $roleId )) {
 			$useMinMax = false;
-			if (isset($roleId['min'])) {
-				$this->addUsingAlias(SUserProfilePeer::ROLE_ID, $roleId['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $roleId ['min'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::ROLE_ID, $roleId ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($roleId['max'])) {
-				$this->addUsingAlias(SUserProfilePeer::ROLE_ID, $roleId['max'], Criteria::LESS_EQUAL);
+			if (isset ( $roleId ['max'] )) {
+				$this->addUsingAlias ( SUserProfilePeer::ROLE_ID, $roleId ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -942,23 +963,22 @@ abstract class BaseSUserProfileQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SUserProfilePeer::ROLE_ID, $roleId, $comparison);
+		return $this->addUsingAlias ( SUserProfilePeer::ROLE_ID, $roleId, $comparison );
 	}
-
+	
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     SUserProfile $sUserProfile Object to remove from the list of results
-	 *
-	 * @return    SUserProfileQuery The current query, for fluid interface
+	 * @param SUserProfile $sUserProfile
+	 *        	Object to remove from the list of results
+	 *        	
+	 * @return SUserProfileQuery The current query, for fluid interface
 	 */
-	public function prune($sUserProfile = null)
-	{
+	public function prune($sUserProfile = null) {
 		if ($sUserProfile) {
-			$this->addUsingAlias(SUserProfilePeer::ID, $sUserProfile->getId(), Criteria::NOT_EQUAL);
+			$this->addUsingAlias ( SUserProfilePeer::ID, $sUserProfile->getId (), Criteria::NOT_EQUAL );
 		}
-
+		
 		return $this;
 	}
-
 } // BaseSUserProfileQuery

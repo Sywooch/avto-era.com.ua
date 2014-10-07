@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a query for the 'shop_product_properties_categories' table.
  *
@@ -35,44 +34,46 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseShopProductPropertiesCategoriesQuery extends ModelCriteria
-{
+abstract class BaseShopProductPropertiesCategoriesQuery extends ModelCriteria {
 	
 	/**
 	 * Initializes internal state of BaseShopProductPropertiesCategoriesQuery object.
 	 *
-	 * @param     string $dbName The dabase name
-	 * @param     string $modelName The phpName of a model, e.g. 'Book'
-	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+	 * @param string $dbName
+	 *        	The dabase name
+	 * @param string $modelName
+	 *        	The phpName of a model, e.g. 'Book'
+	 * @param string $modelAlias
+	 *        	The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'Shop', $modelName = 'ShopProductPropertiesCategories', $modelAlias = null)
-	{
-		parent::__construct($dbName, $modelName, $modelAlias);
+	public function __construct($dbName = 'Shop', $modelName = 'ShopProductPropertiesCategories', $modelAlias = null) {
+		parent::__construct ( $dbName, $modelName, $modelAlias );
 	}
-
+	
 	/**
 	 * Returns a new ShopProductPropertiesCategoriesQuery object.
 	 *
-	 * @param     string $modelAlias The alias of a model in the query
-	 * @param     Criteria $criteria Optional Criteria to build the query from
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery
+	 * @param string $modelAlias
+	 *        	The alias of a model in the query
+	 * @param Criteria $criteria
+	 *        	Optional Criteria to build the query from
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery
 	 */
-	public static function create($modelAlias = null, $criteria = null)
-	{
+	public static function create($modelAlias = null, $criteria = null) {
 		if ($criteria instanceof ShopProductPropertiesCategoriesQuery) {
 			return $criteria;
 		}
-		$query = new ShopProductPropertiesCategoriesQuery();
+		$query = new ShopProductPropertiesCategoriesQuery ();
 		if (null !== $modelAlias) {
-			$query->setModelAlias($modelAlias);
+			$query->setModelAlias ( $modelAlias );
 		}
 		if ($criteria instanceof Criteria) {
-			$query->mergeWith($criteria);
+			$query->mergeWith ( $criteria );
 		}
 		return $query;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 * Propel uses the instance pool to skip the database if the object exists.
@@ -82,143 +83,148 @@ abstract class BaseShopProductPropertiesCategoriesQuery extends ModelCriteria
 	 * $obj = $c->findPk(array(12, 34), $con);
 	 * </code>
 	 *
-	 * @param     array[$property_id, $category_id] $key Primary key to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    ShopProductPropertiesCategories|array|mixed the result, formatted by the current formatter
+	 * @param array[$property_id, $category_id]
+	 *        	$key Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return ShopProductPropertiesCategories|array|mixed the result, formatted by the current formatter
 	 */
-	public function findPk($key, $con = null)
-	{
+	public function findPk($key, $con = null) {
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = ShopProductPropertiesCategoriesPeer::getInstanceFromPool(serialize(array((string) $key[0], (string) $key[1]))))) && !$this->formatter) {
+		if ((null !== ($obj = ShopProductPropertiesCategoriesPeer::getInstanceFromPool ( serialize ( array (
+				( string ) $key [0],
+				( string ) $key [1] 
+		) ) ))) && ! $this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(ShopProductPropertiesCategoriesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( ShopProductPropertiesCategoriesPeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		if ($this->formatter || $this->modelAlias || $this->with || $this->select
-		 || $this->selectColumns || $this->asColumns || $this->selectModifiers
-		 || $this->map || $this->having || $this->joins) {
-			return $this->findPkComplex($key, $con);
+		$this->basePreSelect ( $con );
+		if ($this->formatter || $this->modelAlias || $this->with || $this->select || $this->selectColumns || $this->asColumns || $this->selectModifiers || $this->map || $this->having || $this->joins) {
+			return $this->findPkComplex ( $key, $con );
 		} else {
-			return $this->findPkSimple($key, $con);
+			return $this->findPkSimple ( $key, $con );
 		}
 	}
-
+	
 	/**
 	 * Find object by primary key using raw SQL to go fast.
 	 * Bypass doSelect() and the object formatter by using generated code.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    ShopProductPropertiesCategories A model object, or null if the key is not found
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return ShopProductPropertiesCategories A model object, or null if the key is not found
 	 */
-	protected function findPkSimple($key, $con)
-	{
+	protected function findPkSimple($key, $con) {
 		$sql = 'SELECT `PROPERTY_ID`, `CATEGORY_ID` FROM `shop_product_properties_categories` WHERE `PROPERTY_ID` = :p0 AND `CATEGORY_ID` = :p1';
 		try {
-			$stmt = $con->prepare($sql);			
-			$stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);			
-			$stmt->bindValue(':p1', $key[1], PDO::PARAM_INT);
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), $e);
+			$stmt = $con->prepare ( $sql );
+			$stmt->bindValue ( ':p0', $key [0], PDO::PARAM_INT );
+			$stmt->bindValue ( ':p1', $key [1], PDO::PARAM_INT );
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute SELECT statement [%s]', $sql ), $e );
 		}
 		$obj = null;
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new ShopProductPropertiesCategories();
-			$obj->hydrate($row);
-			ShopProductPropertiesCategoriesPeer::addInstanceToPool($obj, serialize(array((string) $key[0], (string) $key[1])));
+		if ($row = $stmt->fetch ( PDO::FETCH_NUM )) {
+			$obj = new ShopProductPropertiesCategories ();
+			$obj->hydrate ( $row );
+			ShopProductPropertiesCategoriesPeer::addInstanceToPool ( $obj, serialize ( array (
+					( string ) $key [0],
+					( string ) $key [1] 
+			) ) );
 		}
-		$stmt->closeCursor();
-
+		$stmt->closeCursor ();
+		
 		return $obj;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    ShopProductPropertiesCategories|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return ShopProductPropertiesCategories|array|mixed the result, formatted by the current formatter
 	 */
-	protected function findPkComplex($key, $con)
-	{
+	protected function findPkComplex($key, $con) {
 		// As the query uses a PK condition, no limit(1) is necessary.
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKey($key)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->formatOne($stmt);
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKey ( $key )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->formatOne ( $stmt );
 	}
-
+	
 	/**
 	 * Find objects by primary key
 	 * <code>
 	 * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
 	 * </code>
-	 * @param     array $keys Primary keys to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
+	 * 
+	 * @param array $keys
+	 *        	Primary keys to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
 	 */
-	public function findPks($keys, $con = null)
-	{
+	public function findPks($keys, $con = null) {
 		if ($con === null) {
-			$con = Propel::getConnection($this->getDbName(), Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( $this->getDbName (), Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKeys($keys)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->format($stmt);
+		$this->basePreSelect ( $con );
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKeys ( $keys )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->format ( $stmt );
 	}
-
+	
 	/**
 	 * Filter the query by primary key
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKey($key)
-	{
-		$this->addUsingAlias(ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $key[0], Criteria::EQUAL);
-		$this->addUsingAlias(ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $key[1], Criteria::EQUAL);
-
+	public function filterByPrimaryKey($key) {
+		$this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $key [0], Criteria::EQUAL );
+		$this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $key [1], Criteria::EQUAL );
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Filter the query by a list of primary keys
 	 *
-	 * @param     array $keys The list of primary key to use for the query
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param array $keys
+	 *        	The list of primary key to use for the query
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKeys($keys)
-	{
-		if (empty($keys)) {
-			return $this->add(null, '1<>1', Criteria::CUSTOM);
+	public function filterByPrimaryKeys($keys) {
+		if (empty ( $keys )) {
+			return $this->add ( null, '1<>1', Criteria::CUSTOM );
 		}
-		foreach ($keys as $key) {
-			$cton0 = $this->getNewCriterion(ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $key[0], Criteria::EQUAL);
-			$cton1 = $this->getNewCriterion(ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $key[1], Criteria::EQUAL);
-			$cton0->addAnd($cton1);
-			$this->addOr($cton0);
+		foreach ( $keys as $key ) {
+			$cton0 = $this->getNewCriterion ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $key [0], Criteria::EQUAL );
+			$cton1 = $this->getNewCriterion ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $key [1], Criteria::EQUAL );
+			$cton0->addAnd ( $cton1 );
+			$this->addOr ( $cton0 );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Filter the query on the property_id column
 	 *
@@ -229,24 +235,25 @@ abstract class BaseShopProductPropertiesCategoriesQuery extends ModelCriteria
 	 * $query->filterByPropertyId(array('min' => 12)); // WHERE property_id > 12
 	 * </code>
 	 *
-	 * @see       filterByProperty()
+	 * @see filterByProperty()
 	 *
-	 * @param     mixed $propertyId The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param mixed $propertyId
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByPropertyId($propertyId = null, $comparison = null)
-	{
-		if (is_array($propertyId) && null === $comparison) {
+	public function filterByPropertyId($propertyId = null, $comparison = null) {
+		if (is_array ( $propertyId ) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $propertyId, $comparison);
+		return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $propertyId, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the category_id column
 	 *
@@ -257,188 +264,189 @@ abstract class BaseShopProductPropertiesCategoriesQuery extends ModelCriteria
 	 * $query->filterByCategoryId(array('min' => 12)); // WHERE category_id > 12
 	 * </code>
 	 *
-	 * @see       filterByPropertyCategory()
+	 * @see filterByPropertyCategory()
 	 *
-	 * @param     mixed $categoryId The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param mixed $categoryId
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByCategoryId($categoryId = null, $comparison = null)
-	{
-		if (is_array($categoryId) && null === $comparison) {
+	public function filterByCategoryId($categoryId = null, $comparison = null) {
+		if (is_array ( $categoryId ) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $categoryId, $comparison);
+		return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $categoryId, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query by a related SProperties object
 	 *
-	 * @param     SProperties|PropelCollection $sProperties The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param SProperties|PropelCollection $sProperties
+	 *        	The related object(s) to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByProperty($sProperties, $comparison = null)
-	{
+	public function filterByProperty($sProperties, $comparison = null) {
 		if ($sProperties instanceof SProperties) {
-			return $this
-				->addUsingAlias(ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $sProperties->getId(), $comparison);
+			return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $sProperties->getId (), $comparison );
 		} elseif ($sProperties instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
-			return $this
-				->addUsingAlias(ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $sProperties->toKeyValue('PrimaryKey', 'Id'), $comparison);
+			return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID, $sProperties->toKeyValue ( 'PrimaryKey', 'Id' ), $comparison );
 		} else {
-			throw new PropelException('filterByProperty() only accepts arguments of type SProperties or PropelCollection');
+			throw new PropelException ( 'filterByProperty() only accepts arguments of type SProperties or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the Property relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function joinProperty($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('Property');
-
+	public function joinProperty($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'Property' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'Property');
+			$this->addJoinObject ( $join, 'Property' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the Property relation SProperties object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SPropertiesQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SPropertiesQuery A secondary query class using the current class as primary query
 	 */
-	public function usePropertyQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		return $this
-			->joinProperty($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'Property', 'SPropertiesQuery');
+	public function usePropertyQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		return $this->joinProperty ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'Property', 'SPropertiesQuery' );
 	}
-
+	
 	/**
 	 * Filter the query by a related SCategory object
 	 *
-	 * @param     SCategory|PropelCollection $sCategory The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param SCategory|PropelCollection $sCategory
+	 *        	The related object(s) to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function filterByPropertyCategory($sCategory, $comparison = null)
-	{
+	public function filterByPropertyCategory($sCategory, $comparison = null) {
 		if ($sCategory instanceof SCategory) {
-			return $this
-				->addUsingAlias(ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $sCategory->getId(), $comparison);
+			return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $sCategory->getId (), $comparison );
 		} elseif ($sCategory instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
-			return $this
-				->addUsingAlias(ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $sCategory->toKeyValue('PrimaryKey', 'Id'), $comparison);
+			return $this->addUsingAlias ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID, $sCategory->toKeyValue ( 'PrimaryKey', 'Id' ), $comparison );
 		} else {
-			throw new PropelException('filterByPropertyCategory() only accepts arguments of type SCategory or PropelCollection');
+			throw new PropelException ( 'filterByPropertyCategory() only accepts arguments of type SCategory or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the PropertyCategory relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function joinPropertyCategory($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('PropertyCategory');
-
+	public function joinPropertyCategory($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'PropertyCategory' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'PropertyCategory');
+			$this->addJoinObject ( $join, 'PropertyCategory' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the PropertyCategory relation SCategory object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SCategoryQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SCategoryQuery A secondary query class using the current class as primary query
 	 */
-	public function usePropertyCategoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		return $this
-			->joinPropertyCategory($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'PropertyCategory', 'SCategoryQuery');
+	public function usePropertyCategoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		return $this->joinPropertyCategory ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'PropertyCategory', 'SCategoryQuery' );
 	}
-
+	
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     ShopProductPropertiesCategories $shopProductPropertiesCategories Object to remove from the list of results
-	 *
-	 * @return    ShopProductPropertiesCategoriesQuery The current query, for fluid interface
+	 * @param ShopProductPropertiesCategories $shopProductPropertiesCategories
+	 *        	Object to remove from the list of results
+	 *        	
+	 * @return ShopProductPropertiesCategoriesQuery The current query, for fluid interface
 	 */
-	public function prune($shopProductPropertiesCategories = null)
-	{
+	public function prune($shopProductPropertiesCategories = null) {
 		if ($shopProductPropertiesCategories) {
-			$this->addCond('pruneCond0', $this->getAliasedColName(ShopProductPropertiesCategoriesPeer::PROPERTY_ID), $shopProductPropertiesCategories->getPropertyId(), Criteria::NOT_EQUAL);
-			$this->addCond('pruneCond1', $this->getAliasedColName(ShopProductPropertiesCategoriesPeer::CATEGORY_ID), $shopProductPropertiesCategories->getCategoryId(), Criteria::NOT_EQUAL);
-			$this->combine(array('pruneCond0', 'pruneCond1'), Criteria::LOGICAL_OR);
+			$this->addCond ( 'pruneCond0', $this->getAliasedColName ( ShopProductPropertiesCategoriesPeer::PROPERTY_ID ), $shopProductPropertiesCategories->getPropertyId (), Criteria::NOT_EQUAL );
+			$this->addCond ( 'pruneCond1', $this->getAliasedColName ( ShopProductPropertiesCategoriesPeer::CATEGORY_ID ), $shopProductPropertiesCategories->getCategoryId (), Criteria::NOT_EQUAL );
+			$this->combine ( array (
+					'pruneCond0',
+					'pruneCond1' 
+			), Criteria::LOGICAL_OR );
 		}
-
+		
 		return $this;
 	}
-
 } // BaseShopProductPropertiesCategoriesQuery

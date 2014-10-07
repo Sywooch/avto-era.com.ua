@@ -7,16 +7,14 @@
  *
  * @license    MIT License
  */
-
 require_once 'builder/sql/DataSQLBuilder.php';
 
 /**
  * MS SQL Server using pdo_sqlsrv driver class for building data dump SQL.
  *
- * @author     Benjamin Runnels
- * @version    $Revision$
- * @package    propel.generator.builder.sql.sqlsrv
+ * @author Benjamin Runnels
+ * @version $Revision$
+ * @package propel.generator.builder.sql.sqlsrv
  */
-class SqlsrvDataSQLBuilder extends DataSQLBuilder
-{
+class SqlsrvDataSQLBuilder extends DataSQLBuilder {
 }

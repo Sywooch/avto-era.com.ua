@@ -12,12 +12,15 @@
 <?php if ($field->primary_key == 1) continue; ?>
 
 <tr>
-	<td><?php echo  $field->name; ?></td>
+		<td><?php echo  $field->name; ?></td>
 	
 	<?php if ($field->type == 'blob'): ?>
-	<td><textarea class="textarea" name="<?php echo $field->name;?>" cols="60" rows="10" ><?php $f = $field->name; echo form_prep($query->$f); ?></textarea></td>
+	<td><textarea class="textarea" name="<?php echo $field->name;?>"
+				cols="60" rows="10"><?php $f = $field->name; echo form_prep($query->$f); ?></textarea></td>
 	<?php else : ?>
-	<td><input class="input" value="<?php $f = $field->name; echo form_prep($query->$f); ?>" name="<?php echo $field->name; ?>" size="60" /></td>
+	<td><input class="input"
+			value="<?php $f = $field->name; echo form_prep($query->$f); ?>"
+			name="<?php echo $field->name; ?>" size="60" /></td>
 	<?php endif; ?>
 	
 </tr>
@@ -28,6 +31,8 @@
 
 </form>
 
-<?php $this->load->view('footer'); 
+<?php
+
+$this->load->view ( 'footer' ); 
 /* End of file edit.php */
 /* Location: ./system/scaffolding/views/edit.php */

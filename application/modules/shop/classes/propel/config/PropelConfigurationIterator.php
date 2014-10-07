@@ -12,89 +12,83 @@
  * PropelConfigurationIterator is used internally by PropelConfiguration to
  * build a flat array from nesting configuration arrays.
  *
- * @author     Veikko Mäkinen <veikko@veikko.fi>
- * @version    $Revision$
- * @package    propel.runtime.config
+ * @author Veikko Mäkinen <veikko@veikko.fi>
+ * @version $Revision$
+ * @package propel.runtime.config
  */
-class PropelConfigurationIterator extends RecursiveIteratorIterator
-{
+class PropelConfigurationIterator extends RecursiveIteratorIterator {
 	/**
 	 * Node is a parent node
 	 */
 	const NODE_PARENT = 0;
-
+	
 	/**
 	 * Node is an actual configuration item
 	 */
 	const NODE_ITEM = 1;
-
+	
 	/**
 	 * Namespace stack when recursively iterating the configuration tree
 	 *
-	 * @var       array
+	 * @var array
 	 */
-	protected $namespaceStack = array();
-
+	protected $namespaceStack = array ();
+	
 	/**
-	 * Current node type. Possible values: null (undefined), self::NODE_PARENT or self::NODE_ITEM
+	 * Current node type.
+	 * Possible values: null (undefined), self::NODE_PARENT or self::NODE_ITEM
 	 *
-	 * @var       integer
+	 * @var integer
 	 */
 	protected $nodeType = null;
-
+	
 	/**
 	 * Get current namespace
 	 *
-	 * @return    string
+	 * @return string
 	 */
-	public function getNamespace()
-	{
-		return implode('.', $this->namespaceStack);
+	public function getNamespace() {
+		return implode ( '.', $this->namespaceStack );
 	}
-
+	
 	/**
 	 * Get current node type.
 	 *
-	 * @see       http://www.php.net/RecursiveIteratorIterator
-	 * @return    integer
-	 *             - null (undefined)
-	 *             - self::NODE_PARENT
-	 *             - self::NODE_ITEM
+	 * @see http://www.php.net/RecursiveIteratorIterator
+	 * @return integer - null (undefined)
+	 *         - self::NODE_PARENT
+	 *         - self::NODE_ITEM
 	 */
-	public function getNodeType()
-	{
+	public function getNodeType() {
 		return $this->nodeType;
 	}
-
+	
 	/**
 	 * Get the current element
 	 *
-	 * @see       http://www.php.net/RecursiveIteratorIterator
-	 * @return    mixed
+	 * @see http://www.php.net/RecursiveIteratorIterator
+	 * @return mixed
 	 */
-	public function current()
-	{
-		$current = parent::current();
-		if (is_array($current)) {
-			$this->namespaceStack[] = $this->key();
+	public function current() {
+		$current = parent::current ();
+		if (is_array ( $current )) {
+			$this->namespaceStack [] = $this->key ();
 			$this->nodeType = self::NODE_PARENT;
-		}
-		else {
+		} else {
 			$this->nodeType = self::NODE_ITEM;
 		}
-
+		
 		return $current;
 	}
-
+	
 	/**
 	 * Called after current child iterator is invalid and right before it gets destructed.
 	 *
-	 * @see       http://www.php.net/RecursiveIteratorIterator
+	 * @see http://www.php.net/RecursiveIteratorIterator
 	 */
-	public function endChildren()
-	{
+	public function endChildren() {
 		if ($this->namespaceStack) {
-			array_pop($this->namespaceStack);
+			array_pop ( $this->namespaceStack );
 		}
 	}
 }

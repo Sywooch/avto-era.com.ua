@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_delivery_methods' table.
  *
@@ -14,28 +12,22 @@
  * @package    propel.generator.Shop
  */
 class SDeliveryMethodsQuery extends BaseSDeliveryMethodsQuery {
-
-    public function enabled($enabled=true)
-    {
-        return $this->where('SDeliveryMethods.Enabled =?', $enabled);
-    }
-    
-    public function joinWithI18n($locale = 'ru', $joinType = null)
-	{
-        if ($joinType == null)
-        {
-            switch (ShopController::getShowUntranslated()) {
-                case FALSE:
-                    $joinType = Criteria::INNER_JOIN;
-                    break;
-                default:
-                    $joinType = Criteria::LEFT_JOIN;
-                    break;
-            }
-        }        
-        
-        parent::joinWithI18n($locale, $joinType);
+	public function enabled($enabled = true) {
+		return $this->where ( 'SDeliveryMethods.Enabled =?', $enabled );
+	}
+	public function joinWithI18n($locale = 'ru', $joinType = null) {
+		if ($joinType == null) {
+			switch (ShopController::getShowUntranslated ()) {
+				case FALSE :
+					$joinType = Criteria::INNER_JOIN;
+					break;
+				default :
+					$joinType = Criteria::LEFT_JOIN;
+					break;
+			}
+		}
+		
+		parent::joinWithI18n ( $locale, $joinType );
 		return $this;
 	}
-
 } // SDeliveryMethodsQuery

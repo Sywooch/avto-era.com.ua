@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_orders' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SOrdersPeer extends BaseSOrdersPeer {
-
 } // SOrdersPeer

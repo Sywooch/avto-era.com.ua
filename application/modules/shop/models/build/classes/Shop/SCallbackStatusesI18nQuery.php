@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_callbacks_statuses_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SCallbackStatusesI18nQuery extends BaseSCallbackStatusesI18nQuery {
-
 } // SCallbackStatusesI18nQuery

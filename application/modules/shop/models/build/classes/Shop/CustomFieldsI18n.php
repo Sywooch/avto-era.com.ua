@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'custom_fields_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class CustomFieldsI18n extends BaseCustomFieldsI18n {
-
 } // CustomFieldsI18n

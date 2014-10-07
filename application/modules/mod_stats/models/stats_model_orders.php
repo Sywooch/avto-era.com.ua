@@ -6,38 +6,40 @@
  * @property DX_Auth $dx_auth
  */
 class Stats_model_orders extends CI_Model {
-
-    /**
-     * Default params for method getOrdersByDateRange
-     * @var array
-     */
-    protected $dateRangeParams = array(
-        'paid' => NULL, // TRUE|FALSE|NULL (paid, unpaid, all)
-    );
-
-    function __construct() {
-        parent::__construct();
-        $this->locale = \MY_Controller::getCurrentLocale();
-    }
-
-    /**
-     * Orders dynamic for line diagram
-     * @param array $params
-     * @return array 
-     */
-    public function getOrdersByDateRange($params = array()) {
-        if (is_array($params))
-            foreach ($this->dateRangeParams as $key => $value) {
-                if (key_exists($key, $params)) {
-                    $this->dateRangeParams[$key] = $params[$key];
-                }
-            }
-
-        $lineDiagramBase = new \mod_stats\classes\LineDiagramBase();
-
-        $query = "
+	
+	/**
+	 * Default params for method getOrdersByDateRange
+	 * 
+	 * @var array
+	 */
+	protected $dateRangeParams = array (
+			'paid' => NULL 
+	) // TRUE|FALSE|NULL (paid, unpaid, all)
+;
+	function __construct() {
+		parent::__construct ();
+		$this->locale = \MY_Controller::getCurrentLocale ();
+	}
+	
+	/**
+	 * Orders dynamic for line diagram
+	 * 
+	 * @param array $params        	
+	 * @return array
+	 */
+	public function getOrdersByDateRange($params = array()) {
+		if (is_array ( $params ))
+			foreach ( $this->dateRangeParams as $key => $value ) {
+				if (key_exists ( $key, $params )) {
+					$this->dateRangeParams [$key] = $params [$key];
+				}
+			}
+		
+		$lineDiagramBase = new \mod_stats\classes\LineDiagramBase ();
+		
+		$query = "
             SELECT
-                DATE_FORMAT(FROM_UNIXTIME(`dtable`.`date_created`), '" . $lineDiagramBase->prepareDatePattern() . "') as `date`,
+                DATE_FORMAT(FROM_UNIXTIME(`dtable`.`date_created`), '" . $lineDiagramBase->prepareDatePattern () . "') as `date`,
                 COUNT(`dtable`.`id`) as `orders_count`,
                 SUM(`dtable`.`origin_price`) as `price_sum`,
                 SUM(`dtable`.`products_count`) as `products_count`,
@@ -64,38 +66,38 @@ class Stats_model_orders extends CI_Model {
                     FROM_UNIXTIME(`shop_orders`.`date_created`)
                 ) as dtable
             WHERE 1 
-                 " . $lineDiagramBase->prepareDateBetweenCondition('date_created') . " 
-                  " . $this->preparePaidCondition() . " 
+                 " . $lineDiagramBase->prepareDateBetweenCondition ( 'date_created' ) . " 
+                  " . $this->preparePaidCondition () . " 
             GROUP BY `date`
             ORDER BY FROM_UNIXTIME(`date_created`)
         ";
-
-        $result = $this->db->query($query);
-        if ($result === FALSE) {
-            return FALSE;
-        }
-        $ordersData = array();
-        foreach ($result->result_array() as $row) {
-            $ordersData[] = $row;
-        }
-
-        return $ordersData;
-    }
-
-    /**
-     * Helper function for getOrdersByDateRange()
-     * @return string
-     */
-    protected function preparePaidCondition() {
-        if ($this->dateRangeParams['paid'] === TRUE)
-            return "AND `paid` = 1";
-
-        if ($this->dateRangeParams['paid'] === FALSE)
-            return "AND (`paid` <> 1 OR `paid` IS NULL)";
-
-        return "";
-    }
-
+		
+		$result = $this->db->query ( $query );
+		if ($result === FALSE) {
+			return FALSE;
+		}
+		$ordersData = array ();
+		foreach ( $result->result_array () as $row ) {
+			$ordersData [] = $row;
+		}
+		
+		return $ordersData;
+	}
+	
+	/**
+	 * Helper function for getOrdersByDateRange()
+	 * 
+	 * @return string
+	 */
+	protected function preparePaidCondition() {
+		if ($this->dateRangeParams ['paid'] === TRUE)
+			return "AND `paid` = 1";
+		
+		if ($this->dateRangeParams ['paid'] === FALSE)
+			return "AND (`paid` <> 1 OR `paid` IS NULL)";
+		
+		return "";
+	}
 }
 
 ?>

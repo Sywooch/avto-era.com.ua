@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-//require_once 'Gettext_php.php';
+// require_once 'Gettext_php.php';
 require_once 'Gettext_extension.php';
 
 /**
@@ -32,63 +32,73 @@ require_once 'Gettext_extension.php';
  * @author David Soria Parra <sn_@gmx.net>
  */
 abstract class Gettext {
-
-    private static $instance = null;
-
-    /**
-     * Return a translated string
-     *
-     * If the translation is not found, the original passed message
-     * will be returned.
-     *
-     * @param String $msg The message to translate
-     * 
-     * @return Translated message
-     */
-    public abstract function gettext($msg);
-
-    /**
-     * Return a translated string in it's plural form
-     *
-     * Returns the given $count (e.g second, third,...) plural form of the
-     * given string. If the id is not found and $num == 1 $msg is returned,
-     * otherwise $msg_plural
-     *
-     * @param String $msg The message to search for
-     * @param String $msg_plural A fallback plural form
-     * @param Integer $count Which plural form
-     *
-     * @return Translated string
-     */
-    public abstract function ngettext($msg1, $msg2, $count);
-
-    /**
-     * add new domain and bind some lang file to it
-     * @param String $directory Directory to search the mo files in
-     * @param String $domain    The current domain
-     * @param String $locale    The local
-     * @return mixed
-     */
-    public abstract function addDomain($directory, $domain, $locale);
-
-    /**
-     * Returns an instance of a gettext implementation depending on
-     * the capabilities of the PHP installation. If the gettext extension
-     * is loaded, we use the native gettext() bindings, otherwise we use
-     * an own implementation
-     *
-     * @param String $directory Directory to search the mo files in
-     * @param String $domain    The current domain
-     * @param String $locale    The local
-     *
-     * @return Gettext An instance of a Gettext implementation
-     */
-    public static function getInstance() {
-        if (!isset(self::$instance)) {
-            self::$instance = new Gettext_Extension();
-        }
-
-        return self::$instance;
-    }
-
+	private static $instance = null;
+	
+	/**
+	 * Return a translated string
+	 *
+	 * If the translation is not found, the original passed message
+	 * will be returned.
+	 *
+	 * @param String $msg
+	 *        	The message to translate
+	 *        	
+	 * @return Translated message
+	 */
+	public abstract function gettext($msg);
+	
+	/**
+	 * Return a translated string in it's plural form
+	 *
+	 * Returns the given $count (e.g second, third,...) plural form of the
+	 * given string. If the id is not found and $num == 1 $msg is returned,
+	 * otherwise $msg_plural
+	 *
+	 * @param String $msg
+	 *        	The message to search for
+	 * @param String $msg_plural
+	 *        	A fallback plural form
+	 * @param Integer $count
+	 *        	Which plural form
+	 *        	
+	 * @return Translated string
+	 */
+	public abstract function ngettext($msg1, $msg2, $count);
+	
+	/**
+	 * add new domain and bind some lang file to it
+	 * 
+	 * @param String $directory
+	 *        	Directory to search the mo files in
+	 * @param String $domain
+	 *        	The current domain
+	 * @param String $locale
+	 *        	The local
+	 * @return mixed
+	 */
+	public abstract function addDomain($directory, $domain, $locale);
+	
+	/**
+	 * Returns an instance of a gettext implementation depending on
+	 * the capabilities of the PHP installation.
+	 * If the gettext extension
+	 * is loaded, we use the native gettext() bindings, otherwise we use
+	 * an own implementation
+	 *
+	 * @param String $directory
+	 *        	Directory to search the mo files in
+	 * @param String $domain
+	 *        	The current domain
+	 * @param String $locale
+	 *        	The local
+	 *        	
+	 * @return Gettext An instance of a Gettext implementation
+	 */
+	public static function getInstance() {
+		if (! isset ( self::$instance )) {
+			self::$instance = new Gettext_Extension ();
+		}
+		
+		return self::$instance;
+	}
 }

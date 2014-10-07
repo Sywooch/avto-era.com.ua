@@ -6,42 +6,39 @@
  * @author kolia
  */
 class Stats_model_users extends CI_Model {
-
-    protected $locale;
-
-    /**
-     * Default params for method getOrdersByDateRange
-     * @var array
-     */
-    protected $params = array(
-        'interval' => 'day', //  date interval (string: day|month|week|year)
-        'start_date' => NULL, // NULL for all or date in format (string: YYYY-MM-DD)
-        'end_date' => NULL, // NULL for all or date in format (string: YYYY-MM-DD)
-    );
-
-    public function __construct() {
-        parent::__construct();
-        $this->locale = \MY_Controller::getCurrentLocale();
-    }
-
-    public function getUsersOnline() {
-        
-    }
-
-    public function getRegister($params) {
-        if (is_array($params)) {
-            foreach ($this->params as $key => $value) {
-                if (key_exists($key, $params)) {
-                    $this->params[$key] = $params[$key];
-                }
-            }
-        }
-
-        $lineDiagramBase = new \mod_stats\classes\LineDiagramBase();
-
-        $query = "
+	protected $locale;
+	
+	/**
+	 * Default params for method getOrdersByDateRange
+	 * 
+	 * @var array
+	 */
+	protected $params = array (
+			'interval' => 'day', // date interval (string: day|month|week|year)
+			'start_date' => NULL, // NULL for all or date in format (string: YYYY-MM-DD)
+			'end_date' => NULL 
+	) // NULL for all or date in format (string: YYYY-MM-DD)
+;
+	public function __construct() {
+		parent::__construct ();
+		$this->locale = \MY_Controller::getCurrentLocale ();
+	}
+	public function getUsersOnline() {
+	}
+	public function getRegister($params) {
+		if (is_array ( $params )) {
+			foreach ( $this->params as $key => $value ) {
+				if (key_exists ( $key, $params )) {
+					$this->params [$key] = $params [$key];
+				}
+			}
+		}
+		
+		$lineDiagramBase = new \mod_stats\classes\LineDiagramBase ();
+		
+		$query = "
             SELECT
-                DATE_FORMAT(FROM_UNIXTIME(`created`), '" . $lineDiagramBase->prepareDatePattern() . "') as `date`,
+                DATE_FORMAT(FROM_UNIXTIME(`created`), '" . $lineDiagramBase->prepareDatePattern () . "') as `date`,
                 COUNT(`id`) as `count`
             FROM 
                 (SELECT 
@@ -57,31 +54,30 @@ class Stats_model_users extends CI_Model {
                     FROM_UNIXTIME(`users`.`created`)
                 ) as dtable
             WHERE 1 
-                 " . $lineDiagramBase->prepareDateBetweenCondition('created') . " 
+                 " . $lineDiagramBase->prepareDateBetweenCondition ( 'created' ) . " 
             GROUP BY `date`
             ORDER BY FROM_UNIXTIME(`created`)
         ";
-
-        $result = $this->db->query($query);
-        if ($result === FALSE) {
-            return FALSE;
-        }
-        $data = array();
-        foreach ($result->result_array() as $row) {
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-
-    public function getInformation() {
-        $lineDiagramBase = new \mod_stats\classes\LineDiagramBase();
-
-        $params = $lineDiagramBase->getParamsFromCookies();
-
-        $query = "
+		
+		$result = $this->db->query ( $query );
+		if ($result === FALSE) {
+			return FALSE;
+		}
+		$data = array ();
+		foreach ( $result->result_array () as $row ) {
+			$data [] = $row;
+		}
+		
+		return $data;
+	}
+	public function getInformation() {
+		$lineDiagramBase = new \mod_stats\classes\LineDiagramBase ();
+		
+		$params = $lineDiagramBase->getParamsFromCookies ();
+		
+		$query = "
             SELECT
-                DATE_FORMAT(FROM_UNIXTIME(`date_created`), '" . $lineDiagramBase->prepareDatePattern() . "') as `date`,
+                DATE_FORMAT(FROM_UNIXTIME(`date_created`), '" . $lineDiagramBase->prepareDatePattern () . "') as `date`,
                 COUNT(`order_id`) as `orders_count`,
                 SUM(`paid`) as `paid`,
                 SUM(`status`) as `delivered`,
@@ -108,7 +104,7 @@ class Stats_model_users extends CI_Model {
                  LEFT JOIN `users` ON `shop_orders`.`user_id` = `users`.`id`
                  WHERE 1
                     AND FROM_UNIXTIME(`shop_orders`.`date_created`) <= NOW() + INTERVAL 1 DAY 
-                    " . $lineDiagramBase->prepareDateBetweenCondition('date_created') . "
+                    " . $lineDiagramBase->prepareDateBetweenCondition ( 'date_created' ) . "
                  GROUP BY 
                    `shop_orders`.`id`
                  ORDER BY 
@@ -117,19 +113,18 @@ class Stats_model_users extends CI_Model {
             GROUP BY `username`
             ORDER BY `orders_count` DESC
         ";
-        
-        $result = $this->db->query($query);
-        if ($result === FALSE) {
-            return FALSE;
-        }
-        $data = array();
-        foreach ($result->result_array() as $row) {
-            $data[] = $row;
-        }
-
-        return $data;
-    }
-
+		
+		$result = $this->db->query ( $query );
+		if ($result === FALSE) {
+			return FALSE;
+		}
+		$data = array ();
+		foreach ( $result->result_array () as $row ) {
+			$data [] = $row;
+		}
+		
+		return $data;
+	}
 }
 
 ?>

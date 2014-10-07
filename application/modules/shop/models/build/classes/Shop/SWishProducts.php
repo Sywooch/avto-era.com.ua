@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_wishes_products' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SWishProducts extends BaseSWishProducts {
-
 } // SWishProducts

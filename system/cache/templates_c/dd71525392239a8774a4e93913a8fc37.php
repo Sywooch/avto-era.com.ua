@@ -1,25 +1,33 @@
-<?php /*
-/**
-* @main.tpl - template for displaying shop main page
-* Variables
-*   $site_title: variable for insert site title
-*   $canonical: variable for insert canonical
-*   $site_description: variable for insert site description
-*   $THEME: variable for template path
-*   $site_keywords : variable for insert site keywords
-*   $content : variable for insert content of page
-*/?>
+<?php 
+/*
+       * /**
+       * @main.tpl - template for displaying shop main page
+       * Variables
+       * $site_title: variable for insert site title
+       * $canonical: variable for insert canonical
+       * $site_description: variable for insert site description
+       * $THEME: variable for template path
+       * $site_keywords : variable for insert site keywords
+       * $content : variable for insert content of page
+       */
+?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title><?php if(isset($site_title)){ echo $site_title; } ?></title>
-		<meta name="description" content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
-		<meta name="keywords" content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
-		<meta name="generator" content="ImageCMS" />
-		<meta name = "format-detection" content = "telephone=no" />
-		<link rel="stylesheet" type="text/css" href="<?php if(isset($THEME)){ echo $THEME; } ?>css/style.css" media="all" />
-		<link rel="stylesheet" type="text/css" href="<?php if(isset($THEME)){ echo $THEME; } ?><?php if(isset($colorScheme)){ echo $colorScheme; } ?>/colorscheme.css" media="all" />
+<head>
+<meta charset="utf-8" />
+<title><?php if(isset($site_title)){ echo $site_title; } ?></title>
+<meta name="description"
+	content="<?php if(isset($site_description)){ echo $site_description; } ?>" />
+<meta name="keywords"
+	content="<?php if(isset($site_keywords)){ echo $site_keywords; } ?>" />
+<meta name="generator" content="ImageCMS" />
+<meta name="format-detection" content="telephone=no" />
+<link rel="stylesheet" type="text/css"
+	href="<?php if(isset($THEME)){ echo $THEME; } ?>css/style.css"
+	media="all" />
+<link rel="stylesheet" type="text/css"
+	href="<?php if(isset($THEME)){ echo $THEME; } ?><?php if(isset($colorScheme)){ echo $colorScheme; } ?>/colorscheme.css"
+	media="all" />
 
 		<?php if($CI->uri->segment(1) == MY_Controller::getCurrentLocale()): ?>
 			<?php $lang = '/' . \MY_Controller::getCurrentLocale()?> 
@@ -29,7 +37,8 @@
 		<script type="text/javascript">
 			var locale = "<?php echo $lang?>";
 		</script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript"
+	src="<?php if(isset($THEME)){ echo $THEME; } ?>js/jquery-1.8.3.min.js"></script>
 		<?php $this->include_tpl('config.js', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 			<script type="text/javascript">
 				$.ajaxSetup({
@@ -61,57 +70,67 @@
 				window.onload = downloadJSAtOnload(scripts, callback, customEvent);
 				}
 			</script>
-		
-		<!--[if lte IE 9]><script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="<?php if(isset($THEME)){ echo $THEME; } ?>css/lte_ie_8.css" /><![endif]-->
-		<!--[if IE 7]>
+
+<!--[if lte IE 9]><script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="<?php if(isset($THEME)){ echo $THEME; } ?>css/lte_ie_8.css" /><![endif]-->
+<!--[if IE 7]>
 			<link rel="stylesheet" type="text/css" href="<?php if(isset($THEME)){ echo $THEME; } ?>css/ie_7.css" />
 			<script src="<?php if(isset($THEME)){ echo $THEME; } ?>js/localStorageJSON.js"></script>
 		<![endif]-->
 
-		<link rel="icon" href="<?php echo siteinfo('siteinfo_favicon_url')?>" type="image/x-icon" />
-		<link rel="shortcut icon" href="<?php echo siteinfo('siteinfo_favicon_url')?>" type="image/x-icon" />
-	</head>
-	<body class="is<?php echo $agent[0]?> not-js"> 
+<link rel="icon" href="<?php echo siteinfo('siteinfo_favicon_url')?>"
+	type="image/x-icon" />
+<link rel="shortcut icon"
+	href="<?php echo siteinfo('siteinfo_favicon_url')?>"
+	type="image/x-icon" />
+</head>
+<body class="is<?php echo $agent[0]?> not-js"> 
 		<?php $this->include_tpl('language/jsLangsDefine.tpl', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 		<?php $this->include_tpl('language/jsLangs.tpl', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 		<div class="main-body">
-			<div class="wrap-phone-header <?php if($CI->uri->uri_string() == ''): ?>main-wrap-phone-header<?php endif; ?>">
-				<div class="fon-header">
-					<header>
+		<div
+			class="wrap-phone-header <?php if($CI->uri->uri_string() == ''): ?>main-wrap-phone-header<?php endif; ?>">
+			<div class="fon-header">
+				<header>
 						<?php $this->include_tpl('header', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 					</header>
 					<?php if($CI->uri->uri_string() == ''): ?>
 						<?php $CI->load->module('banners')->render()?>
 					<?php endif; ?>
 				</div>
-			</div>
-			<div class="content">
+		</div>
+		<div class="content">
 				<?php if(isset($content)){ echo $content; } ?>
 			</div>
-			<div class="h-footer"></div>
-		</div>
-		<footer>
+		<div class="h-footer"></div>
+	</div>
+	<footer>
 			<?php $this->include_tpl('footer', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 		</footer>
 		<?php $this->include_tpl('user_toolbar', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 
 		<!-- scripts -->
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_united_side_plugins.js"></script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_plugins.js"></script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_shop.js"></script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_global_vars_objects.js"></script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_functions.js"></script>
-		<script type="text/javascript" src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_scripts.js"></script>
-		<script type="text/javascript">
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_united_side_plugins.js"></script>
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_plugins.js"></script>
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_shop.js"></script>
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_global_vars_objects.js"></script>
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_functions.js"></script>
+	<script type="text/javascript"
+		src="<?php if(isset($THEME)){ echo $THEME; } ?>js/_scripts.js"></script>
+	<script type="text/javascript">
 			initDownloadScripts(['raphael-min', 'united_scripts'], 'init', 'scriptDefer');
 		</script>
 		
 		<?php $this->include_shop_tpl('js_templates', '/var/www/avto-era.com.ua/templates/newLevel'); ?>
 		<!-- scripts end -->
 
-		  <!-- GA -->
-			<script type="text/javascript">
+	<!-- GA -->
+	<script type="text/javascript">
 				var _gaq = _gaq || [];
 						  _gaq.push(['_setAccount', 'UA-47226843-1']);
 							  _gaq.push (['_addOrganic', 'images.yandex.ru', 'text']);
@@ -191,13 +210,13 @@
 					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 				})();
 			</script>
-		
 
 
-		<!-- /GA -->
 
-		<!-- Yandex.Metrika counter -->
-			<script type="text/javascript">
+	<!-- /GA -->
+
+	<!-- Yandex.Metrika counter -->
+	<script type="text/javascript">
 			(function (d, w, c) {
 				(w[c] = w[c] || []).push(function() {
 					try {
@@ -221,25 +240,32 @@
 				} else { f(); }
 			})(document, window, "yandex_metrika_callbacks");
 			</script>
-			<noscript><div><img src="//mc.yandex.ru/watch/23653594" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-		
-		<!-- /Yandex.Metrika counter -->
-		
-		<!-- Код тега ремаркетинга Google -->
-<script type="text/javascript">
+	<noscript>
+		<div>
+			<img src="//mc.yandex.ru/watch/23653594"
+				style="position: absolute; left: -9999px;" alt="" />
+		</div>
+	</noscript>
+
+	<!-- /Yandex.Metrika counter -->
+
+	<!-- Код тега ремаркетинга Google -->
+	<script type="text/javascript">
 /* <![CDATA[ */
 var google_conversion_id = 973101105;
 var google_custom_params = window.google_tag_params;
 var google_remarketing_only = true;
 /* ]]> */
 </script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+	<script type="text/javascript"
+		src="//www.googleadservices.com/pagead/conversion.js">
 </script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/973101105/?value=0&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
+	<noscript>
+		<div style="display: inline;">
+			<img height="1" width="1" style="border-style: none;" alt=""
+				src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/973101105/?value=0&amp;guid=ON&amp;script=0" />
+		</div>
+	</noscript>
 
-	</body>
+</body>
 </html><?php $mabilis_ttl=1411131283; $mabilis_last_modified=1403818540; ///var/www/avto-era.com.ua/templates/newLevel/main.tpl ?>

@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * This class defines the structure of the 'shop_product_properties_categories' table.
  *
@@ -14,43 +12,43 @@
  *
  * @package    propel.generator.Shop.map
  */
-class ShopProductPropertiesCategoriesTableMap extends TableMap
-{
-
+class ShopProductPropertiesCategoriesTableMap extends TableMap {
+	
 	/**
 	 * The (dot-path) name of this class
 	 */
 	const CLASS_NAME = 'Shop.map.ShopProductPropertiesCategoriesTableMap';
-
+	
 	/**
 	 * Initialize the table attributes, columns and validators
 	 * Relations are not initialized by this method since they are lazy loaded
 	 *
-	 * @return     void
-	 * @throws     PropelException
+	 * @return void
+	 * @throws PropelException
 	 */
-	public function initialize()
-	{
+	public function initialize() {
 		// attributes
-		$this->setName('shop_product_properties_categories');
-		$this->setPhpName('ShopProductPropertiesCategories');
-		$this->setClassname('ShopProductPropertiesCategories');
-		$this->setPackage('Shop');
-		$this->setUseIdGenerator(false);
-		$this->setIsCrossRef(true);
+		$this->setName ( 'shop_product_properties_categories' );
+		$this->setPhpName ( 'ShopProductPropertiesCategories' );
+		$this->setClassname ( 'ShopProductPropertiesCategories' );
+		$this->setPackage ( 'Shop' );
+		$this->setUseIdGenerator ( false );
+		$this->setIsCrossRef ( true );
 		// columns
-		$this->addForeignPrimaryKey('PROPERTY_ID', 'PropertyId', 'INTEGER' , 'shop_product_properties', 'ID', true, null, null);
-		$this->addForeignPrimaryKey('CATEGORY_ID', 'CategoryId', 'INTEGER' , 'shop_category', 'ID', true, null, null);
+		$this->addForeignPrimaryKey ( 'PROPERTY_ID', 'PropertyId', 'INTEGER', 'shop_product_properties', 'ID', true, null, null );
+		$this->addForeignPrimaryKey ( 'CATEGORY_ID', 'CategoryId', 'INTEGER', 'shop_category', 'ID', true, null, null );
 		// validators
 	} // initialize()
-
+	
 	/**
 	 * Build the RelationMap objects for this table relationships
 	 */
-	public function buildRelations()
-	{
-		$this->addRelation('Property', 'SProperties', RelationMap::MANY_TO_ONE, array('property_id' => 'id', ), 'CASCADE', null);
-		$this->addRelation('PropertyCategory', 'SCategory', RelationMap::MANY_TO_ONE, array('category_id' => 'id', ), 'CASCADE', null);
+	public function buildRelations() {
+		$this->addRelation ( 'Property', 'SProperties', RelationMap::MANY_TO_ONE, array (
+				'property_id' => 'id' 
+		), 'CASCADE', null );
+		$this->addRelation ( 'PropertyCategory', 'SCategory', RelationMap::MANY_TO_ONE, array (
+				'category_id' => 'id' 
+		), 'CASCADE', null );
 	} // buildRelations()
-
 } // ShopProductPropertiesCategoriesTableMap
