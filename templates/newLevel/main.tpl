@@ -17,7 +17,7 @@ content of page */}
 	media="all" />
 <link rel="stylesheet" type="text/css"
 	href="{$THEME}{$colorScheme}/colorscheme.css" media="all" />
-<!-- <link media="all" href="{$THEME}css/jquery-ui.1.8.23.css" type="text/css" rel="stylesheet"> -->
+	<link media="all" href="{$THEME}css/jquery-ui.1.8.23.css" type="text/css" rel="stylesheet">
 
 {if $CI->uri->segment(1) == MY_Controller::getCurrentLocale()} {$lang =
 '/' . \MY_Controller::getCurrentLocale()} {else:} {$lang = ''} {/if}
