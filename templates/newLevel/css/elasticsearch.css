@@ -1,0 +1,39 @@
+html div div#elasticsearchTab{
+	background-color: #D2D2D2;
+}
+html div div#elasticsearchTab ul{
+	position: inherit;
+	background: inherit; 
+	border: 0px; 
+}
+html div div#elasticsearchTab ul a{
+	font-family: "Open Sans Condensed",sans-serif;
+    font-size: 32px;
+    font-weight: normal;
+}
+html div div#elasticsearchTab div.elasticContainer{
+	padding: 0em 0em;
+	font-family: "Open Sans Condensed",sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    overflow-x: hidden;
+    background-color: #DE4A3C;
+}
+html div div#elasticsearchTab ul li.ui-state-active{
+	background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #DE4A3C;
+    border: 1px solid #EB5446;
+    color: #555555;
+    font-weight: normal;
+}
+html div div#elasticsearchTab ul li.ui-tabs-selected{
+	background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #DE4A3C;
+    border: 1px solid #EB5446;
+    color: #555555;
+    font-weight: normal;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container {
+  display: table;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column {
+  display: table-cell;
+}

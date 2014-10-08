@@ -18,6 +18,7 @@ content of page */}
 <link rel="stylesheet" type="text/css"
 	href="{$THEME}{$colorScheme}/colorscheme.css" media="all" />
 	<link media="all" href="{$THEME}css/jquery-ui.1.8.23.css" type="text/css" rel="stylesheet">
+	<link media="all" href="{$THEME}css/elasticsearch.css" type="text/css" rel="stylesheet">
 
 {if $CI->uri->segment(1) == MY_Controller::getCurrentLocale()} {$lang =
 '/' . \MY_Controller::getCurrentLocale()} {else:} {$lang = ''} {/if}
@@ -78,11 +79,12 @@ content of page */}
 		<div
 			class="wrap-phone-header {if  $CI->uri->uri_string() == ''}main-wrap-phone-header{/if}">
 			<div class="fon-header">
-				<header> {include_tpl('header')} </header>
+				<header> {include_tpl('header')} </header>				
 				{if $CI->uri->uri_string() == ''}
 				{$CI->load->module('banners')->render()} {/if}
 			</div>
 		</div>
+		{include_tpl('elasticsearch.tpl')}
 		<div class="content">{$content}</div>
 		<div class="h-footer"></div>
 	</div>

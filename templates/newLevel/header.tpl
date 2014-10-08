@@ -78,28 +78,7 @@
                     {\Category\RenderMenu::create()->setConfig(array('cache'=>TRUE))->load('category_menu')}
                 </div>
             </div>
-        </div>
-        <!-- Filter Client -->
-        	<!-- <div id="tabs" style="margin-top: 100px;]">
-			<ul>
-			<li><a href="#fragment-1"><span>One</span></a></li>
-			<li><a href="#fragment-2"><span>Two</span></a></li>
-			<li><a href="#fragment-3"><span>Three</span></a></li>
-			</ul>
-			<div id="fragment-1">
-			<p>First tab is active by default:</p>
-			<pre><code>1</code></pre>
-			</div>
-			<div id="fragment-2">
-			<pre><code>2</code></pre>
-			<div id="fragment-3">
-			<pre><code>3</code></pre>
-			</div>
-			</div>
-			<script>
-			$( "#tabs" ).tabs();
-			</script> -->
-        <!-- Filter Client -->
+        </div>         
     </div>
 </div>
 {if strpos($CI->uri->uri_string, 'search') !== false}
