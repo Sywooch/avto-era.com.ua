@@ -20,6 +20,7 @@ html div div#elasticsearchTab div.elasticContainer{
     background-color: #DE4A3C;
 }
 html div div#elasticsearchTab ul li.ui-state-active{
+	
 	background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #DE4A3C;
     border: 1px solid #EB5446;
     color: #555555;
@@ -31,9 +32,50 @@ html div div#elasticsearchTab ul li.ui-tabs-selected{
     color: #555555;
     font-weight: normal;
 }
+html div div#elasticsearchTab form{
+	padding: 10px;
+}
 html div div#elasticsearchTab div.elasticContainer div.e_s_container {
   display: table;
 }
 html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column {
   display: table-cell;
 }
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column label{
+	color: #000000;
+	font-weight: bold;
+    float: left;
+    font-size: 12px;
+    margin-bottom: 5px;	
+    font-family: Arial,Helvetica,sans-serif;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column select{
+	color: #000000;
+    float: left;
+    font-size: 15px;
+    margin-bottom: 5px;	
+    font-family: Arial,Helvetica,sans-serif;
+    height: 24px;	
+}
+
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_apply_div{
+	color: #666666;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;	
+    float: right;
+}
+
+html div div#elasticsearchTab div.elasticContainer div.e_s_container button.e_s_apply_button{
+	background-color: #F96104;
+    background-image: url("images/bg-bt.gif");
+    background-repeat: repeat-x;
+    border: 0 none;
+    box-shadow: 1px 1px 1px #705800;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: "Open Sans Condensed",sans-serif;
+    font-size: 26px;
+    padding: 5px 20px;
+    text-transform: uppercase;	
+}
+

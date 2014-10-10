@@ -59,7 +59,10 @@ content of page */}
 				}
 			</script>
 		{/literal}
-<script src="{$THEME}js/jquery-ui.1.8.23.min.js" type="text/javascript">
+				
+<script src="{$THEME}js/jquery-ui.1.8.23.min.js" type="text/javascript"></script>
+<script src="{$THEME}js/elasticsearch/elasticsearch.js?_={echo rand(5, 1000000);}" type="text/javascript"></script>
+
 <!--[if lte IE 9]><script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="{$THEME}css/lte_ie_8.css" /><![endif]-->
 <!--[if IE 7]>
@@ -95,9 +98,9 @@ content of page */}
 	<script type="text/javascript" src="{$THEME}js/_united_side_plugins.js"></script>
 	<script type="text/javascript" src="{$THEME}js/_plugins.js"></script>
 	<script type="text/javascript" src="{$THEME}js/_shop.js"></script>
-	<script type="text/javascript" src="{$THEME}js/_global_vars_objects.js"></script>
-	<script type="text/javascript" src="{$THEME}js/_functions.js"></script>
-	<script type="text/javascript" src="{$THEME}js/_scripts.js"></script>
+	<script type="text/javascript" src="{$THEME}js/_global_vars_objects.js?_={echo rand(5, 1000000);}"></script>
+	<script type="text/javascript" src="{$THEME}js/_functions.js?_={echo rand(5, 1000000);}"></script>
+	<script type="text/javascript" src="{$THEME}js/_scripts.js?_={echo rand(5, 1000000);}"></script>
 	<script type="text/javascript">
 			initDownloadScripts(['raphael-min', 'united_scripts'], 'init', 'scriptDefer');
 		</script>

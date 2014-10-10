@@ -1,3 +1,12 @@
+<div id="tiresElasticSearchContainer"></div>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$("tiresElasticSearchContainer").elasticSearch();
+	});
+</script>
+
+
+<!-- 
 <div>
 	<form class="d_i-b1 diskform1 shinaform1" action="" method="get"
 		id="mainFilterForm1">
@@ -67,3 +76,5 @@
 		</div>
 	</form>
 </div>
+
+-->
