@@ -15,8 +15,9 @@ class Elastic_search extends ShopController {
 	}
 	
 	public function getBrands() {
-		var_dump($this->elasticsearch);
-		echo "getBrands" . " " . $this->elasticsearch->getBrandsTest();
+		$arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+		
+		echo $this->elasticsearch->response($arr);
 	}
 	
 	public function initialize(){
