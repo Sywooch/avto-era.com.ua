@@ -41,10 +41,15 @@ class Elastic_search extends ShopController {
 		$types = $this->elasticsearch->getTypeTires();
 		
 		foreach($types as $t){
-			$type_retrieved[$t->getId ()] = $t->getName ();
+			$type_retrieved[ $t['id'] ] = $t['name'];
 		}
 		
 		echo $this->elasticsearch->response($type_retrieved);
+	}
+	
+	public function seasons(){
+		$seasons = array('zimn' => 'Зимние', 'letn' => 'Летние', 'vsesez' => 'Всесезонные');
+		echo $this->elasticsearch->response($seasons);
 	}
 	
 	/**
@@ -52,19 +57,43 @@ class Elastic_search extends ShopController {
 	 */
 	public function getWidth(){
 		$width_retrieved = array();
-		$width_retrieved = $this->elasticsearch->getWidth();
+		$width = $this->elasticsearch->getWidth();
+
 		foreach($width as $t){
-			$type_retrieved[$t] = $t;
+			$width_retrieved[ $t['id'] ] = $t['value'];
 		}
 		
 		echo $this->elasticsearch->response($width_retrieved);
 		
 	}
 	
-	public function test(){
-		$query = $this->db->query ( "SELECT * FROM `shop_products`");
-		$result = $query->result_array ();
-		var_dump($result);
+	/**
+	 * Retrieve Height
+	 */
+	public function getHeight(){
+		$height_retrieved = array();
+		$height = $this->elasticsearch->getHeight();
+	
+		foreach($height as $t){
+			$height_retrieved[ $t['id'] ] = $t['value'];
+		}
+	
+		echo $this->elasticsearch->response($height_retrieved);
+	
 	}
 	
+	/**
+	 * Retrieve Diameter
+	 */
+	public function getDiameter(){
+		$diameter_retrieved = array();
+		$diameter = $this->elasticsearch->getDiameter();
+	
+		foreach($diameter as $t){
+			$diameter_retrieved[ $t['id'] ] = $t['value'];
+		}
+	
+		echo $this->elasticsearch->response($diameter_retrieved);
+	
+	}
 }

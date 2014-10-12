@@ -29,7 +29,7 @@
                         	   id: 		"e_s_sezon_id",
                         	   name: 	"sezon",
                         	   label: 	"Сезонность",
-                        	   url:		"",
+                        	   url:		"/shop/elastic_search/seasons",
                         	   isset:	false
                            },{
                         	   id: 		"e_s_width_id",
@@ -41,13 +41,13 @@
                         	   id: 		"e_s_height_id",
                         	   name: 	"height",
                         	   label: 	"Высота",
-                        	   url:		"",
+                        	   url:		"/shop/elastic_search/getHeight",
                         	   isset:	false
                            },{
                         	   id: 		"e_s_diameter_id",
                         	   name: 	"diameter",
                         	   label: 	"Диаметр",
-                        	   url:		"",
+                        	   url:		"/shop/elastic_search/getDiameter",
                         	   isset:	false
                            }
             ]

@@ -57,74 +57,43 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve type of tires
 	 */
 	public function getTypeTires() {
-		$bid = ( int ) $_POST ['bid'];
-	
-		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->select ( array (
-				'CategoryId'
-		) )->distinct ()->find ()->toArray ();
-		$cids = SCategoryQuery::create ()->filterById ( $pids )->select ( array (
-				'ParentId'
-		) )->distinct ()->find ()->toArray ();
-		$cat = SCategoryQuery::create ()->filterById ( $cids )->distinct ()->find ();
-		return $cat;
-// 		if (count ( $cat ) > 0) {
-// 			foreach ( $cat as $v ) {
-// 				$out .= '<option  value="' . $v->getId () . '*' . $v->getUrl () . '">' . $v->getName () . '</option>' . "\n";
-// 			}
-// 		}
-// 		echo $out . '</select>';
-	}
-	
-	/**
-	 * Retrieve seasons
-	 */
-	public function getSezon() {
-		$bid = ( int ) $_POST ['bid'];
-		$cid = ( int ) $_POST ['cid'];
-	
-// 		$out = '<select class="color" id="sezon" name="sezon">';
-// 		$out .= '<option value="0" selected="selected">выберите сезон</option>' . "\n";
-	
-		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->select ( array (
-				'CategoryId'
-		) )->distinct ()->find ()->toArray ();
-		$cids = SCategoryQuery::create ()->filterById ( $pids )->distinct ()->find ();
-	
-		if (count ( $cids ) > 0) {
-			foreach ( $cids as $v ) {
-	
-				if ($v->getParentId () == $cid)
-					$out .= '<option value="' . $v->getId () . '*' . $v->getUrl () . '">' . $v->getName () . '</option>' . "\n";
-			}
-		}
-		echo $out . '</select>';
+		$sql = "SELECT * FROM `shop_category_i18n` shop_category_i18n WHERE shop_category_i18n.id IN (SELECT DISTINCT shop_category.id FROM `shop_category` shop_category INNER JOIN `shop_products` shop_products ON shop_category.id = shop_products.brand_id) AND shop_category_i18n.locale = 'ru' AND shop_category_i18n.id <> '102' GROUP BY(shop_category_i18n.name) ORDER BY shop_category_i18n.name";
+		$query = $this->db->query($sql);
+		$types = $query->result_array ();
+		
+		return $types;
 	}
 	
 	/**
 	 * Return width of tires
 	 */
 	public function getWidth() {
-		$bid = ( int ) $_POST ['bid'];
-		$cid = ( int ) $_POST ['cid'];
-	
-// 		$out = '<select class="color" id="shirina" name="p[42][]">';
-// 		$out .= '<option value="0" selected="selected">выберите ширину</option>' . "\n";
-	
-		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->filterByCategoryId ( $cid )->select ( array (
-				'Id'
-		) )->distinct ()->find ()->toArray ();
-		$shirina = SProductPropertiesDataQuery::create ()->filterByProductId ( $pids )->filterByPropertyId ( 42 )->distinct ()->select ( array (
-				'Value'
-		) )->find ()->toArray ();
-	
-		return $shirina;
+		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = '42' AND shop_product_properties_data.value > 100 GROUP BY (shop_product_properties_data.value)";
+		$query = $this->db->query($sql);
+		$widths = $query->result_array ();
 		
-// 		if (count ( $shirina ) > 0) {
-// 			foreach ( $shirina as $v ) {
+		return $widths;
+	}
 	
-// 				$out .= '<option value="' . $v . '">' . $v . '</option>' . "\n";
-// 			}
-// 		}
-// 		echo $out . '</select>';
+	/**
+	 * Return height of tires
+	 */
+	public function getHeight() {
+		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = 43 GROUP BY (shop_product_properties_data.value)";
+		$query = $this->db->query($sql);
+		$heights = $query->result_array ();
+	
+		return $heights;
+	}
+	
+	/**
+	 * Return height of tires
+	 */
+	public function getDiameter() {
+		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = 44 GROUP BY (shop_product_properties_data.value)";
+		$query = $this->db->query($sql);
+		$diameters = $query->result_array ();
+	
+		return $diameters;
 	}
 }
