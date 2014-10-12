@@ -33,16 +33,16 @@
 
 /**
  * @file
- * Array of WEB safe colors
- * 
- * @author Nicola Asuni
- * @package com.tecnick.tcpdf
- * @since 2.9.000 (2008-03-26)
- */
+* Array of WEB safe colors
+*
+* @author Nicola Asuni
+* @package com.tecnick.tcpdf
+* @since 2.9.000 (2008-03-26)
+*/
 
 /**
  * Array of WEB safe colors
- */
+*/
 $webcolor = array (
 		'aliceblue' => 'f0f8ff',
 		'antiquewhite' => 'faebd7',
@@ -192,7 +192,7 @@ $webcolor = array (
 		'white' => 'ffffff',
 		'whitesmoke' => 'f5f5f5',
 		'yellow' => 'ffff00',
-		'yellowgreen' => '9acd32' 
+		'yellowgreen' => '9acd32'
 );
 
 //============================================================+

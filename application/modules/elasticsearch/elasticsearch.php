@@ -11,7 +11,7 @@ class Elasticsearch extends MY_Controller {
 		parent::__construct ();
 		header("Access-Control-Allow-Orgin: *");
 		header("Access-Control-Allow-Methods: *");
-		header("Content-Type: application/json");
+		header('Content-Type: application/json; charset=utf-8');
 	}
 	
 	/**
@@ -37,5 +37,28 @@ class Elasticsearch extends MY_Controller {
 				500 => 'Internal Server Error',
 		);
 		return ($status[$code])?$status[$code]:$status[500];
+	}
+	
+	/**
+	 * Filter by brand
+	 * @param unknown_type $cid
+	 * @param unknown_type $nin
+	 * @return boolean|unknown
+	 */
+	public function getBrand($cid, $nin = false) {
+		if (! $nin)
+			$bid = SProductsQuery::create ()->select ( array (
+					'BrandId'
+			) )->filterByCategoryId ( $cid )->find ()->toArray ();
+		else
+			$bid = SProductsQuery::create ()->select ( array (
+					'BrandId'
+			) )->where ( 'SProducts.CategoryId NOT IN (' . $cid . ')' )->find ()->toArray ();
+	
+		if (count ( $bid ) > 0)
+			$brands = SBrandsQuery::create ()->filterById ( $bid )->orderByUrl ()->find ();
+		else
+			return false;
+		return $brands;
 	}
 }

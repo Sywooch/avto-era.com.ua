@@ -14,18 +14,47 @@
             
             entitySelects: [
                            {	
-                        	   id: "e_s_brand_id",
-                        	   name: "brand",
-                        	   label: "Производитель"
+                        	   id: 		"e_s_brand_id",
+                        	   name: 	"brand",
+                        	   label: 	"Производитель",
+                        	   url:		"/shop/elastic_search/getBrands",
+                        	   isset:	false
                            },{
-                        	   id: "e_s_typetr_id",
-                        	   name: "typetr",
-                        	   label: "Тип"
+                        	   id: 		"e_s_typetr_id",
+                        	   name: 	"typetr",
+                        	   label: 	"Тип",
+                        	   url:		"",
+                        	   isset:	false
+                           },{
+                        	   id: 		"e_s_sezon_id",
+                        	   name: 	"sezon",
+                        	   label: 	"Сезонность",
+                        	   url:		"",
+                        	   isset:	false
+                           },{
+                        	   id: 		"e_s_width_id",
+                        	   name: 	"width",
+                        	   label: 	"Ширина",
+                        	   url:		"",
+                        	   isset:	false
+                           },{
+                        	   id: 		"e_s_height_id",
+                        	   name: 	"height",
+                        	   label: 	"Высота",
+                        	   url:		"",
+                        	   isset:	false
+                           },{
+                        	   id: 		"e_s_diameter_id",
+                        	   name: 	"diameter",
+                        	   label: 	"Диаметр",
+                        	   url:		"",
+                        	   isset:	false
                            }
             ]
         }, options );
         
         selectProducer(self, settings);        
+        eventHandlerDispatch(self, settings);
         return this;
         
         
@@ -40,6 +69,58 @@
 //        	
 //        });
     };
+    
+    /**
+     * Binds all events for selectors
+     * @param thisObj
+     * @param settings
+     * @returns
+     */
+    function eventHandlerDispatch(thisObj, settings){
+    	settings.entitySelects.forEach(function(elem, index, array){
+    		
+    		// event handler
+			$( "#" + elem.id ).click(function() {
+				if(elem.url != "" && !elem.isset){
+					elem.isset = true;
+					primaryLoadData(this, elem);
+				}
+			});
+    	});
+    }
+    
+    /**
+     * Primary load data when select is empty
+     * @param thisObj
+     * @param settings
+     * @returns
+     */
+    function primaryLoadData(thisObj, settings){
+    	$(thisObj).empty().append('<option value="">Загрузка...</option>')
+    	.prop('disabled', true);
+    	
+    	$.ajax({
+    		url: settings.url,
+    		beforeSend: function( xhr ) {
+    			// before send
+    		}
+		}).done(function( data ) {
+			$(thisObj).empty();			
+			for (prop in data) {
+				if (!data.hasOwnProperty(prop)) {
+			        continue;
+			    }
+				$(thisObj)
+		         	.append($("<option></option>")
+		         	.attr("value", prop)
+		         	.text(data[prop])); 				
+			}
+		}).fail(function() {
+			// Error
+		}).always(function() {
+			$(thisObj).prop('disabled', false);
+		});
+    }
     
     /**
      * Private function of producer all tire`s selects

@@ -9,7 +9,7 @@ $desc = array (
 		'FontBBox' => '[-914 -350 1493 1068]',
 		'ItalicAngle' => - 11,
 		'StemV' => 70,
-		'MissingWidth' => 540 
+		'MissingWidth' => 540
 );
 $up = - 63;
 $ut = 44;
@@ -4639,7 +4639,7 @@ $cw = array (
 		65530 => 0,
 		65531 => 0,
 		65532 => 0,
-		65533 => 923 
+		65533 => 923
 );
 $enc = '';
 $diff = '';
