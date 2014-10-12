@@ -23,7 +23,7 @@
                         	   id: 		"e_s_typetr_id",
                         	   name: 	"typetr",
                         	   label: 	"Тип",
-                        	   url:		"",
+                        	   url:		"/shop/elastic_search/getTypeOfTires",
                         	   isset:	false
                            },{
                         	   id: 		"e_s_sezon_id",
@@ -35,7 +35,7 @@
                         	   id: 		"e_s_width_id",
                         	   name: 	"width",
                         	   label: 	"Ширина",
-                        	   url:		"",
+                        	   url:		"/shop/elastic_search/getWidth",
                         	   isset:	false
                            },{
                         	   id: 		"e_s_height_id",

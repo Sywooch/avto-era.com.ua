@@ -45,20 +45,86 @@ class Elasticsearch extends MY_Controller {
 	 * @param unknown_type $nin
 	 * @return boolean|unknown
 	 */
-	public function getBrand($cid, $nin = false) {
-		if (! $nin)
-			$bid = SProductsQuery::create ()->select ( array (
-					'BrandId'
-			) )->filterByCategoryId ( $cid )->find ()->toArray ();
-		else
-			$bid = SProductsQuery::create ()->select ( array (
-					'BrandId'
-			) )->where ( 'SProducts.CategoryId NOT IN (' . $cid . ')' )->find ()->toArray ();
-	
-		if (count ( $bid ) > 0)
-			$brands = SBrandsQuery::create ()->filterById ( $bid )->orderByUrl ()->find ();
-		else
-			return false;
+	public function getAllBrand() {
+		$sql = "SELECT * FROM `shop_brands_i18n` shop_brands_i18n WHERE shop_brands_i18n.id IN (SELECT DISTINCT shop_brands.id FROM `shop_brands` shop_brands INNER JOIN `shop_products` shop_products ON shop_brands.id = shop_products.brand_id) AND shop_brands_i18n.locale = 'ru' ORDER BY shop_brands_i18n.name";
+		$query = $this->db->query($sql);
+		$brands = $query->result_array ();
+		
 		return $brands;
+	}
+	
+	/**
+	 * Retrieve type of tires
+	 */
+	public function getTypeTires() {
+		$bid = ( int ) $_POST ['bid'];
+	
+		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->select ( array (
+				'CategoryId'
+		) )->distinct ()->find ()->toArray ();
+		$cids = SCategoryQuery::create ()->filterById ( $pids )->select ( array (
+				'ParentId'
+		) )->distinct ()->find ()->toArray ();
+		$cat = SCategoryQuery::create ()->filterById ( $cids )->distinct ()->find ();
+		return $cat;
+// 		if (count ( $cat ) > 0) {
+// 			foreach ( $cat as $v ) {
+// 				$out .= '<option  value="' . $v->getId () . '*' . $v->getUrl () . '">' . $v->getName () . '</option>' . "\n";
+// 			}
+// 		}
+// 		echo $out . '</select>';
+	}
+	
+	/**
+	 * Retrieve seasons
+	 */
+	public function getSezon() {
+		$bid = ( int ) $_POST ['bid'];
+		$cid = ( int ) $_POST ['cid'];
+	
+// 		$out = '<select class="color" id="sezon" name="sezon">';
+// 		$out .= '<option value="0" selected="selected">выберите сезон</option>' . "\n";
+	
+		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->select ( array (
+				'CategoryId'
+		) )->distinct ()->find ()->toArray ();
+		$cids = SCategoryQuery::create ()->filterById ( $pids )->distinct ()->find ();
+	
+		if (count ( $cids ) > 0) {
+			foreach ( $cids as $v ) {
+	
+				if ($v->getParentId () == $cid)
+					$out .= '<option value="' . $v->getId () . '*' . $v->getUrl () . '">' . $v->getName () . '</option>' . "\n";
+			}
+		}
+		echo $out . '</select>';
+	}
+	
+	/**
+	 * Return width of tires
+	 */
+	public function getWidth() {
+		$bid = ( int ) $_POST ['bid'];
+		$cid = ( int ) $_POST ['cid'];
+	
+// 		$out = '<select class="color" id="shirina" name="p[42][]">';
+// 		$out .= '<option value="0" selected="selected">выберите ширину</option>' . "\n";
+	
+		$pids = SProductsQuery::create ()->filterByBrandId ( $bid )->filterByCategoryId ( $cid )->select ( array (
+				'Id'
+		) )->distinct ()->find ()->toArray ();
+		$shirina = SProductPropertiesDataQuery::create ()->filterByProductId ( $pids )->filterByPropertyId ( 42 )->distinct ()->select ( array (
+				'Value'
+		) )->find ()->toArray ();
+	
+		return $shirina;
+		
+// 		if (count ( $shirina ) > 0) {
+// 			foreach ( $shirina as $v ) {
+	
+// 				$out .= '<option value="' . $v . '">' . $v . '</option>' . "\n";
+// 			}
+// 		}
+// 		echo $out . '</select>';
 	}
 }
