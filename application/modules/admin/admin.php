@@ -35,17 +35,17 @@ class Admin extends MY_Controller {
 	private $request_url = 'http://requests.imagecms.net/index.php/requests/req';
 	public function __construct() {
 		parent::__construct ();
-		
+
 		$lang = new MY_Lang ();
 		$lang->load ( 'admin' );
-		
+
 		$this->load->library ( 'DX_Auth' );
 		admin_or_redirect ();
-		
+
 		$this->load->library ( 'lib_admin' );
 		$this->load->library ( 'lib_category' );
 		$this->lib_admin->init_settings ();
-		
+
 		// $this->output->enable_profiler(true);
 	}
 	public function init() {
@@ -60,7 +60,7 @@ class Admin extends MY_Controller {
 		$this->dashboard->index ();
 		exit ();
 	}
-	
+
 	/**
 	 * Delete cached files
 	 *
@@ -72,9 +72,9 @@ class Admin extends MY_Controller {
 	public function delete_cache() {
 		// cp_check_perm('cache_clear');
 		$param = $this->input->post ( 'param' );
-		
+
 		$this->lib_admin->log ( lang ( "Cleared the cache", "admin" ) );
-		
+
 		switch ($param) {
 			case 'all' :
 				$files = $this->cache->delete_all ();
@@ -83,7 +83,7 @@ class Admin extends MY_Controller {
 				else
 					$message = lang ( "Cache has been cleared", "admin" );
 				break;
-			
+					
 			case 'expried' :
 				$files = $this->cache->Clean ();
 				if ($files)
@@ -101,24 +101,24 @@ class Admin extends MY_Controller {
 				'message' => $message,
 				'result' => $result,
 				'color' => 'r',
-				'filesCount' => $this->cache->cache_file () 
+				'filesCount' => $this->cache->cache_file ()
 		) );
 	}
-	
+
 	// initialyze elFinder
 	public function elfinder_init($edMode = false) {
 		$this->load->helper ( 'path' );
-		
+
 		if (! $edMode)
 			$path = 'uploads';
 		else
 			$path = 'templates';
-		
+
 		if ($this->input->get ( 'path' ))
 			$path = $this->input->get ( 'path' );
-		
+
 		$opts = array (
-				
+
 				// 'debug' => true,
 				'roots' => array (
 						array (
@@ -131,8 +131,8 @@ class Admin extends MY_Controller {
 												'pattern' => '/administrator/', // You can also set permissions for file types by adding, for example, .jpg inside pattern.
 												'read' => false,
 												'write' => false,
-												'locked' => true 
-										) 
+												'locked' => true
+										)
 								)
 								// array(
 								// 'pattern' => '/commerce/', //You can also set permissions for file types by adding, for example, .jpg inside pattern.
@@ -140,11 +140,11 @@ class Admin extends MY_Controller {
 								// 'write' => true,
 								// 'locked' => false
 								// )
-								 
+									
 						)
 						// more elFinder options here
-						 
-				) 
+							
+				)
 		);
 		$this->load->library ( 'elfinder_lib', $opts );
 	}
@@ -162,12 +162,12 @@ class Admin extends MY_Controller {
 				exit ();
 			}
 		}
-		
+
 		$this->template->assign ( 'tree', $this->lib_category->build () );
 		$this->template->show ( 'cats_sidebar', FALSE );
 		echo '</div>';
 	}
-	
+
 	/**
 	 * Clear session data;
 	 *
@@ -181,12 +181,12 @@ class Admin extends MY_Controller {
 	public function report_bug() {
 		$message = '';
 		$this->load->library ( 'email' );
-		
+
 		$config ['charset'] = 'utf-8';
 		$config ['mailtype'] = 'html';
 		$config ['wordwrap'] = TRUE;
 		$this->email->initialize ( $config );
-		
+
 		/* pack message */
 		$message .= lang ( "Site address", "admin" ) . trim ( strip_tags ( $_GET ['hostname'] ) ) . ';' . lang ( "page", "admin" ) . ': ' . trim ( strip_tags ( $_GET ['pathname'] ) ) . ';' . lang ( "ip-address" ) . ': ' . trim ( strip_tags ( $_GET ['ip_address'] ) ) . '; ' . lang ( "user name", "admin" ) . ': ' . trim ( strip_tags ( $_GET ['user_name'] ) ) . '; <br/> ' . lang ( "Message", "admin" ) . ': ' . trim ( strip_tags ( $_GET ['text'] ) );
 		$text = trim ( $_GET ['text'] );

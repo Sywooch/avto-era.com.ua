@@ -4,7 +4,7 @@ if (! defined ( 'BASEPATH' ))
 
 /**
  * Class for Mod_Discount module
- * 
+ *
  * @uses \mod_discount\classes\BaseDiscount
  * @author DevImageCms
  * @copyright (c) 2013, ImageCMS
@@ -16,10 +16,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 	public static $cnt = 0;
 	public $no_install = true;
 	protected $result_discount = array ();
-	
+
 	/**
 	 * __construct base object loaded
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @copyright (c) 2013, ImageCMS
@@ -30,10 +30,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 		$lang->load ( 'mod_discount' );
 		$this->load->model ( 'discount_model_admin' );
 	}
-	
+
 	/**
 	 * autoload execute when get product variant
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -47,10 +47,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 			\CMSFactory\Events::create ()->on ( 'MakeOrder' )->setListener ( 'make_order_with_discount' );
 		}
 	}
-	
+
 	/**
 	 * get discount for product when get product variant
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -62,10 +62,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 		$obj = new \mod_discount\discount_product ();
 		$obj->get_product_discount_event ( $product );
 	}
-	
+
 	/**
 	 * update order with discount and gift
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -83,10 +83,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 	public function register_script() {
 		\CMSFactory\assetManager::create ()->registerScript ( 'main', TRUE );
 	}
-	
+
 	/**
 	 * install module and create table
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @copyright (c) 2013, ImageCMS
@@ -96,10 +96,10 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 			$this->discount_model_admin->moduleInstall ();
 		}
 	}
-	
+
 	/**
 	 * deinstall module and drop tables
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @copyright (c) 2013, ImageCMS
@@ -107,7 +107,7 @@ class Mod_discount extends \mod_discount\classes\BaseDiscount {
 	public function _deinstall() {
 		if ($this->dx_auth->is_admin () == FALSE)
 			exit ();
-		
+
 		$this->discount_model_admin->moduleDelete ();
 	}
 }

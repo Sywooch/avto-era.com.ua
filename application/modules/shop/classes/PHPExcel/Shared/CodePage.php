@@ -178,7 +178,7 @@ class PHPExcel_Shared_CodePage {
 				return 'UTF-8';
 				break; // Unicode (UTF-8)
 		}
-		
+
 		throw new PHPExcel_Exception ( 'Unknown codepage: ' . $codePage );
 	}
 }

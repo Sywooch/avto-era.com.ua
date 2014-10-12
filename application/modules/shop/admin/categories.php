@@ -34,7 +34,7 @@ class ShopAdminCategories extends ShopAdminController {
 		$this->render ( 'list', array (
 				'tree' => $this->tree,
 				'htmlTree' => $this->printCategoryTree (),
-				'languages' => ShopCore::$ci->cms_admin->get_langs ( true ) 
+				'languages' => ShopCore::$ci->cms_admin->get_langs ( true )
 		) );
 	}
 	public function load_all_cat() {
@@ -46,46 +46,46 @@ class ShopAdminCategories extends ShopAdminController {
 		$res = $this->db->query ( $sql )->result_array ();
 		if (count ( $res ) > 0)
 			foreach ( $res as $r )
-				$this->prod_count [$r ['category_id']] = $r ['prod_count'];
+			$this->prod_count [$r ['category_id']] = $r ['prod_count'];
 	}
-	
+
 	/*
 	 * public function prod_count_child($key) {
-	 *
-	 * if (count($this->all_cat) > 0)
+	*
+	* if (count($this->all_cat) > 0)
 	 * foreach ($this->all_cat as $cat) {
-	 * $data_arr = unserialize($cat['full_path_ids']);
-	 * if (count($data_arr) > 0)
+	* $data_arr = unserialize($cat['full_path_ids']);
+	* if (count($data_arr) > 0)
 	 * foreach ($data_arr as $data)
 	 * if ($data == $key)
 	 * $arr_child[] = $cat['id'];
-	 * }
-	 *
-	 * if (count($arr_child) > 0)
+	* }
+	*
+	* if (count($arr_child) > 0)
 	 * foreach ($arr_child as $r)
 	 * $sum += $this->prod_count[$r];
-	 *
-	 * return (int) $sum;
-	 * }
-	 *
-	 */
+	*
+	* return (int) $sum;
+	* }
+	*
+	*/
 	public function ext_cat() {
 		if (count ( $this->all_cat ) > 0) {
 			foreach ( $this->all_cat as $cat )
 				$this->ext_cat [$cat ['id']] = $cat;
-			
+				
 			foreach ( $this->ext_cat as $key => $cat ) {
 				foreach ( $this->ext_cat as $cat_parent )
 					if ($cat ['id'] == $cat_parent ['parent_id']) {
-						$this->ext_cat [$key] ['has_child'] = true;
-						break;
-					}
+					$this->ext_cat [$key] ['has_child'] = true;
+					break;
+				}
 				$this->ext_cat [$key] ['prod_count'] = $this->prod_count [$key];
 				// $this->ext_cat[$key]['prod_count_ch'] = $this->prod_count_child($key);
 			}
 		}
 	}
-	
+
 	/**
 	 * Create new category.
 	 *
@@ -93,58 +93,58 @@ class ShopAdminCategories extends ShopAdminController {
 	 */
 	public function create() {
 		$model = new SCategory ();
-		
+
 		\CMSFactory\Events::create ()->registerEvent ( '', 'ShopAdminCategories:preCreate' );
 		\CMSFactory\Events::runFactory ();
-		
+
 		if (! empty ( $_POST )) {
 			$this->form_validation->set_rules ( $model->rules () );
-			
+				
 			if ($this->form_validation->run () == FALSE) {
 				showMessage ( validation_errors () );
 			} else {
 				// Check if category URL is aviable.
 				$urlCheck = SCategoryQuery::create ()->where ( 'SCategory.Url = ?', ( string ) $_POST ['Url'] )->where ( 'SCategory.ParentId = ?', ( int ) $_POST ['ParentId'] )->findOne ();
-				
+
 				if ($urlCheck !== null) {
 					exit ( showMessage ( lang ( 'Specified URL busy', 'admin' ) ) );
 				}
-				
+
 				$_POST ['Active'] = ( int ) $_POST ['Active'];
-				
+
 				$model->fromArray ( $_POST );
 				$model->setTpl ( $_POST ['tpl'] );
 				$model->setOrderMethod ( $_POST ['order_method'] );
 				$model->setShowsitetitle ( $_POST ['showsitetitle'] );
 				$model->save ();
-				
+
 				// Build categories tree to get category full uri path.
 				$tree = ShopCore::app ()->SCategoryTree->getTree ();
 				$category = $tree [$model->getId ()];
-				
+
 				// Delete self id from ids path.
 				$ids = $category->getFullPathIdsVirtual ();
 				array_pop ( $ids );
-				
+
 				$model->setFullPath ( implode ( '/', $category->getFullUriPath () ) );
 				$model->setFullPathIds ( serialize ( $ids ) );
 				$model->save ();
-				
+
 				$CI = &get_instance ();
-				
+
 				if ($CI->db->get_where ( 'components', array (
-						'name' => 'sitemap' 
+						'name' => 'sitemap'
 				) )->row ())
 					$CI->load->module ( 'sitemap' )->ping_google ( $this );
-				
+
 				\CMSFactory\Events::create ()->registerEvent ( array (
-						'ShopCategoryId' => $model->getId () 
+						'ShopCategoryId' => $model->getId ()
 				) )->runFactory ();
-				
+
 				showMessage ( lang ( 'Category created', 'admin' ) );
 				if ($_POST ['action'] == 'close')
 					pjax ( '/admin/components/run/shop/categories/index' );
-				
+
 				if ($_POST ['action'] == 'edit')
 					pjax ( '/admin/components/run/shop/categories/edit/' . $model->getId () . '/' . $locale );
 				$this->cache->clearCacheFolder ( 'category' );
@@ -153,11 +153,11 @@ class ShopAdminCategories extends ShopAdminController {
 			$this->render ( 'create', array (
 					'model' => $model,
 					'categories' => ShopCore::app ()->SCategoryTree->getTree (), // Categories array for parent_id dropdown.
-					'tpls' => $this->get_tpl_names ( $this->templatePath ) 
+					'tpls' => $this->get_tpl_names ( $this->templatePath )
 			) );
 		}
 	}
-	
+
 	/**
 	 * Edit category
 	 *
@@ -167,13 +167,13 @@ class ShopAdminCategories extends ShopAdminController {
 		$locale = $locale == null ? $this->defaultLanguage ['identif'] : $locale;
 		$currentLocale = MY_Controller::getCurrentLocale ();
 		$model = SCategoryQuery::create ()->joinWithI18n ( $currentLocale )->findPk ( ( int ) $id );
-		
+
 		\CMSFactory\Events::create ()->registerEvent ( array (
 				'model' => $model,
-				'userId' => $this->dx_auth->get_user_id () 
+				'userId' => $this->dx_auth->get_user_id ()
 		), 'ShopAdminCategories:preEdit' );
 		\CMSFactory\Events::runFactory ();
-		
+
 		if ($model === null)
 			$this->error404 ( lang ( 'Category not found', 'admin' ) );
 		/**
@@ -181,66 +181,66 @@ class ShopAdminCategories extends ShopAdminController {
 		 */
 		if (! empty ( $_POST )) {
 			$this->form_validation->set_rules ( $model->rules () );
-			
+				
 			if ($this->form_validation->run () == FALSE) {
 				showMessage ( validation_errors () );
 			} else {
 				// Check if category URL is aviable.
 				$urlCheck = SCategoryQuery::create ()->where ( 'SCategory.Url = ?', ( string ) $_POST ['Url'] )->where ( 'SCategory.ParentId = ?', ( int ) $_POST ['ParentId'] )->where ( 'SCategory.Id != ?', ( int ) $model->getId () )->findOne ();
-				
+
 				if ($urlCheck !== null) {
 					exit ( showMessage ( lang ( 'Specified URL is busy', 'admin' ) ) );
 				}
-				
+
 				$_POST ['Active'] = ( int ) $_POST ['Active'];
 				$_POST ['Locale'] = $locale;
-				
+
 				$model->fromArray ( $_POST );
 				$model->SetTpl ( $_POST ['tpl'] );
 				$model->setOrderMethod ( $_POST ['order_method'] );
 				$model->setShowsitetitle ( $_POST ['showsitetitle'] );
 				$model->save ();
-				
+
 				// Build categories tree to get category full uri path.
 				$tree = ShopCore::app ()->SCategoryTree->getTree ();
 				$category = $tree [$model->getId ()];
-				
+
 				// Delete self id from ids path.
 				$ids = $category->getFullPathIdsVirtual ();
 				array_pop ( $ids );
-				
+
 				$model->setFullPath ( implode ( '/', $category->getFullUriPath () ) );
 				$model->setFullPathIds ( serialize ( ( array ) $ids ) );
 				$model->save ();
-				
+
 				// Get all childs
 				$childs = $model->getChildsByParentId ( $model->getId () );
-				
+
 				$this->updateUrls ( $childs );
-				
+
 				/**
 				 * Init Event.
 				 * Edit ShopCategory
 				 */
 				\CMSFactory\Events::create ()->registerEvent ( array (
-						'ShopCategoryId' => $model->getId () 
+						'ShopCategoryId' => $model->getId ()
 				) )->runFactory ();
 				/**
 				 * End init Event.
 				 * Edit ShopCategory
 				 */
 				showMessage ( lang ( 'Changes saved', 'admin' ) );
-				
+
 				$CI = &get_instance ();
-				
+
 				if ($CI->db->get_where ( 'components', array (
-						'name' => 'sitemap' 
+						'name' => 'sitemap'
 				) )->row ())
 					$CI->load->module ( 'sitemap' )->ping_google ( $this );
-				
+
 				if ($_POST ['action'] == 'close')
 					pjax ( '/admin/components/run/shop/categories/index' );
-				
+
 				if ($_POST ['action'] == 'edit')
 					pjax ( '/admin/components/run/shop/categories/edit/' . $model->getId () . '/' . $locale );
 				$this->cache->clearCacheFolder ( 'category' );
@@ -249,14 +249,14 @@ class ShopAdminCategories extends ShopAdminController {
 			$model->setLocale ( $locale );
 			$this->load->helper ( 'cookie' );
 			set_cookie ( 'category_full_path_ids', json_encode ( unserialize ( $model->getFullPathIds () ) ), 60 * 60 * 60 );
-			
+				
 			$this->render ( 'edit', array (
 					'model' => $model,
 					'modelArray' => $model->toArray (),
 					'categories' => ShopCore::app ()->SCategoryTree->getTree (),
 					'languages' => ShopCore::$ci->cms_admin->get_langs ( true ),
 					'locale' => $locale,
-					'tpls' => $this->get_tpl_names ( $this->templatePath ) 
+					'tpls' => $this->get_tpl_names ( $this->templatePath )
 			) );
 			exit ();
 		}
@@ -265,17 +265,17 @@ class ShopAdminCategories extends ShopAdminController {
 		foreach ( $models as $c ) {
 			$ids = $c->getFullPathIdsVirtual ();
 			array_pop ( $ids );
-			
+				
 			$c->setFullPath ( implode ( '/', $c->getFullUriPath () ) );
 			$c->setFullPathIds ( serialize ( ( array ) $ids ) );
 			$c->save ();
-			
+				
 			$childs = $c->getChildsByParentId ( $c->getId () );
 			if ($childs->count () > 0)
 				$this->updateUrls ( $childs );
 		}
 	}
-	
+
 	/**
 	 * Delete category
 	 *
@@ -285,11 +285,11 @@ class ShopAdminCategories extends ShopAdminController {
 	public function delete() {
 		// Get category id
 		$category_id = $this->input->post ( 'id' );
-		
+
 		\CMSFactory\Events::create ()->registerEvent ( array (
-				'ShopCategoryId' => $this->input->post ( 'id' ) 
+				'ShopCategoryId' => $this->input->post ( 'id' )
 		) )->runFactory ();
-		
+
 		// Delete category
 		if (! is_array ( $category_id )) {
 			$model = SCategoryQuery::create ()->findByID ( ( int ) $category_id );
@@ -302,11 +302,11 @@ class ShopAdminCategories extends ShopAdminController {
 			$this->cache->clearCacheFolder ( 'category' );
 		} else
 			showMessage ( lang ( 'Failed to delete the category', 'admin' ) );
-		
+
 		$CI = &get_instance ();
-		
+
 		if ($CI->db->get_where ( 'components', array (
-				'name' => 'sitemap' 
+				'name' => 'sitemap'
 		) )->row ())
 			$CI->load->module ( 'sitemap' )->ping_google ( $this );
 	}
@@ -315,7 +315,7 @@ class ShopAdminCategories extends ShopAdminController {
 			$tree = ShopCore::app ()->SCategoryTree->getTree ();
 		else
 			$tree = $ajax_tree;
-		
+
 		$output = '';
 		if (! $ajax_tree)
 			$output .= '<div class="sortable save_positions" data-url="/admin/components/run/shop/categories/save_positions">';
@@ -324,12 +324,12 @@ class ShopAdminCategories extends ShopAdminController {
 		if (! $ajax_tree) {
 			foreach ( $tree as $c )
 				if ($c->getParentId () == 0)
-					$output .= $this->printCategory ( $c );
+				$output .= $this->printCategory ( $c );
 		} else {
 			foreach ( $tree as $c )
 				$output .= $this->printCategory ( $c );
 		}
-		
+
 		$output .= '</div>';
 		if (! $ajax_tree)
 			return $output;
@@ -338,7 +338,7 @@ class ShopAdminCategories extends ShopAdminController {
 	}
 	private function printCategory($category) {
 		$catToDisplay = new stdClass ();
-		
+
 		if (is_object ( $category )) {
 			$catToDisplay->id = $category->getId ();
 			$catToDisplay->name = $category->getName ();
@@ -356,30 +356,30 @@ class ShopAdminCategories extends ShopAdminController {
 			$catToDisplay->level = $level;
 			$catToDisplay->column = $category ['column'];
 		}
-		
+
 		$catToDisplay->hasChilds = ( bool ) $this->ext_cat [$catToDisplay->id] ['has_child'];
 		// $catToDisplay->prodCnt = (int) $this->ext_cat[$catToDisplay->id]['prod_count_ch'];
 		$catToDisplay->myProdCnt = ( int ) $this->ext_cat [$catToDisplay->id] ['prod_count'];
-		
+
 		$output .= '<div>';
-		
+
 		$this->template->assign ( 'cat', $catToDisplay );
 		$output .= $this->template->fetch ( 'file:' . $this->getViewFullPath ( '_listItem' ) );
-		
+
 		$output .= '</div>';
-		
+
 		unset ( $catToDisplay );
-		
+
 		return $output;
 	}
 	public function ajax_load_parent() {
 		$id = ( int ) $_POST ['id'];
-		
+
 		$subCats = SCategoryQuery::create ()->filterByParentId ( $id )->orderByPosition ()->find ();
-		
+
 		$this->printCategoryTree ( $subCats );
 	}
-	
+
 	/**
 	 * Save categories position.
 	 *
@@ -388,22 +388,22 @@ class ShopAdminCategories extends ShopAdminController {
 	 */
 	public function save_positions() {
 		$positions = $_POST ['positions'];
-		
+
 		if (sizeof ( $positions ) == 0)
 			return false;
-		
+
 		foreach ( $positions as $key => $val ) {
 			$data [] = array (
 					'id' => ( int ) $val,
-					'position' => $key 
+					'position' => $key
 			);
 		}
 		$this->db->update_batch ( 'shop_category', $data, 'id' );
-		
+
 		showMessage ( lang ( 'Positions saved', 'admin' ) );
 		$this->cache->clearCacheFolder ( 'category' );
 	}
-	
+
 	/**
 	 * Transilt title to url
 	 */
@@ -414,14 +414,14 @@ class ShopAdminCategories extends ShopAdminController {
 	}
 	public function translate($id) {
 		$model = SCategoryQuery::create ()->findPk ( ( int ) $id );
-		
+
 		if ($model === null)
 			$this->error404 ( lang ( 'Category was not found', 'admin' ) );
-		
+
 		$languages = ShopCore::$ci->cms_admin->get_langs ( true );
-		
+
 		$translatableFieldNames = $model->getTranslatableFieldNames ();
-		
+
 		/**
 		 * Update category translation
 		 */
@@ -433,7 +433,7 @@ class ShopAdminCategories extends ShopAdminController {
 					$this->form_validation->set_rules ( $fieldName . '_' . $language ['identif'], $model->getLabel ( $fieldName ) . lang ( ' language ', 'admin' ) . $language ['lang_name'], $translatingRules [$fieldName] );
 				}
 			}
-			
+				
 			if ($this->form_validation->run () == FALSE) {
 				showMessage ( validation_errors () );
 			} else {
@@ -444,27 +444,27 @@ class ShopAdminCategories extends ShopAdminController {
 						$model->$methodName ( $this->input->post ( $fieldName . '_' . $language ['identif'] ) );
 					}
 				}
-				
+
 				$model->save ();
-				
+
 				showMessage ( lang ( 'Changes saved', 'admin' ) );
 				$this->cache->clearCacheFolder ( 'category' );
 			}
 		} else {
-			
+				
 			$mceEditorFieldNames = array (
-					'Description' 
+					'Description'
 			);
 			$requairedFieldNames = array (
-					'Name' 
+					'Name'
 			);
-			
+				
 			$this->render ( 'translate', array (
 					'model' => $model,
 					'languages' => $languages,
 					'translatableFieldNames' => $translatableFieldNames,
 					'mceEditorFieldNames' => $mceEditorFieldNames,
-					'requairedFieldNames' => $requairedFieldNames 
+					'requairedFieldNames' => $requairedFieldNames
 			) );
 		}
 	}
@@ -494,7 +494,7 @@ class ShopAdminCategories extends ShopAdminController {
 			fclose ( $fp );
 			echo json_encode ( array (
 					'responce' => $responce,
-					'result' => $result 
+					'result' => $result
 			) );
 		}
 	}
@@ -509,19 +509,19 @@ class ShopAdminCategories extends ShopAdminController {
 		}
 		return $result;
 	}
-	
+
 	/**
 	 */
 	public function ajaxUpdateCategoryColumn() {
 		// Get data from post
 		$categoryId = $this->input->post ( 'categoryId' );
 		$column = $this->input->post ( 'column' );
-		
+
 		$model = SCategoryQuery::create ()->findPk ( $categoryId );
-		
+
 		// Clear cache
 		$this->cache->clearCacheFolder ( 'category' );
-		
+
 		// If column updated success than return true else return false
 		if ($model->setColumn ( $column )->save ())
 			echo true;

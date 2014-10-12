@@ -14,13 +14,13 @@ class Share extends MY_Controller {
 		$lang = new MY_Lang ();
 		$lang->load ( 'share' );
 		$this->load->module ( 'core' );
-		
+
 		$this->db->select ( 'settings' );
 		$this->settings = unserialize ( implode ( ',', $this->db->get_where ( 'components', array (
-				'name' => 'share' 
+				'name' => 'share'
 		) )->row_array () ) );
 	}
-	
+
 	/**
 	 * Default function to access module by URL
 	 */
@@ -72,63 +72,63 @@ class Share extends MY_Controller {
 		}
 		$type = $settings ['type'];
 		$html = '<script async="async" defer="defer" type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
-                 <span class="yashare-auto-init"
-                       data-yashareL10n="ru"
-                       data-yashareType="' . $type . '"
-                       data-yashareLink="' . $url . '"
-                       data-yashareQuickServices="' . $html . '"></span> ';
+		<span class="yashare-auto-init"
+		data-yashareL10n="ru"
+		data-yashareType="' . $type . '"
+		data-yashareLink="' . $url . '"
+		data-yashareQuickServices="' . $html . '"></span> ';
 		return $html;
 	}
 	public function _make_like_buttons() {
 		$settings = $this->settings;
 		if ($settings ['facebook_like'] == 1) {
 			$string ['facebook'] = '<td>   <div id="fb-root"></div>
-                        <script async="async" defer="defer">(function(d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
-                        js = d.createElement(s); js.id = id;
-                        js.src = "//connect.facebook.net/en_EN/all.js#xfbml=1";
-                        fjs.parentNode.insertBefore(js, fjs);
-                        }(document, "script", "facebook-jssdk"));</script>
-                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="60" data-show-faces="true"></div></td>';
+			<script async="async" defer="defer">(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_EN/all.js#xfbml=1";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, "script", "facebook-jssdk"));</script>
+		<div class="fb-like" data-send="false" data-layout="button_count" data-width="60" data-show-faces="true"></div></td>';
 		}
 		if ($settings ['vk_like'] == 1 && $settings ['vk_apiid']) {
 			$string ['vk'] = "<td>
 
-                        <!-- Put this script tag to the <head> of your page -->
-                        <script type='text/javascript' src='//vk.com/js/api/openapi.js?101'></script>
+			<!-- Put this script tag to the <head> of your page -->
+			<script type='text/javascript' src='//vk.com/js/api/openapi.js?101'></script>
 
-                        <script type='text/javascript'>
-                          VK.init({apiId: '{$settings['vk_apiid']}', onlyWidgets: true});
-                        </script>
+			<script type='text/javascript'>
+			VK.init({apiId: '{$settings['vk_apiid']}', onlyWidgets: true});
+			</script>
 
-                        <!-- Put this div tag to the place, where the Like block will be -->
-                        <div id='vk_like'></div>
-                        <script type='text/javascript'>
-                        VK.Widgets.Like('vk_like', {type: 'mini', height: 18});
-                        </script>
-                        </td>";
+			<!-- Put this div tag to the place, where the Like block will be -->
+			<div id='vk_like'></div>
+			<script type='text/javascript'>
+			VK.Widgets.Like('vk_like', {type: 'mini', height: 18});
+			</script>
+			</td>";
 		}
 		if ($settings ['gg_like'] == 1) {
 			$string ['google'] = "<td><!-- Place this tag in your head or just before your close body tag. -->
-                        <script type='text/javascript' src='https://apis.google.com/js/plusone.js'>
-                          {lang: 'ru', parsetags: 'explicit'}
-                        </script>
+			<script type='text/javascript' src='https://apis.google.com/js/plusone.js'>
+			{lang: 'ru', parsetags: 'explicit'}
+			</script>
 
-                        <!-- Place this tag where you want the +1 button to render. -->
-                        <div class='g-plusone' data-size='medium'></div>
+			<!-- Place this tag where you want the +1 button to render. -->
+			<div class='g-plusone' data-size='medium'></div>
 
-                        <!-- Place this render call where appropriate. -->
-                        <script type='text/javascript'>gapi.plusone.go();</script></td>";
+			<!-- Place this render call where appropriate. -->
+			<script type='text/javascript'>gapi.plusone.go();</script></td>";
 		}
 		if ($settings ['twitter_like'] == 1) {
 			$string ['twitter'] = '<td><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-                    <script async="async" defer="defer">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id))
-                    {js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></td>';
+			<script async="async" defer="defer">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id))
+			{js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></td>';
 		}
 		$html = '<table>
-                    <tr>' . $string ['facebook'] . $string ['vk'] . $string ['google'] . $string ['twitter'] . '</tr>
-                </table>';
+		<tr>' . $string ['facebook'] . $string ['vk'] . $string ['google'] . $string ['twitter'] . '</tr>
+		</table>';
 		return $html;
 	}
 }

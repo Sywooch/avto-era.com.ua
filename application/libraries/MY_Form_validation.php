@@ -5,17 +5,17 @@ if (! defined ( 'BASEPATH' ))
 class MY_Form_validation extends CI_Form_validation {
 	public function __construct() {
 		parent::__construct ();
-		
+
 		$this->set_message ( 'valid_date', 'Поле %s должно содержать правильную дату.' );
 		$this->set_message ( 'valid_time', 'Поле %s должно содержать правильное время.' );
 	}
-	
+
 	// --------------------------------------------------------------------
 	public function run($module = '', $group = '') {
 		(is_object ( $module )) and $this->CI = & $module;
 		return parent::run ( $group );
 	}
-	
+
 	/**
 	 * Valid Date (ISO format)
 	 *
@@ -35,7 +35,7 @@ class MY_Form_validation extends CI_Form_validation {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * Validate time string
 	 *

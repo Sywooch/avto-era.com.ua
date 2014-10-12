@@ -27,22 +27,22 @@ class Lib_xml {
 		 */
 		$bad = array (
 				'|//+|',
-				'|\.\./|' 
+				'|\.\./|'
 		);
 		$good = array (
 				'/',
-				'' 
+				''
 		);
 		$file = APPPATH . preg_replace ( $bad, $good, $file ) . '.xml';
-		
+
 		if (! file_exists ( $file )) {
 			return false;
 		}
-		
+
 		// $this->document = utf8_encode (file_get_contents($file));
 		$this->document = file_get_contents ( $file );
 		$this->filename = $file;
-		
+
 		return true;
 	} /* END load */
 	public function parse() {
@@ -55,7 +55,7 @@ class Lib_xml {
 		if ($xml == '') {
 			return false;
 		}
-		
+
 		$doc = new DOMDocument ();
 		$doc->preserveWhiteSpace = false;
 		if ($doc->loadXML ( $xml )) {
@@ -64,7 +64,7 @@ class Lib_xml {
 				return $array;
 			}
 		}
-		
+
 		return false;
 	} /* END parse */
 	private function flatten_node($node) {
@@ -74,14 +74,14 @@ class Lib_xml {
 		 * Helper function to flatten an XML document into an array
 		 */
 		$array = array ();
-		
+
 		foreach ( $node->childNodes as $child ) {
 			if ($child->hasChildNodes ()) {
 				if ($node->firstChild->nodeName == $node->lastChild->nodeName && $node->childNodes->length > 1) {
 					$array [$child->nodeName] [] = $this->flatten_node ( $child );
 				} else {
 					$array [$child->nodeName] [] = $this->flatten_node ( $child );
-					
+						
 					if ($child->hasAttributes ()) {
 						$index = count ( $array [$child->nodeName] ) - 1;
 						$attrs = & $array [$child->nodeName] [$index] ['__attrs'];
@@ -94,7 +94,7 @@ class Lib_xml {
 				return $child->nodeValue;
 			}
 		}
-		
+
 		return $array;
 	} /* END node_to_array */
 }

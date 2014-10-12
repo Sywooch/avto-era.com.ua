@@ -21,40 +21,40 @@ class ShopCore {
 	public static $ci = null; // CI instance
 	public static $SHOP_APPLY_DISCOUNTS = true;
 	public static $imagesUploadPath = null;
-	
+
 	// public static $currentLocale = null;
-	
+
 	/**
 	 * Replacement of php __autoload magic method.
 	 *
-	 * @param string $className        	
+	 * @param string $className
 	 * @access public
 	 */
 	public static function autoload($className) {
 		if (self::$_initialized === null) {
 			self::$_initialized = true;
 			self::$ci = & get_instance ();
-			
+				
 			// Load components class container.
 			class_exists ( 'ShopComponents', true );
 			self::$_componentsClass = new ShopComponents ();
-			
+				
 			// Load shop helper
 			// require realpath(dirname(__FILE__).'/../helpers/shop_helper'.EXT);
 			require SHOP_DIR . 'helpers/shop_helper' . EXT;
-			
+				
 			self::init ();
 		}
-		
+
 		// Full path to class file
 		$classFullPath = SHOP_DIR . 'classes/' . $className . EXT;
-		
+
 		if (file_exists ( $classFullPath )) {
 			include ($classFullPath);
 			self::$_imports [$className] = true;
 		}
 	}
-	
+
 	/**
 	 * Load main components like Propel, Config, etc...
 	 *
@@ -62,10 +62,10 @@ class ShopCore {
 	 */
 	public static function init() {
 		require_once SHOP_DIR . 'classes/propel/Propel.php';
-		
+
 		// Set images upload path
 		self::$imagesUploadPath = PUBPATH . 'uploads/shop/';
-		
+
 		// Initialize Propel with the runtime configuration from an array based on
 		// main database configuration.
 		// Custom connection settings from propel conf dir.
@@ -80,12 +80,12 @@ class ShopCore {
 										'password' => self::$ci->db->password,
 										'settings' => array (
 												'charset' => array (
-														'value' => 'utf8' 
-												) 
-										) 
-								) 
+														'value' => 'utf8'
+												)
+										)
+								)
 						),
-						'default' => 'Shop' 
+						'default' => 'Shop'
 				),
 				'log' => array ()
 				// 'type' => 'file',
@@ -95,28 +95,28 @@ class ShopCore {
 				// 'conf' => '',
 				,
 				'generator_version' => '1.6.5-dev',
-				'classmap' => include (SHOP_DIR . 'models' . DS . 'build' . DS . 'conf' . DS . 'classmap-Shop-conf' . EXT) 
+				'classmap' => include (SHOP_DIR . 'models' . DS . 'build' . DS . 'conf' . DS . 'classmap-Shop-conf' . EXT)
 		);
-		
+
 		if (PropelDebugMode === TRUE) {
 			$conf ['datasources'] ['Shop'] ['connection'] ['classname'] = 'DebugPDO';
 			$logger = ShopCore::app ()->SPropelLogger; // Load logger class.
 			Propel::setLogger ( $logger );
 		}
-		
+
 		// Set propel configuration
 		Propel::setConfiguration ( $conf );
 		Propel::initialize ();
-		
+
 		if (PropelDebugMode === true) {
 			$config = Propel::getConfiguration ( PropelConfiguration::TYPE_OBJECT );
 			$config->setParameter ( 'debugpdo.logging.details.method.enabled', true );
 			$config->setParameter ( 'debugpdo.logging.details.time.enabled', true );
 			$config->setParameter ( 'debugpdo.logging.details.mem.enabled', true );
 		}
-		
+
 		self::$_GET = self::$ci->input->get ( NULL, TRUE );
-		
+
 		// Add the generated 'classes' directory to the include path
 		set_include_path ( SHOP_DIR . "models/build/classes/" . PATH_SEPARATOR . get_include_path () );
 	}
@@ -135,35 +135,35 @@ class ShopCore {
 			if ($vk ['use'] == 1)
 				$path = "./templates/" . $vk ['template'] . "/shop/default";
 		}
-		
+
 		$media_path = $path;
 		self::$template_path = realpath ( $path ) . '/';
-		
+
 		if (count ( ShopCore::app ()->SCurrencyHelper->getCurrencies () ) > 1 and ShopCore::app ()->SCurrencyHelper->default)
 			$currentCurrency = SCurrenciesQuery::create ()->filterByIsDefault ( 1 )->findOne ()->getId ();
-		
+
 		ShopCore::app ()->SCurrencyHelper->initCurrentCurrency ( null );
 		ShopCore::app ()->SCurrencyHelper->initAdditionalCurrency ( $currentCurrency );
 		if (substr ( $media_path, 0, 2 ) == './')
 			$media_path = substr ( $media_path, 2 );
-		
+
 		$nextCurrency = SCurrenciesQuery::create ()->filterById ( $currentCurrency, Criteria::NOT_EQUAL )->filterByShowonsite ( 1 )->findOne ();
 		// Assign currency symbol.
-		
+
 		if ($nextCurrency) {
 			$nextCurrencyName = $nextCurrency->getShowOnSite () ? $nextCurrency->Symbol : "";
 		} else {
 			$nextCurrencyName = '';
 		}
-		
+
 		$ci->template->add_array ( array (
 				'SHOP_THEME' => media_url ( $media_path ) . '/',
 				'CS' => ShopCore::app ()->SCurrencyHelper->getSymbol (),
 				'NextCS' => $nextCurrencyName,
-				'NextCSId' => $nextCurrency->Id 
+				'NextCSId' => $nextCurrency->Id
 		) );
 	}
-	
+
 	/**
 	 * Load a language file
 	 *
@@ -182,44 +182,44 @@ class ShopCore {
 	 */
 	public static function t($message, $category = 'admin', $langfile = 'main', array $params = array(), $language = null) {
 		$langfile = $category . '_' . $langfile;
-		
+
 		if ($language === null)
 			$language = MY_Controller::getCurrentLocale ();
-		
+
 		switch ($category) {
 			case 'front' :
 				$filePath = self::$template_path;
 				break;
 			default :
-				
+
 				// TODO: translating admin messages
 				return $message;
 				break;
 		}
-		
+
 		if (! in_array ( $langfile . EXT, self::$ci->lang->is_loaded, TRUE )) {
 			ShopCore::$ci->lang->load ( $langfile, $language, FALSE, null, TRUE, $filePath );
 		}
-		
+
 		// if translating doesnt exist - return original message
 		$message = lang ( $message ) ? lang ( $message ) : $message;
-		
+
 		if ($params === array ())
 			return $message;
-		
+
 		if (! is_array ( $params ))
 			$params = array (
-					$params 
+					$params
 			);
-		
+
 		foreach ( $params as $key => $value ) {
 			$params ["%$key%"] = $value;
 			unset ( $array [$key] );
 		}
-		
+
 		return strtr ( $message, $params );
 	}
-	
+
 	/**
 	 *
 	 * @return ShopCore

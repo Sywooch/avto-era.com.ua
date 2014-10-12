@@ -10,10 +10,10 @@ namespace ImportCSV;
  * @property \CI_DB_active_record $db
  */
 class CategoryImport extends \ImportCSV\BaseImport {
-	
+
 	/**
 	 * Process Categories
-	 * 
+	 *
 	 * @access public
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2012, Kaero <dev@imagecms.net>
@@ -31,19 +31,19 @@ class CategoryImport extends \ImportCSV\BaseImport {
 			foreach ( $parts as $part ) {
 				// $pathIds[] = $parentId;
 				$pathNames [] = $part;
-				
+
 				/* Find existing category */
 				$binds = array (
 						$part,
 						$this->languages,
-						$parentId 
+						$parentId
 				);
 				$result = $this->db->query ( '
-                    SELECT SCategory.id as CategoryId
-                    FROM `shop_category_i18n` as SCategoryI18n
-                    RIGHT OUTER JOIN `shop_category` AS SCategory ON SCategory.id = SCategoryI18n.id
-                    WHERE SCategoryI18n.name = ? AND SCategoryI18n.locale = ? AND SCategory.parent_id = ?', $binds )->row ();
-				
+						SELECT SCategory.id as CategoryId
+						FROM `shop_category_i18n` as SCategoryI18n
+						RIGHT OUTER JOIN `shop_category` AS SCategory ON SCategory.id = SCategoryI18n.id
+						WHERE SCategoryI18n.name = ? AND SCategoryI18n.locale = ? AND SCategory.parent_id = ?', $binds )->row ();
+
 				if (! ($result instanceof \stdClass)) {
 					/* Create new category */
 					$binds = array (
@@ -51,18 +51,18 @@ class CategoryImport extends \ImportCSV\BaseImport {
 							'full_path_ids' => serialize ( $pathIds ),
 							'full_path' => implode ( '/', array_map ( 'translit_url', $pathNames ) ),
 							'url' => translit_url ( $part ),
-							'active' => 1 
+							'active' => 1
 					);
 					$this->db->insert ( 'shop_category', $binds );
 					$newCategoryId = $this->db->insert_id ();
-					
+						
 					/* Add translation data for new category */
 					$this->db->insert ( 'shop_category_i18n', array (
 							'id' => $newCategoryId,
 							'locale' => $this->languages,
-							'name' => trim ( $part ) 
+							'name' => trim ( $part )
 					) );
-					
+						
 					$this->create ()->content [$key] ['CategoryId'] = $pathIds [] = $parentId = $newCategoryId;
 					$this->create ()->content [$key] ['CategoryIds'] = $pathIds;
 				} else {
@@ -72,10 +72,10 @@ class CategoryImport extends \ImportCSV\BaseImport {
 			}
 		}
 	}
-	
+
 	/**
 	 * Parse Category Name by slashes
-	 * 
+	 *
 	 * @param
 	 *        	string name
 	 * @return arrray

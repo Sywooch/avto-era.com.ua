@@ -40,17 +40,17 @@ class PHPExcel_Shared_Escher_DggContainer_BstoreContainer {
 	 * @var array
 	 */
 	private $_BSECollection = array ();
-	
+
 	/**
 	 * Add a BLIP Store Entry
 	 *
-	 * @param PHPExcel_Shared_Escher_DggContainer_BstoreContainer_BSE $BSE        	
+	 * @param PHPExcel_Shared_Escher_DggContainer_BstoreContainer_BSE $BSE
 	 */
 	public function addBSE($BSE) {
 		$this->_BSECollection [] = $BSE;
 		$BSE->setParent ( $this );
 	}
-	
+
 	/**
 	 * Get the collection of BLIP Store Entries
 	 *

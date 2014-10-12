@@ -39,17 +39,17 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 	 * @var PHPExcel_RichText_ITextElement[]
 	 */
 	private $_richTextElements;
-	
+
 	/**
 	 * Create a new PHPExcel_RichText instance
 	 *
-	 * @param PHPExcel_Cell $pCell        	
+	 * @param PHPExcel_Cell $pCell
 	 * @throws PHPExcel_Exception
 	 */
 	public function __construct(PHPExcel_Cell $pCell = null) {
 		// Initialise variables
 		$this->_richTextElements = array ();
-		
+
 		// Rich-Text string attached to cell?
 		if ($pCell !== NULL) {
 			// Add cell text and style
@@ -58,12 +58,12 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 				$objRun->setFont ( clone $pCell->getParent ()->getStyle ( $pCell->getCoordinate () )->getFont () );
 				$this->addText ( $objRun );
 			}
-			
+				
 			// Set parent value
 			$pCell->setValueExplicit ( $this, PHPExcel_Cell_DataType::TYPE_STRING );
 		}
 	}
-	
+
 	/**
 	 * Add text
 	 *
@@ -76,7 +76,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 		$this->_richTextElements [] = $pText;
 		return $this;
 	}
-	
+
 	/**
 	 * Create text
 	 *
@@ -90,7 +90,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 		$this->addText ( $objText );
 		return $objText;
 	}
-	
+
 	/**
 	 * Create text run
 	 *
@@ -104,7 +104,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 		$this->addText ( $objText );
 		return $objText;
 	}
-	
+
 	/**
 	 * Get plain text
 	 *
@@ -113,16 +113,16 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 	public function getPlainText() {
 		// Return value
 		$returnValue = '';
-		
+
 		// Loop through all PHPExcel_RichText_ITextElement
 		foreach ( $this->_richTextElements as $text ) {
 			$returnValue .= $text->getText ();
 		}
-		
+
 		// Return
 		return $returnValue;
 	}
-	
+
 	/**
 	 * Convert to string
 	 *
@@ -131,7 +131,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 	public function __toString() {
 		return $this->getPlainText ();
 	}
-	
+
 	/**
 	 * Get Rich Text elements
 	 *
@@ -140,7 +140,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 	public function getRichTextElements() {
 		return $this->_richTextElements;
 	}
-	
+
 	/**
 	 * Set Rich Text elements
 	 *
@@ -157,7 +157,7 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get hash code
 	 *
@@ -168,10 +168,10 @@ class PHPExcel_RichText implements PHPExcel_IComparable {
 		foreach ( $this->_richTextElements as $element ) {
 			$hashElements .= $element->getHashCode ();
 		}
-		
+
 		return md5 ( $hashElements . __CLASS__ );
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

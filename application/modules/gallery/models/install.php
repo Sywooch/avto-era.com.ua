@@ -36,148 +36,148 @@ class Install extends CI_Model {
 				'order_by' => 'date',
 				'sort_order' => 'desc',
 				'watermark_type' => 'text',
-				'watermark_image_opacity' => 50 
+				'watermark_image_opacity' => 50
 		);
-		
+
 		$this->db->where ( 'name', 'gallery' );
 		$this->db->update ( 'components', array (
 				'enabled' => 1,
-				'settings' => serialize ( $params ) 
+				'settings' => serialize ( $params )
 		) );
-		
+
 		$this->load->dbforge ();
-		
+
 		/* Albums table */
 		$fields = array (
 				'id' => array (
 						'type' => 'INT',
 						'constraint' => 11,
-						'auto_increment' => TRUE 
+						'auto_increment' => TRUE
 				),
 				'category_id' => array (
 						'type' => 'INT',
-						'constraint' => 11 
+						'constraint' => 11
 				),
 				'name' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 250 
+						'constraint' => 250
 				),
 				'description' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 500 
+						'constraint' => 500
 				),
 				'cover_id' => array (
 						'type' => 'INT',
 						'constraint' => 11,
-						'default' => 0 
+						'default' => 0
 				),
 				'position' => array (
 						'type' => 'INT',
 						'constraint' => 9,
-						'default' => 0 
+						'default' => 0
 				),
 				'created' => array (
 						'type' => 'INT',
-						'constraint' => 11 
+						'constraint' => 11
 				),
 				'updated' => array (
 						'type' => 'INT',
-						'constraint' => 11 
+						'constraint' => 11
 				),
 				'tpl_file' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 200 
-				) 
+						'constraint' => 200
+				)
 		);
-		
+
 		$this->dbforge->add_key ( 'id', TRUE );
 		$this->dbforge->add_field ( $fields );
 		$this->dbforge->create_table ( 'gallery_albums', TRUE );
-		
+
 		/* Images table */
 		$fields2 = array (
 				'id' => array (
 						'type' => 'INT',
 						'constraint' => 11,
-						'auto_increment' => TRUE 
+						'auto_increment' => TRUE
 				),
 				'album_id' => array (
 						'type' => 'INT',
-						'constraint' => 11 
+						'constraint' => 11
 				),
 				'file_name' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 150 
+						'constraint' => 150
 				),
 				'file_ext' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 8 
+						'constraint' => 8
 				),
 				'file_size' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 20 
+						'constraint' => 20
 				),
 				'position' => array (
 						'type' => 'INT',
-						'constraint' => 9 
+						'constraint' => 9
 				),
 				'width' => array (
 						'type' => 'INT',
-						'constraint' => 6 
+						'constraint' => 6
 				),
 				'height' => array (
 						'type' => 'INT',
-						'constraint' => 6 
+						'constraint' => 6
 				),
 				'description' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 500 
+						'constraint' => 500
 				),
 				'uploaded' => array (
 						'type' => 'INT',
-						'constraint' => 11 
+						'constraint' => 11
 				),
 				'views' => array (
 						'type' => 'INT',
-						'constraint' => 11 
-				) 
+						'constraint' => 11
+				)
 		);
-		
+
 		$this->dbforge->add_key ( 'id', TRUE );
 		$this->dbforge->add_field ( $fields2 );
 		$this->dbforge->create_table ( 'gallery_images', TRUE );
-		
+
 		/* Categories table */
 		$category = array (
 				'id' => array (
 						'type' => 'INT',
 						'constraint' => 11,
-						'auto_increment' => TRUE 
+						'auto_increment' => TRUE
 				),
 				'name' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 250 
+						'constraint' => 250
 				),
 				'description' => array (
 						'type' => 'VARCHAR',
-						'constraint' => 500 
+						'constraint' => 500
 				),
 				'cover_id' => array (
 						'type' => 'INT',
 						'constraint' => 11,
-						'default' => 0 
+						'default' => 0
 				),
 				'position' => array (
 						'type' => 'INT',
 						'constraint' => 9,
-						'default' => 0 
+						'default' => 0
 				),
 				'created' => array (
 						'type' => 'INT',
-						'constraint' => 11 
-				) 
+						'constraint' => 11
+				)
 		);
-		
+
 		$this->dbforge->add_key ( 'id', TRUE );
 		$this->dbforge->add_field ( $category );
 		$this->dbforge->create_table ( 'gallery_category', TRUE );

@@ -21,12 +21,12 @@
 
 /**
  * Class for creating File PPS's for OLE containers
- *
- * @author Xavier Noguer <xnoguer@php.net>
- * @category PHPExcel
- * @package PHPExcel_Shared_OLE
- *         
- */
+*
+* @author Xavier Noguer <xnoguer@php.net>
+* @category PHPExcel
+* @package PHPExcel_Shared_OLE
+*
+*/
 class PHPExcel_Shared_OLE_PPS_File extends PHPExcel_Shared_OLE_PPS {
 	/**
 	 * The constructor
@@ -39,7 +39,7 @@ class PHPExcel_Shared_OLE_PPS_File extends PHPExcel_Shared_OLE_PPS {
 	public function __construct($name) {
 		parent::__construct ( null, $name, PHPExcel_Shared_OLE::OLE_PPS_TYPE_FILE, null, null, null, null, null, '', array () );
 	}
-	
+
 	/**
 	 * Initialization method.
 	 * Has to be called right after OLE_PPS_File().
@@ -50,7 +50,7 @@ class PHPExcel_Shared_OLE_PPS_File extends PHPExcel_Shared_OLE_PPS {
 	public function init() {
 		return true;
 	}
-	
+
 	/**
 	 * Append data to PPS
 	 *
@@ -61,10 +61,10 @@ class PHPExcel_Shared_OLE_PPS_File extends PHPExcel_Shared_OLE_PPS {
 	public function append($data) {
 		$this->_data .= $data;
 	}
-	
+
 	/**
 	 * Returns a stream for reading this file using fread() etc.
-	 * 
+	 *
 	 * @return resource a read-only stream
 	 */
 	public function getStream() {

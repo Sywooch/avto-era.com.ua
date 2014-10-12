@@ -22,7 +22,7 @@ class Lib_seo {
 		$CI->template->registerJsScript ( $this->renderYandexWebmaster ( $settings ) );
 		$CI->template->registerJsScript ( $this->renderGoogleWebmaster ( $settings ) );
 	}
-	
+
 	/**
 	 * Create keywrods from text
 	 */
@@ -33,7 +33,7 @@ class Lib_seo {
 		$this->count_words ();
 		$arr = array_slice ( $this->modif_arr, 0, 30 );
 		$str = "";
-		
+
 		if ($as_array == FALSE) {
 			foreach ( $arr as $key => $val ) {
 				$str .= $key . ", ";
@@ -48,22 +48,22 @@ class Lib_seo {
 				';',
 				'"',
 				'&mdash',
-				'&nbsp;' 
+				'&nbsp;'
 		);
-		
+
 		$tags = get_html_translation_table ( HTML_ENTITIES );
-		
+
 		foreach ( $tags as $k => $v ) {
 			$text = str_replace ( $v, '', $text );
 		}
-		
+
 		$text = str_replace ( $delete, '', $text );
 		$text = str_replace ( "\n", ' ', $text );
 		$text = str_replace ( "\r", ' ', $text );
-		
+
 		return trim ( mb_substr ( strip_tags ( stripslashes ( $text ) ), 0, 255, 'utf-8' ) );
 	}
-	
+
 	/**
 	 * Explode text on words
 	 */
@@ -82,7 +82,7 @@ class Lib_seo {
 				"'&(cent|#162);'i",
 				"'&(pound|#163);'i",
 				"'&(copy|#169);'i",
-				"'&#(\d+);'e" 
+				"'&#(\d+);'e"
 		);
 		$replace = array (
 				"е",
@@ -98,7 +98,7 @@ class Lib_seo {
 				chr ( 162 ),
 				chr ( 163 ),
 				chr ( 169 ),
-				"chr(\\1)" 
+				"chr(\\1)"
 		);
 		$text = preg_replace ( $search, $replace, $text );
 		$del_symbols = array (
@@ -181,14 +181,14 @@ class Lib_seo {
 				"7",
 				"8",
 				"9",
-				"mdash" 
+				"mdash"
 		);
 		$text = str_replace ( $del_symbols, ' ', $text );
 		$text = preg_replace ( "( +)", " ", $text );
 		$this->origin_arr = explode ( " ", trim ( $text ) );
 		return $this->origin_arr;
 	}
-	
+
 	/**
 	 * Count words in text
 	 */
@@ -197,7 +197,7 @@ class Lib_seo {
 		foreach ( $this->origin_arr as $val ) {
 			if (strlen ( utf8_decode ( $val ) ) >= $this->min_word_length) {
 				$val = mb_strtolower ( $val, 'utf-8' );
-				
+
 				if (array_key_exists ( $val, $tmp_arr )) {
 					$tmp_arr [$val] ++;
 				} else {
@@ -212,56 +212,56 @@ class Lib_seo {
 		/* Show Google Analytics code if some value inserted in admin panel */
 		if ($GAid ['google_analytics_id']) {
 			$ga = "<script type='text/javascript'>
-            var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', '" . $GAid ['google_analytics_id'] . "']);
-          _gaq.push (['_addOrganic', 'images.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'blogs.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'video.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'meta.ua', 'q']);
-          _gaq.push (['_addOrganic', 'search.bigmir.net', 'z']);
-          _gaq.push (['_addOrganic', 'search.i.ua', 'q']);
-          _gaq.push (['_addOrganic', 'mail.ru', 'q']);
-          _gaq.push (['_addOrganic', 'go.mail.ru', 'q']);
-          _gaq.push (['_addOrganic', 'google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'images.google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'maps.google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'images.google.ru', 'q']);
-          _gaq.push (['_addOrganic', 'maps.google.ru', 'q']);
-          _gaq.push (['_addOrganic', 'rambler.ru', 'words']);
-          _gaq.push (['_addOrganic', 'nova.rambler.ru', 'query']);
-          _gaq.push (['_addOrganic', 'nova.rambler.ru', 'words']);
-          _gaq.push (['_addOrganic', 'gogo.ru', 'q']);
-          _gaq.push (['_addOrganic', 'nigma.ru', 's']);
-          _gaq.push (['_addOrganic', 'poisk.ru', 'text']);
-          _gaq.push (['_addOrganic', 'go.km.ru', 'sq']);
-          _gaq.push (['_addOrganic', 'liveinternet.ru', 'ask']);
-          _gaq.push (['_addOrganic', 'gde.ru', 'keywords']);
-          _gaq.push (['_addOrganic', 'search.qip.ru', 'query']);
-          _gaq.push (['_addOrganic', 'webalta.ru', 'q']);
-          _gaq.push (['_addOrganic', 'sm.aport.ru', 'r']);
-          _gaq.push (['_addOrganic', 'index.online.ua', 'q']);
-          _gaq.push (['_addOrganic', 'web20.a.ua', 'query']);
-          _gaq.push (['_addOrganic', 'search.ukr.net', 'search_query']);
-          _gaq.push (['_addOrganic', 'search.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'search.ua', 'q']);
-          _gaq.push (['_addOrganic', 'affiliates.quintura.com', 'request']);
-          _gaq.push (['_addOrganic', 'akavita.by', 'z']);
-          _gaq.push (['_addOrganic', 'search.tut.by', 'query']);
-          _gaq.push (['_addOrganic', 'all.by', 'query']);
-          _gaq.push(['_trackPageview']);
-        </script>";
-			
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', '" . $GAid ['google_analytics_id'] . "']);
+			_gaq.push (['_addOrganic', 'images.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'blogs.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'video.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'meta.ua', 'q']);
+			_gaq.push (['_addOrganic', 'search.bigmir.net', 'z']);
+			_gaq.push (['_addOrganic', 'search.i.ua', 'q']);
+			_gaq.push (['_addOrganic', 'mail.ru', 'q']);
+			_gaq.push (['_addOrganic', 'go.mail.ru', 'q']);
+			_gaq.push (['_addOrganic', 'google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'images.google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'maps.google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'images.google.ru', 'q']);
+			_gaq.push (['_addOrganic', 'maps.google.ru', 'q']);
+			_gaq.push (['_addOrganic', 'rambler.ru', 'words']);
+			_gaq.push (['_addOrganic', 'nova.rambler.ru', 'query']);
+			_gaq.push (['_addOrganic', 'nova.rambler.ru', 'words']);
+			_gaq.push (['_addOrganic', 'gogo.ru', 'q']);
+			_gaq.push (['_addOrganic', 'nigma.ru', 's']);
+			_gaq.push (['_addOrganic', 'poisk.ru', 'text']);
+			_gaq.push (['_addOrganic', 'go.km.ru', 'sq']);
+			_gaq.push (['_addOrganic', 'liveinternet.ru', 'ask']);
+			_gaq.push (['_addOrganic', 'gde.ru', 'keywords']);
+			_gaq.push (['_addOrganic', 'search.qip.ru', 'query']);
+			_gaq.push (['_addOrganic', 'webalta.ru', 'q']);
+			_gaq.push (['_addOrganic', 'sm.aport.ru', 'r']);
+			_gaq.push (['_addOrganic', 'index.online.ua', 'q']);
+			_gaq.push (['_addOrganic', 'web20.a.ua', 'query']);
+			_gaq.push (['_addOrganic', 'search.ukr.net', 'search_query']);
+			_gaq.push (['_addOrganic', 'search.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'search.ua', 'q']);
+			_gaq.push (['_addOrganic', 'affiliates.quintura.com', 'request']);
+			_gaq.push (['_addOrganic', 'akavita.by', 'z']);
+			_gaq.push (['_addOrganic', 'search.tut.by', 'query']);
+			_gaq.push (['_addOrganic', 'all.by', 'query']);
+			_gaq.push(['_trackPageview']);
+			</script>";
+				
 			$ga .= "
-<script type = 'text/javascript'>
-(function() {
-var ga = document.createElement('script');
-ga.type = 'text/javascript';
-ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(ga, s);
-})();
-</script>";
+			<script type = 'text/javascript'>
+			(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+		</script>";
 			return $ga;
 		}
 	}
@@ -270,84 +270,84 @@ s.parentNode.insertBefore(ga, s);
 		/* Show Google Analytics code if some value inserted in admin panel */
 		if ($GAid ['google_analytics_id']) {
 			$ga = "<script type='text/javascript'>
-            var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', '" . $GAid ['google_analytics_id'] . "']);
-          _gaq.push (['_addOrganic', 'images.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'blogs.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'video.yandex.ru', 'text']);
-          _gaq.push (['_addOrganic', 'meta.ua', 'q']);
-          _gaq.push (['_addOrganic', 'search.bigmir.net', 'z']);
-          _gaq.push (['_addOrganic', 'search.i.ua', 'q']);
-          _gaq.push (['_addOrganic', 'mail.ru', 'q']);
-          _gaq.push (['_addOrganic', 'go.mail.ru', 'q']);
-          _gaq.push (['_addOrganic', 'google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'images.google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'maps.google.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'images.google.ru', 'q']);
-          _gaq.push (['_addOrganic', 'maps.google.ru', 'q']);
-          _gaq.push (['_addOrganic', 'rambler.ru', 'words']);
-          _gaq.push (['_addOrganic', 'nova.rambler.ru', 'query']);
-          _gaq.push (['_addOrganic', 'nova.rambler.ru', 'words']);
-          _gaq.push (['_addOrganic', 'gogo.ru', 'q']);
-          _gaq.push (['_addOrganic', 'nigma.ru', 's']);
-          _gaq.push (['_addOrganic', 'poisk.ru', 'text']);
-          _gaq.push (['_addOrganic', 'go.km.ru', 'sq']);
-          _gaq.push (['_addOrganic', 'liveinternet.ru', 'ask']);
-          _gaq.push (['_addOrganic', 'gde.ru', 'keywords']);
-          _gaq.push (['_addOrganic', 'search.qip.ru', 'query']);
-          _gaq.push (['_addOrganic', 'webalta.ru', 'q']);
-          _gaq.push (['_addOrganic', 'sm.aport.ru', 'r']);
-          _gaq.push (['_addOrganic', 'index.online.ua', 'q']);
-          _gaq.push (['_addOrganic', 'web20.a.ua', 'query']);
-          _gaq.push (['_addOrganic', 'search.ukr.net', 'search_query']);
-          _gaq.push (['_addOrganic', 'search.com.ua', 'q']);
-          _gaq.push (['_addOrganic', 'search.ua', 'q']);
-          _gaq.push (['_addOrganic', 'affiliates.quintura.com', 'request']);
-          _gaq.push (['_addOrganic', 'akavita.by', 'z']);
-          _gaq.push (['_addOrganic', 'search.tut.by', 'query']);
-          _gaq.push (['_addOrganic', 'all.by', 'query']);
-          _gaq.push(['_trackPageview']);
-        </script>";
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', '" . $GAid ['google_analytics_id'] . "']);
+			_gaq.push (['_addOrganic', 'images.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'blogs.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'video.yandex.ru', 'text']);
+			_gaq.push (['_addOrganic', 'meta.ua', 'q']);
+			_gaq.push (['_addOrganic', 'search.bigmir.net', 'z']);
+			_gaq.push (['_addOrganic', 'search.i.ua', 'q']);
+			_gaq.push (['_addOrganic', 'mail.ru', 'q']);
+			_gaq.push (['_addOrganic', 'go.mail.ru', 'q']);
+			_gaq.push (['_addOrganic', 'google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'images.google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'maps.google.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'images.google.ru', 'q']);
+			_gaq.push (['_addOrganic', 'maps.google.ru', 'q']);
+			_gaq.push (['_addOrganic', 'rambler.ru', 'words']);
+			_gaq.push (['_addOrganic', 'nova.rambler.ru', 'query']);
+			_gaq.push (['_addOrganic', 'nova.rambler.ru', 'words']);
+			_gaq.push (['_addOrganic', 'gogo.ru', 'q']);
+			_gaq.push (['_addOrganic', 'nigma.ru', 's']);
+			_gaq.push (['_addOrganic', 'poisk.ru', 'text']);
+			_gaq.push (['_addOrganic', 'go.km.ru', 'sq']);
+			_gaq.push (['_addOrganic', 'liveinternet.ru', 'ask']);
+			_gaq.push (['_addOrganic', 'gde.ru', 'keywords']);
+			_gaq.push (['_addOrganic', 'search.qip.ru', 'query']);
+			_gaq.push (['_addOrganic', 'webalta.ru', 'q']);
+			_gaq.push (['_addOrganic', 'sm.aport.ru', 'r']);
+			_gaq.push (['_addOrganic', 'index.online.ua', 'q']);
+			_gaq.push (['_addOrganic', 'web20.a.ua', 'query']);
+			_gaq.push (['_addOrganic', 'search.ukr.net', 'search_query']);
+			_gaq.push (['_addOrganic', 'search.com.ua', 'q']);
+			_gaq.push (['_addOrganic', 'search.ua', 'q']);
+			_gaq.push (['_addOrganic', 'affiliates.quintura.com', 'request']);
+			_gaq.push (['_addOrganic', 'akavita.by', 'z']);
+			_gaq.push (['_addOrganic', 'search.tut.by', 'query']);
+			_gaq.push (['_addOrganic', 'all.by', 'query']);
+			_gaq.push(['_trackPageview']);
+			</script>";
 			if ($model && $CI->session->flashdata ( 'makeOrder' ) === true) {
 				$ga .= "
-                    <script type='text/javascript'>
-            _gaq.push(['_addTrans',
-                '" . $model->id . "',
-                '',
-                '" . $model->getTotalPrice () . "',
-                '',
-                '" . $model->getSDeliveryMethods ()->name . "',
-                '',
-                '',
-                ''
-            ]);";
-				
+				<script type='text/javascript'>
+				_gaq.push(['_addTrans',
+				'" . $model->id . "',
+				'',
+				'" . $model->getTotalPrice () . "',
+				'',
+				'" . $model->getSDeliveryMethods ()->name . "',
+				'',
+				'',
+				''
+				]);";
+
 				foreach ( $model->getSOrderProductss () as $item ) {
 					$total = $total + $item->getQuantity () * $item->toCurrency ();
 					$product = $item->getSProducts ();
-					
+						
 					$ga .= "_gaq.push(['_addItem',
-                '" . $model->id . "',
-                '" . $product->getUrl () . "',
-                '" . encode ( $product->getName () ) . " " . encode ( $item->getVariantName () ) . "',
-                '" . encode ( $product->getMainCategory ()->name ) . "',
-                '" . $item->toCurrency () . "',
-                '" . $item->getQuantity () . "']);";
+					'" . $model->id . "',
+					'" . $product->getUrl () . "',
+					'" . encode ( $product->getName () ) . " " . encode ( $item->getVariantName () ) . "',
+					'" . encode ( $product->getMainCategory ()->name ) . "',
+					'" . $item->toCurrency () . "',
+					'" . $item->getQuantity () . "']);";
 				}
 				$ga .= "_gaq.push(['_trackTrans']);</script>";
 			}
-			
+				
 			$ga .= "
-<script type = 'text/javascript'>
-(function() {
-var ga = document.createElement('script');
-ga.type = 'text/javascript';
-ga.async = true;
-ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(ga, s);
-})();
-</script>";
+			<script type = 'text/javascript'>
+			(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+		</script>";
 			return $ga;
 		}
 	}
@@ -355,32 +355,32 @@ s.parentNode.insertBefore(ga, s);
 		$CI = & get_instance ();
 		if ($model && $CI->session->flashdata ( 'makeOrder' ) === true) {
 			$ga = "
-                    <script type='text/javascript'>
-            _gaq.push(['_addTrans',
-                '" . $model->id . "',
-                '',
-                '" . $model->getTotalPrice () . "',
-                '',
-                '" . $model->getSDeliveryMethods ()->name . "',
-                '',
-                '',
-                ''
-            ]);";
-			
+			<script type='text/javascript'>
+			_gaq.push(['_addTrans',
+			'" . $model->id . "',
+			'',
+			'" . $model->getTotalPrice () . "',
+			'',
+			'" . $model->getSDeliveryMethods ()->name . "',
+			'',
+			'',
+			''
+			]);";
+				
 			foreach ( $model->getSOrderProductss () as $item ) {
 				$total = $total + $item->getQuantity () * $item->toCurrency ();
 				$product = $item->getSProducts ();
-				
+
 				$ga .= "_gaq.push(['_addItem',
-                '" . $model->id . "',
-                '" . $product->getUrl () . "',
-                '" . encode ( $product->getName () ) . " " . encode ( $item->getVariantName () ) . "',
-                '" . encode ( $product->getMainCategory ()->name ) . "',
-                '" . $item->toCurrency () . "',
-                '" . $item->getQuantity () . "']);";
+				'" . $model->id . "',
+				'" . $product->getUrl () . "',
+				'" . encode ( $product->getName () ) . " " . encode ( $item->getVariantName () ) . "',
+				'" . encode ( $product->getMainCategory ()->name ) . "',
+				'" . $item->toCurrency () . "',
+				'" . $item->getQuantity () . "']);";
 			}
 			$ga .= "_gaq.push(['_trackTrans']);</script>";
-			
+				
 			return $ga;
 		}
 	}
@@ -388,41 +388,41 @@ s.parentNode.insertBefore(ga, s);
 		if ($YaMetricaId ['yandex_metric']) {
 			$YandexMetrik = '<!-- Yandex.Metrika counter -->
 
-                    <script type="text/javascript">
-                        (function (d, w, c) {
-                            (w[c] = w[c] || []).push(function() {
-                            try {
-                                w.yaCounter4788157 = new Ya.Metrika({id:' . $YaMetricaId ['yandex_metric'] . ', enableAll: true, webvisor:true,params:window.yaParams||{ }});
-                            } catch(e) { }
-                        });
+			<script type="text/javascript">
+			(function (d, w, c) {
+			(w[c] = w[c] || []).push(function() {
+			try {
+			w.yaCounter4788157 = new Ya.Metrika({id:' . $YaMetricaId ['yandex_metric'] . ', enableAll: true, webvisor:true,params:window.yaParams||{ }});
+		} catch(e) { }
+		});
 
-                        var n = d.getElementsByTagName("script")[0],
-                            s = d.createElement("script"),
-                            f = function () { n.parentNode.insertBefore(s, n); };
-                        s.type = "text/javascript";
-                        s.async = true;
-                        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+		var n = d.getElementsByTagName("script")[0],
+		s = d.createElement("script"),
+		f = function () { n.parentNode.insertBefore(s, n); };
+		s.type = "text/javascript";
+		s.async = true;
+		s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-                        if (w.opera == "[object Opera]") {
-                            d.addEventListener("DOMContentLoaded", f);
-                        } else { f(); }
-                        })(document, window, "yandex_metrika_callbacks");
-                    </script>
-                    <noscript><div><img src="//mc.yandex.ru/watch/' . $YaMetricaId ['yandex_metric'] . '" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-        <!-- /Yandex.Metrika counter -->';
+		if (w.opera == "[object Opera]") {
+		d.addEventListener("DOMContentLoaded", f);
+		} else { f(); }
+		})(document, window, "yandex_metrika_callbacks");
+		</script>
+		<noscript><div><img src="//mc.yandex.ru/watch/' . $YaMetricaId ['yandex_metric'] . '" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+		<!-- /Yandex.Metrika counter -->';
 		}
 		return $YandexMetrik;
 	}
 	function renderYandexWebmaster($YaWebmasterId = null) {
 		if ($YaWebmasterId ['yandex_webmaster'])
 			$YaWebmaster = '<meta name="yandex-verification" content="' . $YaWebmasterId ['yandex_webmaster'] . '" />';
-		
+
 		return $YaWebmaster;
 	}
 	function renderGoogleWebmaster($GWebmasterId = null) {
 		if ($GWebmasterId ['google_webmaster'])
 			$GWebmaster = '<meta name="google-site-verification" content="' . $GWebmasterId ['google_webmaster'] . '" />';
-		
+
 		return $GWebmaster;
 	}
 }

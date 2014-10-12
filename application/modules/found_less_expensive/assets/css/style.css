@@ -1,4 +1,4 @@
-.dropF, .dropF .dropF-content, .dropF .dropF-footer {
+.dropF,.dropF .dropF-content,.dropF .dropF-footer {
 	background: url("../images/v_f.png") repeat-y;
 }
 
@@ -44,7 +44,7 @@
 	margin: 0 3px;
 }
 
-.dropF input[type="text"], .dropF input[type="password"], .dropF textarea
+.dropF input[type="text"],.dropF input[type="password"],.dropF textarea
 	{
 	color: #bfbfbf;
 }

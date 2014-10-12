@@ -9,24 +9,24 @@ class Update {
 	private $arr_files;
 	private $files_dates = array ();
 	private $restore_files = array ();
-	
+
 	/**
 	 * update server
-	 * 
+	 *
 	 * @var string
 	 */
 	private $US = "http://upd.imagecms.net/";
-	
+
 	/**
 	 * path to update server
-	 * 
+	 *
 	 * @var string
 	 */
 	private $pathUS;
-	
+
 	/**
 	 * папки, які не враховувати при обновлені
-	 * 
+	 *
 	 * @var array
 	 */
 	private $distinctDirs = array (
@@ -41,12 +41,12 @@ class Update {
 			'nbproject',
 			'uploads_site',
 			'backups',
-			'cmlTemp' 
+			'cmlTemp'
 	);
-	
+
 	/**
 	 * файли, які не враховувати при обновлені
-	 * 
+	 *
 	 * @var array
 	 */
 	private $distinctFiles = array (
@@ -56,19 +56,19 @@ class Update {
 			'cart.php',
 			'md5.txt',
 			'.htaccess',
-			'config.php' 
+			'config.php'
 	);
-	
+
 	/**
 	 * instance of ci
-	 * 
+	 *
 	 * @var CI
 	 */
 	public $ci;
-	
+
 	/**
 	 * SoapClient
-	 * 
+	 *
 	 * @var SoapClient
 	 */
 	public $client;
@@ -77,32 +77,32 @@ class Update {
 		$this->pathUS = $this->US . "application/modules/update/UpdateService.wsdl";
 		$this->client = new SoapClient ( $this->pathUS );
 	}
-	
+
 	/**
 	 * check for new version
-	 * 
+	 *
 	 * @return array return info about new relise or 0 if version is actual
 	 */
 	public function getStatus() {
 		if (time () >= $this->getSettings ( 'checkTime' ) + 60 * 60 * 10) {
 			$domen = $_SERVER ['SERVER_NAME'];
 			$result = $this->client->getStatus ( $domen, BUILD_ID, IMAGECMS_NUMBER );
-			
+				
 			$this->setSettings ( array (
-					"newVersion" => $result 
+					"newVersion" => $result
 			) );
 			$this->setSettings ( array (
-					"checkTime" => time () 
+					"checkTime" => time ()
 			) );
 		} else {
 			$result = $this->getSettings ( 'newVersion' );
 		}
 		return unserialize ( $result );
 	}
-	
+
 	/**
 	 * getting hash from server
-	 * 
+	 *
 	 * @return array Array of hashsum files new version
 	 */
 	public function getHashSum() {
@@ -110,17 +110,17 @@ class Update {
 			$domen = $_SERVER ['SERVER_NAME'];
 			$key = $this->getSettings ( 'careKey' );
 			$result = $this->client->getHashSum ( $domen, IMAGECMS_NUMBER, BUILD_ID, $key );
-			
+				
 			write_file ( './application/backups/md5.txt', $result );
 			$result = ( array ) json_decode ( $result );
-			
+				
 			$this->setSettings ( array (
-					"checkTime" => time () 
+					"checkTime" => time ()
 			) );
 		} else {
 			$result = ( array ) json_decode ( read_file ( './application/backups/md5.txt' ) );
 		}
-		
+
 		return $result;
 	}
 	public function getUpdate() {
@@ -130,7 +130,7 @@ class Update {
 		$all_href = $this->US . 'update/takeUpdate/' . $href . '/' . $domen . '/' . IMAGECMS_NUMBER . '/' . BUILD_ID;
 		file_put_contents ( './application/backups/updates.zip', file_get_contents ( $all_href ) );
 	}
-	
+
 	/**
 	 * form XML doc
 	 */
@@ -142,7 +142,7 @@ class Update {
 			preg_match ( "/'version'(\s*)=>(\s*)'(.*)',/", $ver, $find );
 			$array [$key] = end ( $find );
 		}
-		
+
 		$array ['core'] = IMAGECMS_NUMBER;
 		header ( 'content-type: text/xml' );
 		$xml = "<?xml version='1.0' encoding='UTF-8'?>" . "\n" . "<КонтейнерСписков ВерсияСхемы='0.1'  ДатаФормирования='" . date ( 'Y-m-d' ) . "'>" . "\n";
@@ -159,32 +159,32 @@ class Update {
 	public function getOldMD5File($file = 'md5.txt') {
 		return ( array ) json_decode ( read_file ( $file ) );
 	}
-	
+
 	/**
 	 * zipping files
-	 * 
-	 * @param array $files        	
+	 *
+	 * @param array $files
 	 */
 	public function add_to_ZIP($files = array()) {
 		if (empty ( $files ))
 			return FALSE;
-		
+
 		$zip = new ZipArchive ();
 		$time = time ();
 		$filename = "./application/backups/backup.zip";
-		
+
 		if (file_exists ( $filename ))
 			rename ( $filename, "./application/backups/$time.zip" );
-		
+
 		if ($zip->open ( $filename, ZipArchive::CREATE ) !== TRUE)
 			exit ( "cannot open <$filename>\n" );
-		
+
 		foreach ( $files as $key => $value )
 			$zip->addFile ( '.' . $key, $key );
 			
-			// echo "numfiles: " . $zip->numFiles . "\n";
-			// echo "status:" . $zip->status . "\n";
-		
+		// echo "numfiles: " . $zip->numFiles . "\n";
+		// echo "status:" . $zip->status . "\n";
+
 		$zip->close ();
 	}
 	public function createBackUp() {
@@ -192,21 +192,21 @@ class Update {
 		$array = $this->parse_md5 ();
 		$diff = array_diff ( $array, $old );
 		$this->add_to_ZIP ( $diff );
-		
+
 		$filename = "./application/backups/backup.zip";
 		$zip = new ZipArchive ();
 		$zip->open ( $filename );
 		$db = $this->db_backup ();
 		$zip->addFile ( './application/backups/' . $db, $db );
 		$zip->close ();
-		
+
 		chmod ( './application/backups/' . $db, 0777 );
 		unlink ( './application/backups/' . $db );
 	}
-	
+
 	/**
 	 * restore files from zip
-	 * 
+	 *
 	 * @param string $file
 	 *        	path to zip file
 	 * @param string $destination
@@ -215,45 +215,45 @@ class Update {
 	public function restoreFromZIP($file = "./application/backups/backup.zip", $destination = '.') {
 		if (! file_exists ( $file ) || substr ( decoct ( fileperms ( $destination ) ), 2 ) != '777')
 			return FALSE;
-		
+
 		$zip = new ZipArchive ();
 		$zip->open ( $file );
 		$rez = $zip->extractTo ( $destination );
 		$zip->close ();
-		
+
 		if ($rez)
 			$this->db_restore ( $destination . '/backup.sql' );
-		
+
 		return $rez;
 	}
-	
+
 	/**
 	 * Бере контрольні суми файлів текущих файлів і файлів старої теперішньої версії
 	 * Записує іх у відповідні файли з настройок, як серіалізований масив ключ - шлях до файлу, значення - контрольна сума
 	 * запускати два рази переоприділивши $this->path_parse
 	 * $this->path_parse = realpath('') текущі.
 	 * $this->path_parse = rtrim($this->dir_old_upd, '\')
-	 * 
+	 *
 	 * @return Array
 	 */
 	public function parse_md5($directory = null) {
 		$dir = null === $directory ? realpath ( '' ) : $directory;
-		
+
 		$handle = opendir ( $dir );
 		if ($handle)
 			while ( FALSE !== ($file = readdir ( $handle )) )
-				if (! in_array ( $file, $this->distinctDirs )) {
-					if (is_file ( $dir . DIRECTORY_SEPARATOR . $file ) && ! in_array ( $file, $this->distinctFiles )) {
-						$this->arr_files [str_replace ( realpath ( '' ), '', $dir ) . DIRECTORY_SEPARATOR . $file] = md5_file ( $dir . DIRECTORY_SEPARATOR . $file );
-						$this->files_dates [str_replace ( realpath ( '' ), '', $dir ) . DIRECTORY_SEPARATOR . $file] = filemtime ( $dir . DIRECTORY_SEPARATOR . $file );
-					}
-					if (is_dir ( $dir . DIRECTORY_SEPARATOR . $file ))
-						$this->parse_md5 ( $dir . DIRECTORY_SEPARATOR . $file );
-				}
-		
+			if (! in_array ( $file, $this->distinctDirs )) {
+			if (is_file ( $dir . DIRECTORY_SEPARATOR . $file ) && ! in_array ( $file, $this->distinctFiles )) {
+				$this->arr_files [str_replace ( realpath ( '' ), '', $dir ) . DIRECTORY_SEPARATOR . $file] = md5_file ( $dir . DIRECTORY_SEPARATOR . $file );
+				$this->files_dates [str_replace ( realpath ( '' ), '', $dir ) . DIRECTORY_SEPARATOR . $file] = filemtime ( $dir . DIRECTORY_SEPARATOR . $file );
+			}
+			if (is_dir ( $dir . DIRECTORY_SEPARATOR . $file ))
+				$this->parse_md5 ( $dir . DIRECTORY_SEPARATOR . $file );
+		}
+
 		return $this->arr_files;
 	}
-	
+
 	/**
 	 * Заміна файлів з обновлення
 	 * 1.
@@ -280,7 +280,7 @@ class Update {
 			}
 		}
 	}
-	
+
 	/**
 	 * database backup
 	 */
@@ -292,19 +292,19 @@ class Update {
 		} else {
 			showMessage ( 'Невозможно создать снимок базы, проверте папку /application/backups на возможность записи' );
 		}
-		
+
 		return $name;
 	}
-	
+
 	/**
 	 * database restore
-	 * 
-	 * @param string $file        	
+	 *
+	 * @param string $file
 	 */
 	public function db_restore($file) {
 		if (empty ( $file ))
 			return FALSE;
-		
+
 		if (is_readable ( $file )) {
 			$restore = file_get_contents ( $file );
 			return $this->query_from_file ( $restore );
@@ -312,7 +312,7 @@ class Update {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * Create restore files list
 	 */
@@ -330,7 +330,7 @@ class Update {
 							$this->restore_files [] = array (
 									'name' => $filename,
 									'size' => round ( filesize ( './application/backups/' . $filename ) / 1024 / 1024, 2 ),
-									'create_date' => filemtime ( './application/backups/' . $filename ) 
+									'create_date' => filemtime ( './application/backups/' . $filename )
 							);
 						}
 						$zip->close ();
@@ -342,25 +342,25 @@ class Update {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * remove dir recursive
-	 * 
+	 *
 	 * @param string $dir
 	 *        	- path to directory
 	 */
 	public function removeDirRec($dir) {
 		if ($objs = glob ( $dir . "/*" ))
 			foreach ( $objs as $obj )
-				is_dir ( $obj ) ? $this->removeDirRec ( $obj ) : unlink ( $obj );
+			is_dir ( $obj ) ? $this->removeDirRec ( $obj ) : unlink ( $obj );
 		if (is_dir ( $dir ))
 			rmdir ( $dir );
 	}
-	
+
 	/**
 	 * db update
-	 * 
-	 * @param string $file_name        	
+	 *
+	 * @param string $file_name
 	 */
 	public function db_update($file_name = 'sql_19-08-2013_17.16.14.txt') {
 		if (is_readable ( './application/backups/' . $file_name )) {
@@ -370,16 +370,16 @@ class Update {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * ganerate sql query from file
-	 * 
-	 * @param string $file        	
+	 *
+	 * @param string $file
 	 */
 	public function query_from_file($file) {
 		$string_query = rtrim ( $file, "\n;" );
 		$array_query = explode ( ";\n", $string_query );
-		
+
 		foreach ( $array_query as $query ) {
 			if ($query) {
 				if (! $this->ci->db->query ( $query )) {
@@ -401,27 +401,27 @@ class Update {
 	public function getSettings($param = false) {
 		$settings = $this->ci->db->get ( 'settings' )->row_array ();
 		$settings = unserialize ( $settings ['update'] );
-		
+
 		if (! $param)
 			return $settings;
 		else
 			return $settings [$param];
 	}
-	
+
 	/**
 	 *
-	 * @param array $settings        	
+	 * @param array $settings
 	 * @return bool
 	 */
 	public function setSettings($settings) {
 		if (! is_array ( $settings ))
 			return FALSE;
 		$s = ( array ) $this->getSettings ();
-		
+
 		foreach ( $settings as $key => $value ) {
 			$s [$key] = $value;
 		}
-		
+
 		return $this->ci->db->set ( 'update', serialize ( $s ) )->update ( 'settings' );
 	}
 }

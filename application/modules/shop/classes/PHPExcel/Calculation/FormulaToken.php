@@ -67,7 +67,7 @@ class PHPExcel_Calculation_FormulaToken {
 	const TOKEN_TYPE_OPERATORPOSTFIX = 'OperatorPostfix';
 	const TOKEN_TYPE_WHITESPACE = 'Whitespace';
 	const TOKEN_TYPE_UNKNOWN = 'Unknown';
-	
+
 	/* Token subtypes */
 	const TOKEN_SUBTYPE_NOTHING = 'Nothing';
 	const TOKEN_SUBTYPE_START = 'Start';
@@ -81,32 +81,32 @@ class PHPExcel_Calculation_FormulaToken {
 	const TOKEN_SUBTYPE_CONCATENATION = 'Concatenation';
 	const TOKEN_SUBTYPE_INTERSECTION = 'Intersection';
 	const TOKEN_SUBTYPE_UNION = 'Union';
-	
+
 	/**
 	 * Value
 	 *
 	 * @var string
 	 */
 	private $_value;
-	
+
 	/**
 	 * Token Type (represented by TOKEN_TYPE_*)
 	 *
 	 * @var string
 	 */
 	private $_tokenType;
-	
+
 	/**
 	 * Token SubType (represented by TOKEN_SUBTYPE_*)
 	 *
 	 * @var string
 	 */
 	private $_tokenSubType;
-	
+
 	/**
 	 * Create a new PHPExcel_Calculation_FormulaToken
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @param string $pTokenType
 	 *        	type (represented by TOKEN_TYPE_*)
 	 * @param string $pTokenSubType
@@ -118,7 +118,7 @@ class PHPExcel_Calculation_FormulaToken {
 		$this->_tokenType = $pTokenType;
 		$this->_tokenSubType = $pTokenSubType;
 	}
-	
+
 	/**
 	 * Get Value
 	 *
@@ -127,16 +127,16 @@ class PHPExcel_Calculation_FormulaToken {
 	public function getValue() {
 		return $this->_value;
 	}
-	
+
 	/**
 	 * Set Value
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	public function setValue($value) {
 		$this->_value = $value;
 	}
-	
+
 	/**
 	 * Get Token Type (represented by TOKEN_TYPE_*)
 	 *
@@ -145,16 +145,16 @@ class PHPExcel_Calculation_FormulaToken {
 	public function getTokenType() {
 		return $this->_tokenType;
 	}
-	
+
 	/**
 	 * Set Token Type
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	public function setTokenType($value = PHPExcel_Calculation_FormulaToken::TOKEN_TYPE_UNKNOWN) {
 		$this->_tokenType = $value;
 	}
-	
+
 	/**
 	 * Get Token SubType (represented by TOKEN_SUBTYPE_*)
 	 *
@@ -163,11 +163,11 @@ class PHPExcel_Calculation_FormulaToken {
 	public function getTokenSubType() {
 		return $this->_tokenSubType;
 	}
-	
+
 	/**
 	 * Set Token SubType
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	public function setTokenSubType($value = PHPExcel_Calculation_FormulaToken::TOKEN_SUBTYPE_NOTHING) {
 		$this->_tokenSubType = $value;

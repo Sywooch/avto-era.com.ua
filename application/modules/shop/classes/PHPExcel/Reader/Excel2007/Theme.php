@@ -39,28 +39,28 @@ class PHPExcel_Reader_Excel2007_Theme {
 	 * @var string
 	 */
 	private $_themeName;
-	
+
 	/**
 	 * Colour Scheme Name
 	 *
 	 * @var string
 	 */
 	private $_colourSchemeName;
-	
+
 	/**
 	 * Colour Map indexed by position
 	 *
 	 * @var array of string
 	 */
 	private $_colourMapValues;
-	
+
 	/**
 	 * Colour Map
 	 *
 	 * @var array of string
 	 */
 	private $_colourMap;
-	
+
 	/**
 	 * Create a new PHPExcel_Theme
 	 */
@@ -70,7 +70,7 @@ class PHPExcel_Reader_Excel2007_Theme {
 		$this->_colourSchemeName = $colourSchemeName;
 		$this->_colourMap = $colourMap;
 	}
-	
+
 	/**
 	 * Get Theme Name
 	 *
@@ -79,7 +79,7 @@ class PHPExcel_Reader_Excel2007_Theme {
 	public function getThemeName() {
 		return $this->_themeName;
 	}
-	
+
 	/**
 	 * Get colour Scheme Name
 	 *
@@ -88,7 +88,7 @@ class PHPExcel_Reader_Excel2007_Theme {
 	public function getColourSchemeName() {
 		return $this->_colourSchemeName;
 	}
-	
+
 	/**
 	 * Get colour Map Value by Position
 	 *
@@ -100,7 +100,7 @@ class PHPExcel_Reader_Excel2007_Theme {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

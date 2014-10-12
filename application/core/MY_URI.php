@@ -13,13 +13,13 @@ class MY_URI extends CI_URI {
 	public function getAllParams() {
 		return $this->GET_params_arr;
 	}
-	
+
 	// Create from array string like: ?var1=value&var2=value
 	public function array_to_uri($arr = array()) {
 		$n = 0;
 		$str = '?';
 		$cnt = count ( $arr );
-		
+
 		if ($cnt > 0) {
 			foreach ( $arr as $k => $v ) {
 				$str .= $k . '=' . $v;
@@ -28,10 +28,10 @@ class MY_URI extends CI_URI {
 					$str .= '&';
 			}
 		}
-		
+
 		return $str;
 	}
-	
+
 	/**
 	 * Enable Russian charaters in url
 	 */
@@ -41,7 +41,7 @@ class MY_URI extends CI_URI {
 				exit ( 'The URI you submitted has disallowed characters.' );
 			}
 		}
-		
+
 		return $str;
 	}
 }

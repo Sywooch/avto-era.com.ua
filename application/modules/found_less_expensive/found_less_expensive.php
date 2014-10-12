@@ -6,10 +6,10 @@ if (! defined ( 'BASEPATH' ))
  *
  * @author Igor R.
  * @copyright ImageCMS (c) 2013, Igor R. <dev@imagecms.net>
- *           
+ *
  *            In order to render button and link insert into product template
  *            {$CI->load->module('found_less_expensive')->showButtonWithForm()}
- *           
+ *
  *            Нашли дешевле
  */
 class Found_less_expensive extends MY_Controller {
@@ -23,17 +23,17 @@ class Found_less_expensive extends MY_Controller {
 	public static function adminAutoload() {
 		parent::adminAutoload ();
 	}
-	
+
 	/**
 	 * Display button and form
 	 */
 	public function showButtonWithForm() {
 		\CMSFactory\assetManager::create ()->registerStyle ( 'style' )->registerScript ( 'scripts' )->render ( 'buttonWithForm', true );
 	}
-	
+
 	/**
 	 * Save data from form
-	 * 
+	 *
 	 * @return string
 	 */
 	public function save_message() {
@@ -46,59 +46,59 @@ class Found_less_expensive extends MY_Controller {
 			return 'success';
 		}
 	}
-	
+
 	/**
 	 * Get email settings
-	 * 
-	 * @param type $messageData        	
+	 *
+	 * @param type $messageData
 	 */
 	public function prepareEmailData($messageData) {
 		$data = $this->found_less_expensive_model->getModuleSettings ();
 		$this->sendEmail ( $data ['emailTo'], $data ['emailFrom'], $data ['emailSubject'], $data ['emailTemplate'], $messageData );
 	}
-	
+
 	/**
 	 * Send email
-	 * 
-	 * @param type $email        	
+	 *
+	 * @param type $email
 	 */
 	public function sendEmail($fromEmail, $toEmail, $subject, $message, $messageData) {
-		
+
 		/*
 		 * use module cms email
-		 * you need create new letter 'expensive' in database "admin/components/cp/cmsemail/index" with variables and other information
-		 */
+		* you need create new letter 'expensive' in database "admin/components/cp/cmsemail/index" with variables and other information
+		*/
 		/*
 		 * // variables
-		 * //
-		 * $data = array(
-		 * //variables
-		 * );
-		 * // comand for send letter use module cms email
-		 * \cmsemail\email::getInstance()->sendEmail($toEmail, 'expensive', $data);
-		 */
-		
+		* //
+		* $data = array(
+				* //variables
+				* );
+		* // comand for send letter use module cms email
+		* \cmsemail\email::getInstance()->sendEmail($toEmail, 'expensive', $data);
+		*/
+
 		// Init email config
 		$config ['wordwrap'] = TRUE;
 		$config ['charset'] = 'UTF-8';
 		$config ['mailtype'] = 'html';
-		
+
 		$this->email->initialize ( $config );
-		
+
 		$message = "<html><body>" . $message . "</body></html>";
-		
+
 		// Replace %linkPage%, %linkProduct%
 		$message = str_replace ( '%linkPage%', $messageData ['productUrl'], $message );
 		$message = str_replace ( '%linkProduct%', $messageData ['link'], $message );
-		
+
 		$this->email->from ( $fromEmail );
 		$this->email->to ( $toEmail );
 		$this->email->subject ( $subject );
 		$this->email->message ( $message );
-		
+
 		$this->email->send ();
 	}
-	
+
 	/**
 	 * Install module
 	 */
@@ -108,60 +108,60 @@ class Found_less_expensive extends MY_Controller {
 		$fields = array (
 				'id' => array (
 						'type' => 'INT',
-						'auto_increment' => TRUE 
+						'auto_increment' => TRUE
 				),
 				'name' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '70',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'email' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '50',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'phone' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '50',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'question' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '250',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'link' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '150',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'productUrl' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '250',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'date' => array (
 						'type' => 'INT',
-						'null' => TRUE 
+						'null' => TRUE
 				),
 				'status' => array (
 						'type' => 'VARCHAR',
 						'constraint' => '150',
-						'null' => TRUE 
-				) 
+						'null' => TRUE
+				)
 		);
-		
+
 		$this->dbforge->add_field ( $fields );
 		$this->dbforge->add_key ( 'id', TRUE );
 		$this->dbforge->create_table ( 'mod_found_less_expensive' );
-		
+
 		$this->db->where ( 'name', 'found_less_expensive' );
 		$this->db->update ( 'components', array (
 				'enabled' => 1,
-				'autoload' => 1 
+				'autoload' => 1
 		) );
 	}
-	
+
 	/**
 	 * Deinstall module
 	 */

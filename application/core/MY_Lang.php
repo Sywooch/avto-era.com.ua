@@ -15,7 +15,7 @@ if (! defined ( 'BASEPATH' ))
  * @version Version 0.1
  * @since 2012 January, 27th
  */
-	// ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 /**
  * MY_Lang
@@ -33,7 +33,7 @@ class MY_Lang extends MX_Lang {
 	public $gettext_domain;
 	private $gettext_path;
 	private $gettext = null;
-	
+
 	/**
 	 * The constructor initialize the library
 	 *
@@ -55,10 +55,10 @@ class MY_Lang extends MX_Lang {
 	public function getLangCode($language) {
 		$this->ci = & get_instance ();
 		$langs = $this->ci->config->item ( 'languages' );
-		
+
 		return isset ( $langs [$language] ) ? $langs [$language] : array (
 				'ru',
-				'ru_RU' 
+				'ru_RU'
 		);
 	}
 	public function getFrontLangCode($language) {
@@ -68,16 +68,16 @@ class MY_Lang extends MX_Lang {
 				return $lang;
 			}
 		}
-		
+
 		return array (
 				'ru',
-				'ru_RU' 
+				'ru_RU'
 		);
 	}
 	private function _init() {
 		if (! isset ( $this->ci ))
 			$this->ci = & get_instance ();
-		
+
 		if (! strstr ( $_SERVER ['REQUEST_URI'], 'install' )) {
 			$sett = $this->ci->db->where ( 's_name', 'main' )->get ( 'settings' )->row ();
 			if ($sett->lang_sel) {
@@ -91,31 +91,31 @@ class MY_Lang extends MX_Lang {
 				$this->ci->session->set_userdata ( 'language', 'russian' );
 			}
 		}
-		
+
 		unset ( $sett );
-		
+
 		// $this->ci->load->library('gettext_php/gettext_extension', array());
 		// $this->gettext = & $this->ci->gettext_extension->getInstance();
 	}
 	private function _language() {
 		static $language;
-		
+
 		if (! isset ( $this->ci ))
 			$this->ci = & get_instance ();
-		
+
 		if (! isset ( $language )) {
 			$language = $this->ci->config->item ( 'language' );
 		}
-		
+
 		if (! isset ( $language ) || ! in_array ( $language, $this->ci->config->item ( 'selectable_languages' ) ))
 			$language = 'english';
-		
+
 		if ($language != $this->ci->config->item ( 'language' ))
 			$this->ci->config->set_item ( 'language', $language );
-		
+
 		return empty ( $language ) ? 'english' : $language;
 	}
-	
+
 	/**
 	 * Load a language file
 	 *
@@ -129,7 +129,7 @@ class MY_Lang extends MX_Lang {
 	public function load($module = 'main') {
 		// if (!$this->gettext)
 		$this->_init ();
-		
+
 		if (strstr ( uri_string (), 'admin' )) {
 			$languageAdmin = $this->getLangCode ( $this->gettext_language );
 			$lang = $languageAdmin [1];
@@ -146,7 +146,7 @@ class MY_Lang extends MX_Lang {
 			}
 		}
 		// $lang = 'ru_RU';
-		
+
 		if ($module == 'main') {
 			$template_name = \CI_Controller::get_instance ()->config->item ( 'template' );
 			$this->addDomain ( 'application/language/main/', 'main', $lang );
@@ -154,16 +154,16 @@ class MY_Lang extends MX_Lang {
 		} else {
 			if ($module == 'admin')
 				$this->addDomain ( 'application/language/main/', 'main', $lang );
-			
+				
 			$this->addDomain ( 'application/modules/' . $module . '/language', $module, $lang );
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param String $directory        	
-	 * @param String $domain        	
-	 * @param String $locale        	
+	 * @param String $directory
+	 * @param String $domain
+	 * @param String $locale
 	 * @return mixed|void
 	 */
 	public function addDomain($directory, $domain, $locale) {
@@ -174,7 +174,7 @@ class MY_Lang extends MX_Lang {
 		putenv ( 'LC_ALL=' . $locale );
 		putenv ( 'LANG=' . $locale );
 		putenv ( 'LANGUAGE=' . $locale );
-		
+
 		if (! extension_loaded ( 'gettext' )) {
 			bindtextdomain ( $domain, $directory, $locale );
 			$_SESSION ['GETTEXT_EXIST'] = FALSE;
@@ -187,7 +187,7 @@ class MY_Lang extends MX_Lang {
 		$this->addDomain ( $directory, $domain, $locale );
 		textdomain ( $domain );
 	}
-	
+
 	/**
 	 * This method overides the original load method.
 	 * Its duty is loading the domain files by config or by default internal settings.
@@ -202,44 +202,44 @@ class MY_Lang extends MX_Lang {
 	public function load_gettext($userlang = '', $codeset = '', $textdomain = 'lang', $path = '') {
 		if (! isset ( $this->ci ))
 			$this->ci = & get_instance ();
-		
+
 		$this->gettext_language = $this->language_select ( ! empty ( $userlang ) ? $userlang : $this->_language () );
 		$this->gettext_codeset = ! empty ( $codeset ) ? $codeset : $this->ci->config->item ( 'charset' );
 		$this->gettext_domain = $textdomain;
 		$this->gettext_path = ! empty ( $path ) ? $path : APPPATH . 'language/locale';
 		log_message ( 'debug', 'Gettext Class language was set by parameter:' . $this->gettext_language . ',' . $this->gettext_codeset );
-		
+
 		/* put env and set locale */
 		putenv ( "LANG={$this->gettext_language}" );
 		setlocale ( LC_ALL, $this->gettext_language );
-		
+
 		/* bind text domain */
-		
+
 		$lang = 'en';
 		$locale = 'en_US';
-		
+
 		if (! setlocale ( LC_ALL, $locale . '.utf8', $locale . '.utf-8', $locale . '.UTF8', $locale . '.UTF-8', $lang . '.utf-8', $lang . '.UTF-8', $lang )) {
 			// Set current locale
 			setlocale ( LC_ALL, '' );
 		}
-		
+
 		putenv ( 'LC_ALL=' . $locale );
 		putenv ( 'LANG=' . $locale );
 		putenv ( 'LANGUAGE=' . $locale );
-		
+
 		$textdomain_path = bindtextdomain ( $this->gettext_domain, $this->gettext_path );
 		// var_dump($textdomain_path);
 		bind_textdomain_codeset ( $this->gettext_domain, $this->gettext_codeset );
 		textdomain ( $this->gettext_domain );
 		log_message ( 'debug', 'Gettext Class path: ' . $textdomain_path );
-		
+
 		log_message ( 'debug', 'Gettext Class the domain: ' . $this->gettext_domain );
-		
+
 		return true;
 	}
 	private function language_select($userlang = '') {
 		$userlang = ! empty ( $userlang ) ? $userlang : $this->_language ();
-		
+
 		switch ($userlang) {
 			case 'japanese' :
 				$userlang = 'ja_JP';
@@ -251,7 +251,7 @@ class MY_Lang extends MX_Lang {
 		}
 		return $userlang;
 	}
-	
+
 	/**
 	 * Fetch a single line of text from the language array
 	 *
@@ -263,12 +263,12 @@ class MY_Lang extends MX_Lang {
 	public function line($line = '', $params = FALSE) {
 		return gettext ( $line );
 	}
-	
+
 	/**
 	 * Plural forms added by Tchinkatchuk
 	 * http://www.codeigniter.com/forums/viewthread/2168/
 	 */
-	
+
 	/**
 	 * The translator method
 	 *
@@ -282,7 +282,7 @@ class MY_Lang extends MX_Lang {
 	private function _trans($original, $aParams = false) {
 		if (! isset ( $this->gettext_domain ))
 			return false;
-		
+
 		if ($aParams && isset ( $aParams ['plural'] ) && isset ( $aParams ['count'] )) {
 			$sTranslate = ngettext ( $original, $aParams ['plural'], $aParams ['count'] );
 			$sTranslate = $this->replaceDynamically ( $sTranslate, $aParams );
@@ -292,17 +292,17 @@ class MY_Lang extends MX_Lang {
 				$sTranslate = $this->replaceDynamically ( $sTranslate, $aParams );
 			}
 		}
-		
+
 		return $sTranslate;
 	}
-	
+
 	/**
 	 * Allow dynamic allocation in traduction
 	 *
 	 * @final
 	 *
 	 * @access private
-	 * @param string $sString        	
+	 * @param string $sString
 	 * @return string
 	 */
 	private function replaceDynamically($sString) {
@@ -317,7 +317,7 @@ class MY_Lang extends MX_Lang {
 				$aTrad ['%' . $key] = $arg;
 			}
 		}
-		
+
 		return strtr ( $sString, $aTrad );
 	}
 }

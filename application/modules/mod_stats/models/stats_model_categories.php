@@ -15,35 +15,35 @@ class Stats_model_categories extends CI_Model {
 		if ($arrayData == null) {
 			return FALSE;
 		}
-		
+
 		$query = "SELECT `shop_brands_i18n`.`name`,`shop_products`.`brand_id`, COUNT(`shop_products`.`brand_id`) as 'count'
-                FROM `shop_products` 
-                JOIN `shop_brands_i18n` ON `shop_products`.`brand_id`=`shop_brands_i18n`.`id`
-                WHERE `category_id` 
-                IN " . $arrayData . " AND `shop_brands_i18n`.`locale` = '" . $this->locale . "'
-                GROUP BY `shop_products`.`brand_id`
-                ";
+		FROM `shop_products`
+		JOIN `shop_brands_i18n` ON `shop_products`.`brand_id`=`shop_brands_i18n`.`id`
+		WHERE `category_id`
+		IN " . $arrayData . " AND `shop_brands_i18n`.`locale` = '" . $this->locale . "'
+		GROUP BY `shop_products`.`brand_id`
+		";
 		$result = $this->db->query ( $query )->result_array ();
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get child categories ids
-	 * 
-	 * @param int $catId        	
+	 *
+	 * @param int $catId
 	 * @return boolean|array
 	 */
 	public function getAllChildCategoriesIds($catId = null) {
 		if ($catId == null) {
 			$catId = $this->getCategoryIdFromCookieOrSetFirst ();
 		}
-		
+
 		/**
 		 * Get full path of curent category*
 		 */
 		$fullPath = $this->db->select ( 'full_path' )->where ( 'id', $catId )->get ( 'shop_category' )->row_array ();
-		
+
 		if ($fullPath != null) {
 			/* * Get ids of child categories * */
 			$result = $this->db->select ( 'id' )->from ( 'shop_category' )->like ( 'full_path', $fullPath ['full_path'] )->get ()->result_array ();
@@ -54,11 +54,11 @@ class Stats_model_categories extends CI_Model {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * Prepare array with child categorie's ids
-	 * 
-	 * @param array $dataArray        	
+	 *
+	 * @param array $dataArray
 	 * @return boolean|array
 	 */
 	public function prepareArray($dataArray = null) {
@@ -77,10 +77,10 @@ class Stats_model_categories extends CI_Model {
 		}
 		return $result . ')';
 	}
-	
+
 	/**
 	 * Get category id from cookie or set first
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getCategoryIdFromCookieOrSetFirst() {

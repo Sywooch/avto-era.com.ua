@@ -15,7 +15,7 @@ class ShopAdminOrders extends ShopAdminController {
 	public $defaultLanguage = null;
 	public function __construct() {
 		parent::__construct ();
-		
+
 		$this->load->helper ( 'Form' );
 		include (SHOP_DIR . 'classes/pdf/tcpdf.php');
 		$this->defaultLanguage = getDefaultLanguage ();
@@ -25,43 +25,43 @@ class ShopAdminOrders extends ShopAdminController {
 		$oldest_date_created = $this->db->query ( "SELECT MIN(date_created) AS oldest_date, MAX(date_created) AS newest_date FROM `shop_orders`" );
 		if ($oldest_date_created)
 			$oldest_date_created = $oldest_date_created->row ();
-		
+
 		$model = SOrdersQuery::create ()->addSelectModifier ( 'SQL_CALC_FOUND_ROWS' );
-		
+
 		unset ( $pids );
-		
+
 		if (is_numeric ( $_GET ['status_id'] ) && ($_GET ['status_id'] != '-- none --'))
 			$model = $model->filterByStatus ( $_GET ['status_id'] );
-		
+
 		if ($_GET ['order_id'])
 			$model = $model->where ( 'SOrders.Id = ?', $_GET ['order_id'] );
-		
+
 		if ($_GET ['created_from'])
 			$model = $model->where ( 'FROM_UNIXTIME(SOrders.DateCreated, \'%Y-%m-%d\') >= ?', date ( 'Y-m-d', strtotime ( $_GET ['created_from'] ) ) );
-		
+
 		if ($_GET ['created_to'])
 			$model = $model->where ( 'FROM_UNIXTIME(SOrders.DateCreated, \'%Y-%m-%d\') <= ?', date ( 'Y-m-d', strtotime ( $_GET ['created_to'] ) ) );
-		
+
 		if ($_GET ['product_id'])
 			$model = $model->leftJoinSOrderProducts ()->where ( 'SOrderProducts.ProductId = ?', $_GET ['product_id'] );
 			
-			// $cvcv = array('SOrders.UserFullName LIKE ?' => '%' . $_GET['customer'] . '%', 'SOrders.UserEmail LIKE ?' => '%' . $_GET['customer'] . '%', 'SOrders.UserPhone LIKE ?'=> '%'.$_GET['customer'].'%');
+		// $cvcv = array('SOrders.UserFullName LIKE ?' => '%' . $_GET['customer'] . '%', 'SOrders.UserEmail LIKE ?' => '%' . $_GET['customer'] . '%', 'SOrders.UserPhone LIKE ?'=> '%'.$_GET['customer'].'%');
 		if ($_GET ['customer'])
 			$model = $model->_and ()->where ( 'SOrders.UserFullName LIKE ?', '%' . $_GET ['customer'] . '%' )->_or ()->where ( 'SOrders.UserEmail LIKE ?', '%' . $_GET ['customer'] . '%' )->_or ()->where ( 'SOrders.UserPhone LIKE ?', '%' . $_GET ['customer'] . '%' );
-		
+
 		if ($_GET ['amount_from'])
 			$model = $model->where ( 'SOrders.TotalPrice >= ?', $_GET ['amount_from'] );
-		
+
 		if ($_GET ['amount_to'])
 			$model = $model->where ( 'SOrders.TotalPrice <= ?', $_GET ['amount_to'] );
-		
+
 		if ($_GET ['paid'] != '-- none --')
 			if ($_GET ['paid'] === "0")
-				$model = $model->where ( 'SOrders.Paid IS NULL' )->orWhere ( 'SOrders.Paid = 0' );
-			else if ($_GET ['paid'] === "1")
-				$model = $model->filterByPaid ( true );
+			$model = $model->where ( 'SOrders.Paid IS NULL' )->orWhere ( 'SOrders.Paid = 0' );
+		else if ($_GET ['paid'] === "1")
+			$model = $model->filterByPaid ( true );
 			
-			// Count total orders
+		// Count total orders
 		if (($_GET ['orderMethod'] != '' && $_GET ['orderCriteria'] != '' && method_exists ( $model, 'filterBy' . $_GET ['orderMethod'] )) or $_GET ['orderMethod'] == 'Id') {
 			switch ($_GET ['orderCriteria']) {
 				case 'ASC' :
@@ -69,7 +69,7 @@ class ShopAdminOrders extends ShopAdminController {
 					$nOArr = '&darr;';
 					$model = $model->orderBy ( $_GET ['orderMethod'], Criteria::ASC );
 					break;
-				
+
 				case 'DESC' :
 					$nextOrderCriteria = 'ASC';
 					$nOArr = '&uarr;';
@@ -78,13 +78,13 @@ class ShopAdminOrders extends ShopAdminController {
 			}
 		} else
 			$model->orderById ( 'DESC' );
-		
+
 		$this->perPage = $this->paginationVariant ( $_SESSION ['pagination'] );
-		
+
 		$model = $model->limit ( $this->perPage )->offset ( ( int ) $_GET ['per_page'] )->distinct ()->find ();
-		
+
 		$totalOrders = $this->getTotalRow ();
-		
+
 		$usersDatas = array ();
 		$productDatas = array ();
 		$pids = array ();
@@ -92,37 +92,37 @@ class ShopAdminOrders extends ShopAdminController {
 			$usersDatas [] = $o->getUserFullName ();
 			$usersDatas [] = $o->getUserEmail ();
 			$usersDatas [] = $o->getUserPhone ();
-			
+				
 			if ($o->getSOrderProductss ())
 				foreach ( $o->getSOrderProductss () as $p )
-					if (is_object ( $p )) {
-						if (! in_array ( $p->getProductId (), $pids ))
-							;
-						{
-							$pids [] = $p->getProductId ();
-							$productDatas [] = array (
-									'v' => $p->getProductId (),
-									'label' => $p->getProductName () 
-							);
-						}
-					}
+				if (is_object ( $p )) {
+				if (! in_array ( $p->getProductId (), $pids ))
+					;
+				{
+					$pids [] = $p->getProductId ();
+					$productDatas [] = array (
+							'v' => $p->getProductId (),
+							'label' => $p->getProductName ()
+					);
+				}
+			}
 		}
-		
+
 		$getData = $_GET;
 		unset ( $getData ['per_page'] );
 		$queryString = '?' . http_build_query ( $getData );
-		
+
 		$orderStatuses = SOrderStatusesQuery::create ()->orderByPosition ( Criteria::ASC )->find ();
-		
+
 		$this->load->library ( 'Pagination' );
 		$config ['base_url'] = site_url ( 'admin/components/run/shop/orders/index/?' ) . http_build_query ( $_GET );
-		
+
 		$config ['container'] = 'shopAdminPage';
 		$config ['uri_segment'] = $this->uri->total_segments ();
 		$config ['page_query_string'] = true;
 		$config ['total_rows'] = $totalOrders;
 		$config ['per_page'] = $this->perPage;
-		
+
 		$config ['separate_controls'] = true;
 		$config ['full_tag_open'] = '<div class="pagination pull-left"><ul>';
 		$config ['full_tag_close'] = '</ul></div>';
@@ -144,11 +144,11 @@ class ShopAdminOrders extends ShopAdminController {
 		$config ['last_tag_close'] = '</li>';
 		$config ['first_tag_open'] = '<li>';
 		$config ['first_tag_close'] = '</li>';
-		
+
 		$this->pagination->num_links = 5;
 		$this->pagination->initialize ( $config );
 		$this->template->assign ( 'pagination', $this->pagination->create_links_ajax () );
-		
+
 		$_GET ['status'] = - 1;
 		$this->render ( 'list', array (
 				'oldest_order_date' => $oldest_date_created,
@@ -164,7 +164,7 @@ class ShopAdminOrders extends ShopAdminController {
 				'orderStatuses' => $orderStatuses,
 				'usersDatas' => $usersDatas,
 				'productsDatas' => $productDatas,
-				'offset' => $offset 
+				'offset' => $offset
 		) );
 	}
 	public function paginationVariant($int = FALSE, $ref = FALSE) {
@@ -173,13 +173,13 @@ class ShopAdminOrders extends ShopAdminController {
 		} else {
 			$_SESSION ['pagination'] = $int;
 		}
-		
+
 		if ($ref == TRUE)
 			pjax ( '/admin/components/run/shop/orders' );
-		
+
 		return $_SESSION ['pagination'];
 	}
-	
+
 	/**
 	 * Edit order info
 	 *
@@ -188,21 +188,21 @@ class ShopAdminOrders extends ShopAdminController {
 	public function edit($id) {
 		$model = SOrdersQuery::create ()->findPk ( ( int ) $id );
 		$price_total = $model->getTotalPrice ();
-		
+
 		$criteriaPaid = $model->getPaid ();
-		
+
 		if ($model === null)
 			$this->error404 ( lang ( 'Order not found', 'admin' ) );
 			
-			// in this case products count will be recounted
-		
+		// in this case products count will be recounted
+
 		if ($this->input->post ( 'Paid' ) && ! $model->getPaid ()) {
 			session_start ();
 			$_SESSION ['recount'] = true;
 		}
-		
+
 		$statusHistory = SOrderStatusHistoryQuery::create ()->filterByOrderId ( ( int ) $id )->find ();
-		
+
 		$usersName = array ();
 		$ci = get_instance ();
 		$ci->load->model ( 'dx_auth/users', 'users' );
@@ -212,19 +212,19 @@ class ShopAdminOrders extends ShopAdminController {
 				$usersName [$status->getId ()] = $row->username;
 			}
 		}
-		
+
 		$oldStatusId = SOrdersQuery::create ()->filterById ( $id )->findOne ()->getStatus ();
 		if ($_POST) {
-			
+				
 			$_POST ['Paid'] = ( bool ) $_POST ['Paid'];
-			
+				
 			$_POST ['StatusId'] = $this->input->post ( 'Status' );
-			
+				
 			$validation = $this->form_validation->set_rules ( 'UserEmail' );
 			$validation = $model->validateCustomData ( $validation );
 			if ($validation->run ()) {
 				$model->fromArray ( $_POST );
-				
+
 				// Check if delivery method exists.
 				$deliveryMethod = SDeliveryMethodsQuery::create ()->findPk ( ( int ) $_POST [shop_orders] ['delivery_method'] );
 				if ($deliveryMethod === null) {
@@ -234,26 +234,26 @@ class ShopAdminOrders extends ShopAdminController {
 					$deliveryPrice = $deliveryMethod->getPrice ();
 					$deliveryMethod = $deliveryMethod->getId ();
 				}
-				
+
 				// Check if payment method exists.
 				$paymentMethod = SPaymentMethodsQuery::create ()->findPk ( ( int ) $_POST [shop_orders] ['payment_method'] );
-				
+
 				if ($paymentMethod === null) {
 					$paymentMethod = 0;
 				} else {
 					$paymentMethod = $paymentMethod->getId ();
 				}
-				
+
 				$model->setDeliveryMethod ( $deliveryMethod );
 				$model->setDeliveryPrice ( $deliveryPrice );
 				$model->setPaymentMethod ( $paymentMethod );
-				
+
 				$model->save ();
-				
+
 				if ($model->getUserId ()) {
 					$ordersesQuery = $this->db->query ( 'SELECT amout FROM users WHERE id = ' . $model->getUserId () );
 					$orderses = $ordersesQuery->row_array ();
-					
+						
 					// var_dump($_POST['Paid']);
 					if ($_POST ['Paid'] && ( int ) $criteriaPaid != ( int ) $_POST ['Paid']) {
 						$summAdd = ( float ) $orderses ['amout'] + ( float ) $price_total;
@@ -262,34 +262,34 @@ class ShopAdminOrders extends ShopAdminController {
 					} else {
 						$summAdd = ( float ) $orderses ['amout'];
 					}
-					
+						
 					$this->db->query ( "update users set amout = '" . $summAdd . "' where id = " . $model->getUserId () );
 				}
-				
+
 				if ($oldStatusId != ( int ) $_POST ['Status']) {
 					$modelOrder = new SOrderStatusHistory ();
 					$this->form_validation->set_rules ( $modelOrder->rules () );
-					
+						
 					if ($this->form_validation->run ( $this ) == FALSE) {
 						showMessage ( validation_errors (), '', 'r' );
 					} else {
 						$modelOrder->setOrderId ( $id )->setStatusId ( $_POST ['Status'] )->setUserId ( $this->dx_auth->get_user_id () )->setDateCreated ( time () )->setComment ( $_POST ['Comment'] );
-						
+
 						$modelOrder->save ();
 						if ($_POST ['Notify']) {
 							\cmsemail\email::getInstance ()->sendEmail ( $model->getUserEmail (), 'change_order_status', array (
 									'status' => $modelOrder->getSOrderStatuses ()->getName (),
 									'userName' => $model->getUserFullName (),
 									'userEmail' => $model->getUserEmail (),
-									'orderLink' => shop_url ( 'cart/view/' . $model->getKey () ) 
+									'orderLink' => shop_url ( 'cart/view/' . $model->getKey () )
 							) );
 						}
 						showMessage ( lang ( 'Order status changed', 'admin' ) );
 					}
 				}
-				
+
 				showMessage ( lang ( 'Changes saved', 'admin' ) );
-				
+
 				if (isset ( $_POST ['action'] ) && $_POST ['action'] == 'edit') {
 					pjax ( '/admin/components/run/shop/orders/edit/' . $model->getId () );
 				} else
@@ -302,15 +302,15 @@ class ShopAdminOrders extends ShopAdminController {
 				if ($sOrderProduct->getKitId () > 0) {
 					if (! isset ( $kits [$sOrderProduct->getKitId ()] ['total'] ))
 						$kits [$sOrderProduct->getKitId ()] ['total'] = 0;
-					
+						
 					if (! isset ( $kits [$sOrderProduct->getKitId ()] ['price'] ))
 						$kits [$sOrderProduct->getKitId ()] ['price'] = 0;
-					
+						
 					$kits [$sOrderProduct->getKitId ()] ['total'] ++;
 					$kits [$sOrderProduct->getKitId ()] ['price'] = $kits [$sOrderProduct->getKitId ()] ['price'] + $sOrderProduct->toCurrency ();
 				}
 			}
-			
+				
 			foreach ( $model->getSOrderProductss () as $key => $number ) {
 				// $products = SProductVariantsQuery::create()->filterById($number->getProductId())->find();
 				$products = SProductVariantsQuery::create ()->filterById ( $number->getVariantId () )->find ();
@@ -322,7 +322,7 @@ class ShopAdminOrders extends ShopAdminController {
 				$freeFrom = SDeliveryMethodsQuery::create ()->findPk ( $model->getDeliveryMethod () )->getFreeFrom ();
 			else
 				$freeFrom = 0;
-			
+				
 			$this->render ( 'edit', array (
 					'model' => $model,
 					'freeFrom' => $freeFrom,
@@ -330,15 +330,15 @@ class ShopAdminOrders extends ShopAdminController {
 					'deliveryMethods' => SDeliveryMethodsQuery::create ()->useI18nQuery ( $this->defaultLanguage ['identif'] )->orderByName ( Criteria::ASC )->endUse ()->find (),
 					'paymentMethods' => SPaymentMethodsQuery::create ()->useI18nQuery ( $this->defaultLanguage ['identif'] )->orderByName ( Criteria::ASC )->endUse ()->find (),
 					'statusHistory' => $statusHistory,
-					'usersName' => $usersName 
+					'usersName' => $usersName
 			) );
 		}
 	}
-	
+
 	/**
 	 * Send email to user.
 	 *
-	 * @param array $wish        	
+	 * @param array $wish
 	 * @return void
 	 */
 	public function recount_amount($user_id = null) {
@@ -354,27 +354,27 @@ class ShopAdminOrders extends ShopAdminController {
 	public function changeStatus() {
 		$orderId = ( int ) $_POST ['OrderId'];
 		$statusId = ( int ) $_POST ['StatusId'];
-		
+
 		$model = SOrdersQuery::create ()->findPk ( $orderId );
-		
+
 		$newStatusId = SOrderStatusesQuery::create ()->findPk ( ( int ) $statusId );
 		if (! empty ( $newStatusId )) {
 			if ($model !== null) {
 				$model->setStatus ( $statusId );
-				
+
 				$model->save ();
-				
+
 				if (! empty ( $_POST )) {
 					$model = new SOrderStatusHistory ();
 					$this->form_validation->set_rules ( $model->rules () );
-					
+						
 					if ($this->form_validation->run ( $this ) == FALSE) {
 						showMessage ( validation_errors () );
 					} else {
 						$model->setOrderId ( $orderId )->setStatusId ( $statusId )->setUserId ( $this->dx_auth->get_user_id () )->setDateCreated ( time () )->setComment ( $_POST ['Comment'] );
-						
+
 						$model->save ();
-						
+
 						showMessage ( lang ( 'Order Status changed', 'admin' ) );
 					}
 				}
@@ -383,40 +383,40 @@ class ShopAdminOrders extends ShopAdminController {
 	}
 	public function changePaid() {
 		$orderId = ( int ) $_POST ['orderId'];
-		
+
 		$model = SOrdersQuery::create ()->findPk ( $orderId );
-		
+
 		if ($model !== null) {
 			if ($model->getPaid () == true)
 				$model->setPaid ( false );
 			else
 				$model->setPaid ( true );
-			
+				
 			$model->save ();
 			echo ( int ) $model->getPaid ();
-			
+				
 			$ordersesQuery = $this->db->query ( 'SELECT amout FROM shop_user_profile WHERE user_id = ' . $model->getUserId () );
 			$orderses = $ordersesQuery->row ();
-			
-			if ($model->getPaid () == 1) {
 				
+			if ($model->getPaid () == 1) {
+
 				$summAdd = $orderses->amout + $model->getTotalPrice () - ShopCore::app ()->SCurrencyHelper->convert ( $model->getDiscount () );
 			} else {
-				
+
 				$summAdd = $orderses->amout - ($model->getTotalPrice () - ShopCore::app ()->SCurrencyHelper->convert ( $model->getDiscount () ));
 			}
-			
+				
 			$data = array (
-					'amout' => $summAdd 
+					'amout' => $summAdd
 			);
-			
+				
 			$this->db->where ( 'user_id', $model->getUserId () );
 			$this->db->update ( 'shop_user_profile', $data );
 		}
 	}
 	public function delete() {
 		$model = SOrdersQuery::create ()->findPk ( ( int ) $_POST ['orderId'] );
-		
+
 		if ($model) {
 			$model->delete ();
 		}
@@ -424,13 +424,13 @@ class ShopAdminOrders extends ShopAdminController {
 	public function ajaxDeleteOrders() {
 		if (sizeof ( $_POST ['ids'] > 0 )) {
 			$model = SOrdersQuery::create ()->findPks ( $_POST ['ids'] );
-			
+				
 			if (! empty ( $model )) {
 				foreach ( $model as $order ) {
 					$order->delete ();
 					$amount_total = $this->recount_amount ( $order->getUserId () );
 					$data = array (
-							'amout' => $amount_total 
+							'amout' => $amount_total
 					);
 					$this->db->where ( 'id', $order->getUserId () );
 					$this->db->update ( 'users', $data );
@@ -443,30 +443,30 @@ class ShopAdminOrders extends ShopAdminController {
 		if (sizeof ( $_POST ['ids'] > 0 )) {
 			$model = SOrdersQuery::create ()->findPks ( $_POST ['ids'] );
 			$newStatusId = SOrderStatusesQuery::create ()->findPk ( ( int ) $status );
-			
+				
 			$statusEmail = SOrderStatusesI18nQuery::create ()->filterById ( $status )->findOne ();
-			
+				
 			if (! empty ( $newStatusId )) {
 				if (! empty ( $model )) {
 					foreach ( $model as $order ) {
 						$order->setStatus ( ( int ) $status );
 						$order->save ();
-						
+
 						$modelOrderStatusHistory = new SOrderStatusHistory ();
 						$modelOrderStatusHistory->setOrderId ( $order->getId () )->setStatusId ( $status )->setUserId ( $this->dx_auth->get_user_id () )->setDateCreated ( time () );
-						
+
 						$modelOrderStatusHistory->save ();
-						
+
 						if (ShopCore::app ()->SSettings->notifyOrderStatusStatusEmail == 1) {
 							\cmsemail\email::getInstance ()->sendEmail ( $order->getUserEmail (), 'change_order_status', array (
 									'status' => $statusEmail->getName (),
 									'userName' => $order->getUserFullName (),
 									'userEmail' => $order->getUserEmail (),
-									'orderLink' => shop_url ( 'cart/view/' . $order->getKey () ) 
+									'orderLink' => shop_url ( 'cart/view/' . $order->getKey () )
 							) );
 						}
 					}
-					
+						
 					showMessage ( lang ( 'Order Status changed', 'admin' ), lang ( 'The operation was successful', 'admin' ) );
 				}
 			}
@@ -477,30 +477,30 @@ class ShopAdminOrders extends ShopAdminController {
 			$model = SOrdersQuery::create ()->findPks ( $_POST ['ids'] );
 			if (! empty ( $model )) {
 				foreach ( $model as $order ) {
-					
+						
 					$order->setPaid ( $paid );
 					$order->save ();
 					if ($order->getUserId ()) {
 						$ordersesQuery = $this->db->query ( 'SELECT amout FROM users WHERE id = ' . $order->getUserId () );
 						$orderses = $ordersesQuery->row ();
-						
+
 						if ($order->getPaid () == 1) {
-							
+								
 							$summAdd = $orderses->amout + $order->getTotalPrice ();
 						} else {
-							
+								
 							$summAdd = $orderses->amout - $order->getTotalPrice ();
 						}
-						
+
 						$data = array (
-								'amout' => $summAdd 
+								'amout' => $summAdd
 						);
-						
+
 						$this->db->where ( 'id', $order->getUserId () );
 						$this->db->update ( 'users', $data );
 					}
 				}
-				
+
 				showMessage ( lang ( 'Payment status of orders changed', 'admin' ), lang ( 'Saved', 'admin' ) );
 			}
 		}
@@ -509,29 +509,29 @@ class ShopAdminOrders extends ShopAdminController {
 		$orderedProduct = SOrderProductsQuery::create ()->filterById ( ( int ) $Id )->findOne ();
 		$this->render ( '_editWindow', array (
 				'product' => SProductsQuery::create ()->filterById ( $orderedProduct->getProductId () )->findOne (),
-				'orderedProduct' => $orderedProduct 
+				'orderedProduct' => $orderedProduct
 		) );
 	}
 	public function editKit($orderId, $kitId) {
 		$model = SOrdersQuery::create ()->findPk ( ( int ) $orderId );
-		
+
 		if ($_POST) {
 		} else {
 			if ($model) {
 				$criteria = SOrderProductsQuery::create ()->filterByKitId ( ( int ) $kitId );
 				$sOrderProducts = $model->getSOrderProductss ( $criteria );
 			}
-			
+				
 			$this->render ( 'editKitWindow', array (
 					'sOrderProducts' => $sOrderProducts,
 					'orderId' => $orderId,
-					'kitId' => $kitId 
+					'kitId' => $kitId
 			) );
 		}
 	}
 	public function ajaxEditAddToCartWindow($orderId) {
 		$this->render ( '_editAddToCartWindow', array (
-				'order' => SOrdersQuery::create ()->filterById ( $orderId )->findOne () 
+				'order' => SOrdersQuery::create ()->filterById ( $orderId )->findOne ()
 		) );
 	}
 	public function ajaxDeleteProduct($Id) {
@@ -539,26 +539,26 @@ class ShopAdminOrders extends ShopAdminController {
 		if ($orderedProduct == Null)
 			return;
 			
-			// check if it's not a last product in order
+		// check if it's not a last product in order
 		$countProducts = $this->db->select ( "*, IF (kit_id IS NOT NULL, kit_id, id) AS forgroup", false )->where ( 'order_id', $orderedProduct->getOrderId () )->group_by ( 'forgroup' )->get ( 'shop_orders_products' )->num_rows ();
-		
+
 		if ($countProducts <= 1) {
 			showMessage ( lang ( 'You can not delete the last item from the order', 'admin' ) );
 			return;
 		}
-		
+
 		if ($orderedProduct->getKitId () != Null) {
 			$kitProducts = SOrderProductsQuery::create ()->filterByKitId ( $orderedProduct->getKitId () )->filterByOrderId ( $orderedProduct->getOrderId () )->find ();
 			$kitProducts->delete ();
-			
+				
 			$oId = $orderedProduct->getOrderId ();
 			$order = SOrdersQuery::create ()->findPk ( $oId );
-			
+				
 			$order->updateTotalPrice ();
 			$order->save ();
 			$order->updateDeliveryPrice ();
 			$order->save ();
-			
+				
 			showMessage ( lang ( 'Product is removed from the Order', 'admin' ) );
 			pjax ( '/admin/components/run/shop/orders/edit/' . $order->getId () . '#productsInCart' );
 			return;
@@ -566,21 +566,21 @@ class ShopAdminOrders extends ShopAdminController {
 		if ($orderedProduct != null) {
 			$oId = $orderedProduct->getOrderId ();
 			$orderedProduct->delete ();
-			
+				
 			$order = SOrdersQuery::create ()->findPk ( $oId );
-			
+				
 			$order->updateTotalPrice ();
 			$order->save ();
 			$order->updateDeliveryPrice ();
 			$order->save ();
-			
+				
 			showMessage ( lang ( 'Product is removed from the Order', 'admin' ) );
 			pjax ( '/admin/components/run/shop/orders/edit/' . $order->getId () . '#productsInCart' );
 		}
 	}
 	public function ajaxGetProductList($type = NULL) {
 		$products = new SProductsQuery ();
-		
+
 		if (! empty ( $_GET ['term'] )) {
 			$text = $_GET ['term'];
 			if (! strpos ( $text, '%' ))
@@ -591,17 +591,17 @@ class ShopAdminOrders extends ShopAdminController {
 				$products = $products->useProductVariantQuery ()->filterByNumber ( '%' . $_GET ['term'] . '%' )->endUse ();
 			}
 		}
-		
+
 		$products = $products->limit ( ( int ) $_GET ['limit'] )->distinct ()->find ();
-		
+
 		$variants = SProductVariantsQuery::create ()->filterBySProducts ( $products )->orderById ( Criteria::DESC )->find ();
-		
+
 		foreach ( $variants as $variant ) {
 			$pVariants [$variant->getProductId ()] [$variant->getId ()] ['name'] = ShopCore::encode ( $variant->getName () );
 			$pVariants [$variant->getProductId ()] [$variant->getId ()] ['price'] = $variant->getPrice ();
 			$pVariants [$variant->getProductId ()] [$variant->getId ()] ['number'] = $variant->getNumber ();
 		}
-		
+
 		foreach ( $products as $key => $product ) {
 			if ($type != NULL and count ( $product ) > 0) {
 				$numbers = SProductVariantsQuery::create ()->joinI18n ()->filterByProductId ( $product->getId () )->find ();
@@ -616,10 +616,10 @@ class ShopAdminOrders extends ShopAdminController {
 					'value' => $product->getId (),
 					'category' => $product->getCategoryId (),
 					'variants' => $pVariants [$product->getId ()],
-					'cs' => ShopCore::app ()->SCurrencyHelper->getSymbol () 
+					'cs' => ShopCore::app ()->SCurrencyHelper->getSymbol ()
 			);
 		}
-		
+
 		echo json_encode ( $response );
 	}
 	public function ajaxEditOrderCartNew($Id) {
@@ -630,59 +630,59 @@ class ShopAdminOrders extends ShopAdminController {
 			showMessage ( lang ( 'Very high price, please set smaller', 'admin' ), lang ( 'Error', 'admin' ), 'r' );
 			return FALSE;
 		}
-		
+
 		$orderproduct = SOrderProductsQuery::create ()->findPk ( $Id );
-		
+
 		if ($new_quan) {
 			if ($kitId = $orderproduct->getKitId ()) {
 				$orderproducts = SOrderProductsQuery::create ()->filterByKitId ( $kitId )->filterByOrderId ( $orderproduct->getOrderId () )->find ();
-				
+
 				foreach ( $orderproducts as $product ) {
 					$price_old_total = $product->getPrice () * $product->getQuantity ();
 					$product->setQuantity ( $new_quan );
 					$product->save ();
-					
+						
 					$diff += $product->getPrice () * $product->getQuantity () - $price_old_total;
 				}
 			} else {
-				
+
 				$price_old_total = $orderproduct->getPrice () * $orderproduct->getQuantity ();
 				$orderproduct->setQuantity ( $new_quan );
 				$orderproduct->save ();
-				
+
 				$diff = $orderproduct->getPrice () * $orderproduct->getQuantity () - $price_old_total;
 			}
 		} else {
 			if (! $orderproduct->getKitId ()) {
-				
+
 				$price_old_total = $orderproduct->getPrice () * $orderproduct->getQuantity ();
 				$orderproduct->setPrice ( $new_price );
 				$orderproduct->save ();
-				
+
 				$diff = $orderproduct->getPrice () * $orderproduct->getQuantity () - $price_old_total;
 			}
 		}
 		$this->db->query ( "update shop_orders set total_price = total_price + '$diff' where id = '" . $orderproduct->getOrderId () . "'" );
-		
+
 		pjax ( '' );
 	}
 	public function ajaxEditOrderCart($Id) {
 		$order = SOrderProductsQuery::create ()->filterById ( ( int ) $Id )->findOne ();
-		
+
 		// if it's product from kit
 		if ($order->getKitId () != Null) {
 			$orderKit = SOrderProductsQuery::create ()->filterByOrderId ( $order->getOrderId () )->filterByKitId ( $order->getKitId () )->find ();
 			if ($this->input->post ( 'newQuantity' ))
 				foreach ( $orderKit as $item ) {
-					$item->setQuantity ( ( int ) $this->input->post ( 'newQuantity' ) );
-					$item->save ();
-				}
+				$item->setQuantity ( ( int ) $this->input->post ( 'newQuantity' ) );
+				$item->save ();
+			}
 			$order = SOrdersQuery::create ()->findPk ( $order->getOrderId () );
 			$order->updateTotalPrice ();
 			pjax ( '' );
 			return;
 		}
-		
+
 		$product = SProductsQuery::create ()->filterById ( ( int ) $_POST ['newProductId'] )->findOne ();
 		$variant = SProductVariantsQuery::create ()->filterByProductId ( ( int ) $_POST ['newProductId'] )->filterById ( ( int ) $_POST ['newVariantId'] )->findOne ();
 		if ($order === null) {
@@ -720,7 +720,7 @@ class ShopAdminOrders extends ShopAdminController {
 				}
 			}
 			$order->save ();
-			
+				
 			showMessage ( lang ( 'Product updated', 'admin' ) );
 		}
 		$order = SOrdersQuery::create ()->findPk ( $order->getOrderId () );
@@ -728,31 +728,31 @@ class ShopAdminOrders extends ShopAdminController {
 		$order->save ();
 		$order->updateDeliveryPrice ();
 		$order->save ();
-		
+
 		pjax ( '' );
 	}
 	public function ajaxEditOrderAddToCart($orderId) {
 		$productId = ( int ) $_POST ['newProductId'];
 		$variantId = ( int ) $_POST ['newVariantId'];
 		$quantity = ( int ) $_POST ['newQuantity'];
-		
+
 		$order = SOrdersQuery::create ()->filterById ( ( int ) $orderId )->findOne ();
 		if ($order != null) {
 			$product = SProductsQuery::create ()->filterById ( $productId )->findOne ();
-			
+				
 			$variant = SProductVariantsQuery::create ()->filterById ( $variantId )->findOne ();
 			if ($product != NULL && $variant != NULL) {
 				if ($quantity < 1)
 					$quantity = 1;
-				
+
 				$orderP = new SOrderProducts ();
 				$orderP->setOrderId ( ( int ) $orderId )->setProductId ( $product->getId () )->setVariantId ( $variant->getId () )->setProductName ( $product->getName () )->setVariantName ( $variant->getName () )->setPrice ( $variant->getPrice () )->setQuantity ( $quantity )->save ();
-				
+
 				$order->updateTotalPrice ();
 				$order->save ();
 				$order->updateDeliveryPrice ();
 				$order->save ();
-				
+
 				showMessage ( lang ( 'Item has been added to the order', 'admin' ) );
 				pjax ( '/admin/components/run/shop/orders/edit/' . $order->getId () . '#productsInCart' );
 			} else
@@ -766,28 +766,28 @@ class ShopAdminOrders extends ShopAdminController {
 			if ($sOrderProduct->getKitId () > 0) {
 				if (! isset ( $kits [$sOrderProduct->getKitId ()] ['total'] ))
 					$kits [$sOrderProduct->getKitId ()] ['total'] = 0;
-				
+
 				if (! isset ( $kits [$sOrderProduct->getKitId ()] ['price'] ))
 					$kits [$sOrderProduct->getKitId ()] ['price'] = 0;
-				
+
 				$kits [$sOrderProduct->getKitId ()] ['total'] ++;
 				$kits [$sOrderProduct->getKitId ()] ['price'] = $kits [$sOrderProduct->getKitId ()] ['price'] + $sOrderProduct->toCurrency ();
 			}
 		}
-		
+
 		$this->render ( 'cart_list', array (
 				'model' => SOrdersQuery::create ()->filterById ( $orderId )->findOne (),
 				'kits' => $kits,
 				'deliveryMethods' => SDeliveryMethodsQuery::create ()->useI18nQuery ( MY_Controller::getCurrentLocale () )->orderByName ()->endUse ()->find (),
-				'paymentMethods' => SPaymentMethodsQuery::create ()->useI18nQuery ( MY_Controller::getCurrentLocale () )->orderByName ()->endUse ()->find () 
+				'paymentMethods' => SPaymentMethodsQuery::create ()->useI18nQuery ( MY_Controller::getCurrentLocale () )->orderByName ()->endUse ()->find ()
 		) );
 		;
 	}
-	
+
 	/**
 	 * Count total orders in the list
 	 *
-	 * @param SOrdersQuery $object        	
+	 * @param SOrdersQuery $object
 	 * @return int
 	 */
 	protected function _count(SOrdersQuery $object) {
@@ -803,16 +803,16 @@ class ShopAdminOrders extends ShopAdminController {
 		$this->pdf->setPrintHeader ( false );
 		$this->pdf->setPrintFooter ( false );
 		$this->pdf->SetTextColor ( 0, 0, 0 );
-		
+
 		foreach ( $pks as $id ) {
 			$this->pageNumber = '';
 			$model = SOrdersQuery::create ()->findPk ( $id );
 			$products = $model->getSOrderProductss ();
-			
+				
 			// Print product 15 per page
 			if ($products->count () >= 15) {
 				$products = array_chunk ( ( array ) $products, 15 );
-				
+
 				$n = 1;
 				foreach ( $products as $p ) {
 					$this->pageNumber = '/ ' . $n;
@@ -834,14 +834,14 @@ class ShopAdminOrders extends ShopAdminController {
 				$this->createPDFPage ( $model, $products, true );
 			}
 		}
-		
+
 		$this->pdf->Output ( "Order_No_$id.pdf" );
 	}
-	
+
 	/**
 	 * Create order check and display PDF file.
 	 *
-	 * @param int $orderId        	
+	 * @param int $orderId
 	 * @access public
 	 * @return PDF file
 	 */
@@ -852,7 +852,7 @@ class ShopAdminOrders extends ShopAdminController {
 			$freeFrom = false;
 		$deliveryPrice = ($model->getTotalPrice () <= $freeFrom) ? $model->getDeliveryPrice () : 0;
 		$totalPrice = $model->getTotalPrice () + $deliveryPrice;
-		
+
 		// if ($freeFrom > $totalPrice)
 		if ($deliveryPrice > 0) {
 			$delivery = new SOrderProducts ();
@@ -861,29 +861,29 @@ class ShopAdminOrders extends ShopAdminController {
 			$delivery->setPrice ( $deliveryPrice );
 			$products [] = $delivery;
 		}
-		
+
 		$html = $this->render ( 'check', array (
 				'model' => $model,
 				'products' => $products,
 				'totalPrice' => $totalPrice,
-				'pageNumber' => $this->pageNumber 
+				'pageNumber' => $this->pageNumber
 		), true );
-		
+
 		if ($duplicate === false) {
 			$resultHtml = $html . '<p>&nbsp;</p><p><hr></p><p>&nbsp;</p>' . $html;
 		} else {
 			$resultHtml = $html;
 		}
-		
+
 		$this->pdf->AddPage ();
 		$this->pdf->writeHTML ( $resultHtml, true, false, true, false, '' );
 	}
 	public function createPdf($id) {
 		$this->printChecks ( array (
-				0 => $id 
+				0 => $id
 		) );
 	}
-	
+
 	/**
 	 * Create new order
 	 */
@@ -891,9 +891,9 @@ class ShopAdminOrders extends ShopAdminController {
 		if ($_POST) {
 			$shopOrder = $this->input->post ( 'shop_orders' );
 			$shopOrderProducts = $this->input->post ( 'shop_orders_products' );
-			
-			if ($shopOrder ['user_id'] != null && $shopOrder ['delivery_method'] != 0 && $shopOrder ['payment_method'] != 0) {
 				
+			if ($shopOrder ['user_id'] != null && $shopOrder ['delivery_method'] != 0 && $shopOrder ['payment_method'] != 0) {
+
 				$_POST ['action'] ? $action = $_POST ['action'] : $action = 'edit';
 				$model = new SOrders ();
 				$model->setUserId ( $shopOrder ['user_id'] );
@@ -907,13 +907,13 @@ class ShopAdminOrders extends ShopAdminController {
 				$model->setGiftCertPrice ( $shopOrder ['gift_cert_price'] );
 				$model->setKey ( self::createCode () );
 				$model->setStatus ( 1 );
-				
+
 				// make not active gitft certificate
 				$this->makeNotActiveGiftCert ( $shopOrder ['gift_cert_key'] );
-				
+
 				// Check if delivery method exists.
 				$deliveryMethod = SDeliveryMethodsQuery::create ()->findPk ( ( int ) $shopOrder ['delivery_method'] );
-				
+
 				if ($deliveryMethod === null) {
 					$deliveryMethod = 0;
 					$deliveryPrice = 0;
@@ -921,31 +921,31 @@ class ShopAdminOrders extends ShopAdminController {
 					$deliveryPrice = $deliveryMethod->getPrice ();
 					$deliveryMethod = $deliveryMethod->getId ();
 				}
-				
+
 				// Check if payment method exists.
 				$paymentMethod = SPaymentMethodsQuery::create ()->findPk ( ( int ) $shopOrder ['payment_method'] );
-				
+
 				if ($paymentMethod === null)
 					$paymentMethod = 0;
 				else
 					$paymentMethod = $paymentMethod->getId ();
-				
+
 				$model->setDeliveryMethod ( $deliveryMethod );
 				$model->setDeliveryPrice ( $deliveryPrice );
 				$model->setPaymentMethod ( $paymentMethod );
 				$model->setDateCreated ( time () );
 				$model->setDateUpdated ( time () );
 				$model->save ();
-				
+
 				/**
 				 * Collect order products data
 				 */
 				$totalProducts = count ( $shopOrderProducts ['product_id'] );
 				$orderId = $model->getId ();
-				
+
 				$orderProducts = array ();
 				$orderProducts ['order_id'] = $orderId;
-				
+
 				for($i = 0; $i < $totalProducts; $i ++) {
 					if ($shopOrderProducts ['variant_name'] [$i] == '-')
 						$shopOrderProducts ['variant_name'] [$i] = '';
@@ -956,28 +956,28 @@ class ShopAdminOrders extends ShopAdminController {
 							'variant_id' => $shopOrderProducts ['variant_id'] [$i],
 							'variant_name' => $shopOrderProducts ['variant_name'] [$i],
 							'price' => $shopOrderProducts ['price'] [$i] / 100 * (100 - $shopOrder ['comulativ']),
-							'quantity' => $shopOrderProducts ['quantity'] [$i] 
+							'quantity' => $shopOrderProducts ['quantity'] [$i]
 					);
 					$orderProducts ['products'] [] = $shopOrderProducts ['product_id'] [$i];
 					$this->db->insert ( 'shop_orders_products', $data );
 				}
-				
+
 				/**
 				 * Init Event.
 				 * Create Shop order
 				 */
 				\CMSFactory\Events::create ()->registerEvent ( array (
-						'order_products' => $orderProducts 
+						'order_products' => $orderProducts
 				), 'ShopAdminOrder:create' );
 				\CMSFactory\Events::runFactory ();
-				
+
 				showMessage ( lang ( 'Order was successfully created', 'admin' ) );
-				
+
 				switch ($action) {
 					case 'edit' :
 						pjax ( '/admin/components/run/shop/orders/edit/' . $model->getId () );
 						break;
-					
+							
 					case 'close' :
 						pjax ( '/admin/components/run/shop/orders' );
 						break;
@@ -994,16 +994,16 @@ class ShopAdminOrders extends ShopAdminController {
 			$this->render ( 'create', array (
 					'categories' => ShopCore::app ()->SCategoryTree->getTree (),
 					'deliveryMethods' => SDeliveryMethodsQuery::create ()->useI18nQuery ( $this->defaultLanguage ['identif'] )->orderByName ( Criteria::ASC )->endUse ()->find (),
-					'paymentMethods' => SPaymentMethodsQuery::create ()->useI18nQuery ( $this->defaultLanguage ['identif'] )->orderByName ( Criteria::ASC )->endUse ()->find () 
+					'paymentMethods' => SPaymentMethodsQuery::create ()->useI18nQuery ( $this->defaultLanguage ['identif'] )->orderByName ( Criteria::ASC )->endUse ()->find ()
 			) );
 		}
 	}
 	private function makeNotActiveGiftCert($key) {
 		if ($key == null)
 			return;
-		
+
 		$this->db->where ( 'key', $key )->update ( 'shop_gifts', array (
-				'active' => 0 
+				'active' => 0
 		) );
 	}
 	private function getTotalRow() {
@@ -1013,7 +1013,7 @@ class ShopAdminOrders extends ShopAdminController {
 		$resultset = $statement->fetchAll ();
 		return $resultset [0] ['number'];
 	}
-	
+
 	/**
 	 * Get products in category id and children categories
 	 */
@@ -1025,38 +1025,38 @@ class ShopAdminOrders extends ShopAdminController {
 		foreach ( $query as $q ) {
 			$categoriesIds [] .= $q ['id'];
 		}
-		
+
 		$products = $this->db->select ( 'shop_products.id, shop_products_i18n.name' )->from ( 'shop_products' )->join ( 'shop_products_i18n', 'shop_products.id = shop_products_i18n.id' )->where ( 'shop_products_i18n.locale', MY_Controller::getCurrentLocale () )->where_in ( 'shop_products.category_id', $categoriesIds )->get ()->result_array ();
 		echo json_encode ( $products );
 	}
-	
+
 	/**
 	 * Get products in category id and children categories
 	 */
 	public function ajaxGetProductVariants() {
 		$productId = $this->input->post ( 'productId' );
-		
+
 		$productVariants = $this->db->select ( 'shop_product_variants.id, shop_product_variants_i18n.name, shop_product_variants.price,shop_currencies.symbol, shop_product_variants.stock' )->from ( 'shop_products' )->join ( 'shop_product_variants', 'shop_products.id = shop_product_variants.product_id' )->join ( 'shop_product_variants_i18n', 'shop_product_variants.id = shop_product_variants_i18n.id' )->join ( 'shop_currencies', 'shop_product_variants.currency = shop_currencies.id' )->where ( 'shop_product_variants_i18n.locale', MY_Controller::getCurrentLocale () )->where ( 'shop_product_variants.product_id', $productId )->get ()->result_array ();
-		
+
 		echo json_encode ( $productVariants );
 	}
 	public function getImageName() {
 		$variantId = $this->input->post ( 'variantId' );
-		
+
 		$query = $this->db->select ( 'mainImage' )->where ( 'id', $variantId )->get ( 'shop_product_variants' )->row_array ();
 		echo $query ['mainImage'];
 	}
-	
+
 	/**
 	 * Autocomlite users by name, email, id for orders create
 	 */
 	public function autoComplite() {
 		$s_limit = $this->input->get ( 'limit' );
 		$s_coef = $this->input->get ( 'term' );
-		
+
 		$model = SUserProfileQuery::create ();
 		$model = $model->where ( 'SUserProfile.Name LIKE "%' . $s_coef . '%"' )->_or ()->where ( 'SUserProfile.UserEmail LIKE "%' . $s_coef . '%"' )->_or ()->where ( 'SUserProfile.Id LIKE "%' . $s_coef . '%"' )->limit ( $s_limit )->find ();
-		
+
 		foreach ( $model as $val ) {
 			$response [] = array (
 					'value' => $val->getId () . ' - ' . $val->getName () . ' - ' . $val->getUserEmail (),
@@ -1064,12 +1064,12 @@ class ShopAdminOrders extends ShopAdminController {
 					'name' => $val->getName (),
 					'email' => $val->getUserEmail (),
 					'phone' => $val->getPhone (),
-					'address' => $val->getAddress () 
+					'address' => $val->getAddress ()
 			);
 		}
 		echo json_encode ( $response );
 	}
-	
+
 	/* Ajax create new user */
 	public function createNewUser() {
 		// $name, $password, $userEmail, $address, $phone
@@ -1079,7 +1079,7 @@ class ShopAdminOrders extends ShopAdminController {
 				'password' => ShopCore::$ci->dx_auth->_gen_pass (),
 				'email' => $this->input->post ( 'email' ),
 				'phone' => $this->input->post ( 'phone' ),
-				'address' => $this->input->post ( 'address' ) 
+				'address' => $this->input->post ( 'address' )
 		);
 		if (! ShopCore::$ci->dx_auth->is_email_available ( $data ['email'] )) {
 			echo 'email';
@@ -1089,11 +1089,11 @@ class ShopAdminOrders extends ShopAdminController {
 			echo 'false';
 		}
 	}
-	
+
 	/**
 	 * Get discount for user by id
-	 * 
-	 * @param type $userId        	
+	 *
+	 * @param type $userId
 	 */
 	public function ajaxGetUserDiscount() {
 		$userId = $this->input->post ( 'userId' );
@@ -1103,42 +1103,42 @@ class ShopAdminOrders extends ShopAdminController {
 		if ($query != null)
 			echo $query ['discount'];
 	}
-	
+
 	/*
 	 * Get Payment methods by delivery method id
-	 */
+	*/
 	public function getPaymentsMethods($deliveryId) {
 		$paymentMethods = ShopDeliveryMethodsSystemsQuery::create ()->filterByDeliveryMethodId ( $deliveryId )->find ();
 		foreach ( $paymentMethods as $paymentMethod ) {
 			$paymentMethodsId [] = $paymentMethod->getPaymentMethodId ();
 		}
 		$paymentMethod = SPaymentMethodsQuery::create ()->filterByActive ( true )->where ( 'SPaymentMethods.Id IN ?', $paymentMethodsId )->orderByPosition ()->find ();
-		
+
 		$jsonData = array ();
 		foreach ( $paymentMethod->getData () as $pm ) {
 			$jsonData [] = array (
 					'id' => $pm->getId (),
-					'name' => $pm->getName () 
+					'name' => $pm->getName ()
 			);
 		}
-		
+
 		echo json_encode ( $jsonData );
 	}
-	
+
 	/*
 	 * Check gift certificate code by key
-	 */
+	*/
 	public function checkGiftCert($key) {
 		$date = time ();
 		$query = $this->db->where ( 'key', $key )->where ( 'espdate >', $date )->where ( 'active', 1 )->get ( 'shop_gifts' )->row_array ();
 		echo json_encode ( $query );
 	}
-	
+
 	/**
 	 * Create random code.
 	 *
-	 * @param int $charsCount        	
-	 * @param int $digitsCount        	
+	 * @param int $charsCount
+	 * @param int $digitsCount
 	 * @static
 	 *
 	 * @access public
@@ -1170,41 +1170,41 @@ class ShopAdminOrders extends ShopAdminController {
 				'v',
 				'b',
 				'n',
-				'm' 
+				'm'
 		);
-		
+
 		if ($charsCount > sizeof ( $chars ))
 			$charsCount = sizeof ( $chars );
-		
+
 		$result = array ();
 		if ($charsCount > 0) {
 			$randCharsKeys = array_rand ( $chars, $charsCount );
-			
+				
 			foreach ( $randCharsKeys as $key => $val )
 				array_push ( $result, $chars [$val] );
 		}
-		
+
 		for($i = 0; $i < $digitsCount; $i ++)
 			array_push ( $result, rand ( 0, 9 ) );
-		
+
 		shuffle ( $result );
-		
+
 		$result = implode ( '', $result );
-		
+
 		if (sizeof ( SOrdersQuery::create ()->filterByKey ( $result )->select ( array (
-				'Key' 
+				'Key'
 		) )->limit ( 1 )->find () ) > 0)
 			self::createCode ( $charsCount, $digitsCount );
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Return info about last created user
 	 */
 	public function getLastUserInfo() {
 		$response = $this->db->order_by ( 'id', 'desc' )->get ( 'users' )->row_array ();
-		
+
 		if ($response)
 			echo json_encode ( $response );
 		else

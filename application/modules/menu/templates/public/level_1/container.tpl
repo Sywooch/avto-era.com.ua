@@ -1,1 +1,2 @@
-<ul>{$wrapper}</ul>
+<ul>{$wrapper}
+</ul>

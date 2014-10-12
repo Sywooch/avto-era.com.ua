@@ -32,7 +32,7 @@ class Categories extends \MY_Controller {
 		 * Get brands in category *
 		 */
 		$brands = $this->stats_model_categories->getBrandsIdsAndCount ( $childCategoriesIds );
-		
+
 		/**
 		 * data for pie diagram *
 		 */
@@ -40,13 +40,13 @@ class Categories extends \MY_Controller {
 		foreach ( $brands as $brand ) {
 			$pieData [] = array (
 					'key' => $brand ['name'],
-					'y' => ( int ) $brand ['count'] 
+					'y' => ( int ) $brand ['count']
 			);
 		}
-		
+
 		return json_encode ( array (
 				'type' => 'pie',
-				'data' => $pieData 
+				'data' => $pieData
 		) );
 	}
 	public function templateBrandsInCategories() {

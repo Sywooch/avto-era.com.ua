@@ -2,9 +2,9 @@
 
 /*
  * Image CMS
- * lib_admin.php
- *
- */
+* lib_admin.php
+*
+*/
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 class Lib_admin {
@@ -12,7 +12,7 @@ class Lib_admin {
 	function Lib_admin() {
 		$this->CI = & get_instance ();
 	}
-	
+
 	/**
 	 * Initiating the basic parameters for administrator
 	 * Loads libraries
@@ -28,17 +28,17 @@ class Lib_admin {
 		// $this->CI->config->set_item('language', 'russian');
 		$this->CI->config->set_item ( 'langs', array (
 				'russian',
-				'english' 
+				'english'
 		) );
-		
+
 		$this->CI->load->library ( 'DX_Auth' );
-		
+
 		// Load admin model
 		$this->CI->load->model ( 'cms_admin' );
-		
+
 		// Set default admin template
 		$this->CI->config->set_item ( 'template', 'administrator' );
-		
+
 		$this->CI->load->library ( 'form_validation' );
 		$this->CI->load->library ( 'template' );
 		// TODO: fix that
@@ -47,12 +47,12 @@ class Lib_admin {
 		// $this->CI->lang->load('controller', 'admin' . $folder);
 		// $this->CI->lang->load('admin_shop', 'admin' . $folder);
 		// $this->CI->lang->load('basemodules', 'admin' . $folder);
-		
+
 		$this->CI->load->helper ( 'javascript' );
 		$this->CI->load->helper ( 'admin' );
 		$this->CI->load->helper ( 'component' );
 	}
-	
+
 	/**
 	 * Use this function to write empty value in db insted of 0
 	 *
@@ -67,9 +67,9 @@ class Lib_admin {
 				'user_id' => $this->CI->dx_auth->get_user_id (),
 				'username' => $this->CI->dx_auth->get_username (),
 				'message' => $message,
-				'date' => time () 
+				'date' => time ()
 		);
-		
+
 		$this->CI->db->insert ( 'logs', $data );
 	}
 }

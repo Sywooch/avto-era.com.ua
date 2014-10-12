@@ -5,7 +5,7 @@ namespace cmsemail\classes;
 /**
  * Image CMS
  * Module cmsemail
- * 
+ *
  * @property \DX_Auth $dx_auth
  * @property \CI_URI $uri
  * @property \CI_DB_active_record $db
@@ -31,7 +31,7 @@ class BaseEmail extends ParentEmail {
 				$data ['admin_message_active'] = $this->input->post ( 'adminMailTextRadio' );
 				$data ['admin_email'] = $this->input->post ( 'admin_email' );
 				$data ['description'] = $this->input->post ( 'mail_desc' );
-				
+
 				$this->cmsemail_model->create ( $data );
 			} else {
 				$this->cmsemail_model->create ( $this->data_model );
@@ -54,7 +54,7 @@ class BaseEmail extends ParentEmail {
 				$data ['admin_message_active'] = $this->input->post ( 'adminMailTextRadio' );
 				$data ['admin_email'] = $this->input->post ( 'admin_email' );
 				$data ['description'] = $this->input->post ( 'mail_desc' );
-				
+
 				$this->cmsemail_model->edit ( $id, $data, $locale );
 			} else {
 				$this->cmsemail_model->edit ( $id, $this->data_model, $locale );
@@ -64,13 +64,13 @@ class BaseEmail extends ParentEmail {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * send email
-	 * 
-	 * @param type $send_to        	
-	 * @param type $patern_name        	
-	 * @param type $variables        	
+	 *
+	 * @param type $send_to
+	 * @param type $patern_name
+	 * @param type $variables
 	 * @return boolean
 	 */
 	public function sendEmail($send_to, $patern_name, $variables) {
@@ -80,10 +80,10 @@ class BaseEmail extends ParentEmail {
 			return $this->errors;
 		}
 	}
-	
+
 	/**
 	 * test email sending
-	 * 
+	 *
 	 * @return string
 	 */
 	public function mailTest() {
@@ -99,9 +99,9 @@ class BaseEmail extends ParentEmail {
 				'port' => $this->port,
 				'protocol' => $this->protocol,
 				'mailpath' => $this->mailpath,
-				'type' => $this->type 
+				'type' => $this->type
 		);
-		
+
 		return parent::mailTest ( $config );
 	}
 }

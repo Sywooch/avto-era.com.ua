@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ImageCMSInstaller" basedir="." default="bootstrap">
-    
-    <property file="build.properties" />
-    
-    <target name="bootstrap">
-        <echo message="Clear target directory ${b.target.location}" />
-        <phingcall target="clearTargetFolder" />
-        
-        <echo message="Copy source files to ${b.target.location}" />
-        <phingcall target="createEnv" />
-        
-        <echo message="Copy testcases ${b.target.location}" />
-        <phingcall target="copyTest" />
-        
-    </target>
-    
-    <target name="clearTargetFolder">
-        <delete dir="${b.target.location}" failonerror="FALSE"/>     
-    </target>
-    
-    <target name="createEnv">
-        <mkdir dir="${b.target.location}" mode="0777"/>
-        <copy todir="${b.target.location}">
-            <fileset defaultexcludes="false" dir="${b.source.location}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-    </target>
-    
-    <target name="copyTest">
-        <copy file="${t.codeceptyml}" todir="${b.target.location}" overwrite="true"/>
-        <copy file="${t.codeceptphar}" todir="${b.target.location}" overwrite="true"/>
-        <mkdir dir="${t.target}" mode="0777"/>
-        <copy todir="${t.target}">
-            <fileset defaultexcludes="false" dir="${t.location}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-    </target>
+
+	<property file="build.properties" />
+
+	<target name="bootstrap">
+		<echo message="Clear target directory ${b.target.location}" />
+		<phingcall target="clearTargetFolder" />
+
+		<echo message="Copy source files to ${b.target.location}" />
+		<phingcall target="createEnv" />
+
+		<echo message="Copy testcases ${b.target.location}" />
+		<phingcall target="copyTest" />
+
+	</target>
+
+	<target name="clearTargetFolder">
+		<delete dir="${b.target.location}" failonerror="FALSE" />
+	</target>
+
+	<target name="createEnv">
+		<mkdir dir="${b.target.location}" mode="0777" />
+		<copy todir="${b.target.location}">
+			<fileset defaultexcludes="false" dir="${b.source.location}">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="copyTest">
+		<copy file="${t.codeceptyml}" todir="${b.target.location}"
+			overwrite="true" />
+		<copy file="${t.codeceptphar}" todir="${b.target.location}"
+			overwrite="true" />
+		<mkdir dir="${t.target}" mode="0777" />
+		<copy todir="${t.target}">
+			<fileset defaultexcludes="false" dir="${t.location}">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
 </project>

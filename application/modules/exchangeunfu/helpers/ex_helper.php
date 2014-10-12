@@ -40,7 +40,7 @@ if (! function_exists ( 'load_products_i18n' )) {
 if (! function_exists ( 'load_productivity' )) {
 	function load_productivity() {
 		$ci = & get_instance ();
-		
+
 		return $ci->db->get ( 'mod_exchangeunfu_productivity' )->result_array ();
 	}
 }
@@ -48,7 +48,7 @@ if (! function_exists ( 'load_productivity' )) {
 if (! function_exists ( 'load_partners' )) {
 	function load_partners() {
 		$ci = & get_instance ();
-		
+
 		return $ci->db->get ( 'mod_exchangeunfu_partners' )->result_array ();
 	}
 }
@@ -56,7 +56,7 @@ if (! function_exists ( 'load_partners' )) {
 if (! function_exists ( 'load_prices' )) {
 	function load_prices() {
 		$ci = & get_instance ();
-		
+
 		return $ci->db->get ( 'mod_exchangeunfu_prices' )->result_array ();
 	}
 }
@@ -170,10 +170,10 @@ if (! function_exists ( 'load_prop_data' )) {
 	}
 }
 if (! function_exists ( 'load_multiple_prop' )) {
-	
+
 	/**
 	 * Load multiple prop
-	 * 
+	 *
 	 * @return type
 	 */
 	function load_multiple_prop() {
@@ -182,8 +182,8 @@ if (! function_exists ( 'load_multiple_prop' )) {
 		$result = $ci->db->get ( 'mod_exchange' );
 		if ($result)
 			foreach ( $result->result_array () as $val ) {
-				$arr [$val ['external_id']] = $val ['value'];
-			}
+			$arr [$val ['external_id']] = $val ['value'];
+		}
 		return $arr;
 	}
 }
@@ -194,7 +194,7 @@ if (! function_exists ( 'is_cat' )) {
 			if ($val ['external_id'] == $cat_ex_id)
 				return $val;
 		}
-		
+
 		return false;
 	}
 }
@@ -203,7 +203,7 @@ if (! function_exists ( 'is_user' )) {
 	function is_user($user_ex_id, $users) {
 		if (in_array ( $user_ex_id, $users ))
 			return array (
-					'id' => array_search ( $user_ex_id, $users ) 
+					'id' => array_search ( $user_ex_id, $users )
 			);
 		else
 			return false;
@@ -228,7 +228,7 @@ if (! function_exists ( 'is_order' )) {
 				return $val;
 			}
 		}
-		
+
 		return false;
 	}
 }
@@ -237,7 +237,7 @@ if (! function_exists ( 'is_prod' )) {
 	function is_prod($prod_ex_id, $prods) {
 		if (in_array ( $prod_ex_id, $prods ))
 			return array (
-					'id' => array_search ( $prod_ex_id, $prods ) 
+					'id' => array_search ( $prod_ex_id, $prods )
 			);
 		else
 			return false;
@@ -250,7 +250,7 @@ if (! function_exists ( 'is_brand' )) {
 			if ($val ['name'] == $brand_name)
 				return $val ['id'];
 		}
-		
+
 		return false;
 	}
 }
@@ -260,16 +260,16 @@ if (! function_exists ( 'is_prop' )) {
 			if ($val ['external_id'] == $prop_id)
 				return $val;
 		}
-		
+
 		return false;
 	}
 }
 
 if (! function_exists ( 'is_prop_multiple' )) {
-	
+
 	/**
 	 *
-	 * @param type $prop_id        	
+	 * @param type $prop_id
 	 * @param type $props
 	 *        	all properties
 	 * @return boolean

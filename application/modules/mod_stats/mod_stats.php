@@ -38,14 +38,14 @@ class Mod_stats extends MY_Controller {
 		$thisObj = new Mod_stats ();
 		$thisObj->stats_model->saveKeyWords ( $text ['search_text'] );
 	}
-	
+
 	/**
 	 * Install module
 	 */
 	public function _install() {
 		$this->stats_model->install ();
 	}
-	
+
 	/**
 	 * Deinstall module
 	 */

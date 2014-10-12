@@ -11,7 +11,7 @@ if (! defined ( 'BASEPATH' ))
 class Admin extends MY_Controller {
 	public function __construct() {
 		parent::__construct ();
-		
+
 		// Only admin access
 		// Do not delete this code !
 		if ($this->dx_auth->is_admin () == FALSE)
@@ -19,7 +19,7 @@ class Admin extends MY_Controller {
 	}
 	public function index() {
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -27,7 +27,7 @@ class Admin extends MY_Controller {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/admin/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

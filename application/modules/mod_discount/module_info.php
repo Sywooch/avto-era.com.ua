@@ -12,7 +12,7 @@ $com_info = array (
 		'h' => 550, // Window height
 		'version' => '1.1b', // Module version
 		'author' => 'DevImageCMS', // Author info DevImageCMS
-		'type' => 'shop' 
+		'type' => 'shop'
 ) // CMS version
 ;
 

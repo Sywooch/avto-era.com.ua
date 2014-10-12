@@ -11,12 +11,12 @@ if (! defined ( 'BASEPATH' ))
 function showMessage($message, $title = FALSE, $class = '', $ret = false) {
 	$del = array (
 			"'",
-			'"' 
+			'"'
 	);
-	
+
 	$message = str_replace ( $del, '', $message );
 	$title = str_replace ( $del, '', $title );
-	
+
 	if ($title == FALSE) {
 		$title = lang ( 'Message' ) . ": ";
 		if ($class == 'r') {
@@ -49,21 +49,21 @@ function ajax_redirect($location) {
 
 /*
  * Load content to DIV
- */
+*/
 function updateDiv($div_id, $url) {
 	echo "<script type=\"text/javascript\"> ajax_div('" . $div_id . "','" . $url . "'); </script>";
 }
 
 /*
  * Same function as above but with other name ;)
- */
+*/
 function ajax_div($div_id, $url) {
 	echo "<script type=\"text/javascript\"> ajax_div('" . $div_id . "','" . $url . "'); </script>";
 }
 
 /*
  * Execute java script code
- */
+*/
 function jsCode($code) {
 	echo "<script type=\"text/javascript\"> " . $code . " </script>";
 }

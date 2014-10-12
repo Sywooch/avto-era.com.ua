@@ -37,22 +37,22 @@ interface PHPExcel_RichText_ITextElement {
 	 * @return string
 	 */
 	public function getText();
-	
+
 	/**
 	 * Set text
 	 *
-	 * @param $pText string        	
+	 * @param $pText string
 	 * @return PHPExcel_RichText_ITextElement
 	 */
 	public function setText($pText = '');
-	
+
 	/**
 	 * Get font
 	 *
 	 * @return PHPExcel_Style_Font
 	 */
 	public function getFont();
-	
+
 	/**
 	 * Get hash code
 	 *

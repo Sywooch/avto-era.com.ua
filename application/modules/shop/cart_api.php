@@ -16,7 +16,7 @@ class Cart_api extends \Cart\BaseCart {
 		parent::__construct ();
 		// ($this->input->is_ajax_request()) OR $this->core->error_404();
 	}
-	
+
 	/**
 	 *
 	 * @access public
@@ -26,11 +26,11 @@ class Cart_api extends \Cart\BaseCart {
 	public function index() {
 		$this->core->error_404 ();
 	}
-	
+
 	/**
 	 * Add product to cart from GET data.
-	 * 
-	 * @param string $instance        	
+	 *
+	 * @param string $instance
 	 * @access public
 	 * @return JSON
 	 * @author <dev@imagecms.net>
@@ -40,22 +40,22 @@ class Cart_api extends \Cart\BaseCart {
 		if (TRUE === parent::add ( $instance )) {
 			$response = array (
 					'success' => true,
-					'errors' => false 
+					'errors' => false
 			);
 		} else {
 			$response = array (
 					'success' => false,
 					'errors' => true,
-					'message' => $this->errorMessages 
+					'message' => $this->errorMessages
 			);
 		}
 		return json_encode ( $response );
 	}
-	
+
 	/**
 	 * Remove product from cart by ID.
-	 * 
-	 * @param int $id        	
+	 *
+	 * @param int $id
 	 * @return bool
 	 * @access public
 	 * @author <dev@imagecms.net>
@@ -65,21 +65,21 @@ class Cart_api extends \Cart\BaseCart {
 		if (parent::delete ( $id )) {
 			$response = array (
 					'success' => true,
-					'errors' => false 
+					'errors' => false
 			);
 		} else {
 			$response = array (
 					'success' => false,
 					'errors' => true,
-					'message' => $this->errorMessages 
+					'message' => $this->errorMessages
 			);
 		}
 		return json_encode ( $response );
 	}
-	
+
 	/**
 	 * Recount cart items
-	 * 
+	 *
 	 * @author <dev@imagecms.net>
 	 * @copyright (c) 2013 ImageMCMS
 	 * @return JSON
@@ -89,16 +89,16 @@ class Cart_api extends \Cart\BaseCart {
 			($this->input->post ( 'recount' ) == 1) or throwException ( 'API, You are drunk, go home!' );
 			$response = array (
 					'success' => true,
-					'errors' => false 
+					'errors' => false
 			);
-			
+				
 			/**
 			 * Recount items
 			 */
 			$item = ShopCore::app ()->SCart->apiRecount ();
 			if ($item)
 				$response ['count'] = $item ['quantity'];
-			
+				
 			/**
 			 * Return result as JSON
 			 */
@@ -108,15 +108,15 @@ class Cart_api extends \Cart\BaseCart {
 			$response = array (
 					'success' => false,
 					'errors' => true,
-					'message' => $this->errorMessages 
+					'message' => $this->errorMessages
 			);
 			return json_encode ( $response );
 		}
 	}
-	
+
 	/**
 	 * Sync cart data with front
-	 * 
+	 *
 	 * @return JSON
 	 * @access public
 	 * @author <dev@imagecms.net>
@@ -124,20 +124,20 @@ class Cart_api extends \Cart\BaseCart {
 	 */
 	public function sync() {
 		$response = array ();
-		
+
 		if (count ( ShopCore::app ()->SCurrencyHelper->getCurrencies () ) > 1 and ShopCore::app ()->SCurrencyHelper->default)
 			$currentCurrency = SCurrenciesQuery::create ()->filterById ( ShopCore::app ()->SCurrencyHelper->default->getId (), Criteria::NOT_EQUAL )->findOne ()->getId ();
 		ShopCore::app ()->SCurrencyHelper->initCurrentCurrency ( null );
 		ShopCore::app ()->SCurrencyHelper->initAdditionalCurrency ( $currentCurrency );
 		$nextCurrency = SCurrenciesQuery::create ()->filterById ( ( int ) $currentCurrency )->findOne ();
 		$CSID = $nextCurrency->Id;
-		
+
 		/**
 		 * Load products from cart
 		 */
 		$items = ShopCore::app ()->SCart->loadProducts ();
 		foreach ( $items as $item ) {
-			
+				
 			if ($item ['instance'] == 'SProducts') {
 				$var = SProductVariantsQuery::create ()->findPk ( $item ['variantId'] );
 				if ($var) {
@@ -149,7 +149,7 @@ class Cart_api extends \Cart\BaseCart {
 				$item ['model']->getProductVariants ();
 				if ($item ['model']->hasDiscounts ())
 					$discount = $item ['model']->firstVariant->getVirtual ( 'numDiscount' ) / $item ['model']->firstVariant->toCurrency ( 'OrigPrice' ) * 100;
-				
+
 				$response ['cartItem_' . $item ['productId'] . '_' . $item ['variantId']] = array (
 						'id' => $item ['productId'],
 						'vId' => $item ['variantId'],
@@ -163,7 +163,7 @@ class Cart_api extends \Cart\BaseCart {
 						'number' => $var_num,
 						'url' => shop_url ( 'product/' . $item ['model']->getUrl () ),
 						'img' => $var_photo,
-						'prodstatus' => promoLabelBtn ( $item ['model']->getAction (), $item ['model']->getHot (), $item ['model']->getHit (), $discount ) 
+						'prodstatus' => promoLabelBtn ( $item ['model']->getAction (), $item ['model']->getHot (), $item ['model']->getHit (), $discount )
 				);
 			} else {
 				$response ['cartItem_' . implode ( ',', $item ['model']->getProductIdCart () ) . '_' . $item ['model']->getMainProduct ()->firstVariant->getId ()] = array (
@@ -182,17 +182,17 @@ class Cart_api extends \Cart\BaseCart {
 						'url' => json_encode ( $item ['model']->getUrls () ),
 						'img' => json_encode ( $item ['model']->getImgs () ),
 						'maxcount' => $item ['model']->getSProducts ()->firstVariant->getStock (),
-						'prodstatus' => json_encode ( $item ['model']->getKitStatus () ) 
+						'prodstatus' => json_encode ( $item ['model']->getKitStatus () )
 				);
 			}
 		}
-		
+
 		return json_encode ( array (
 				'success' => true,
 				'errors' => false,
 				'data' => array (
-						'items' => $response 
-				) 
+						'items' => $response
+				)
 		) );
 	}
 	public function get_kit_discount() {
@@ -206,10 +206,10 @@ class Cart_api extends \Cart\BaseCart {
 		// if ()
 		return number_format ( $disc, ShopCore::app ()->SSettings->pricePrecision, '.', '' );
 	}
-	
+
 	/**
 	 * Clear Cart data
-	 * 
+	 *
 	 * @return JSON
 	 * @access public
 	 * @author <dev@imagecms.net>
@@ -219,13 +219,13 @@ class Cart_api extends \Cart\BaseCart {
 		ShopCore::app ()->SCart->removeAll ();
 		return json_encode ( array (
 				'success' => true,
-				'errors' => false 
+				'errors' => false
 		) );
 	}
-	
+
 	/**
 	 * Get Gift Certificate
-	 * 
+	 *
 	 * @access public
 	 * @author <dev@imagecms.net>
 	 * @copyright (c) 2013 ImageMCMS
@@ -237,16 +237,16 @@ class Cart_api extends \Cart\BaseCart {
 			 * Is correct request?
 			 */
 			(($this->input->get ( 'giftcert' )) && ($this->input->get ( 'giftcert' ) != NULL)) or throwException ( 'dasdas' );
-			
+				
 			$certUsage = $this->db->where ( 'gift_cert_key', $this->input->get ( 'giftcert' ) )->post ( 'shop_orders' )->num_rows ();
-			
+				
 			if ($certUsage == 0) {
 				$select_cert = $this->db->where ( 'key =', $this->input->get ( 'giftcert' ) )->where ( 'active =', 1 )->get ( 'shop_gifts', 1 )->row_array ();
 			}
 			if ($this->input->post ( 'checkCert' ) == 1) {
 				$response = array (
 						'success' => true,
-						'errors' => false 
+						'errors' => false
 				);
 				if ($select_cert != null and $certUsage == 0)
 					$response ['cert_price'] = $select_cert ['price'];
@@ -260,16 +260,16 @@ class Cart_api extends \Cart\BaseCart {
 			$response = array (
 					'success' => FALSE,
 					'errors' => TRUE,
-					'message' => $exc->getMessage () 
+					'message' => $exc->getMessage ()
 			);
 			return json_encode ( $data );
 		}
 	}
-	
+
 	/**
 	 * Get Payment Methods by ID
-	 * 
-	 * @param int $deliveryId        	
+	 *
+	 * @param int $deliveryId
 	 * @return JSON
 	 * @author <dev@imagecms.net>
 	 * @copyright (c) 2013 ImageCMS
@@ -280,16 +280,16 @@ class Cart_api extends \Cart\BaseCart {
 			$paymentMethodsId [] = $paymentMethod->getPaymentMethodId ();
 		}
 		$paymentMethod = SPaymentMethodsQuery::create ()->filterByActive ( true )->where ( 'SPaymentMethods.Id IN ?', $paymentMethodsId )->orderByPosition ()->find ();
-		
+
 		$jsonData = array ();
 		foreach ( $paymentMethod->getData () as $pm ) {
 			$jsonData [] = array (
 					'id' => $pm->getId (),
 					'name' => $pm->getName (),
-					'description' => $pm->getDescription () 
+					'description' => $pm->getDescription ()
 			);
 		}
-		
+
 		echo json_encode ( $jsonData );
 	}
 }

@@ -2,10 +2,10 @@
 
 /*
  * Image CMS
- * main_lang.php
- * Russion Language file
- *
- */
+* main_lang.php
+* Russion Language file
+*
+*/
 
 // menu
 $lang ['lang_categories'] = 'Category';

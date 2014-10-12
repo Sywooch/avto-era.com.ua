@@ -22,7 +22,7 @@
 
 /**
  * TCPDF language file (contains translated texts).
- * 
+ *
  * @package com.tecnick.tcpdf
  *          @brief TCPDF language file: Russian
  * @author Nicola Asuni

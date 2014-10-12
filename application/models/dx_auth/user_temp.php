@@ -2,7 +2,7 @@
 class User_Temp extends CI_Model {
 	function User_Temp() {
 		parent::__construct ();
-		
+
 		// Other stuff
 		$this->_prefix = $this->config->item ( 'DX_table_prefix' );
 		$this->_table = $this->_prefix . $this->config->item ( 'DX_user_temp_table' );
@@ -13,7 +13,7 @@ class User_Temp extends CI_Model {
 		} else {
 			$query = $this->db->get ( $this->_table );
 		}
-		
+
 		return $query;
 	}
 	function get_user_by_username($email) {
@@ -42,7 +42,7 @@ class User_Temp extends CI_Model {
 	function activate_user($email, $key) {
 		$this->db->where ( array (
 				'email' => $email,
-				'activation_key' => $key 
+				'activation_key' => $key
 		) );
 		return $this->db->get ( $this->_table );
 	}

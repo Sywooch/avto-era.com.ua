@@ -1,10 +1,10 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	
-	/*
+
+/*
  * List of valid filter params
- */
+*/
 $config ['filter'] = array (
 		'p',
 		'brand',
@@ -20,5 +20,5 @@ $config ['filter'] = array (
 		'utm_term',
 		'utm_content',
 		'gclid',
-		'filtermobile' 
+		'filtermobile'
 );

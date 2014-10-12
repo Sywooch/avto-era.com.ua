@@ -45,14 +45,14 @@ class PHPExcel_Shared_XMLWriter extends XMLWriter {
 	 */
 	const STORAGE_MEMORY = 1;
 	const STORAGE_DISK = 2;
-	
+
 	/**
 	 * Temporary filename
 	 *
 	 * @var string
 	 */
 	private $_tempFileName = '';
-	
+
 	/**
 	 * Create a new PHPExcel_Shared_XMLWriter instance
 	 *
@@ -70,20 +70,20 @@ class PHPExcel_Shared_XMLWriter extends XMLWriter {
 			if ($pTemporaryStorageFolder === NULL)
 				$pTemporaryStorageFolder = PHPExcel_Shared_File::sys_get_temp_dir ();
 			$this->_tempFileName = @tempnam ( $pTemporaryStorageFolder, 'xml' );
-			
+				
 			// Open storage
 			if ($this->openUri ( $this->_tempFileName ) === false) {
 				// Fallback to memory...
 				$this->openMemory ();
 			}
 		}
-		
+
 		// Set default values
 		if (DEBUGMODE_ENABLED) {
 			$this->setIndent ( true );
 		}
 	}
-	
+
 	/**
 	 * Destructor
 	 */
@@ -93,7 +93,7 @@ class PHPExcel_Shared_XMLWriter extends XMLWriter {
 			@unlink ( $this->_tempFileName );
 		}
 	}
-	
+
 	/**
 	 * Get written data
 	 *
@@ -107,22 +107,22 @@ class PHPExcel_Shared_XMLWriter extends XMLWriter {
 			return file_get_contents ( $this->_tempFileName );
 		}
 	}
-	
+
 	/**
 	 * Fallback method for writeRaw, introduced in PHP 5.2
 	 *
-	 * @param string $text        	
+	 * @param string $text
 	 * @return string
 	 */
 	public function writeRawData($text) {
 		if (is_array ( $text )) {
 			$text = implode ( "\n", $text );
 		}
-		
+
 		if (method_exists ( $this, 'writeRaw' )) {
 			return $this->writeRaw ( htmlspecialchars ( $text ) );
 		}
-		
+
 		return $this->text ( $text );
 	}
 }

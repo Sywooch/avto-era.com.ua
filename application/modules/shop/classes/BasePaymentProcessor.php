@@ -1,11 +1,11 @@
 <?php
 
 /**
- * BasePaymentProcessor 
- * 
- * @package 
+ * BasePaymentProcessor
+ *
+ * @package
  * @version $id$
- * @copyright 
+ * @copyright
  * @author <dev@imagecms.net>
  */
 abstract class BasePaymentProcessor {
@@ -13,7 +13,7 @@ abstract class BasePaymentProcessor {
 	public $paymentMethod = null;
 	public function __construct() {
 	}
-	
+
 	/**
 	 * Get payment processor name.
 	 * e.g. "WebMoney"
@@ -24,7 +24,7 @@ abstract class BasePaymentProcessor {
 	public function getName() {
 		return get_class ( $this );
 	}
-	
+
 	/**
 	 * Form for payment to display in view order.
 	 *
@@ -38,7 +38,7 @@ abstract class BasePaymentProcessor {
 		$CI->template->add_array ( $data );
 		echo $CI->template->fetch ( 'paymentSystem/' . $viewName . '.tpl' );
 	}
-	
+
 	/**
 	 * Display admin form
 	 *
@@ -47,7 +47,7 @@ abstract class BasePaymentProcessor {
 	 */
 	public function getAdminForm() {
 	}
-	
+
 	/**
 	 * processPayment - Process payment after redirect from payment site.
 	 *
@@ -60,7 +60,7 @@ abstract class BasePaymentProcessor {
 		$this->order->setPaid ( true );
 		$this->order->save ();
 	}
-	
+
 	/**
 	 * Save admin settigns from POST data
 	 *

@@ -10,7 +10,7 @@
 class CMSEmail extends MY_Controller {
 	public function __construct() {
 		parent::__construct ();
-		
+
 		$this->load->model ( 'cmsemail_model' );
 		$lang = new MY_Lang ();
 		$lang->load ( 'cmsemail' );

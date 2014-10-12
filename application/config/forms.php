@@ -7,7 +7,7 @@ $config ['error_inline'] = TRUE;
 $config ['upload_file'] = array (
 		'upload_path' => './uploads/files',
 		'allowed_types' => 'zip|rar|txt',
-		'max_size' => '2048' 
+		'max_size' => '2048'
 );
 
 $config ['upload_image'] = array (
@@ -15,7 +15,7 @@ $config ['upload_image'] = array (
 		'allowed_types' => 'gif|jpg|png',
 		'max_size' => '2048',
 		'max_width' => '1024',
-		'max_height' => '768' 
+		'max_height' => '768'
 );
 
 // Html code for single error
@@ -47,11 +47,11 @@ $config ['radiogroup_delimiter'] = '';
 // Element default values
 $config ['default_attr'] = array (
 		'textarea' => array (
-				'attributes' => 'rows="10" cols="50"' 
+				'attributes' => 'rows="10" cols="50"'
 		),
 		'captcha' => array (
-				'label' => 'Код протекции' 
-		) 
+				'label' => 'Код протекции'
+		)
 );
 
 /* End of file forms.php */

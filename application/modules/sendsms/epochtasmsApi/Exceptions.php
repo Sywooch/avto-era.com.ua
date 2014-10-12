@@ -10,7 +10,7 @@ class Exceptions {
 	function addPhoneToExceptionsByPhone($phone, $reason) {
 		return $this->gateway->execCommad ( 'addPhoneToExceptions', array (
 				'phone' => $phone,
-				'reason' => $reason 
+				'reason' => $reason
 		) );
 	}
 	/**
@@ -19,7 +19,7 @@ class Exceptions {
 	function addPhoneToExceptionsByIdPhone($idPhone, $reason) {
 		return $this->gateway->execCommad ( 'addPhoneToExceptions', array (
 				'idPhone' => $idPhone,
-				'reason' => $reason 
+				'reason' => $reason
 		) );
 	}
 	/**
@@ -27,44 +27,44 @@ class Exceptions {
 	 */
 	function delPhoneFromExceptionByPhone($phone) {
 		return $this->gateway->execCommad ( 'delPhoneFromExceptions', array (
-				'phone' => $phone 
+				'phone' => $phone
 		) );
 	}
-	
+
 	/**
 	 * Delete phone from exceptions by phone ID
 	 */
 	function delPhoneFromExceptionByIdPhone($idPhone) {
 		return $this->gateway->execCommad ( 'delPhoneFromExceptions', array (
-				'idPhone' => $idPhone 
+				'idPhone' => $idPhone
 		) );
 	}
-	
+
 	/**
 	 * Delete phone from exceptions by exception ID
 	 */
 	function delPhoneFromExceptionByIdException($idException) {
 		return $this->gateway->execCommad ( 'delPhoneFromExceptions', array (
-				'idException' => $idException 
+				'idException' => $idException
 		) );
 	}
-	
+
 	/**
 	 * Edit exception by exception ID
 	 */
 	function editException($idException, $reason) {
 		return $this->gateway->execCommad ( 'editExceptions', array (
 				'idException' => $idException,
-				'reason' => $reason 
+				'reason' => $reason
 		) );
 	}
-	
+
 	/**
 	 * Get exception from exceptions by exception ID
 	 */
 	function getException($idException) {
 		return $this->gateway->execCommad ( 'getException', array (
-				'idException' => $idException 
+				'idException' => $idException
 		) );
 	}
 	/**
@@ -72,38 +72,38 @@ class Exceptions {
 	 */
 	function getExceptionByIdPhone($idPhone) {
 		return $this->gateway->execCommad ( 'getException', array (
-				'idPhone' => $idPhone 
+				'idPhone' => $idPhone
 		) );
 	}
-	
+
 	/**
 	 * Get all exceptions
 	 */
 	function getAllExceptions($from = null, $offset = null) {
 		return $this->gateway->execCommad ( 'getException', array (
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), true );
 	}
-	
+
 	/**
 	 * Get exception by phone
 	 */
 	function getExceptionByPhone($phone) {
 		return $this->gateway->execCommad ( 'getException', array (
-				'phone' => $phone 
+				'phone' => $phone
 		) );
 	}
-	
+
 	/**
 	 * Get exceptions by address book ID
 	 */
 	function getExceptionByIdAddresbook($idAddresbook) {
 		return $this->gateway->execCommad ( 'getException', array (
-				'idAddresbook' => $idAddresbook 
+				'idAddresbook' => $idAddresbook
 		) );
 	}
-	
+
 	/**
 	 * Search excpetion
 	 * Availible fields: id, phone, date, descr.
@@ -116,7 +116,7 @@ class Exceptions {
 		return $this->gateway->execCommad ( 'searchPhonesInExceptions', array (
 				'searchFields' => $searchFields_json,
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), true );
 	}
 }

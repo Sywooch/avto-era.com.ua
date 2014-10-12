@@ -1,354 +1,459 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ImageCMSBuild" basedir="." default="bootstrap">
 
-    <property name="version" value="4.5.1"/>
-    <property name="sourceFiles" value="/usr/www/buildsource"/>
-    <property name="imageCMSProDir" value="imagecms_shop_pro"/>
-    <property name="imageCMSPremiumDir" value="imagecms_shop_premium"/>
-    <property name="imageCMSCorporateDir" value="imagecms_corporate"/>
-    <property name="imageCMSDemoShopDir" value="imagecms_demoshop"/>
-    <property name="imageCMSDemoDir" value="imagecms_demo"/>
-    <property name="cacheDir" value="system/cache"/>
-    <property name="capthaDir" value="captcha"/>
-    <property name="backupsDir" value="application/backups"/>
-    <property name="uploadsDir" value="uploads"/>
-    <property name="uploadsTempDir" value="uploads_site"/>
-    <property name="logsDir" value="system/logs"/>
-    <property name="configFile" value="application/config/config.php"/>
+	<property name="version" value="4.5.1" />
+	<property name="sourceFiles" value="/usr/www/buildsource" />
+	<property name="imageCMSProDir" value="imagecms_shop_pro" />
+	<property name="imageCMSPremiumDir" value="imagecms_shop_premium" />
+	<property name="imageCMSCorporateDir" value="imagecms_corporate" />
+	<property name="imageCMSDemoShopDir" value="imagecms_demoshop" />
+	<property name="imageCMSDemoDir" value="imagecms_demo" />
+	<property name="cacheDir" value="system/cache" />
+	<property name="capthaDir" value="captcha" />
+	<property name="backupsDir" value="application/backups" />
+	<property name="uploadsDir" value="uploads" />
+	<property name="uploadsTempDir" value="uploads_site" />
+	<property name="logsDir" value="system/logs" />
+	<property name="configFile" value="application/config/config.php" />
 
-    <target name="bootstrap">
-        <echo msg="Let's start Build"/>
+	<target name="bootstrap">
+		<echo msg="Let's start Build" />
 
-        <echo msg="Create Sources" />
-        <phingcall target="createSources" />
-        <echo msg="Files prepare completed." />
+		<echo msg="Create Sources" />
+		<phingcall target="createSources" />
+		<echo msg="Files prepare completed." />
 
-        <!-- create premium -->
-        <echo msg="Remove Extra from distributive" />
-        <phingcall target="removeExtra" >
-            <property name="target" value="${imageCMSPremiumDir}"/>
-        </phingcall>
-        <phingcall target="removerExtraPre" >
-            <property name="target" value="${imageCMSPremiumDir}"/>
-        </phingcall>
-        <phingcall target="createDepends" >
-            <property name="target" value="${imageCMSPremiumDir}"/>
-        </phingcall>
-        
+		<!-- create premium -->
+		<echo msg="Remove Extra from distributive" />
+		<phingcall target="removeExtra">
+			<property name="target" value="${imageCMSPremiumDir}" />
+		</phingcall>
+		<phingcall target="removerExtraPre">
+			<property name="target" value="${imageCMSPremiumDir}" />
+		</phingcall>
+		<phingcall target="createDepends">
+			<property name="target" value="${imageCMSPremiumDir}" />
+		</phingcall>
 
-        <echo msg="Start Replace Content"/>
-        <phingcall target="replaceContent">
-            <property name="target" value="${project.basedir}/${imageCMSPremiumDir}"/>
-            <property name="version" value="${version}"/>
-            <property name="release" value="Premium"/>
-            <property name="buildid" value="${buildid}"/>
-        </phingcall>
 
-        <echo msg="Rename some necessary Files"/>
-        <phingcall target="prepareToInstall" >
-            <property name="target" value="${imageCMSPremiumDir}"/>
-        </phingcall>
+		<echo msg="Start Replace Content" />
+		<phingcall target="replaceContent">
+			<property name="target" value="${project.basedir}/${imageCMSPremiumDir}" />
+			<property name="version" value="${version}" />
+			<property name="release" value="Premium" />
+			<property name="buildid" value="${buildid}" />
+		</phingcall>
 
-        <move file="${imageCMSPremiumDir}/application/modules/shop/CHANGELOG.PRE.xml" tofile="${imageCMSPremiumDir}/CHANGELOG.xml" mode="0755" overwrite="true"></move>
-        <delete file="${imageCMSPremiumDir}/application/modules/shop/CHANGELOG.PRO.xml" quiet="true" failonerror="false"></delete>
+		<echo msg="Rename some necessary Files" />
+		<phingcall target="prepareToInstall">
+			<property name="target" value="${imageCMSPremiumDir}" />
+		</phingcall>
 
-        <delete file="${imageCMSPremiumDir}/application/modules/install/sqlPro.sql" ></delete>
-        <delete file="${imageCMSPremiumDir}/application/modules/install/sqlSite.sql" ></delete>
+		<move
+			file="${imageCMSPremiumDir}/application/modules/shop/CHANGELOG.PRE.xml"
+			tofile="${imageCMSPremiumDir}/CHANGELOG.xml" mode="0755" overwrite="true"></move>
+		<delete
+			file="${imageCMSPremiumDir}/application/modules/shop/CHANGELOG.PRO.xml"
+			quiet="true" failonerror="false"></delete>
 
-        <!-- end of creating premium -->
+		<delete file="${imageCMSPremiumDir}/application/modules/install/sqlPro.sql"></delete>
+		<delete
+			file="${imageCMSPremiumDir}/application/modules/install/sqlSite.sql"></delete>
 
-        <copy todir="${imageCMSDemoShopDir}">
-            <fileset defaultexcludes="false" dir="${imageCMSPremiumDir}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-        <copy file="${sourceFiles}/application/modules/install/demoshop.sql" tofile="${imageCMSDemoShopDir}/imagecms_shop.sql"/>
-        <phingcall target="makeDemoShop" >
-            <property name="target" value="${imageCMSDemoShopDir}"/>
-        </phingcall>
-        <phingcall target="zipping">
-            <property name="target" value="${imageCMSDemoShopDir}"/>
-        </phingcall>
+		<!-- end of creating premium -->
 
-        <delete file="${imageCMSPremiumDir}/application/modules/install/demo.sql" ></delete>
-        <delete file="${imageCMSPremiumDir}/application/modules/install/demoshop.sql" ></delete>
+		<copy todir="${imageCMSDemoShopDir}">
+			<fileset defaultexcludes="false" dir="${imageCMSPremiumDir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy file="${sourceFiles}/application/modules/install/demoshop.sql"
+			tofile="${imageCMSDemoShopDir}/imagecms_shop.sql" />
+		<phingcall target="makeDemoShop">
+			<property name="target" value="${imageCMSDemoShopDir}" />
+		</phingcall>
+		<phingcall target="zipping">
+			<property name="target" value="${imageCMSDemoShopDir}" />
+		</phingcall>
 
-        <echo msg="Zipping"/>
-        <phingcall target="zipping">
-            <property name="target" value="${imageCMSPremiumDir}"/>
-        </phingcall>
-        <!-- create pro -->
-        <echo msg="Remove Extra from distributive" />
-        <phingcall target="removeExtra" >
-            <property name="target" value="${imageCMSProDir}"/>
-        </phingcall>
-        <phingcall target="removerExtraPro">
-            <property name="target" value="${imageCMSProDir}" />
-        </phingcall>
-        <phingcall target="createDepends" >
-            <property name="target" value="${imageCMSProDir}"/>
-        </phingcall>
+		<delete file="${imageCMSPremiumDir}/application/modules/install/demo.sql"></delete>
+		<delete
+			file="${imageCMSPremiumDir}/application/modules/install/demoshop.sql"></delete>
 
-        <echo msg="Start Replace Content"/>
-        <phingcall target="replaceContentPro">
-            <property name="target" value="${project.basedir}/${imageCMSProDir}"/>
-            <property name="version" value="${version}"/>
-            <property name="release" value="Professional"/>
-            <property name="buildid" value="${buildid}"/>
-        </phingcall>
+		<echo msg="Zipping" />
+		<phingcall target="zipping">
+			<property name="target" value="${imageCMSPremiumDir}" />
+		</phingcall>
+		<!-- create pro -->
+		<echo msg="Remove Extra from distributive" />
+		<phingcall target="removeExtra">
+			<property name="target" value="${imageCMSProDir}" />
+		</phingcall>
+		<phingcall target="removerExtraPro">
+			<property name="target" value="${imageCMSProDir}" />
+		</phingcall>
+		<phingcall target="createDepends">
+			<property name="target" value="${imageCMSProDir}" />
+		</phingcall>
 
-        <echo msg="Rename some necessary Files"/>
-        <phingcall target="prepareToInstall" >
-            <property name="target" value="${imageCMSProDir}"/>
-        </phingcall>
+		<echo msg="Start Replace Content" />
+		<phingcall target="replaceContentPro">
+			<property name="target" value="${project.basedir}/${imageCMSProDir}" />
+			<property name="version" value="${version}" />
+			<property name="release" value="Professional" />
+			<property name="buildid" value="${buildid}" />
+		</phingcall>
 
-        <move file="${imageCMSProDir}/application/modules/shop/CHANGELOG.PRO.xml" tofile="${imageCMSProDir}/CHANGELOG.xml" mode="0755" overwrite="true"></move>
-        <delete file="${imageCMSProDir}/application/modules/shop/CHANGELOG.PRE.xml" quiet="true" failonerror="false"></delete>
+		<echo msg="Rename some necessary Files" />
+		<phingcall target="prepareToInstall">
+			<property name="target" value="${imageCMSProDir}" />
+		</phingcall>
 
-        <delete file="${imageCMSProDir}/application/modules/install/sqlPre.sql" ></delete>
-        <delete file="${imageCMSProDir}/application/modules/install/sqlSite.sql" ></delete>
+		<move file="${imageCMSProDir}/application/modules/shop/CHANGELOG.PRO.xml"
+			tofile="${imageCMSProDir}/CHANGELOG.xml" mode="0755" overwrite="true"></move>
+		<delete file="${imageCMSProDir}/application/modules/shop/CHANGELOG.PRE.xml"
+			quiet="true" failonerror="false"></delete>
 
-        <echo msg="Zipping"/>
-        <phingcall target="zipping">
-            <property name="target" value="${imageCMSProDir}"/>
-        </phingcall>
-        <!-- end of creating pro -->
+		<delete file="${imageCMSProDir}/application/modules/install/sqlPre.sql"></delete>
+		<delete file="${imageCMSProDir}/application/modules/install/sqlSite.sql"></delete>
 
-        <!-- create corporate -->
-        <echo msg="Remove Extra from distributive" />
-        <phingcall target="removeExtra" >
-            <property name="target" value="${imageCMSCorporateDir}"/>
-        </phingcall>
-        <phingcall target="removerExtraCorporate">
-            <property name="target" value="${imageCMSCorporateDir}" />
-        </phingcall>
-        <phingcall target="createDepends" >
-            <property name="target" value="${imageCMSCorporateDir}"/>
-        </phingcall>
+		<echo msg="Zipping" />
+		<phingcall target="zipping">
+			<property name="target" value="${imageCMSProDir}" />
+		</phingcall>
+		<!-- end of creating pro -->
 
-        <echo msg="Start Replace Content"/>
-        <phingcall target="replaceContentCorporate">
-            <property name="target" value="${project.basedir}/${imageCMSCorporateDir}"/>
-            <property name="version" value="${version}"/>
-            <property name="release" value="Corporate"/>
-            <property name="buildid" value="${buildid}"/>
-        </phingcall>
+		<!-- create corporate -->
+		<echo msg="Remove Extra from distributive" />
+		<phingcall target="removeExtra">
+			<property name="target" value="${imageCMSCorporateDir}" />
+		</phingcall>
+		<phingcall target="removerExtraCorporate">
+			<property name="target" value="${imageCMSCorporateDir}" />
+		</phingcall>
+		<phingcall target="createDepends">
+			<property name="target" value="${imageCMSCorporateDir}" />
+		</phingcall>
 
-        <echo msg="Rename some necessary Files"/>
-        <phingcall target="prepareToInstall" >
-            <property name="target" value="${imageCMSCorporateDir}"/>
-        </phingcall>
+		<echo msg="Start Replace Content" />
+		<phingcall target="replaceContentCorporate">
+			<property name="target" value="${project.basedir}/${imageCMSCorporateDir}" />
+			<property name="version" value="${version}" />
+			<property name="release" value="Corporate" />
+			<property name="buildid" value="${buildid}" />
+		</phingcall>
 
-        <copy todir="${imageCMSDemoDir}">
-            <fileset defaultexcludes="false" dir="${imageCMSCorporateDir}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-        <phingcall target="makeDemo" >
-            <property name="target" value="${imageCMSDemoDir}"/>
-        </phingcall>
-        <copy file="${sourceFiles}/application/modules/install/demo.sql" tofile="${imageCMSDemoDir}/imagecms_demo.sql"/>
-        <phingcall target="zipping">
-            <property name="target" value="${imageCMSDemoDir}"/>
-        </phingcall>
+		<echo msg="Rename some necessary Files" />
+		<phingcall target="prepareToInstall">
+			<property name="target" value="${imageCMSCorporateDir}" />
+		</phingcall>
 
-        <delete file="${imageCMSCorporateDir}/application/modules/install/demo.sql" ></delete>
-        <delete file="${imageCMSCorporateDir}/application/modules/install/demoshop.sql" ></delete>
+		<copy todir="${imageCMSDemoDir}">
+			<fileset defaultexcludes="false" dir="${imageCMSCorporateDir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<phingcall target="makeDemo">
+			<property name="target" value="${imageCMSDemoDir}" />
+		</phingcall>
+		<copy file="${sourceFiles}/application/modules/install/demo.sql"
+			tofile="${imageCMSDemoDir}/imagecms_demo.sql" />
+		<phingcall target="zipping">
+			<property name="target" value="${imageCMSDemoDir}" />
+		</phingcall>
 
-        <echo msg="Zipping"/>
-        <phingcall target="zipping">
-            <property name="target" value="${imageCMSCorporateDir}"/>
-        </phingcall>
-        <!-- end of creating corporate -->
+		<delete file="${imageCMSCorporateDir}/application/modules/install/demo.sql"></delete>
+		<delete
+			file="${imageCMSCorporateDir}/application/modules/install/demoshop.sql"></delete>
 
-    </target>
+		<echo msg="Zipping" />
+		<phingcall target="zipping">
+			<property name="target" value="${imageCMSCorporateDir}" />
+		</phingcall>
+		<!-- end of creating corporate -->
 
-    <target name="createSources">
-        <delete dir="${imageCMSPremiumDir}" failonerror="FALSE"/>
-        <delete dir="${imageCMSDemoShopDir}" failonerror="FALSE"/>
-        <delete dir="${imageCMSDemoDir}" failonerror="FALSE"/>
-        <delete dir="${imageCMSProDir}" failonerror="FALSE"/>
-        <delete dir="${imageCMSCorporateDir}" failonerror="FALSE"/>
-        <mkdir dir="${imageCMSPremiumDir}" mode="0777"/>
-        <mkdir dir="${imageCMSProDir}" mode="0777"/>
-        <mkdir dir="${imageCMSCorporateDir}" mode="0777"/>
-        <delete>
-            <fileset dir=".">
-                <include name="*.zip" />
-            </fileset>
-        </delete>
-        <copy todir="${imageCMSPremiumDir}">
-            <fileset defaultexcludes="false" dir="${sourceFiles}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-        <copy todir="${imageCMSProDir}">
-            <fileset defaultexcludes="false" dir="${sourceFiles}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-        <copy todir="${imageCMSCorporateDir}">
-            <fileset defaultexcludes="false" dir="${sourceFiles}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-    </target>
+	</target>
 
-    <target name="removeExtra">
-        <chmod file="${target}" quiet="true" mode="0755"></chmod>
-        <delete dir="${target}/.idea" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/.git" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/application/modules/shop/cmlTemp" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/application/modules/shop/.git" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/tests" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete file="${target}/.htaccess~" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/.git" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/license.key" failonerror="false"/>
-        <delete file="${target}/.project" failonerror="false"/>
-        <delete file="${target}/index.php~" failonerror="false"/>
-        <delete dir="${target}/${cacheDir}" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/nbproject" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/.settings" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/${capthaDir}" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/${backupsDir}" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/${uploadsDir}" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/${logsDir}" includeemptydirs="true" verbose="true" failonerror="false"/>
-        <delete dir="${target}/application/modules/shop/builds" failonerror="false"/>
-        <delete dir="${target}/application/modules/shop/models/sample_build_conf" failonerror="false"/>
-        <delete file="${target}/.gitignore" failonerror="false"/>
-        <delete file="${target}/.gitignore~" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/.gitignore" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/.gitignore.save" failonerror="false"/>
-        <delete file="${target}/.gitmodules" failonerror="false"/>
-        <delete file="${target}/build.xml" failonerror="false"/>
-        <delete file="${target}_${version}.zip" failonerror="false"/>
-        
-        <delete dir="${target}/templates/commerce4x" failonerror="false"/>
-        
-        <mkdir dir="${target}/${uploadsDir}" mode="0777"/>
-        <copy todir="${target}/${uploadsDir}">
-            <fileset defaultexcludes="false" dir="${target}/${uploadsTempDir}">
-                <include name="**"/>
-            </fileset>
-        </copy>
-        <chmod file="${target}/${uploadsDir}" quiet="true" mode="0777"></chmod>
-        <chmod file="${target}/${uploadsDir}/images" quiet="true" mode="0777"></chmod>
-        <chmod file="${target}/${uploadsDir}/media" quiet="true" mode="0777"></chmod>
-        <chmod file="${target}/${uploadsDir}/files" quiet="true" mode="0777"></chmod>
-        <chmod file="${target}/${uploadsDir}/shop" quiet="true" mode="0777"></chmod>
-        <delete dir="${target}/${uploadsTempDir}" includeemptydirs="true" verbose="true" failonerror="true"/>
-        <delete dir="${target}/templates/commerce_old" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/newLevel_v" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/corporate_work" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/motheme" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/commerce" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/commerceVertical4x" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/commerce_mobiles" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/commerce_facebook" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/documentation" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/newLevelVertical" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/default" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/parce_simpla" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mod_stats" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/exchangeunfu" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/sendsms" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/socauth" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/documentation" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/sample_mail" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mailer" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/sample_module" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/digital_products" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/found_less_expensive" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/sample_module" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/pricespy" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/print_data" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mobile_version" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/uploads/.quarantine" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/uploads/.tmb" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/.quarantine" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/.tmb" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/logs" includeemptydirs="true" verbose="true" failonerror="false" />
-        <move file="${target}/application/modules/install/sqlPre.sql" tofile="${target}/application/modules/install/sql.sql" mode="0755" overwrite="true"></move>
-        <move file="${target}/application/modules/shop/classes/ShopAdminControllerOBF.php" tofile="${target}/application/modules/shop/classes/ShopAdminController.php" overwrite="true"/>
-        <delete file="${target}/application/modules/shop/classes/ShopAdminControllerOBF.php" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/admin/productsOBF.php" failonerror="false"/>
-        <delete file="${target}/application/modules/shop/codeception.yml" failonerror="false"/>
-    </target>
-    
-    <!-- Premium -->
-    <target name="removerExtraPre">
-        <delete dir="${target}/templates/corporate" includeemptydirs="true" verbose="true" failonerror="false" />
-    </target>
-    
-    <!-- Pro -->
-    <target name="removerExtraPro">
-        <delete dir="${target}/application/modules/exchange" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/shop/admin/templates/charts" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mobile_version" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mobile" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete file="${target}/application/modules/shop/charts.php" />
-        <delete file="${target}/application/modules/install/sql.sql" />
-        <delete file="${target}/application/modules/install/sqlPre.sql" ></delete>
-        <delete file="${target}/application/modules/install/sqlSite.sql" ></delete>
-        <delete file="${target}/application/modules/install/demo.sql" ></delete>
-        <delete file="${target}/application/modules/install/demoshop.sql" ></delete>
-        <delete dir="${target}/templates/commerce" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/corporate" includeemptydirs="true" verbose="true" failonerror="false" />
-        <move file="${target}/application/modules/install/sqlPro.sql" tofile="${target}/application/modules/install/sql.sql" mode="0755" overwrite="true"></move>
-        <delete dir="${target}/templates/commerce_mobiles_new" failonerror="false"/>
-    </target>
-    
-    <!-- Corporate -->
-    <target name="removerExtraCorporate">
-        <delete file="${target}/license_shop.txt" ></delete>
-        <delete dir="${target}/application/modules/exchange" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/shop" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/shop_news" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/new_level" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/smart_filter" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/wishlist" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/trash" includeemptydirs="true" verbose="true" failonerror="false" />
-         <delete dir="${target}/application/modules/banners" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/filter" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete file="${target}/application/modules/install/sql.sql" />
-        <delete file="${target}/application/modules/install/sqlPro.sql" ></delete>
-        <delete dir="${target}/application/modules/mobile_version" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mobile" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/application/modules/mod_discount" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/uploads/shop" includeemptydirs="true" verbose="true" failonerror="false" />
-        <delete dir="${target}/templates/newLevel" includeemptydirs="true" verbose="true" failonerror="false" />
-        <move file="${target}/application/modules/install/sqlSite.sql" tofile="${target}/application/modules/install/sql.sql" mode="0755"></move>
-        <delete dir="${target}/templates/commerce_mobiles_new" failonerror="false"/>
-    </target>
+	<target name="createSources">
+		<delete dir="${imageCMSPremiumDir}" failonerror="FALSE" />
+		<delete dir="${imageCMSDemoShopDir}" failonerror="FALSE" />
+		<delete dir="${imageCMSDemoDir}" failonerror="FALSE" />
+		<delete dir="${imageCMSProDir}" failonerror="FALSE" />
+		<delete dir="${imageCMSCorporateDir}" failonerror="FALSE" />
+		<mkdir dir="${imageCMSPremiumDir}" mode="0777" />
+		<mkdir dir="${imageCMSProDir}" mode="0777" />
+		<mkdir dir="${imageCMSCorporateDir}" mode="0777" />
+		<delete>
+			<fileset dir=".">
+				<include name="*.zip" />
+			</fileset>
+		</delete>
+		<copy todir="${imageCMSPremiumDir}">
+			<fileset defaultexcludes="false" dir="${sourceFiles}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy todir="${imageCMSProDir}">
+			<fileset defaultexcludes="false" dir="${sourceFiles}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy todir="${imageCMSCorporateDir}">
+			<fileset defaultexcludes="false" dir="${sourceFiles}">
+				<include name="**" />
+			</fileset>
+		</copy>
+	</target>
 
-    <target name="createDepends">
-        <mkdir dir="${target}/${cacheDir}" mode="0777"/>
-        <mkdir dir="${target}/${cacheDir}/templates_c" mode="0777"/>
-        <mkdir dir="${target}/${cacheDir}/templates_c/HTML" mode="0777"/>
-        <mkdir dir="${target}/${capthaDir}" mode="0777"/>
-        <mkdir dir="${target}/${backupsDir}" mode="0777"/>
-        <mkdir dir="${target}/${logsDir}" mode="0777"/>
-        <copy file="${target}/system/codeigniter/index.html" todir="${target}/${logsDir}" overwrite="true"/>
-        <copy file="${target}/system/codeigniter/index.html" todir="${target}/${backupsDir}" overwrite="true"/>
-        <copy file="${target}/system/codeigniter/index.html" todir="${target}/${cacheDir}" overwrite="true"/>
-        <copy file="${target}/system/codeigniter/index.html" todir="${target}/${cacheDir}/templates_c" overwrite="true"/>
-        <copy file="${target}/system/codeigniter/index.html" todir="${target}/${capthaDir}" overwrite="true"/>
-    </target>
+	<target name="removeExtra">
+		<chmod file="${target}" quiet="true" mode="0755"></chmod>
+		<delete dir="${target}/.idea" includeemptydirs="true" verbose="true"
+			failonerror="false" />
+		<delete dir="${target}/.git" includeemptydirs="true" verbose="true"
+			failonerror="false" />
+		<delete dir="${target}/application/modules/shop/cmlTemp"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/shop/.git"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/tests" includeemptydirs="true" verbose="true"
+			failonerror="false" />
+		<delete file="${target}/.htaccess~" failonerror="false" />
+		<delete file="${target}/application/modules/shop/.git"
+			failonerror="false" />
+		<delete file="${target}/application/modules/shop/license.key"
+			failonerror="false" />
+		<delete file="${target}/.project" failonerror="false" />
+		<delete file="${target}/index.php~" failonerror="false" />
+		<delete dir="${target}/${cacheDir}" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/nbproject" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/.settings" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/${capthaDir}" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/${backupsDir}" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/${uploadsDir}" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/${logsDir}" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/shop/builds"
+			failonerror="false" />
+		<delete dir="${target}/application/modules/shop/models/sample_build_conf"
+			failonerror="false" />
+		<delete file="${target}/.gitignore" failonerror="false" />
+		<delete file="${target}/.gitignore~" failonerror="false" />
+		<delete file="${target}/application/modules/shop/.gitignore"
+			failonerror="false" />
+		<delete file="${target}/application/modules/shop/.gitignore.save"
+			failonerror="false" />
+		<delete file="${target}/.gitmodules" failonerror="false" />
+		<delete file="${target}/build.xml" failonerror="false" />
+		<delete file="${target}_${version}.zip" failonerror="false" />
 
-    <target name="prepareToInstall">
-        <copy file="${target}/application/modules/install/_install.php" tofile="${target}/application/modules/install/install.php" overwrite="true" />
-        <delete file="${target}/application/modules/install/_install.php"/>
-        <chmod file="${target}/application/modules/install/install.php" mode="0777" />
-        <copy file="${target}/application/config/config.php.sample" tofile="${target}/application/config/config.php" overwrite="true" />
-        <chmod file="${target}/application/config/config.php" mode="0777" />
-    </target>
+		<delete dir="${target}/templates/commerce4x" failonerror="false" />
 
-    <target name="zipping">
-        <exec command="zip -r -q ${target}_${version}.zip ${target}" checkreturn="true" />
-    </target>
+		<mkdir dir="${target}/${uploadsDir}" mode="0777" />
+		<copy todir="${target}/${uploadsDir}">
+			<fileset defaultexcludes="false" dir="${target}/${uploadsTempDir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<chmod file="${target}/${uploadsDir}" quiet="true" mode="0777"></chmod>
+		<chmod file="${target}/${uploadsDir}/images" quiet="true" mode="0777"></chmod>
+		<chmod file="${target}/${uploadsDir}/media" quiet="true" mode="0777"></chmod>
+		<chmod file="${target}/${uploadsDir}/files" quiet="true" mode="0777"></chmod>
+		<chmod file="${target}/${uploadsDir}/shop" quiet="true" mode="0777"></chmod>
+		<delete dir="${target}/${uploadsTempDir}" includeemptydirs="true"
+			verbose="true" failonerror="true" />
+		<delete dir="${target}/templates/commerce_old"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/newLevel_v" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/corporate_work"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/motheme" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/commerce" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/commerceVertical4x"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/commerce_mobiles"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/commerce_facebook"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/documentation"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/newLevelVertical"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/default" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/parce_simpla"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mod_stats"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/exchangeunfu"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/sendsms"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/socauth"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/documentation"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/sample_mail"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mailer"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/sample_module"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/digital_products"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/found_less_expensive"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/sample_module"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/pricespy"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/print_data"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mobile_version"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/uploads/.quarantine" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/uploads/.tmb" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/.quarantine" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/.tmb" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/logs" includeemptydirs="true" verbose="true"
+			failonerror="false" />
+		<move file="${target}/application/modules/install/sqlPre.sql"
+			tofile="${target}/application/modules/install/sql.sql" mode="0755"
+			overwrite="true"></move>
+		<move
+			file="${target}/application/modules/shop/classes/ShopAdminControllerOBF.php"
+			tofile="${target}/application/modules/shop/classes/ShopAdminController.php"
+			overwrite="true" />
+		<delete
+			file="${target}/application/modules/shop/classes/ShopAdminControllerOBF.php"
+			failonerror="false" />
+		<delete file="${target}/application/modules/shop/admin/productsOBF.php"
+			failonerror="false" />
+		<delete file="${target}/application/modules/shop/codeception.yml"
+			failonerror="false" />
+	</target>
 
-    <target name="makeDemo">
-        <adhoc-task name="makeDemoClass"><![CDATA[
+	<!-- Premium -->
+	<target name="removerExtraPre">
+		<delete dir="${target}/templates/corporate" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+	</target>
+
+	<!-- Pro -->
+	<target name="removerExtraPro">
+		<delete dir="${target}/application/modules/exchange"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/shop/admin/templates/charts"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mobile_version"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mobile"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete file="${target}/application/modules/shop/charts.php" />
+		<delete file="${target}/application/modules/install/sql.sql" />
+		<delete file="${target}/application/modules/install/sqlPre.sql"></delete>
+		<delete file="${target}/application/modules/install/sqlSite.sql"></delete>
+		<delete file="${target}/application/modules/install/demo.sql"></delete>
+		<delete file="${target}/application/modules/install/demoshop.sql"></delete>
+		<delete dir="${target}/templates/commerce" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/corporate" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<move file="${target}/application/modules/install/sqlPro.sql"
+			tofile="${target}/application/modules/install/sql.sql" mode="0755"
+			overwrite="true"></move>
+		<delete dir="${target}/templates/commerce_mobiles_new"
+			failonerror="false" />
+	</target>
+
+	<!-- Corporate -->
+	<target name="removerExtraCorporate">
+		<delete file="${target}/license_shop.txt"></delete>
+		<delete dir="${target}/application/modules/exchange"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/shop"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/shop_news"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/new_level"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/smart_filter"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/wishlist"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/trash"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/banners"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/filter"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete file="${target}/application/modules/install/sql.sql" />
+		<delete file="${target}/application/modules/install/sqlPro.sql"></delete>
+		<delete dir="${target}/application/modules/mobile_version"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mobile"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/application/modules/mod_discount"
+			includeemptydirs="true" verbose="true" failonerror="false" />
+		<delete dir="${target}/uploads/shop" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<delete dir="${target}/templates/newLevel" includeemptydirs="true"
+			verbose="true" failonerror="false" />
+		<move file="${target}/application/modules/install/sqlSite.sql"
+			tofile="${target}/application/modules/install/sql.sql" mode="0755"></move>
+		<delete dir="${target}/templates/commerce_mobiles_new"
+			failonerror="false" />
+	</target>
+
+	<target name="createDepends">
+		<mkdir dir="${target}/${cacheDir}" mode="0777" />
+		<mkdir dir="${target}/${cacheDir}/templates_c" mode="0777" />
+		<mkdir dir="${target}/${cacheDir}/templates_c/HTML" mode="0777" />
+		<mkdir dir="${target}/${capthaDir}" mode="0777" />
+		<mkdir dir="${target}/${backupsDir}" mode="0777" />
+		<mkdir dir="${target}/${logsDir}" mode="0777" />
+		<copy file="${target}/system/codeigniter/index.html" todir="${target}/${logsDir}"
+			overwrite="true" />
+		<copy file="${target}/system/codeigniter/index.html" todir="${target}/${backupsDir}"
+			overwrite="true" />
+		<copy file="${target}/system/codeigniter/index.html" todir="${target}/${cacheDir}"
+			overwrite="true" />
+		<copy file="${target}/system/codeigniter/index.html" todir="${target}/${cacheDir}/templates_c"
+			overwrite="true" />
+		<copy file="${target}/system/codeigniter/index.html" todir="${target}/${capthaDir}"
+			overwrite="true" />
+	</target>
+
+	<target name="prepareToInstall">
+		<copy file="${target}/application/modules/install/_install.php"
+			tofile="${target}/application/modules/install/install.php" overwrite="true" />
+		<delete file="${target}/application/modules/install/_install.php" />
+		<chmod file="${target}/application/modules/install/install.php"
+			mode="0777" />
+		<copy file="${target}/application/config/config.php.sample"
+			tofile="${target}/application/config/config.php" overwrite="true" />
+		<chmod file="${target}/application/config/config.php" mode="0777" />
+	</target>
+
+	<target name="zipping">
+		<exec command="zip -r -q ${target}_${version}.zip ${target}"
+			checkreturn="true" />
+	</target>
+
+	<target name="makeDemo">
+		<adhoc-task name="makeDemoClass"><![CDATA[
           class BarTaskDemo extends Task {
             protected $target;
             protected $version;
@@ -475,10 +580,11 @@
         }
         ]]></adhoc-task>
 
-        <makeDemoClass target="${target}" version="${version}" release="${release}" buildid="${buildid}"/>
-    </target>
-    <target name="makeDemoShop">
-        <adhoc-task name="makeDemoShopClass"><![CDATA[
+		<makeDemoClass target="${target}" version="${version}"
+			release="${release}" buildid="${buildid}" />
+	</target>
+	<target name="makeDemoShop">
+		<adhoc-task name="makeDemoShopClass"><![CDATA[
           class BarTaskDemoShop extends Task {
             protected $target;
             protected $version;
@@ -608,10 +714,11 @@
         }
         ]]></adhoc-task>
 
-        <makeDemoShopClass target="${target}" version="${version}" release="${release}" buildid="${buildid}"/>
-    </target>
-    <target name="replaceContent">
-        <adhoc-task name="replaceContentClass"><![CDATA[
+		<makeDemoShopClass target="${target}" version="${version}"
+			release="${release}" buildid="${buildid}" />
+	</target>
+	<target name="replaceContent">
+		<adhoc-task name="replaceContentClass"><![CDATA[
           class BarTask extends Task {
             protected $target;
             protected $version;
@@ -650,11 +757,12 @@
         }
         ]]></adhoc-task>
 
-        <replaceContentClass target="${target}" version="${version}" release="${release}" buildid="${buildid}"/>
-    </target>
+		<replaceContentClass target="${target}" version="${version}"
+			release="${release}" buildid="${buildid}" />
+	</target>
 
-    <target name="replaceContentPro">
-        <adhoc-task name="replaceContentClassPro"><![CDATA[
+	<target name="replaceContentPro">
+		<adhoc-task name="replaceContentClassPro"><![CDATA[
           class BarTaskPro extends Task {
             protected $target;
             protected $version;
@@ -693,11 +801,12 @@
         }
         ]]></adhoc-task>
 
-        <replaceContentClassPro target="${target}" version="${version}" release="${release}" buildid="${buildid}"/>
-    </target>
+		<replaceContentClassPro target="${target}"
+			version="${version}" release="${release}" buildid="${buildid}" />
+	</target>
 
-    <target name="replaceContentCorporate">
-        <adhoc-task name="replaceContentClassCorporate"><![CDATA[
+	<target name="replaceContentCorporate">
+		<adhoc-task name="replaceContentClassCorporate"><![CDATA[
           class BarTaskCorporate extends Task {
             protected $target;
             protected $version;
@@ -729,6 +838,7 @@
         }
         ]]></adhoc-task>
 
-        <replaceContentClassCorporate target="${target}" version="${version}" release="${release}" buildid="${buildid}"/>
-    </target>
+		<replaceContentClassCorporate target="${target}"
+			version="${version}" release="${release}" buildid="${buildid}" />
+	</target>
 </project>

@@ -1,5 +1,5 @@
 html div div#elasticsearchTab{
-	background-color: #D2D2D2;
+	background-color: #FFFFFF;
 }
 html div div#elasticsearchTab ul{
 	position: inherit;
@@ -19,21 +19,18 @@ html div div#elasticsearchTab div.elasticContainer{
     overflow-x: hidden;
     background-color: #DE4A3C;
 }
+html div div#elasticsearchTab ul li.ui-state-hover{
+	background-color: #DE4A3C;	
+}
 html div div#elasticsearchTab ul li.ui-state-active{
-	
-	background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #DE4A3C;
-    border: 1px solid #EB5446;
-    color: #555555;
-    font-weight: normal;
+    background-color: #DE4A3C;
 }
 html div div#elasticsearchTab ul li.ui-tabs-selected{
-	background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #DE4A3C;
-    border: 1px solid #EB5446;
-    color: #555555;
-    font-weight: normal;
+    background-color: #DE4A3C;
 }
 html div div#elasticsearchTab form{
-	padding: 10px;
+	padding: 10px 40px;
+	vertical-align: text-bottom;
 }
 html div div#elasticsearchTab div.elasticContainer div.e_s_container {
   display: table;
@@ -42,40 +39,43 @@ html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_col
   display: table-cell;
 }
 html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column label{
-	color: #000000;
+	color: #ffffff;
 	font-weight: bold;
     float: left;
     font-size: 12px;
-    margin-bottom: 5px;	
+    /*margin-bottom: 5px;*/	
     font-family: Arial,Helvetica,sans-serif;
 }
 html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column select{
 	color: #000000;
     float: left;
     font-size: 15px;
-    margin-bottom: 5px;	
+    margin-bottom: 10px;	
     font-family: Arial,Helvetica,sans-serif;
-    height: 24px;	
+    height: 24px;
+    width: 100px;	
 }
-
-html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_apply_div{
+html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div{
 	color: #666666;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 13px;	
     float: right;
+    margin-top: 7px !important;
 }
-
-html div div#elasticsearchTab div.elasticContainer div.e_s_container button.e_s_apply_button{
-	background-color: #F96104;
-    background-image: url("images/bg-bt.gif");
-    background-repeat: repeat-x;
-    border: 0 none;
-    box-shadow: 1px 1px 1px #705800;
-    color: #FFFFFF;
-    cursor: pointer;
-    font-family: "Open Sans Condensed",sans-serif;
-    font-size: 26px;
-    padding: 5px 20px;
-    text-transform: uppercase;	
+html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div div.e_s_bt_filter_bus{	
+    background: linear-gradient(to bottom, #F85E06 0%, #FFCC01 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0 1px 1px #d13627;
+    display: inline-block;
+}
+html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button{
+	/*padding: 8px 18px;*/	
+    padding: 5px 20px;	
+}
+html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button span.e_s_text-el{
+	color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    vertical-align: baseline;
 }
 

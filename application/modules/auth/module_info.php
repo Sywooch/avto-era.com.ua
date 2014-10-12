@@ -11,7 +11,7 @@ $com_info = array (
 		'w' => 490,
 		'h' => 350,
 		'version' => '1.0',
-		'author' => 'dev@imagecms.net' 
+		'author' => 'dev@imagecms.net'
 );
 
 /* end of file */

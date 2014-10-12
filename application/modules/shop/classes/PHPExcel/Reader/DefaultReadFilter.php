@@ -51,7 +51,7 @@ class PHPExcel_Reader_DefaultReadFilter implements PHPExcel_Reader_IReadFilter {
 	 *
 	 * @param $column String
 	 *        	index
-	 * @param $row Row        	
+	 * @param $row Row
 	 * @param $worksheetName Optional
 	 *        	name
 	 * @return boolean

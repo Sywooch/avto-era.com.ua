@@ -20,20 +20,20 @@ class Image extends BaseImageClass {
 	public function __construct() {
 		parent::__construct ();
 		$this->load->library ( 'image_lib' );
-		
+
 		$this->uploadProductsPath = \ShopCore::$imagesUploadPath . 'products/';
 		// Images settings
 		$this->imageSizesSettings = $this->getImageSettings ();
 		$this->imageQuality = \ShopCore::app ()->SSettings->imagesQuality;
 		$this->mainSize = \ShopCore::app ()->SSettings->imagesMainSize;
-		
+
 		// Watermark settings
 		$this->watermark_active = \ShopCore::app ()->SSettings->watermark_active;
 		$this->watermarkFullPath = \ShopCore::app ()->SSettings->watermark_watermark_image;
-		
+
 		// Get all settings
 		$this->allSettings = \ShopCore::app ()->SSettings;
-		
+
 		// check font path
 		if (file_exists ( $this->allSettings->watermark_watermark_font_path )) {
 			$this->fontPath = $this->allSettings->watermark_watermark_font_path;
@@ -43,7 +43,7 @@ class Image extends BaseImageClass {
 		ini_set ( 'max_execution_time', 90000000 );
 		set_time_limit ( 900000 );
 	}
-	
+
 	/**
 	 *
 	 * @return Image
@@ -52,32 +52,32 @@ class Image extends BaseImageClass {
 		(null !== self::$_instance) or self::$_instance = new self ();
 		return self::$_instance;
 	}
-	
+
 	/**
 	 * Resize images by product variant id
-	 * 
-	 * @param int|array $id        	
+	 *
+	 * @param int|array $id
 	 */
 	public function resizeById($id) {
 		if ($id == null)
 			return $this;
-		
+
 		$res = $this->db->where_in ( 'id', $id )->get ( 'shop_product_variants' )->result_array ();
-		
+
 		// make watermark for every type of images
 		$this->checkWatermarks ();
 		$this->checkImagesFolders ();
-		
+
 		foreach ( $res as $product ) {
 			$this->makeResizeAndWatermark ( $product ['mainImage'] );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Resize additional images by product id or variant id
-	 * 
+	 *
 	 * @param type $id
 	 *        	product or variant id
 	 * @param type $isVarId
@@ -91,68 +91,68 @@ class Image extends BaseImageClass {
 		} else {
 			$res = $this->db->where_in ( 'product_id', $id )->get ( 'shop_product_images' )->result_array ();
 		}
-		
+
 		foreach ( $res as $product ) {
 			$this->makeResizeAndWatermarkAdditional ( $product ['image_name'] );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Resize images by product variant images name
-	 * 
-	 * @param str|array $names        	
+	 *
+	 * @param str|array $names
 	 */
 	public function resizeByName($names) {
 		if ($names == null)
 			return $this;
-		
+
 		$res = $this->db->where_in ( 'mainImage', $names )->get ( 'shop_product_variants' )->result_array ();
-		
+
 		// make watermark for every type of images
 		$this->checkWatermarks ();
 		$this->checkImagesFolders ();
-		
+
 		foreach ( $res as $product ) {
 			$this->makeResizeAndWatermark ( $product ['mainImage'] );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Resize all products images
 	 */
 	public function resizeAll() {
 		// make watermark for every type of images
 		$this->checkWatermarks ();
-		
+
 		$this->checkImagesFolders ();
-		
+
 		// get all images from database
 		$result = $this->db->select ( 'id, mainImage' )->get ( 'shop_product_variants' )->result_array ();
-		
+
 		foreach ( $result as $value ) {
 			if ($value ['mainImage'] != NULL) {
 				$this->makeResizeAndWatermark ( $value ['mainImage'] );
 			}
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Make resize and watermark for Image by filename
 	 *
-	 * @param type $imageName        	
-	 * @param type $mainSize        	
-	 * @param type $quality        	
-	 * @param type $watermark        	
+	 * @param type $imageName
+	 * @param type $mainSize
+	 * @param type $quality
+	 * @param type $watermark
 	 */
 	public function makeResizeAndWatermark($imageName) {
 		$mainSize = $this->mainSize;
-		
+
 		foreach ( $this->imageSizesSettings as $s ) {
 			if ($mainSize == 'auto') {
 				$mainSize = $this->autoMasterDim ( $s ['width'], $s ['height'] );
@@ -163,10 +163,10 @@ class Image extends BaseImageClass {
 				$s ['width'] = $imageSizes ['width'];
 				$s ['height'] = $imageSizes ['height'];
 			}
-			
+				
 			$this->image_lib->clear ();
 			$config = array ();
-			
+				
 			$config ['source_image'] = $this->uploadProductsPath . 'origin/' . $imageName;
 			$config ['width'] = $s ['width'];
 			$config ['height'] = $s ['height'];
@@ -175,17 +175,17 @@ class Image extends BaseImageClass {
 			$config ['master_dim'] = $mainSize;
 			$this->image_lib->initialize ( $config );
 			$this->image_lib->resize ();
-			
+				
 			// If watermark is active
 			if ($this->watermark_active) {
 				$this->applyWatermark ( $imageName, $s ['name'] );
 			}
 		}
 	}
-	
+
 	/**
 	 *
-	 * @param string $imageName        	
+	 * @param string $imageName
 	 */
 	public function makeResizeAndWatermarkAdditional($imageName) {
 		$mainSize = $this->mainSize;
@@ -194,7 +194,7 @@ class Image extends BaseImageClass {
 		}
 		$this->image_lib->clear ();
 		$config = array ();
-		
+
 		$config ['source_image'] = $this->uploadProductsPath . 'origin/additional/' . $imageName;
 		$config ['width'] = \ShopCore::app ()->SSettings->additionalImageWidth;
 		$config ['height'] = \ShopCore::app ()->SSettings->additionalImageWidth;
@@ -203,10 +203,10 @@ class Image extends BaseImageClass {
 		$config ['master_dim'] = $mainSize;
 		$this->image_lib->initialize ( $config );
 		$this->image_lib->resize ();
-		
+
 		$this->image_lib->clear ();
 		$config = array ();
-		
+
 		$config ['source_image'] = $this->uploadProductsPath . 'origin/additional/' . $imageName;
 		$config ['width'] = \ShopCore::app ()->SSettings->thumbImageWidth;
 		$config ['height'] = \ShopCore::app ()->SSettings->thumbImageWidth;
@@ -215,13 +215,13 @@ class Image extends BaseImageClass {
 		$config ['master_dim'] = $mainSize;
 		$this->image_lib->initialize ( $config );
 		$this->image_lib->resize ();
-		
+
 		// If watermark is active
 		if ($this->watermark_active) {
 			$this->applyWatermark ( $imageName, 'additional' );
 		}
 	}
-	
+
 	/**
 	 * Check if watermarks exists and make if not exists
 	 */
@@ -231,34 +231,34 @@ class Image extends BaseImageClass {
 			mkdir ( $this->uploadProductsPath . 'watermarks/' );
 			chmod ( $this->uploadProductsPath . 'watermarks/', 0777 );
 		}
-		
+
 		$watermarkInterest = \ShopCore::app ()->SSettings->watermark_watermark_interest;
 		$watermarks = $this->imageSizesSettings;
-		
+
 		$watermarks ['additional'] = array (
 				'name' => 'additional',
 				'width' => \ShopCore::app ()->SSettings->additionalImageWidth,
-				'height' => \ShopCore::app ()->SSettings->additionalImageWidth 
+				'height' => \ShopCore::app ()->SSettings->additionalImageWidth
 		);
-		
+
 		foreach ( $watermarks as $s ) {
 			// Clear library and config array
 			$this->image_lib->clear ();
 			$config = array ();
-			
+				
 			$config ['source_image'] = '.' . \ShopCore::app ()->SSettings->watermark_watermark_image;
 			$config ['width'] = $s ['width'] / 100 * $watermarkInterest;
 			$config ['height'] = $s ['height'] / 100 * $watermarkInterest;
 			$config ['new_image'] = $this->uploadProductsPath . 'watermarks/' . $s ['name'] . '.png';
-			
+				
 			$this->image_lib->initialize ( $config );
 			$this->image_lib->resize ();
 		}
 	}
-	
+
 	/*
 	 * Apply watermark to image
-	 */
+	*/
 	public function applyWatermark($imageName = '', $watermarkType = '') {
 		$this->image_lib->clear ();
 		$config = array ();
@@ -269,7 +269,7 @@ class Image extends BaseImageClass {
 		$config ['wm_padding'] = $this->allSettings->watermark_watermark_padding;
 		$config ['wm_x_transp'] = 1;
 		$config ['wm_y_transp'] = 1;
-		
+
 		// If watermark is image
 		if ($this->allSettings->watermark_watermark_type == 'overlay') {
 			$config ['wm_type'] = 'overlay';
@@ -279,7 +279,7 @@ class Image extends BaseImageClass {
 			// if watermark is text
 			if ($this->allSettings->watermark_watermark_text == '')
 				return FALSE;
-			
+				
 			$config ['wm_text'] = $this->allSettings->watermark_watermark_text;
 			$config ['wm_type'] = 'text';
 			if ($this->fontPath) {
@@ -288,21 +288,21 @@ class Image extends BaseImageClass {
 			$config ['wm_font_size'] = $this->allSettings->watermark_watermark_font_size;
 			$config ['wm_font_color'] = $this->allSettings->watermark_watermark_color;
 		}
-		
+
 		$this->image_lib->clear ();
 		$this->image_lib->initialize ( $config );
 		$this->image_lib->watermark ();
 	}
-	
+
 	/*
 	 * Check if exists all folders for images. Create them if not exists and chmod 0777
-	 */
+	*/
 	public function checkImagesFolders() {
 		$folders = $this->imageSizesSettings;
 		$folders ['additional'] = array (
 				'name' => 'additional',
 				'width' => \ShopCore::app ()->SSettings->additionalImageWidth,
-				'height' => \ShopCore::app ()->SSettings->additionalImageWidth 
+				'height' => \ShopCore::app ()->SSettings->additionalImageWidth
 		);
 		foreach ( $folders as $folder ) {
 			if (! is_dir ( $this->uploadProductsPath . $folder ['name'] . '/' )) {
@@ -311,7 +311,7 @@ class Image extends BaseImageClass {
 			}
 		}
 	}
-	
+
 	/**
 	 * Check origin folder
 	 */
@@ -329,17 +329,17 @@ class Image extends BaseImageClass {
 			chmod ( $this->uploadProductsPath, 0777 );
 		}
 	}
-	
+
 	/*
 	 * Get from settings info about image sizes
-	 */
+	*/
 	public function getImageSettings() {
 		return unserialize ( \ShopCore::app ()->SSettings->imageSizesBlock );
 	}
-	
+
 	/*
 	 * Get from settings info about images variants
-	 */
+	*/
 	public function getImageVarintsNames() {
 		$array = $this->getImageSettings ();
 		// Array with image variants
@@ -349,40 +349,40 @@ class Image extends BaseImageClass {
 		}
 		return $result;
 	}
-	
+
 	/*
 	 * Get current image sizes
-	 */
+	*/
 	public function getImageSize($file_path) {
 		if (function_exists ( 'getimagesize' ) && file_exists ( $file_path )) {
 			$image = @getimagesize ( $file_path );
-			
+				
 			$size = array (
 					'width' => $image [0],
-					'height' => $image [1] 
+					'height' => $image [1]
 			);
 			return $size;
 		}
 		return false;
 	}
-	
+
 	/*
 	 *
-	 */
+	*/
 	public function autoMasterDim($width = null, $height = null) {
 		if ($width > $height)
 			return 'height';
 		else
 			return 'width';
 	}
-	
+
 	/**
 	 * Prepare array of all path for product variant image
-	 * 
-	 * @param type $imageName        	
+	 *
+	 * @param type $imageName
 	 */
 	public function deleteAllProductImages($imageName) {
-		
+
 		// delete origin image
 		$this->deleteImagebyFullPath ( $this->uploadProductsPath . 'origin/' . $imageName );
 		// delete others images
@@ -390,7 +390,7 @@ class Image extends BaseImageClass {
 			$this->deleteImagebyFullPath ( $this->uploadProductsPath . $s ['name'] . '/' . $imageName );
 		}
 	}
-	
+
 	/**
 	 *
 	 * @param type $imageName
@@ -401,17 +401,17 @@ class Image extends BaseImageClass {
 		$this->deleteImagebyFullPath ( $this->uploadProductsPath . 'additional/' . $imageName );
 		$this->deleteImagebyFullPath ( $this->uploadProductsPath . 'additional/thumb_' . $imageName );
 	}
-	
+
 	/**
 	 * Delete image by path
-	 * 
-	 * @param string $path        	
+	 *
+	 * @param string $path
 	 */
 	public function deleteImagebyFullPath($path) {
 		if (file_exists ( $path ))
 			@unlink ( $path );
 	}
-	
+
 	/**
 	 *
 	 * @param type $ids
@@ -420,15 +420,15 @@ class Image extends BaseImageClass {
 	public function deleteImagebyProductId($ids) {
 		if ($ids == null)
 			return;
-		
+
 		$res = $this->db->where_in ( 'product_id', $ids )->get ( 'shop_product_variants' )->result_array ();
-		
+
 		foreach ( $res as $r )
 			$this->deleteAllProductImages ( $r [mainImage] );
-		
+
 		$this->deleteAdditionalImagebyProductId ( $ids );
 	}
-	
+
 	/**
 	 *
 	 * @param type $ids
@@ -437,13 +437,13 @@ class Image extends BaseImageClass {
 	public function deleteAdditionalImagebyProductId($ids) {
 		if ($ids == null)
 			return;
-		
+
 		$res = $this->db->where_in ( 'product_id', $ids )->get ( 'shop_product_images' )->result_array ();
-		
+
 		foreach ( $res as $r )
 			$this->deleteAllProductAdditionalImages ( $r [image_name] );
 	}
-	
+
 	/**
 	 *
 	 * @param type $ids
@@ -452,9 +452,9 @@ class Image extends BaseImageClass {
 	public function deleteImagebyCategoryId($ids) {
 		if ($ids == null)
 			return;
-		
+
 		$res = $this->db->select ( '*, shop_products.id as product_id' )->join ( 'shop_product_variants', 'shop_product_variants.product_id=shop_products.id' )->where_in ( 'category_id', $ids )->get ( 'shop_products' )->result_array ();
-		
+
 		foreach ( $res as $r ) {
 			$this->deleteAllProductImages ( $r [mainImage] );
 			$this->deleteAdditionalImagebyProductId ( $r [product_id] );

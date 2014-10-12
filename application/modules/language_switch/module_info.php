@@ -11,7 +11,7 @@ $com_info = array (
 		'w' => 600, // Window width
 		'h' => 550, // Window height
 		'version' => '1.0', // Module version
-		'author' => 'andrey@itsmedia.ru' 
+		'author' => 'andrey@itsmedia.ru'
 ) // Author info
 ;
 

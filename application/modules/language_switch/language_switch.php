@@ -15,34 +15,34 @@ class Language_Switch extends MY_Controller {
 		$lang = new MY_Lang ();
 		$lang->load ( 'language_switch' );
 	}
-	
+
 	// Index function
 	public function index() {
 		// code
 	}
-	
+
 	// Autoload default function
 	public function autoload() {
 	}
-	
+
 	// Install
 	public function _install() {
 		if ($this->dx_auth->is_admin () == FALSE)
 			exit ();
-		
+
 		$this->load->dbforge ();
-		
+
 		$this->db->where ( 'name', 'language_switch' );
 		$this->db->update ( 'components', array (
 				'autoload' => 0,
-				'in_menu' => 1 
+				'in_menu' => 1
 		) );
 	}
-	
+
 	// Delete module
 	public function _deinstall() {
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -50,7 +50,7 @@ class Language_Switch extends MY_Controller {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/public/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

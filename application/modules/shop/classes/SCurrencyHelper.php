@@ -18,24 +18,24 @@ class SCurrencyHelper {
 	public function __construct() {
 		// Load all currencies.
 		$currencies = SCurrenciesQuery::create ()->find ();
-		
+
 		foreach ( $currencies as $c ) {
 			/**
 			 * Set main currency
 			 */
 			if ($c->getMain () == true)
 				$this->main = $c;
-			
+				
 			/**
 			 * Set default currency
 			 */
 			if ($c->getIsDefault () == true)
 				$this->default = $c;
-			
+				
 			$this->currencies [$c->getId ()] = $c;
 		}
 	}
-	
+
 	/**
 	 * Convert price from default or selected currency to another currency
 	 *
@@ -50,7 +50,7 @@ class SCurrencyHelper {
 			$currency = $this->currencies [$currencyId];
 		else
 			$currency = $this->current;
-		
+
 		$price = $price * $currency->getRate ();
 		if ($price == round ( $price ))
 			return $price;
@@ -63,25 +63,25 @@ class SCurrencyHelper {
 		} else {
 			$currency = $this->current;
 		}
-		
+
 		$price = $price * $currency->getRate ();
 		return round ( $price, ShopCore::app ()->SSettings->pricePrecision );
 	}
-	
+
 	/**
 	 * Convert sum from one currency to another
 	 */
 	public function convertToMain($sum, $from) {
 		if ($from == $this->main->getId ())
 			return $sum;
-		
+
 		$from = $this->currencies [$from];
 		$to = $this->main;
-		
+
 		$v1 = $from->getRate () / $to->getRate ();
 		return round ( $sum / $v1, 2 );
 	}
-	
+
 	/**
 	 * Get current currency symbol
 	 *
@@ -118,7 +118,7 @@ class SCurrencyHelper {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Get currencies array
 	 *
@@ -133,12 +133,12 @@ class SCurrencyHelper {
 			$this->current = $this->main;
 			return true;
 		}
-		
+
 		if ($id == 'default') {
 			$this->current = $this->default;
 			return true;
 		}
-		
+
 		if ($id === null) {
 			// Set current currency from default
 			$this->current = $this->default;

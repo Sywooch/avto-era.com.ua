@@ -49,7 +49,7 @@ class trendClass {
 	const TREND_POLYNOMIAL_6 = 'Polynomial_6';
 	const TREND_BEST_FIT = 'Bestfit';
 	const TREND_BEST_FIT_NO_POLY = 'Bestfit_no_Polynomials';
-	
+
 	/**
 	 * Names of the best-fit trend analysis methods
 	 *
@@ -60,7 +60,7 @@ class trendClass {
 			self::TREND_LINEAR,
 			self::TREND_LOGARITHMIC,
 			self::TREND_EXPONENTIAL,
-			self::TREND_POWER 
+			self::TREND_POWER
 	);
 	/**
 	 * Names of the best-fit trend polynomial orders
@@ -73,9 +73,9 @@ class trendClass {
 			self::TREND_POLYNOMIAL_3,
 			self::TREND_POLYNOMIAL_4,
 			self::TREND_POLYNOMIAL_5,
-			self::TREND_POLYNOMIAL_6 
+			self::TREND_POLYNOMIAL_6
 	);
-	
+
 	/**
 	 * Cached results for each method when trying to identify which provides the best fit
 	 *
@@ -87,7 +87,7 @@ class trendClass {
 		// Calculate number of points in each dataset
 		$nY = count ( $yValues );
 		$nX = count ( $xValues );
-		
+
 		// Define X Values if necessary
 		if ($nX == 0) {
 			$xValues = range ( 1, $nY );
@@ -96,7 +96,7 @@ class trendClass {
 			// Ensure both arrays of points are the same size
 			trigger_error ( "trend(): Number of elements in coordinate arrays do not match.", E_USER_ERROR );
 		}
-		
+
 		$key = md5 ( $trendType . $const . serialize ( $yValues ) . serialize ( $xValues ) );
 		// Determine which trend method has been requested
 		switch ($trendType) {
@@ -124,7 +124,7 @@ class trendClass {
 				break;
 			case self::TREND_BEST_FIT :
 			case self::TREND_BEST_FIT_NO_POLY :
-				
+
 				// If the request is to determine the best fit regression, then we test each trend line in turn
 				// Start by generating an instance of each available trend method
 				foreach ( self::$_trendTypes as $trendMethod ) {

@@ -3,24 +3,24 @@ class BaseAdminController extends MY_Controller {
 	public static $currentLocale = null;
 	public function __construct() {
 		parent::__construct ();
-		
+
 		$lang = new MY_Lang ();
 		$lang->load ( 'admin' );
-		
+
 		$this->load->library ( 'Permitions' );
 		Permitions::checkPermitions ();
 		$this->autoloadModules ();
-		
+
 		// if(!$_SESSION['GETTEXT_EXIST']){
 		// showMessage(lang('To improve performance set php_gettext.dll extension'), lang('Advice'));
 		// }
-		
+
 		// $this->lang->load('admin');
 	}
-	
+
 	/**
 	 * Run ImageCMS modules autoload method for admin-page
-	 * 
+	 *
 	 * @access private
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
 	 */
@@ -29,7 +29,7 @@ class BaseAdminController extends MY_Controller {
 		 * Search module with autoload
 		 */
 		$query = $this->db->select ( 'name' )->where ( 'autoload', 1 )->get ( 'components' );
-		
+
 		if ($query) {
 			$moduleName = null;
 			/**

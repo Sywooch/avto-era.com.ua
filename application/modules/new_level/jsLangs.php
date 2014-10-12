@@ -1,7 +1,7 @@
 <?php
 /*
  * /var/www/image.loc/application/modules/new_level/assets/js/script.js
- */
+*/
 echo " <script> langs = {}; langs['Message'] = " . lang ( 'Message', 'new_level' ) . ";
 langs['Property type updated'] = " . lang ( 'Property type updated', 'new_level' ) . ";
 langs['Message'] = " . lang ( 'Message', 'new_level' ) . ";
@@ -23,5 +23,5 @@ langs['Column successfully removed'] = " . lang ( 'Column successfully removed',
 langs['Message'] = " . lang ( 'Message', 'new_level' ) . ";
 langs['Column'] = " . lang ( 'Column', 'new_level' ) . ";
 langs['successfully added'] = " . lang ( 'successfully added', 'new_level' ) . ";
- </script>";
+</script>";
 ?>

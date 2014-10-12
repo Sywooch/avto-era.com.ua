@@ -5,7 +5,7 @@ class Ajax extends ShopController {
 	public function __construct() {
 		parent::__construct ();
 	}
-	
+
 	/**
 	 * Rate product
 	 *
@@ -14,30 +14,30 @@ class Ajax extends ShopController {
 	public function rate() {
 		$productId = ( int ) $_POST ['pid'];
 		$rating = ( int ) $_POST ['val'];
-		
+
 		if (! in_array ( $rating, range ( 1, 5 ) ))
 			exit ();
 			
-			// Check if product exists
+		// Check if product exists
 		if (SProductsQuery::create ()->findPk ( $productId ) !== null && ! $this->session->userdata ( 'voted' . $productId ) == true) {
 			$model = SProductsRatingQuery::create ()->findPk ( $productId );
-			
+				
 			if ($model === null) {
 				$model = new SProductsRating ();
 				$model->setProductId ( $productId );
 			}
-			
+				
 			$model->setVotes ( $model->getVotes () + 1 );
 			$model->setRating ( $model->getRating () + $rating );
 			$model->save ();
-			
+				
 			// set product updated
 			$p = SProductsQuery::create ()->findOneById ( $productId );
 			$p->setUpdated ( date ( 'U' ) );
 			$p->save ();
-			
+				
 			$rating = round ( $model->getRating () / $model->getVotes () );
-			
+				
 			if ($rating == 1)
 				$rating = "onestar";
 			if ($rating == 2)
@@ -48,12 +48,12 @@ class Ajax extends ShopController {
 				$rating = "fourstar";
 			if ($rating == 5)
 				$rating = "fivestar";
-				
-				// Store session vote block;
+
+			// Store session vote block;
 			$this->session->set_userdata ( 'voted' . $productId, true );
 			if ($this->input->is_ajax_request ()) {
 				return json_encode ( array (
-						"classrate" => "$rating" 
+						"classrate" => "$rating"
 				) );
 			}
 		}
@@ -75,7 +75,7 @@ class Ajax extends ShopController {
 		if (! $model)
 			return false;
 		return $this->render ( 'category_attributes', array (
-				'model' => $model 
+				'model' => $model
 		), true );
 	}
 	public function getNotifyingRequest() {
@@ -105,7 +105,7 @@ class Ajax extends ShopController {
 				'model' => SProductsQuery::create ()->filterById ( $productId )->limit ( 1 )->findOne (),
 				'message' => $message,
 				'user_name' => $this->dx_auth->get_username (),
-				'user_email' => $this->dx_auth->get_user_email () 
+				'user_email' => $this->dx_auth->get_user_email ()
 		) );
 	}
 	public function getApiNotifyingRequest() {
@@ -133,7 +133,7 @@ class Ajax extends ShopController {
 						'status' => true,
 						'close' => true,
 						'refresh' => $this->input->post ( 'refresh' ) ? $this->input->post ( 'refresh' ) : FALSE,
-						'redirect' => $this->input->post ( 'redirect' ) ? $this->input->post ( 'redirect' ) : FALSE 
+						'redirect' => $this->input->post ( 'redirect' ) ? $this->input->post ( 'redirect' ) : FALSE
 				) );
 			} else {
 				echo json_encode ( array (
@@ -144,8 +144,8 @@ class Ajax extends ShopController {
 						'validations' => array (
 								'UserEmail' => form_error ( 'UserEmail' ),
 								'UserName' => form_error ( 'UserName' ),
-								'UserPhone' => form_error ( 'UserPhone' ) 
-						) 
+								'UserPhone' => form_error ( 'UserPhone' )
+						)
 				) );
 			}
 		}
@@ -154,15 +154,15 @@ class Ajax extends ShopController {
 		$coef = ( int ) ShopCore::app ()->SSettings->topSalesBlockFormulaCoef;
 		$offset = ( int ) $_GET ['first'] - 1;
 		$limit = ( int ) $_GET ['last'] - ( int ) $_GET ['first'] + 1;
-		
+
 		$products = SProductsQuery::create ()->withColumn ( "SProducts.Views + SProducts.AddedToCartCount * $coef", 'Formula' )->orderBy ( 'Formula', Criteria::DESC );
-		
+
 		$total = clone $products;
 		$total = $total->count ();
-		
+
 		$return = "<data>\r\n\t";
 		$products = $products->limit ( $limit )->offset ( $offset )->find ();
-		
+
 		if ($products) {
 			$return .= "<total>$total</total>\r\n";
 			foreach ( $products as $product ) {
@@ -174,7 +174,7 @@ class Ajax extends ShopController {
 			$return .= "<total>0</total>\r\n";
 		}
 		$return .= "</data>";
-		
+
 		header ( 'Content-Type: text/xml' );
 		return $return;
 	}
@@ -183,17 +183,17 @@ class Ajax extends ShopController {
 		$this->load->library ( 'DX_Auth' );
 		if ($this->dx_auth->is_email_available ( $email ))
 			echo json_encode ( array (
-					"result" => true 
+					"result" => true
 			) );
 		else
 			echo json_encode ( array (
-					"result" => false 
+					"result" => false
 			) );
 	}
 	public function getPage($id) {
 		$page = get_page ( $id );
 		$this->template->display ( 'ajax_static_page', array (
-				'page' => $page 
+				'page' => $page
 		) );
 	}
 }

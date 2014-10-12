@@ -13,7 +13,7 @@ namespace mobile\collection;
  */
 class Mobile_category extends \Category\BaseCategory {
 	protected static $_instance;
-	
+
 	/**
 	 *
 	 * @copyright (c) 2013, ImageCMS
@@ -22,7 +22,7 @@ class Mobile_category extends \Category\BaseCategory {
 	public function __construct() {
 		parent::__construct ();
 	}
-	
+
 	/**
 	 *
 	 * @return view
@@ -35,12 +35,12 @@ class Mobile_category extends \Category\BaseCategory {
 		if ((! empty ( $_GET ) || strstr ( $_SERVER ['REQUEST_URI'], '?' )) && (! $_GET ['per_page']))
 			$this->template->registerCanonical ( site_url ( $this->uri->uri_string () ) );
 			
-			// for canonical (another seo block)
+		// for canonical (another seo block)
 		$this->core->set_meta_tags ( $this->categoryModel->makePageTitle (), $this->categoryModel->getMetaKeywords (), $this->categoryModel->makePageDesc (), $this->pagination->cur_page, $this->categoryModel->getShowSiteTitle () );
-		
+
 		if ($this->input->get ( 'filtermobile' ))
 			return $this->mobileFilter ();
-		
+
 		/**
 		 * Begin pagination
 		 */
@@ -54,19 +54,19 @@ class Mobile_category extends \Category\BaseCategory {
 		$config ['next_tag_close'] = '</li>';
 		$this->pagination->num_links = 6;
 		$this->pagination->initialize ( $config );
-		
+
 		/**
 		 * Set data
 		 */
 		$this->data [pagination] = $this->pagination->create_links ();
 		$this->data [pageNumber] = $this->pagination->cur_page;
-		
+
 		/**
 		 * Render view for user
 		 */
 		$this->render ( $this->templateFile, $this->data );
 	}
-	
+
 	/**
 	 *
 	 * @return view
@@ -75,29 +75,29 @@ class Mobile_category extends \Category\BaseCategory {
 	 * @copyright ImageCMS (c) 2013
 	 */
 	public function mobileFilter() {
-		
+
 		/**
 		 * Filter initializing
 		 */
 		\ShopCore::app ()->SFilter->init ( $this->categoryModel );
-		
+
 		/**
 		 * Init Brand list
 		 */
 		$brands = \ShopCore::app ()->SFilter->getBrands ();
-		
+
 		/**
 		 * Set data
 		 */
 		$this->data ['category'] = $this->categoryModel;
 		$this->data ['brands'] = $brands;
-		
+
 		/**
 		 * Render view for user
 		 */
 		$this->render ( 'filter', $this->data );
 	}
-	
+
 	/**
 	 *
 	 * @return bool

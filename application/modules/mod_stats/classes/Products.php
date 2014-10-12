@@ -15,7 +15,7 @@ class Products extends \MY_Controller {
 		$lang = new \MY_Lang ();
 		$lang->load ( 'mod_stats' );
 	}
-	
+
 	/**
 	 *
 	 * @return Products
@@ -26,25 +26,25 @@ class Products extends \MY_Controller {
 	}
 	public function getBrands() {
 		$brands = $this->stats_model_products->getBrandsCountsData ();
-		
+
 		// data for pie diagram
 		$pieData = array ();
 		foreach ( $brands as $brand ) {
 			$pieData [] = array (
 					'key' => $brand ['name'],
-					'y' => ( int ) $brand ['count'] 
+					'y' => ( int ) $brand ['count']
 			);
 		}
-		
+
 		return json_encode ( array (
 				'type' => 'pie',
-				'data' => $pieData 
+				'data' => $pieData
 		) );
 	}
-	
+
 	/**
 	 * Data for template Categories
-	 * 
+	 *
 	 * @return array
 	 */
 	public function templateCategories() {
@@ -57,28 +57,28 @@ class Products extends \MY_Controller {
 	}
 	public function getCategories() {
 		$categoryProducts = $this->stats_model_products->getCategoriesCountsData ( $this->getSelectedCategoriesIdsFromCookie () );
-		
+
 		// data for pie diagram
 		$pieData = array ();
 		foreach ( $categoryProducts as $category ) {
 			$pieData [] = array (
 					'key' => $category ['name'],
-					'y' => ( int ) $category ['count'] 
+					'y' => ( int ) $category ['count']
 			);
 		}
-		
+
 		return json_encode ( array (
 				'type' => 'pie',
-				'data' => $pieData 
+				'data' => $pieData
 		) );
 	}
 	public function getProductInfo() {
 	}
-	
+
 	/**
 	 * Get product info by id (name, count of purchasses, rating, comments count)
-	 * 
-	 * @param int $id        	
+	 *
+	 * @param int $id
 	 * @return json
 	 */
 	public function getProductInfoById($id = null) {
@@ -88,12 +88,12 @@ class Products extends \MY_Controller {
 			return;
 		}
 		$result ['Rating'] = $this->stats_model_products->getProductRatingById ( $id );
-		
+
 		echo json_encode ( $result );
 	}
 	/**
 	 * Get selected categories ids from cookie or get default
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getSelectedCategoriesIdsFromCookie() {

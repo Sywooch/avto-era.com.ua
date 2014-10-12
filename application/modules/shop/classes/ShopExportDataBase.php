@@ -6,7 +6,7 @@
  * @author kolia
  */
 class ShopExportDataBase {
-	
+
 	// constructor params
 	public $delimiter = ";";
 	public $maxRowLength = 10000;
@@ -19,35 +19,35 @@ class ShopExportDataBase {
 	protected $tree = null;
 	public $encoding = 'utf8';
 	protected $selectedCats = array ();
-	
+
 	/**
 	 * contains products properties
-	 * 
+	 *
 	 * @var type
 	 */
 	protected $customFields = array ();
-	
+
 	/**
 	 * Product fields and properties together
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $completeFields = array ();
-	
+
 	/**
 	 * errors (if there are)
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $errors = array ();
-	
+
 	/**
 	 * DB object
-	 * 
+	 *
 	 * @var Object
 	 */
 	protected $db;
-	
+
 	/**
 	 * Two-dimensional array to store data about tables and their columns
 	 * array(
@@ -55,14 +55,14 @@ class ShopExportDataBase {
 	 * db_table => array(fields)
 	 * ...
 	 * )
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $tablesFields = array ();
-	
+
 	/**
 	 * An array of tables that contain information about products (including sampling will take place in the fields)
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $productsDataTables = array (
@@ -77,44 +77,44 @@ class ShopExportDataBase {
 			'shop_product_properties_i18n',
 			'shop_brands',
 			'shop_brands_i18n',
-			'shop_product_images' 
+			'shop_product_images'
 	);
-	
+
 	/**
 	 * Result in array
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $resultArray = NULL;
-	
+
 	/**
 	 * Result in string (csv)
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $resultString = NULL;
-	
+
 	/**
 	 * If true then ignoring fields errors
-	 * 
+	 *
 	 * @var boolean
 	 */
 	protected $skipErrors = FALSE;
-	
+
 	/**
 	 * Categories data from DB
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $categoriesData = NULL;
-	
+
 	/**
 	 * Categories full paths
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $categories = NULL;
-	
+
 	/**
 	 *
 	 * @param array $settings
@@ -123,14 +123,14 @@ class ShopExportDataBase {
 	public function __construct(array $settings = array()) {
 		$ci = &get_instance ();
 		$this->db = $ci->db;
-		
+
 		if (sizeof ( $settings ) > 0) {
 			foreach ( $settings as $key => $value ) {
 				if (isset ( $this->$key ))
 					$this->$key = $value;
 			}
 		}
-		
+
 		// getting attributes
 		if (! count ( $this->attributes ) > 0) {
 			$this->addError ( 'Укажите колонки для экспорта.' );
@@ -138,23 +138,23 @@ class ShopExportDataBase {
 			$this->customFields = $this->getCustomFields ();
 			$this->completeFields = $this->getCompleteFields ();
 		}
-		
+
 		// getting tables and their fields
 		$this->getTablesFields ( $this->productsDataTables );
-		
+
 		$this->categoriesData = $this->getCategoriesFromBase ();
-		
+
 		if (key_exists ( 'cat', $this->attributes )) {
 			$this->categories = $this->getCategoriesPaths ();
 		}
-		
+
 		ini_set ( 'max_execution_time', 900 );
 		set_time_limit ( 900 );
 	}
-	
+
 	/**
 	 * Saving csv-file
-	 * 
+	 *
 	 * @return string filename
 	 */
 	public function saveToCsvFile($pathToFile) {
@@ -165,10 +165,10 @@ class ShopExportDataBase {
 		fclose ( $f );
 		return $writeResult == FALSE ? FALSE : basename ( $path );
 	}
-	
+
 	/**
 	 * Saving excel-file
-	 * 
+	 *
 	 * @param string $type
 	 *        	format version (Excel2007|Excel5)
 	 * @return string filename
@@ -184,10 +184,10 @@ class ShopExportDataBase {
 			default :
 				return FALSE;
 		}
-		
+
 		$this->getDataArray (); // selecting data from DB (if not performed)
 		$objPHPExcel = new PHPExcel ();
-		
+
 		// formation of headlines (from keys of first product data)
 		$someProductData = current ( $this->resultArray );
 		$headerArray = array ();
@@ -198,7 +198,7 @@ class ShopExportDataBase {
 			}
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $columnNumber ++, 1, $abbr );
 		}
-		
+
 		$rowNumber = 2;
 		foreach ( $this->resultArray as $productData ) {
 			$columnNumber = 0;
@@ -211,7 +211,7 @@ class ShopExportDataBase {
 		$objWriter->save ( $path );
 		return basename ( $path );
 	}
-	
+
 	/**
 	 * Getting data from DB
 	 * (filing $this->resultArray)
@@ -220,7 +220,7 @@ class ShopExportDataBase {
 		$query = $this->createQuery ();
 		$result = $this->db->query ( $query );
 		$list = array ();
-		
+
 		foreach ( $result->result_array () as $row ) {
 			if ($this->categories !== NULL) {
 				$row ['category_name'] = $this->categories [$row ['category_name']];
@@ -229,10 +229,10 @@ class ShopExportDataBase {
 		}
 		$this->resultArray = $list;
 	}
-	
+
 	/**
 	 * Getting products data
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getDataArray() {
@@ -241,19 +241,19 @@ class ShopExportDataBase {
 		}
 		return $this->resultArray;
 	}
-	
+
 	/**
 	 * Creating csv text view
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getDataCsv() {
 		$this->getDataArray (); // selecting data from DB (if not performed)
 		if (is_null ( $this->resultString )) {
 			$this->getDataFromBase ();
-			
+				
 			$fileContents = "";
-			
+				
 			// headers forming
 			$someProductData = current ( $this->resultArray );
 			$headerArray = array ();
@@ -264,7 +264,7 @@ class ShopExportDataBase {
 				$headerArray [] = $abbr;
 			}
 			$fileContents .= $this->getCsvLine ( $headerArray );
-			
+				
 			foreach ( $this->resultArray as $row ) {
 				$fileContents .= $this->getCsvLine ( $row );
 			}
@@ -272,11 +272,11 @@ class ShopExportDataBase {
 		}
 		return $this->resultString;
 	}
-	
+
 	/**
 	 * CSV line creating
-	 * 
-	 * @param array $dataArray        	
+	 *
+	 * @param array $dataArray
 	 * @return string data in quotes and separated by a comma
 	 */
 	protected function getCsvLine($dataArray) {
@@ -286,26 +286,26 @@ class ShopExportDataBase {
 		}
 		return $row . PHP_EOL;
 	}
-	
+
 	/**
 	 * Creating SQL-query
-	 * 
+	 *
 	 * @return string SQL-query
 	 */
 	protected function createQuery() {
 		$fieldsArray = array (); // tables and fields
 		$fields = "";
 		$joins = "";
-		
+
 		foreach ( $this->completeFields as $field ) {
 			if (in_array ( trim ( $field ), $this->customFields )) { // this is property of product
-			                                                   // mysql has no pivot, but max(if... construction helps :
+				// mysql has no pivot, but max(if... construction helps :
 				$fieldsArray [] = $this->getPropertyField ( trim ( $field ) );
 			} else { // this is field
 				$fieldsArray [] = $this->getFullField ( trim ( $field ) );
 			}
 		}
-		
+
 		// fields in SELECT concatenation
 		foreach ( $fieldsArray as $field ) {
 			if ($field == FALSE && $this->skipErrors == TRUE) {
@@ -315,7 +315,7 @@ class ShopExportDataBase {
 		}
 		// last comma removing
 		$fields = substr ( $fields, 0, strlen ( $fields ) - 2 );
-		
+
 		// if categories are selected adding condition to query
 		if (is_array ( $this->selectedCats ) && count ( $this->selectedCats ) > 0) {
 			// to avoid query error checking if category exists
@@ -329,49 +329,49 @@ class ShopExportDataBase {
 		} else {
 			$selCatsCondition = " ";
 		}
-		
+
 		$query = "
-            SELECT
-                {$fields}
-            FROM
-                `shop_product_variants`
-            LEFT JOIN `shop_products` ON `shop_product_variants`.`product_id` = `shop_products`.`id`
-            LEFT JOIN `shop_product_variants_i18n` ON `shop_product_variants`.`id` = `shop_product_variants_i18n`.`id`
-            LEFT JOIN `shop_products_i18n` ON `shop_products_i18n`.`id` = `shop_products`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_products_i18n`.`locale`
+		SELECT
+		{$fields}
+		FROM
+		`shop_product_variants`
+		LEFT JOIN `shop_products` ON `shop_product_variants`.`product_id` = `shop_products`.`id`
+		LEFT JOIN `shop_product_variants_i18n` ON `shop_product_variants`.`id` = `shop_product_variants_i18n`.`id`
+		LEFT JOIN `shop_products_i18n` ON `shop_products_i18n`.`id` = `shop_products`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_products_i18n`.`locale`
 
-            LEFT JOIN `shop_category` ON `shop_products`.`category_id` = `shop_category`.`id`
-            LEFT JOIN `shop_category_i18n` ON `shop_category_i18n`.`id` = `shop_category`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_category_i18n`.`locale`
+		LEFT JOIN `shop_category` ON `shop_products`.`category_id` = `shop_category`.`id`
+		LEFT JOIN `shop_category_i18n` ON `shop_category_i18n`.`id` = `shop_category`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_category_i18n`.`locale`
 
-            LEFT JOIN `shop_product_properties_data` ON `shop_product_properties_data`.`product_id` = `shop_product_variants`.`product_id`
-            LEFT JOIN `shop_product_properties` ON `shop_product_properties`.`id` = `shop_product_properties_data`.`property_id`
-            LEFT JOIN `shop_product_properties_i18n` ON `shop_product_properties_i18n`.`id` = `shop_product_properties`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_product_properties_i18n`.`locale`
+		LEFT JOIN `shop_product_properties_data` ON `shop_product_properties_data`.`product_id` = `shop_product_variants`.`product_id`
+		LEFT JOIN `shop_product_properties` ON `shop_product_properties`.`id` = `shop_product_properties_data`.`property_id`
+		LEFT JOIN `shop_product_properties_i18n` ON `shop_product_properties_i18n`.`id` = `shop_product_properties`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_product_properties_i18n`.`locale`
 
-            LEFT JOIN `shop_brands` ON `shop_brands`.`id` = `shop_products`.`brand_id`
-            LEFT JOIN `shop_brands_i18n` ON `shop_brands_i18n`.`id` = `shop_brands`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_brands_i18n`.`locale`
+		LEFT JOIN `shop_brands` ON `shop_brands`.`id` = `shop_products`.`brand_id`
+		LEFT JOIN `shop_brands_i18n` ON `shop_brands_i18n`.`id` = `shop_brands`.`id` AND `shop_product_variants_i18n`.`locale` = `shop_brands_i18n`.`locale`
 
-            LEFT JOIN `shop_currencies` ON `shop_currencies`.`id` = `shop_product_variants`.`currency`
+		LEFT JOIN `shop_currencies` ON `shop_currencies`.`id` = `shop_product_variants`.`currency`
 
-            LEFT JOIN `shop_product_images` ON `shop_product_variants`.`product_id` = `shop_product_images`.`product_id`
+		LEFT JOIN `shop_product_images` ON `shop_product_variants`.`product_id` = `shop_product_images`.`product_id`
 
-            WHERE  1
-                AND `shop_product_variants_i18n`.`locale` = '{$this->language}'
-                {$selCatsCondition}
-            GROUP BY `shop_product_variants`.`id`
-            ORDER BY `shop_products`.`category_id`
-        ";
-		
+		WHERE  1
+		AND `shop_product_variants_i18n`.`locale` = '{$this->language}'
+		{$selCatsCondition}
+		GROUP BY `shop_product_variants`.`id`
+		ORDER BY `shop_products`.`category_id`
+		";
+
 		$f = fopen ( '/var/www/export_query.txt', 'w+' );
 		fwrite ( $f, print_r ( $query, TRUE ) );
 		fclose ( $f );
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 * Returns a field in a database table with him.
 	 * (The field can be on the table is in the format `table`. `Field` - if there are field with the same name in a different tables).
-	 * 
-	 * @param string $fieldName        	
+	 *
+	 * @param string $fieldName
 	 * @return FALSE|string FALSE if error or field with it table
 	 */
 	protected function getFullField($fieldName) {
@@ -387,20 +387,20 @@ class ShopExportDataBase {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Returns product attribute like it is field (pivot)
-	 * 
-	 * @param string $propertyName        	
+	 *
+	 * @param string $propertyName
 	 * @return string
 	 */
 	protected function getPropertyField($propertyName) {
 		return "MAX(IF(`shop_product_properties_data`.`property_id` = " . array_search ( $propertyName, $this->customFields ) . ", `shop_product_properties_data`.`value`, NULL)) AS `{$propertyName}`";
 	}
-	
+
 	/**
 	 * Returns all product properties
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function getCustomFields() {
@@ -411,11 +411,11 @@ class ShopExportDataBase {
 		}
 		return $customFields;
 	}
-	
+
 	/**
 	 * Gets and merge fields and properties
 	 * (via constructor arrive reduction)
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function getCompleteFields() {
@@ -425,7 +425,7 @@ class ShopExportDataBase {
 		if (sizeof ( $this->attributesCF ) > 0)
 			$attr = array_merge ( $this->attributes, $this->attributesCF );
 			
-			// a reduction of the field names and field attributes
+		// a reduction of the field names and field attributes
 		foreach ( $this->attributes as $field => $justNumber1 ) {
 			if (key_exists ( $field, $abbreviations )) {
 				$completeFields [] = $abbreviations [$field];
@@ -439,10 +439,10 @@ class ShopExportDataBase {
 		}
 		return $completeFields;
 	}
-	
+
 	/**
 	 * Returns field abbreviation
-	 * 
+	 *
 	 * @param string $field
 	 *        	(optional) if empty returns array of abbreviations
 	 */
@@ -470,7 +470,7 @@ class ShopExportDataBase {
 				'mett' => 'meta_title',
 				'metd' => 'meta_description',
 				'metk' => 'meta_keywords',
-				'skip' => 'skip' 
+				'skip' => 'skip'
 		);
 		if (is_null ( $field )) {
 			return $abbreviationsArray;
@@ -486,38 +486,38 @@ class ShopExportDataBase {
 		}
 		return FALSE; //
 	}
-	
+
 	/**
 	 * Get categories data from DB
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function getCategoriesFromBase() {
 		$query = "
-            SELECT 
-                `shop_category`.`id`, 
-                `shop_category`.`parent_id`, 
-                `shop_category`.`full_path_ids`, 
-                `shop_category_i18n`.`name`
-            FROM 
-                `shop_category`
-            LEFT JOIN `shop_category_i18n` ON `shop_category_i18n`.`id` = `shop_category`.`id`
-            WHERE 
-                `shop_category_i18n`.`locale` = '{$this->language}'
-        ";
-		
+		SELECT
+		`shop_category`.`id`,
+		`shop_category`.`parent_id`,
+		`shop_category`.`full_path_ids`,
+		`shop_category_i18n`.`name`
+		FROM
+		`shop_category`
+		LEFT JOIN `shop_category_i18n` ON `shop_category_i18n`.`id` = `shop_category`.`id`
+		WHERE
+		`shop_category_i18n`.`locale` = '{$this->language}'
+		";
+
 		$categoriesData = array ();
 		$result = $this->db->query ( $query );
 		foreach ( $result->result_array () as $row ) {
 			$categoriesData [$row ['id']] = array (
 					'parent_id' => $row ['parent_id'],
 					'name' => $row ['name'],
-					'full_path_ids' => unserialize ( $row ['full_path_ids'] ) 
+					'full_path_ids' => unserialize ( $row ['full_path_ids'] )
 			);
 		}
 		return $categoriesData;
 	}
-	
+
 	/**
 	 * Gets categories pathes
 	 */
@@ -536,11 +536,11 @@ class ShopExportDataBase {
 		$this->categories = $categoriesPathes;
 		return $categoriesPathes;
 	}
-	
+
 	/**
 	 * Gets filds of tables
-	 * 
-	 * @param array $tables        	
+	 *
+	 * @param array $tables
 	 */
 	protected function getTablesFields($tables) {
 		if (! is_array ( $tables ))
@@ -553,18 +553,18 @@ class ShopExportDataBase {
 			}
 		}
 	}
-	
+
 	/**
 	 * addError
 	 *
-	 * @param mixed $msg        	
+	 * @param mixed $msg
 	 * @access protected
 	 * @return void
 	 */
 	protected function addError($msg) {
 		$this->errors [] = $msg;
 	}
-	
+
 	/**
 	 * Check for errors
 	 *
@@ -577,7 +577,7 @@ class ShopExportDataBase {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Get errors array
 	 *

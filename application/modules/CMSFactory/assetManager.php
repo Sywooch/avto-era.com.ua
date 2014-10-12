@@ -18,7 +18,7 @@ class assetManager {
 	}
 	private function __clone() {
 	}
-	
+
 	/**
 	 *
 	 * @param array $data
@@ -37,10 +37,10 @@ class assetManager {
 		(empty ( $data )) or \CI_Controller::get_instance ()->template->add_array ( ( array ) $data );
 		return $this;
 	}
-	
+
 	/**
 	 *
-	 * @param        	
+	 * @param
 	 *
 	 * @return assetManager
 	 * @access public
@@ -52,10 +52,10 @@ class assetManager {
 	public function getData($item) {
 		return \CI_Controller::get_instance ()->template->get_var ( $item );
 	}
-	
+
 	/**
 	 *
-	 * @param        	
+	 * @param
 	 *
 	 * @return assetManager
 	 * @access public
@@ -65,15 +65,15 @@ class assetManager {
 		$this->setData ( $item, \CI_Controller::get_instance ()->template->get_var ( $item ) . $value );
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return assetManager
 	 * @access public
 	 * @author Kaero
-	 * @param type $name        	
-	 * @param type $useCompress        	
-	 * @param type $position        	
+	 * @param type $name
+	 * @param type $useCompress
+	 * @param type $position
 	 * @return \CMSFactory\assetManager
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
 	 */
@@ -91,24 +91,24 @@ class assetManager {
 	public function registerScriptWithoutTemplate($name) {
 		$script = '/' . $this->buildScriptPath ( $name );
 		$this->setData ( array (
-				$name => $script 
+				$name => $script
 		) );
 	}
 	public function registerStyleWithoutTemplate($name) {
 		$script = '/' . $this->buildStylePath ( $name );
 		$this->setData ( array (
-				$name => $script 
+				$name => $script
 		) );
 	}
-	
+
 	/**
 	 *
 	 * @return assetManager
 	 * @access public
 	 * @author a.gula
-	 * @param type $script        	
-	 * @param type $useCompress        	
-	 * @param type $position        	
+	 * @param type $script
+	 * @param type $useCompress
+	 * @param type $position
 	 * @return \CMSFactory\assetManager
 	 * @copyright ImageCMS (c) 2013, a.gula <a.gula@imagecms.net>
 	 */
@@ -121,17 +121,17 @@ class assetManager {
 			\CI_Controller::get_instance ()->template->registerJsScript ( '<script>' . $this->compressJs ( $script ) . '</script>', $position );
 		else
 			\CI_Controller::get_instance ()->template->registerJsScript ( '<script>' . $script . '</script>', $position );
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 *
 	 * @return assetManager
 	 * @access public
 	 * @author Kaero
-	 * @param type $name        	
-	 * @param type $useCompress        	
+	 * @param type $name
+	 * @param type $useCompress
 	 * @return \CMSFactory\assetManager
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
 	 */
@@ -144,18 +144,18 @@ class assetManager {
 			\CI_Controller::get_instance ()->template->registerCss ( '<style>' . $this->compressCss ( file_get_contents ( $this->buildStylePath ( $name ) ) ) . '</style>', 'before' );
 		else
 			\CI_Controller::get_instance ()->template->registerCssFile ( $this->buildStylePath ( $name ), 'before' );
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Put css string into template
-	 * 
+	 *
 	 * @return assetManager
 	 * @access public
 	 * @author a.gula
-	 * @param type $css        	
-	 * @param type $useCompress        	
+	 * @param type $css
+	 * @param type $useCompress
 	 * @copyright ImageCMS (c) 2013, a.gula <a.gula@imagecms.net>
 	 */
 	public function registerStyleStr($css, $useCompress = FALSE) {
@@ -167,13 +167,13 @@ class assetManager {
 			\CI_Controller::get_instance ()->template->registerCss ( '<style>' . $this->compressCss ( $css ) . '</style>', 'before' );
 		else
 			\CI_Controller::get_instance ()->template->registerCss ( '<style>' . $css . '</style>', 'before' );
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Render Admin view
-	 * 
+	 *
 	 * @param string $tpl
 	 *        	Template file name
 	 * @return void
@@ -184,21 +184,21 @@ class assetManager {
 	public function renderAdmin($tpl, $ignoreWrap = FALSE, $fetchJsTpl = TRUE) {
 		if (\CI_Controller::get_instance ()->input->post ( 'ignoreWrap' ))
 			$ignoreWrap = TRUE;
-		
+
 		try {
-			
+				
 			/**
 			 * Start.
 			 * If file doesn't exists thorow exception
 			 */
 			file_exists ( $this->buildAdminTemplatePath ( $tpl ) . '.tpl' ) or throwException ( sprintf ( 'Can\'t load template file: <i>%s/assets/admin/%s.tpl</i>', $this->getTrace (), $tpl ) );
-			
+				
 			/**
 			 * Start.
 			 * Load template file
 			 */
 			\CI_Controller::get_instance ()->template->show ( 'file:' . $this->buildAdminTemplatePath ( $tpl ), ! $ignoreWrap );
-			
+				
 			if ($fetchJsTpl) {
 				/**
 				 * Start.
@@ -217,10 +217,10 @@ class assetManager {
 			show_error ( $exc->getMessage (), 500, 'An Template Error Was Encountered' );
 		}
 	}
-	
+
 	/**
 	 * Render public view
-	 * 
+	 *
 	 * @param string $tpl
 	 *        	Template file name
 	 * @return void
@@ -231,21 +231,21 @@ class assetManager {
 	public function render($tpl, $ignoreWrap = FALSE, $fetchJsTpl = TRUE) {
 		if (\CI_Controller::get_instance ()->input->post ( 'ignoreWrap' ))
 			$ignoreWrap = TRUE;
-		
+
 		try {
-			
+				
 			/**
 			 * Start.
 			 * If file doesn't exists thorow exception
 			 */
 			file_exists ( $this->buildTemplatePath ( $tpl ) . '.tpl' ) or throwException ( sprintf ( 'Can\'t load template file: <i>%s/assets/%s.tpl</i>', $this->getTrace (), $tpl ) );
-			
+				
 			/**
 			 * Start.
 			 * Load template file
 			 */
 			\CI_Controller::get_instance ()->template->show ( 'file:' . $this->buildTemplatePath ( $tpl ), ! $ignoreWrap );
-			
+				
 			if ($fetchJsTpl) {
 				/**
 				 * Start.
@@ -264,10 +264,10 @@ class assetManager {
 			show_error ( $exc->getMessage (), 500, 'An Template Error Was Encountered' );
 		}
 	}
-	
+
 	/**
 	 * fetch public view
-	 * 
+	 *
 	 * @param string $tpl
 	 *        	Template file name
 	 * @return void
@@ -277,12 +277,12 @@ class assetManager {
 	 */
 	public function fetchTemplate($tpl) {
 		try {
-			
+				
 			file_exists ( $this->buildTemplatePath ( $tpl ) . '.tpl' ) or throwException ( 'Can\'t load template file: <i>' . $paths . DIRECTORY_SEPARATOR . $tpl . '.tpl</i>' );
 			//
 			// $obj = new \MY_Lang();
 			// $obj->load($this->getTrace());
-			
+				
 			/**
 			 * Start.
 			 * Return template file
@@ -293,10 +293,10 @@ class assetManager {
 			show_error ( $exc->getMessage (), 500, 'An Template Error Was Encountered' );
 		}
 	}
-	
+
 	/**
 	 * fetch admin view
-	 * 
+	 *
 	 * @param string $tpl
 	 *        	Template file name
 	 * @return void
@@ -306,7 +306,7 @@ class assetManager {
 	 */
 	public function fetchAdminTemplate($tpl) {
 		try {
-			
+				
 			/**
 			 * Start.
 			 * If file doesn't exists thorow exception
@@ -331,17 +331,17 @@ class assetManager {
 			} else {
 				return \CI_Controller::get_instance ()->template->fetch ( 'file:' . $this->buildAdminTemplatePath ( $tpl ) );
 			}
-		/**
-		 * Start.
-		 * Return template file
-		 */
+			/**
+			 * Start.
+			 * Return template file
+			 */
 			// return \CI_Controller::get_instance()->template->fetch('file:' . $this->buildAdminTemplatePath($tpl));
 		} catch ( \Exception $exc ) {
 			log_message ( 'error', $exc->getMessage () );
 			show_error ( $exc->getMessage (), 500, 'An Template Error Was Encountered' );
 		}
 	}
-	
+
 	/**
 	 *
 	 * @return assetManager
@@ -354,7 +354,7 @@ class assetManager {
 		self::$_BehaviorInstance->callMapp = debug_backtrace ();
 		return self::$_BehaviorInstance;
 	}
-	
+
 	/**
 	 *
 	 * @param
@@ -368,11 +368,11 @@ class assetManager {
 			$paths = explode ( DIRECTORY_SEPARATOR, $this->callMapp [0] ['file'] );
 			return $paths [count ( $paths ) - 2];
 		}
-		
+
 		if ($list == 'first') {
 			return $this->callMapp [0];
 		}
-		
+
 		if ($list == 'all') {
 			return $this->callMapp;
 		}
@@ -381,10 +381,10 @@ class assetManager {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return formated path
-	 * 
+	 *
 	 * @return string
 	 * @access private
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -392,16 +392,16 @@ class assetManager {
 	private function buildTemplatePath($tpl) {
 		if (! $this->template)
 			$this->template = \CI_Controller::get_instance ()->config->item ( 'template' );
-		
+
 		if (file_exists ( 'templates/' . $this->template . '/' . $this->getTrace () . '/' . $tpl . '.tpl' ))
 			return sprintf ( 'templates/%s/%s/%s', $this->template, $this->getTrace (), $tpl );
 		else
 			return sprintf ( '%smodules/%s/assets/%s', APPPATH, $this->getTrace (), $tpl );
 	}
-	
+
 	/**
 	 * Return formated path
-	 * 
+	 *
 	 * @return string
 	 * @access private
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -409,10 +409,10 @@ class assetManager {
 	private function buildAdminTemplatePath($tpl) {
 		return sprintf ( '%smodules/%s/assets/admin/%s', APPPATH, $this->getTrace (), $tpl );
 	}
-	
+
 	/**
 	 * Return formated path for JS - script files
-	 * 
+	 *
 	 * @return string
 	 * @access private
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -425,10 +425,10 @@ class assetManager {
 		else
 			return sprintf ( '%smodules/%s/assets/js/%s.js', APPPATH, $this->getTrace (), $tpl );
 	}
-	
+
 	/**
 	 * Return formated path for css
-	 * 
+	 *
 	 * @return string
 	 * @access private
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -436,16 +436,16 @@ class assetManager {
 	private function buildStylePath($tpl) {
 		if (! $this->template)
 			$this->template = \CI_Controller::get_instance ()->config->item ( 'template' );
-		
+
 		if (file_exists ( 'templates/' . $this->template . '/' . $this->getTrace () . '/css/' . $tpl . '.css' ))
 			return sprintf ( 'templates/%s/%s/css/%s.css', $this->template, $this->getTrace (), $tpl );
 		else
 			return sprintf ( '%smodules/%s/assets/css/%s.css', APPPATH, $this->getTrace (), $tpl );
 	}
-	
+
 	/**
 	 * Compressing js file
-	 * 
+	 *
 	 * @param type $js
 	 *        	text of js
 	 * @copyright ImageCMS (c) 2013, a.gula <a.gula@imagecms.net>
@@ -462,20 +462,20 @@ class assetManager {
 				"\n",
 				'  ',
 				'    ',
-				'     ' 
+				'     '
 		), '', $js );
 		/* remove other spaces before/after ) */
 		$js = preg_replace ( array (
 				'(( )+\))',
-				'(\)( )+)' 
+				'(\)( )+)'
 		), ')', $js );
-		
+
 		return $js;
 	}
-	
+
 	/**
 	 * Compressing css file
-	 * 
+	 *
 	 * @param type $css
 	 *        	text of css file
 	 * @copyright ImageCMS (c) 2013, a.gula <a.gula@imagecms.net>
@@ -490,7 +490,7 @@ class assetManager {
 		$css = str_replace ( ', ', ',', $css );
 		$css = str_replace ( '} ', '}', $css );
 		$css = str_replace ( ';}', '}', $css );
-		
+
 		return $css;
 	}
 }

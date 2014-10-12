@@ -9,16 +9,16 @@ class BaseCart extends \ShopController {
 	public function api($action, $value) {
 		CartApi::create ()->$action ( $value );
 	}
-	
+
 	/**
 	 * Errors messages
 	 */
 	protected $errorMessages = null;
-	
+
 	/**
 	 * Add product to cart from GET data.
-	 * 
-	 * @param string $instance        	
+	 *
+	 * @param string $instance
 	 * @return bool
 	 * @access public
 	 * @author <dev@imagecms.net>
@@ -27,52 +27,52 @@ class BaseCart extends \ShopController {
 	public function add($instance = 'SProducts') {
 		try {
 			if ($instance == 'SProducts') {
-				
+
 				/**
 				 * Search for product and variant
 				 */
 				$model = \SProductsQuery::create ()->filterByActive ( TRUE )->findPk ( $this->input->get ( 'productId' ) );
-				
+
 				/**
 				 * Is model or throw Excaption
 				 */
 				($model != FALSE) or throwException ( 'Wrong input data. Can\'t add to Cart' );
-				
+
 				/**
 				 * Add Product item to cart
 				 */
 				$data = array (
 						'model' => $model,
 						'variantId' => ( int ) $this->input->get ( 'variantId' ),
-						'quantity' => ( int ) $this->input->get ( 'quantity' ) 
+						'quantity' => ( int ) $this->input->get ( 'quantity' )
 				);
 				\ShopCore::app ()->SCart->add ( $data );
-				
+
 				/**
 				 * Register onAddToCart Event type
 				 */
 				\CMSFactory\Events::create ()->registerEvent ( $model );
 			} elseif ($instance == 'ShopKit') {
-				
+
 				/**
 				 * Search for product and its variant
 				 */
 				$model = \ShopKitQuery::create ()->filterByActive ( TRUE )->findPk ( ( int ) $_GET ['kitId'] );
-				
+
 				/**
 				 * Is model or throw Excaption
 				 */
 				($model != FALSE) or throwException ( 'Wrong input data. Can\'t add to Cart' );
-				
+
 				/**
 				 * Add Product item to cart
 				 */
 				$data = array (
 						'model' => $model,
-						'quantity' => 1 
+						'quantity' => 1
 				);
 				\ShopCore::app ()->SCart->add ( $data );
-				
+
 				/**
 				 * Register onAddToCart Event type
 				 */
@@ -84,11 +84,11 @@ class BaseCart extends \ShopController {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Remove product from cart by ID.
-	 * 
-	 * @param int $id        	
+	 *
+	 * @param int $id
 	 * @return bool
 	 * @access public
 	 * @author <dev@imagecms.net>

@@ -2,10 +2,10 @@
 
 // paterns to search langs
 $gettext_pattern = array (
-		
+
 		// "~\{\"([^\"]+)\"\|_([^\}]*)\}~", // search for smarty modifier: {"Text to be localized"|_}
 		"~lang\(\'(.*?)\'~",
-		"~lang\(\"(.*?)\"~" 
+		"~lang\(\"(.*?)\"~"
 );
 
 define ( '_DAT', 'jsLangs.php' );
@@ -58,21 +58,21 @@ foreach ( $gettext_pattern as $pattern ) {
 
 // save langs for parse and insert into jsLangs.php and jsLangs.tpl files accordingly
 if ($mod) {
-	
+
 	// make and write php file to parse it
 	foreach ( $mod as $value ) {
 		$result .= "langs['" . $value . "'] = \". lang('" . $value . "', '" . $domain [1] . "') .\";\n";
 	}
 	$result = "<?php\n/*\n" . implode ( "\n", $found_in ) . "*/\n\n" . 'echo "' . ' <script> langs = {}; ' . $result . ' </script>' . '"; ' . "\n?>";
 	_log ( $result );
-	
+
 	// make and write tpl file to parse it
 	$result = '';
 	foreach ( $mod as $value ) {
 		$result .= "langs['" . $value . "']" . " = " . "\"{lang('" . $value . "', '" . $domain [1] . "')}\"" . ";" . "\n";
 	}
 	$result = '<script> ' . $result . ' </script>';
-	
+
 	if ($domain [1] == 'admin') {
 		$admin_file = str_replace ( 'application/language', 'templates/administrator/inc/jsLangs.tpl', dirname ( __FILE__ ) );
 		file_put_contents ( $admin_file, $result );
@@ -85,7 +85,7 @@ if ($mod) {
 			}
 		}
 	}
-	
+
 	// parse jsLangs.php file to find langs and save it in .po file
 	exec ( 'xgettext --force-po -o "' . $p [1] . '" ' . $p [2] . ' ' . $p [3] . ' ' . _DAT );
 	// unlink(_DAT);

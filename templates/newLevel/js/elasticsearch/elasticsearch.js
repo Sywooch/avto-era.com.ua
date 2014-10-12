@@ -89,15 +89,20 @@
     		divInnerContainer.append(divSelectSeparator);
     	});
     	
-    	//    	<div class="btBoxFilter">    	
-    	var divApplyButton = $("<div>", {class: "e_s_apply_div"});
+    	//  <div class="btBoxFilter">    	
+    	var divApplyButton = $("<div>", {class: "e_s_apply_div", style: "float: right;"});
     	form.append(divApplyButton);
     	
-    	// <button class="btVer1">Подобрать</button>
-    	// <button class="submitdisk" type="submit">
-    	var applyButton = $("<button>", {class: "submitdisk", type: "submit"});
-    	applyButton.text("Подобрать");
-    	divApplyButton.append(applyButton);
+    	var divApplyButtonWrapper = $("<div>", {class: "e_s_bt_filter_bus"});
+    	divApplyButton.append(divApplyButtonWrapper);
     	
+    	var applyButton = $("<button>", {class: "e_s_apply_button", type: "submit"});
+    	var applyButtonSpan = $("<span>", {class: "e_s_text-el"});
+    	applyButtonSpan.text("Подобрать");
+    	applyButton.append(applyButtonSpan);
+    	divApplyButtonWrapper.append(applyButton);
+    	
+    	var clearBoth = $("<div>", {style: "clear: both;"});
+    	form.append(clearBoth);
     };
  })( jQuery );

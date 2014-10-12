@@ -62,70 +62,70 @@ class PHPExcel_Chart_DataSeries {
 	const STYLE_SMOOTHMARKER = 'smoothMarker';
 	const STYLE_MARKER = 'marker';
 	const STYLE_FILLED = 'filled';
-	
+
 	/**
 	 * Series Plot Type
 	 *
 	 * @var string
 	 */
 	private $_plotType = null;
-	
+
 	/**
 	 * Plot Grouping Type
 	 *
 	 * @var boolean
 	 */
 	private $_plotGrouping = null;
-	
+
 	/**
 	 * Plot Direction
 	 *
 	 * @var boolean
 	 */
 	private $_plotDirection = null;
-	
+
 	/**
 	 * Plot Style
 	 *
 	 * @var string
 	 */
 	private $_plotStyle = null;
-	
+
 	/**
 	 * Order of plots in Series
 	 *
 	 * @var array of integer
 	 */
 	private $_plotOrder = array ();
-	
+
 	/**
 	 * Plot Label
 	 *
 	 * @var array of PHPExcel_Chart_DataSeriesValues
 	 */
 	private $_plotLabel = array ();
-	
+
 	/**
 	 * Plot Category
 	 *
 	 * @var array of PHPExcel_Chart_DataSeriesValues
 	 */
 	private $_plotCategory = array ();
-	
+
 	/**
 	 * Smooth Line
 	 *
 	 * @var string
 	 */
 	private $_smoothLine = null;
-	
+
 	/**
 	 * Plot Values
 	 *
 	 * @var array of PHPExcel_Chart_DataSeriesValues
 	 */
 	private $_plotValues = array ();
-	
+
 	/**
 	 * Create a new PHPExcel_Chart_DataSeries
 	 */
@@ -138,7 +138,7 @@ class PHPExcel_Chart_DataSeries {
 		if ((count ( $plotLabel ) == 0) || (is_null ( $plotLabel [$keys [0]] ))) {
 			$plotLabel [$keys [0]] = new PHPExcel_Chart_DataSeriesValues ();
 		}
-		
+
 		$this->_plotLabel = $plotLabel;
 		if ((count ( $plotCategory ) == 0) || (is_null ( $plotCategory [$keys [0]] ))) {
 			$plotCategory [$keys [0]] = new PHPExcel_Chart_DataSeriesValues ();
@@ -147,7 +147,7 @@ class PHPExcel_Chart_DataSeries {
 		$this->_smoothLine = $smoothLine;
 		$this->_plotStyle = $plotStyle;
 	}
-	
+
 	/**
 	 * Get Plot Type
 	 *
@@ -156,16 +156,16 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotType() {
 		return $this->_plotType;
 	}
-	
+
 	/**
 	 * Set Plot Type
 	 *
-	 * @param string $plotType        	
+	 * @param string $plotType
 	 */
 	public function setPlotType($plotType = '') {
 		$this->_plotType = $plotType;
 	}
-	
+
 	/**
 	 * Get Plot Grouping Type
 	 *
@@ -174,16 +174,16 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotGrouping() {
 		return $this->_plotGrouping;
 	}
-	
+
 	/**
 	 * Set Plot Grouping Type
 	 *
-	 * @param string $groupingType        	
+	 * @param string $groupingType
 	 */
 	public function setPlotGrouping($groupingType = null) {
 		$this->_plotGrouping = $groupingType;
 	}
-	
+
 	/**
 	 * Get Plot Direction
 	 *
@@ -192,16 +192,16 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotDirection() {
 		return $this->_plotDirection;
 	}
-	
+
 	/**
 	 * Set Plot Direction
 	 *
-	 * @param string $plotDirection        	
+	 * @param string $plotDirection
 	 */
 	public function setPlotDirection($plotDirection = null) {
 		$this->_plotDirection = $plotDirection;
 	}
-	
+
 	/**
 	 * Get Plot Order
 	 *
@@ -210,7 +210,7 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotOrder() {
 		return $this->_plotOrder;
 	}
-	
+
 	/**
 	 * Get Plot Labels
 	 *
@@ -219,7 +219,7 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotLabels() {
 		return $this->_plotLabel;
 	}
-	
+
 	/**
 	 * Get Plot Label by Index
 	 *
@@ -234,7 +234,7 @@ class PHPExcel_Chart_DataSeries {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get Plot Categories
 	 *
@@ -243,7 +243,7 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotCategories() {
 		return $this->_plotCategory;
 	}
-	
+
 	/**
 	 * Get Plot Category by Index
 	 *
@@ -258,7 +258,7 @@ class PHPExcel_Chart_DataSeries {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get Plot Style
 	 *
@@ -267,16 +267,16 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotStyle() {
 		return $this->_plotStyle;
 	}
-	
+
 	/**
 	 * Set Plot Style
 	 *
-	 * @param string $plotStyle        	
+	 * @param string $plotStyle
 	 */
 	public function setPlotStyle($plotStyle = null) {
 		$this->_plotStyle = $plotStyle;
 	}
-	
+
 	/**
 	 * Get Plot Values
 	 *
@@ -285,7 +285,7 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotValues() {
 		return $this->_plotValues;
 	}
-	
+
 	/**
 	 * Get Plot Values by Index
 	 *
@@ -300,7 +300,7 @@ class PHPExcel_Chart_DataSeries {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get Number of Plot Series
 	 *
@@ -309,7 +309,7 @@ class PHPExcel_Chart_DataSeries {
 	public function getPlotSeriesCount() {
 		return count ( $this->_plotValues );
 	}
-	
+
 	/**
 	 * Get Smooth Line
 	 *
@@ -318,11 +318,11 @@ class PHPExcel_Chart_DataSeries {
 	public function getSmoothLine() {
 		return $this->_smoothLine;
 	}
-	
+
 	/**
 	 * Set Smooth Line
 	 *
-	 * @param boolean $smoothLine        	
+	 * @param boolean $smoothLine
 	 */
 	public function setSmoothLine($smoothLine = TRUE) {
 		$this->_smoothLine = $smoothLine;

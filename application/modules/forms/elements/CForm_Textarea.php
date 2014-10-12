@@ -6,10 +6,10 @@ class CForm_Textarea {
 	public function __construct($name, $field = array()) {
 		$this->form = & get_instance ();
 		$this->form = $this->form->load->module ( 'forms' );
-		
+
 		$this->name = $name;
 		$this->field = ( object ) $field;
-		
+
 		return $this;
 	}
 	public function render() {

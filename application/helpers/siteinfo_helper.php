@@ -7,7 +7,7 @@ if (! defined ( 'BASEPATH' ))
  * siteinfo helper
  */
 if (! function_exists ( 'siteinfo' )) {
-	
+
 	/**
 	 * <p>Get information about site </p>
 	 * <p>Predefined values are:</p>
@@ -26,40 +26,40 @@ if (! function_exists ( 'siteinfo' )) {
 	 *        	- name of siteinfo param
 	 */
 	function siteinfo($name = NULL) {
-		
+
 		// simple check just in case
 		if (is_array ( $name ) || is_object ( $name ) || is_bool ( $name )) {
 			return '';
 		}
-		
+
 		$ci = &get_instance ();
 		// getting data from DB
 		$result = $ci->db->select ( 'siteinfo' )->get ( 'settings' );
-		
+
 		if ($result)
 			$result1 = $result->row_array ();
 		else
 			return '';
-		
+
 		$siteinfo = unserialize ( $result1 ['siteinfo'] );
-		
+
 		// another simple check just in case
 		if (! is_array ( $siteinfo )) {
 			return '';
 		}
-		
+
 		// if key exists value will be returned
 		if (FALSE !== $val = array_key_exists_recursive ( $name, $siteinfo, TRUE )) {
-			
+				
 			return $val;
 		} else {
-			
+				
 			// logo and favicon depends from template...
 			$CI = &get_instance ();
-			
+				
 			$settings = $CI->cms_base->get_settings ();
 			$tplName = $settings ['site_template'];
-			
+				
 			switch ($name) {
 				case 'siteinfo_favicon_url' :
 					if (key_exists ( $tplName, $siteinfo ['siteinfo_favicon'] )) {

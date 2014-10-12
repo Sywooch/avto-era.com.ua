@@ -2,14 +2,14 @@
 
 /**
  * SPropelLogger Class to manage propel logs.
- * Based on http://www.propelorm.org/wiki/Documentation/1.3/ConfigureLogging 
- * Using Non-PEAR Logger 
- * 
- * @package 
+ * Based on http://www.propelorm.org/wiki/Documentation/1.3/ConfigureLogging
+ * Using Non-PEAR Logger
+ *
+ * @package
  * @version $id$
- * @copyright 
- * @author <dev@imagecms.net> 
- * @license 
+ * @copyright
+ * @author <dev@imagecms.net>
+ * @license
  */
 class SPropelLogger {
 	protected $messages = array ();
@@ -40,7 +40,7 @@ class SPropelLogger {
 	public function getMessages() {
 		return $this->messages;
 	}
-	
+
 	/**
 	 * Logs propel message.
 	 *
@@ -51,18 +51,18 @@ class SPropelLogger {
 		$method = explode ( '::', $parts [0] );
 		$time = str_replace ( array (
 				'time:',
-				'sec' 
+				'sec'
 		), '', $parts [1] );
 		$memory = str_replace ( array (
-				'mem:' 
+				'mem:'
 		), '', $parts [2] );
-		
+
 		$this->messages [] = array (
 				'method' => trim ( $method [1] ),
 				'time' => trim ( $time ),
 				'mem' => trim ( $memory ),
 				'query' => trim ( $parts [3] ),
-				'priority' => $priority 
+				'priority' => $priority
 		);
 	}
 	private function priorityToColor($priority) {
@@ -89,29 +89,29 @@ class SPropelLogger {
 	}
 	public function displayAsTable() {
 		$body = '';
-		
+
 		$head = '
-            <table width="100%" cellpadding="3">
-                <thead>
-                    <th>method</th>
-                    <th>time</th>
-                    <th>memory</th>
-                    <th>query</th>
-                </thead>
-            <tbody  valign="top">
-                {body}
-            </tbody>
-            <tfoot>    
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tfoot>
-            </table>
-        ';
-		
+		<table width="100%" cellpadding="3">
+		<thead>
+		<th>method</th>
+		<th>time</th>
+		<th>memory</th>
+		<th>query</th>
+		</thead>
+		<tbody  valign="top">
+		{body}
+		</tbody>
+		<tfoot>
+		<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		</tr>
+		</tfoot>
+		</table>
+		';
+
 		foreach ( $this->getMessages () as $m ) {
 			$body .= '<tr>';
 			$body .= '<td>' . $m ['method'] . '</td>';
@@ -120,7 +120,7 @@ class SPropelLogger {
 			$body .= '<td>' . $m ['query'] . '</td>';
 			$body .= '</tr>';
 		}
-		
+
 		return str_replace ( '{body}', $body, $head ) . 'total: ' . sizeof ( $this->getMessages () );
 	}
 }

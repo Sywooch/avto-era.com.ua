@@ -33,49 +33,49 @@
  * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_CacheBase implements PHPExcel_CachedObjectStorage_ICache {
-	
+
 	/**
 	 * Database table name
 	 *
 	 * @var string
 	 */
 	private $_TableName = null;
-	
+
 	/**
 	 * Database handle
 	 *
 	 * @var resource
 	 */
 	private $_DBHandle = null;
-	
+
 	/**
 	 * Prepared statement for a SQLite3 select query
 	 *
 	 * @var SQLite3Stmt
 	 */
 	private $_selectQuery;
-	
+
 	/**
 	 * Prepared statement for a SQLite3 insert query
 	 *
 	 * @var SQLite3Stmt
 	 */
 	private $_insertQuery;
-	
+
 	/**
 	 * Prepared statement for a SQLite3 update query
 	 *
 	 * @var SQLite3Stmt
 	 */
 	private $_updateQuery;
-	
+
 	/**
 	 * Prepared statement for a SQLite3 delete query
 	 *
 	 * @var SQLite3Stmt
 	 */
 	private $_deleteQuery;
-	
+
 	/**
 	 * Store cell data in cache for the current cell object if it's "dirty",
 	 * and the 'nullify' the current cell object
@@ -86,7 +86,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 	protected function _storeData() {
 		if ($this->_currentCellIsDirty) {
 			$this->_currentObject->detach ();
-			
+				
 			$this->_insertQuery->bindValue ( 'id', $this->_currentObjectID, SQLITE3_TEXT );
 			$this->_insertQuery->bindValue ( 'data', serialize ( $this->_currentObject ), SQLITE3_BLOB );
 			$result = $this->_insertQuery->execute ();
@@ -96,7 +96,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		}
 		$this->_currentObjectID = $this->_currentObject = null;
 	} // function _storeData()
-	
+
 	/**
 	 * Add or Update a cell in cache identified by coordinate address
 	 *
@@ -111,14 +111,14 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if (($pCoord !== $this->_currentObjectID) && ($this->_currentObjectID !== null)) {
 			$this->_storeData ();
 		}
-		
+
 		$this->_currentObjectID = $pCoord;
 		$this->_currentObject = $cell;
 		$this->_currentCellIsDirty = true;
-		
+
 		return $cell;
 	} // function addCacheData()
-	
+
 	/**
 	 * Get cell at a specific coordinate
 	 *
@@ -132,7 +132,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 			return $this->_currentObject;
 		}
 		$this->_storeData ();
-		
+
 		$this->_selectQuery->bindValue ( 'id', $pCoord, SQLITE3_TEXT );
 		$cellResult = $this->_selectQuery->execute ();
 		if ($cellResult === FALSE) {
@@ -143,18 +143,18 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 			// Return null if requested entry doesn't exist in cache
 			return NULL;
 		}
-		
+
 		// Set current entry to the requested entry
 		$this->_currentObjectID = $pCoord;
-		
+
 		$this->_currentObject = unserialize ( $cellData ['value'] );
 		// Re-attach this as the cell's parent
 		$this->_currentObject->attach ( $this );
-		
+
 		// Return requested entry
 		return $this->_currentObject;
 	} // function getCacheData()
-	
+
 	/**
 	 * Is a value set for an indexed cell?
 	 *
@@ -166,7 +166,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if ($pCoord === $this->_currentObjectID) {
 			return TRUE;
 		}
-		
+
 		// Check if the requested entry exists in the cache
 		$this->_selectQuery->bindValue ( 'id', $pCoord, SQLITE3_TEXT );
 		$cellResult = $this->_selectQuery->execute ();
@@ -174,10 +174,10 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
 		}
 		$cellData = $cellResult->fetchArray ( SQLITE3_ASSOC );
-		
+
 		return ($cellData === FALSE) ? FALSE : TRUE;
 	} // function isDataSet()
-	
+
 	/**
 	 * Delete a cell in cache identified by coordinate address
 	 *
@@ -190,16 +190,16 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 			$this->_currentObject->detach ();
 			$this->_currentObjectID = $this->_currentObject = NULL;
 		}
-		
+
 		// Check if the requested entry exists in the cache
 		$this->_deleteQuery->bindValue ( 'id', $pCoord, SQLITE3_TEXT );
 		$result = $this->_deleteQuery->execute ();
 		if ($result === FALSE)
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
-		
+
 		$this->_currentCellIsDirty = FALSE;
 	} // function deleteCacheData()
-	
+
 	/**
 	 * Move a cell object from one address to another
 	 *
@@ -213,21 +213,21 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if ($fromAddress === $this->_currentObjectID) {
 			$this->_currentObjectID = $toAddress;
 		}
-		
+
 		$this->_deleteQuery->bindValue ( 'id', $toAddress, SQLITE3_TEXT );
 		$result = $this->_deleteQuery->execute ();
 		if ($result === false)
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
-		
+
 		$this->_updateQuery->bindValue ( 'toid', $toAddress, SQLITE3_TEXT );
 		$this->_updateQuery->bindValue ( 'fromid', $fromAddress, SQLITE3_TEXT );
 		$result = $this->_updateQuery->execute ();
 		if ($result === false)
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
-		
+
 		return TRUE;
 	} // function moveCell()
-	
+
 	/**
 	 * Get a list of all cell addresses currently held in cache
 	 *
@@ -237,20 +237,20 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if ($this->_currentObjectID !== null) {
 			$this->_storeData ();
 		}
-		
+
 		$query = "SELECT id FROM kvp_" . $this->_TableName;
 		$cellIdsResult = $this->_DBHandle->query ( $query );
 		if ($cellIdsResult === false)
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
-		
+
 		$cellKeys = array ();
 		while ( $row = $cellIdsResult->fetchArray ( SQLITE3_ASSOC ) ) {
 			$cellKeys [] = $row ['id'];
 		}
-		
+
 		return $cellKeys;
 	} // function getCellList()
-	
+
 	/**
 	 * Clone the cell collection
 	 *
@@ -261,17 +261,17 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 	public function copyCellCollection(PHPExcel_Worksheet $parent) {
 		$this->_currentCellIsDirty;
 		$this->_storeData ();
-		
+
 		// Get a new id for the new table name
 		$tableName = str_replace ( '.', '_', $this->_getUniqueID () );
 		if (! $this->_DBHandle->exec ( 'CREATE TABLE kvp_' . $tableName . ' (id VARCHAR(12) PRIMARY KEY, value BLOB)
-		                                       AS SELECT * FROM kvp_' . $this->_TableName ))
+				AS SELECT * FROM kvp_' . $this->_TableName ))
 			throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
 			
-			// Copy the existing cell cache file
+		// Copy the existing cell cache file
 		$this->_TableName = $tableName;
 	} // function copyCellCollection()
-	
+
 	/**
 	 * Clear the cell collection and disconnect from our parent
 	 *
@@ -284,11 +284,11 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		}
 		// detach ourself from the worksheet, so that it can then delete this object successfully
 		$this->_parent = null;
-		
+
 		// Close down the temporary cache file
 		$this->__destruct ();
 	} // function unsetWorksheetCells()
-	
+
 	/**
 	 * Initialise this new cell collection
 	 *
@@ -300,20 +300,20 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if (is_null ( $this->_DBHandle )) {
 			$this->_TableName = str_replace ( '.', '_', $this->_getUniqueID () );
 			$_DBName = ':memory:';
-			
+				
 			$this->_DBHandle = new SQLite3 ( $_DBName );
 			if ($this->_DBHandle === false)
 				throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
 			if (! $this->_DBHandle->exec ( 'CREATE TABLE kvp_' . $this->_TableName . ' (id VARCHAR(12) PRIMARY KEY, value BLOB)' ))
 				throw new PHPExcel_Exception ( $this->_DBHandle->lastErrorMsg () );
 		}
-		
+
 		$this->_selectQuery = $this->_DBHandle->prepare ( "SELECT value FROM kvp_" . $this->_TableName . " WHERE id = :id" );
 		$this->_insertQuery = $this->_DBHandle->prepare ( "INSERT OR REPLACE INTO kvp_" . $this->_TableName . " VALUES(:id,:data)" );
 		$this->_updateQuery = $this->_DBHandle->prepare ( "UPDATE kvp_" . $this->_TableName . " SET id=:toId WHERE id=:fromId" );
 		$this->_deleteQuery = $this->_DBHandle->prepare ( "DELETE FROM kvp_" . $this->_TableName . " WHERE id = :id" );
 	} // function __construct()
-	
+
 	/**
 	 * Destroy this cell collection
 	 */
@@ -324,7 +324,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		}
 		$this->_DBHandle = null;
 	} // function __destruct()
-	
+
 	/**
 	 * Identify whether the caching method is currently available
 	 * Some methods are dependent on the availability of certain extensions being enabled in the PHP build
@@ -335,7 +335,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 		if (! class_exists ( 'SQLite3', FALSE )) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }

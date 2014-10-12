@@ -11,33 +11,33 @@ class Base extends CI_Model {
 		$this->db->where ( 'module', $module );
 		$this->db->order_by ( 'date', 'asc' );
 		$query = $this->db->get ( 'comments', $limit );
-		
+
 		if ($query->num_rows () > 0) {
 			return $query->result_array ();
 		}
-		
+
 		return FALSE;
 	}
 	function get_one($id) {
 		$this->db->limit ( 1 );
 		return $this->db->get_where ( 'comments', array (
-				'id' => $id 
+				'id' => $id
 		) )->row_array ();
 	}
 	function add($data) {
 		$this->db->insert ( 'comments', $data );
-		
+
 		return $this->db->insert_id ();
 	}
 	function all($row_count, $offset) {
 		$this->db->order_by ( 'date', 'desc' );
-		
+
 		if ($row_count > 0 and $offset >= 0) {
 			$query = $this->db->get ( 'comments', $row_count, $offset );
 		} else {
 			$query = $this->db->get ( 'comments' );
 		}
-		
+
 		if ($query->num_rows () > 0) {
 			return $query->result_array ();
 		} else {
@@ -48,10 +48,10 @@ class Base extends CI_Model {
 		$this->db->select ( 'id, comments_status' );
 		$this->db->where ( 'id', $item_id );
 		$query = $this->db->get ( 'content', 1 );
-		
+
 		if ($query->num_rows () == 1) {
 			$status = $query->row_array ();
-			
+				
 			if ($status ['comments_status'] == 1) {
 				return TRUE;
 			} else {
@@ -64,7 +64,7 @@ class Base extends CI_Model {
 	function update($id, $data = array()) {
 		$this->db->where ( 'id', $id );
 		$this->db->update ( 'comments', $data );
-		
+
 		return TRUE;
 	}
 	function delete($id) {
@@ -87,19 +87,19 @@ class Base extends CI_Model {
 	function count_by_status($status = 0) {
 		$this->db->where ( 'status', $status );
 		$this->db->from ( 'comments' );
-		
+
 		return $this->db->count_all_results ();
 	}
 	function get_settings() {
 		$this->db->where ( 'name', 'comments' );
 		$query = $this->db->get ( 'components' )->row_array ();
-		
+
 		return unserialize ( $query ['settings'] );
 	}
 	function save_settings($data) {
 		$this->db->where ( 'name', 'comments' );
 		$this->db->update ( 'components', array (
-				'settings' => serialize ( $data ) 
+				'settings' => serialize ( $data )
 		) );
 	}
 	function get_many($ids) {

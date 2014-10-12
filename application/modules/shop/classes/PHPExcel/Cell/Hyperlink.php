@@ -39,14 +39,14 @@ class PHPExcel_Cell_Hyperlink {
 	 * @var string
 	 */
 	private $_url;
-	
+
 	/**
 	 * Tooltip to display on the hyperlink
 	 *
 	 * @var string
 	 */
 	private $_tooltip;
-	
+
 	/**
 	 * Create a new PHPExcel_Cell_Hyperlink
 	 *
@@ -60,7 +60,7 @@ class PHPExcel_Cell_Hyperlink {
 		$this->_url = $pUrl;
 		$this->_tooltip = $pTooltip;
 	}
-	
+
 	/**
 	 * Get URL
 	 *
@@ -69,18 +69,18 @@ class PHPExcel_Cell_Hyperlink {
 	public function getUrl() {
 		return $this->_url;
 	}
-	
+
 	/**
 	 * Set URL
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 * @return PHPExcel_Cell_Hyperlink
 	 */
 	public function setUrl($value = '') {
 		$this->_url = $value;
 		return $this;
 	}
-	
+
 	/**
 	 * Get tooltip
 	 *
@@ -89,18 +89,18 @@ class PHPExcel_Cell_Hyperlink {
 	public function getTooltip() {
 		return $this->_tooltip;
 	}
-	
+
 	/**
 	 * Set tooltip
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 * @return PHPExcel_Cell_Hyperlink
 	 */
 	public function setTooltip($value = '') {
 		$this->_tooltip = $value;
 		return $this;
 	}
-	
+
 	/**
 	 * Is this hyperlink internal? (to another worksheet)
 	 *
@@ -109,7 +109,7 @@ class PHPExcel_Cell_Hyperlink {
 	public function isInternal() {
 		return strpos ( $this->_url, 'sheet://' ) !== false;
 	}
-	
+
 	/**
 	 * Get hash code
 	 *

@@ -41,54 +41,54 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 	 * @var PHPExcel_Worksheet
 	 */
 	private $_subject;
-	
+
 	/**
 	 * Row index
 	 *
 	 * @var int
 	 */
 	private $_rowIndex;
-	
+
 	/**
 	 * Current iterator position
 	 *
 	 * @var int
 	 */
 	private $_position = 0;
-	
+
 	/**
 	 * Loop only existing cells
 	 *
 	 * @var boolean
 	 */
 	private $_onlyExistingCells = true;
-	
+
 	/**
 	 * Create a new cell iterator
 	 *
-	 * @param PHPExcel_Worksheet $subject        	
-	 * @param int $rowIndex        	
+	 * @param PHPExcel_Worksheet $subject
+	 * @param int $rowIndex
 	 */
 	public function __construct(PHPExcel_Worksheet $subject = null, $rowIndex = 1) {
 		// Set subject and row index
 		$this->_subject = $subject;
 		$this->_rowIndex = $rowIndex;
 	}
-	
+
 	/**
 	 * Destructor
 	 */
 	public function __destruct() {
 		unset ( $this->_subject );
 	}
-	
+
 	/**
 	 * Rewind iterator
 	 */
 	public function rewind() {
 		$this->_position = 0;
 	}
-	
+
 	/**
 	 * Current PHPExcel_Cell
 	 *
@@ -97,7 +97,7 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 	public function current() {
 		return $this->_subject->getCellByColumnAndRow ( $this->_position, $this->_rowIndex );
 	}
-	
+
 	/**
 	 * Current key
 	 *
@@ -106,14 +106,14 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 	public function key() {
 		return $this->_position;
 	}
-	
+
 	/**
 	 * Next value
 	 */
 	public function next() {
 		++ $this->_position;
 	}
-	
+
 	/**
 	 * Are there any more PHPExcel_Cell instances available?
 	 *
@@ -124,7 +124,7 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 		// treat it as a count when comparing it to the base zero
 		// position.
 		$columnCount = PHPExcel_Cell::columnIndexFromString ( $this->_subject->getHighestColumn () );
-		
+
 		if ($this->_onlyExistingCells) {
 			// If we aren't looking at an existing cell, either
 			// because the first column doesn't exist or next() has
@@ -134,10 +134,10 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 				++ $this->_position;
 			}
 		}
-		
+
 		return $this->_position < $columnCount;
 	}
-	
+
 	/**
 	 * Get loop only existing cells
 	 *
@@ -146,11 +146,11 @@ class PHPExcel_Worksheet_CellIterator implements Iterator {
 	public function getIterateOnlyExistingCells() {
 		return $this->_onlyExistingCells;
 	}
-	
+
 	/**
 	 * Set the iterator to loop only existing cells
 	 *
-	 * @param boolean $value        	
+	 * @param boolean $value
 	 */
 	public function setIterateOnlyExistingCells($value = true) {
 		$this->_onlyExistingCells = $value;

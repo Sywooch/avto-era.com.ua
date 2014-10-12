@@ -12,7 +12,7 @@ $com_info = array (
 		'h' => 550,
 		'version' => '1.0',
 		'author' => 'avgustus@yandex.ru.net',
-		'setup_rules' => '' 
+		'setup_rules' => ''
 );
 
 /* end of file */

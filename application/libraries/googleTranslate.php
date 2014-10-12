@@ -11,13 +11,13 @@
  * @copyright Andrew Kulakov (c) 2011
  */
 class googleTranslate {
-	
+
 	/**
 	 *
 	 * @var string Some errors
 	 */
 	private $_errors = "";
-	
+
 	/**
 	 * Constructor
 	 */
@@ -25,10 +25,10 @@ class googleTranslate {
 		if (! function_exists ( 'curl_init' ))
 			$this->_errors = "No CURL support";
 	}
-	
+
 	/**
 	 * Translate text.
-	 * 
+	 *
 	 * @param string $text
 	 *        	Source text to translate
 	 * @param string $fromLanguage
@@ -44,7 +44,7 @@ class googleTranslate {
 			$result = "";
 			for($i = 0; $i < strlen ( $text ); $i += 1000) {
 				$subText = substr ( $text, $i, 1000 );
-				
+
 				$response = $this->_curlToGoogle ( "http://translate.google.com/translate_a/t?client=te&text=" . urlencode ( $subText ) . "&hl=$toLanguage&sl=$fromLanguage&tl=i$toLanguage&multires=1&otf=1&ssel=0&tsel=0&uptl=ru&sc=1" );
 				$result .= $this->_parceGoogleResponse ( $response, $translit );
 				// sleep(1);
@@ -53,10 +53,10 @@ class googleTranslate {
 		} else
 			return false;
 	}
-	
+
 	/**
 	 * Translate array.
-	 * 
+	 *
 	 * @param array $array
 	 *        	Array with source text to translate
 	 * @param string $fromLanguage

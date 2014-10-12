@@ -39,18 +39,18 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 	 * @var string
 	 */
 	private $_path;
-	
+
 	/**
 	 * Create a new PHPExcel_Worksheet_Drawing
 	 */
 	public function __construct() {
 		// Initialise values
 		$this->_path = '';
-		
+
 		// Initialize parent
 		parent::__construct ();
 	}
-	
+
 	/**
 	 * Get Filename
 	 *
@@ -59,7 +59,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 	public function getFilename() {
 		return basename ( $this->_path );
 	}
-	
+
 	/**
 	 * Get indexed filename (using image index)
 	 *
@@ -70,7 +70,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 		$fileName = str_replace ( ' ', '_', $fileName );
 		return str_replace ( '.' . $this->getExtension (), '', $fileName ) . $this->getImageIndex () . '.' . $this->getExtension ();
 	}
-	
+
 	/**
 	 * Get Extension
 	 *
@@ -80,7 +80,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 		$exploded = explode ( ".", basename ( $this->_path ) );
 		return $exploded [count ( $exploded ) - 1];
 	}
-	
+
 	/**
 	 * Get Path
 	 *
@@ -89,13 +89,13 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 	public function getPath() {
 		return $this->_path;
 	}
-	
+
 	/**
 	 * Set Path
 	 *
 	 * @param string $pValue
 	 *        	path
-	 * @param boolean $pVerifyFile        	
+	 * @param boolean $pVerifyFile
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Worksheet_Drawing
 	 */
@@ -103,7 +103,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 		if ($pVerifyFile) {
 			if (file_exists ( $pValue )) {
 				$this->_path = $pValue;
-				
+
 				if ($this->_width == 0 && $this->_height == 0) {
 					// Get width/height
 					list ( $this->_width, $this->_height ) = getimagesize ( $pValue );
@@ -116,7 +116,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get hash code
 	 *
@@ -125,7 +125,7 @@ class PHPExcel_Worksheet_Drawing extends PHPExcel_Worksheet_BaseDrawing implemen
 	public function getHashCode() {
 		return md5 ( $this->_path . parent::getHashCode () . __CLASS__ );
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

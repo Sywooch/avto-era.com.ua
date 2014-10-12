@@ -40,7 +40,7 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	 * @var boolean
 	 */
 	protected $_includeCharts = FALSE;
-	
+
 	/**
 	 * Pre-calculate formulas
 	 * Forces PHPExcel to recalculate all formulae in a workbook when saving, so that the pre-calculated values are
@@ -49,21 +49,21 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	 * @var boolean
 	 */
 	protected $_preCalculateFormulas = TRUE;
-	
+
 	/**
 	 * Use disk caching where possible?
 	 *
 	 * @var boolean
 	 */
 	protected $_useDiskCaching = FALSE;
-	
+
 	/**
 	 * Disk caching directory
 	 *
 	 * @var string
 	 */
 	protected $_diskCachingDirectory = './';
-	
+
 	/**
 	 * Write charts in workbook?
 	 * If this is true, then the Writer will write definitions for any charts that exist in the PHPExcel object.
@@ -74,20 +74,20 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	public function getIncludeCharts() {
 		return $this->_includeCharts;
 	}
-	
+
 	/**
 	 * Set write charts in workbook
 	 * Set to true, to advise the Writer to include any charts that exist in the PHPExcel object.
 	 * Set to false (the default) to ignore charts.
 	 *
-	 * @param boolean $pValue        	
+	 * @param boolean $pValue
 	 * @return PHPExcel_Writer_IWriter
 	 */
 	public function setIncludeCharts($pValue = FALSE) {
 		$this->_includeCharts = ( boolean ) $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Pre-Calculate Formulas flag
 	 * If this is true (the default), then the writer will recalculate all formulae in a workbook when saving,
@@ -101,7 +101,7 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	public function getPreCalculateFormulas() {
 		return $this->_preCalculateFormulas;
 	}
-	
+
 	/**
 	 * Set Pre-Calculate Formulas
 	 * Set to true (the default) to advise the Writer to calculate all formulae on save
@@ -115,7 +115,7 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 		$this->_preCalculateFormulas = ( boolean ) $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get use disk caching where possible?
 	 *
@@ -124,11 +124,11 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	public function getUseDiskCaching() {
 		return $this->_useDiskCaching;
 	}
-	
+
 	/**
 	 * Set use disk caching where possible?
 	 *
-	 * @param boolean $pValue        	
+	 * @param boolean $pValue
 	 * @param string $pDirectory
 	 *        	directory
 	 * @throws PHPExcel_Writer_Exception directory does not exist
@@ -136,7 +136,7 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	 */
 	public function setUseDiskCaching($pValue = FALSE, $pDirectory = NULL) {
 		$this->_useDiskCaching = $pValue;
-		
+
 		if ($pDirectory !== NULL) {
 			if (is_dir ( $pDirectory )) {
 				$this->_diskCachingDirectory = $pDirectory;
@@ -146,7 +146,7 @@ abstract class PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get disk caching directory
 	 *

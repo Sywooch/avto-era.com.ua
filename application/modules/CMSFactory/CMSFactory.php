@@ -3,7 +3,7 @@
 
 /**
  * CMSFactory Base Class
- * 
+ *
  * @package CMSFactory
  *          @compatibility ImageCMS v4.3+
  * @copyright ImageCMS (c) 2013, <dev@imagecms.net>
@@ -21,7 +21,7 @@ class CMSFactory extends MY_Controller {
 		$this->db->where ( 'name', 'cmsfactory' );
 		$this->db->update ( 'components', array (
 				'name' => 'CMSFactory',
-				'identif' => 'CMSFactory' 
+				'identif' => 'CMSFactory'
 		) );
 	}
 }

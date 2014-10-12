@@ -53,30 +53,30 @@ class PHPExcel_Chart_Legend {
 			self::xlLegendPositionCustom => '??',
 			self::xlLegendPositionLeft => self::POSITION_LEFT,
 			self::xlLegendPositionRight => self::POSITION_RIGHT,
-			self::xlLegendPositionTop => self::POSITION_TOP 
+			self::xlLegendPositionTop => self::POSITION_TOP
 	);
-	
+
 	/**
 	 * Legend position
 	 *
 	 * @var string
 	 */
 	private $_position = self::POSITION_RIGHT;
-	
+
 	/**
 	 * Allow overlay of other elements?
 	 *
 	 * @var boolean
 	 */
 	private $_overlay = TRUE;
-	
+
 	/**
 	 * Legend Layout
 	 *
 	 * @var PHPExcel_Chart_Layout
 	 */
 	private $_layout = NULL;
-	
+
 	/**
 	 * Create a new PHPExcel_Chart_Legend
 	 */
@@ -85,7 +85,7 @@ class PHPExcel_Chart_Legend {
 		$this->_layout = $layout;
 		$this->setOverlay ( $overlay );
 	}
-	
+
 	/**
 	 * Get legend position as an excel string value
 	 *
@@ -94,21 +94,21 @@ class PHPExcel_Chart_Legend {
 	public function getPosition() {
 		return $this->_position;
 	}
-	
+
 	/**
 	 * Get legend position using an excel string value
 	 *
-	 * @param string $position        	
+	 * @param string $position
 	 */
 	public function setPosition($position = self::POSITION_RIGHT) {
 		if (! in_array ( $position, self::$_positionXLref )) {
 			return false;
 		}
-		
+
 		$this->_position = $position;
 		return true;
 	}
-	
+
 	/**
 	 * Get legend position as an Excel internal numeric value
 	 *
@@ -117,21 +117,21 @@ class PHPExcel_Chart_Legend {
 	public function getPositionXL() {
 		return array_search ( $this->_position, self::$_positionXLref );
 	}
-	
+
 	/**
 	 * Set legend position using an Excel internal numeric value
 	 *
-	 * @param number $positionXL        	
+	 * @param number $positionXL
 	 */
 	public function setPositionXL($positionXL = self::xlLegendPositionRight) {
 		if (! array_key_exists ( $positionXL, self::$_positionXLref )) {
 			return false;
 		}
-		
+
 		$this->_position = self::$_positionXLref [$positionXL];
 		return true;
 	}
-	
+
 	/**
 	 * Get allow overlay of other elements?
 	 *
@@ -140,22 +140,22 @@ class PHPExcel_Chart_Legend {
 	public function getOverlay() {
 		return $this->_overlay;
 	}
-	
+
 	/**
 	 * Set allow overlay of other elements?
 	 *
-	 * @param boolean $overlay        	
+	 * @param boolean $overlay
 	 * @return boolean
 	 */
 	public function setOverlay($overlay = FALSE) {
 		if (! is_bool ( $overlay )) {
 			return false;
 		}
-		
+
 		$this->_overlay = $overlay;
 		return true;
 	}
-	
+
 	/**
 	 * Get Layout
 	 *

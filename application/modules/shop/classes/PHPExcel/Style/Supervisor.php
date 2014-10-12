@@ -39,7 +39,7 @@ abstract class PHPExcel_Style_Supervisor {
 	 * @var boolean
 	 */
 	protected $_isSupervisor;
-	
+
 	/**
 	 * Parent.
 	 * Only used for supervisor
@@ -47,7 +47,7 @@ abstract class PHPExcel_Style_Supervisor {
 	 * @var PHPExcel_Style
 	 */
 	protected $_parent;
-	
+
 	/**
 	 * Create a new PHPExcel_Style_Alignment
 	 *
@@ -60,19 +60,19 @@ abstract class PHPExcel_Style_Supervisor {
 		// Supervisor?
 		$this->_isSupervisor = $isSupervisor;
 	}
-	
+
 	/**
 	 * Bind parent.
 	 * Only used for supervisor
 	 *
-	 * @param PHPExcel $parent        	
+	 * @param PHPExcel $parent
 	 * @return PHPExcel_Style_Supervisor
 	 */
 	public function bindParent($parent, $parentPropertyName = NULL) {
 		$this->_parent = $parent;
 		return $this;
 	}
-	
+
 	/**
 	 * Is this a supervisor or a cell style component?
 	 *
@@ -81,7 +81,7 @@ abstract class PHPExcel_Style_Supervisor {
 	public function getIsSupervisor() {
 		return $this->_isSupervisor;
 	}
-	
+
 	/**
 	 * Get the currently active sheet.
 	 * Only used for supervisor
@@ -91,7 +91,7 @@ abstract class PHPExcel_Style_Supervisor {
 	public function getActiveSheet() {
 		return $this->_parent->getActiveSheet ();
 	}
-	
+
 	/**
 	 * Get the currently active cell coordinate in currently active sheet.
 	 * Only used for supervisor
@@ -101,7 +101,7 @@ abstract class PHPExcel_Style_Supervisor {
 	public function getSelectedCells() {
 		return $this->getActiveSheet ()->getSelectedCells ();
 	}
-	
+
 	/**
 	 * Get the currently active cell coordinate in currently active sheet.
 	 * Only used for supervisor
@@ -111,7 +111,7 @@ abstract class PHPExcel_Style_Supervisor {
 	public function getActiveCell() {
 		return $this->getActiveSheet ()->getActiveCell ();
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

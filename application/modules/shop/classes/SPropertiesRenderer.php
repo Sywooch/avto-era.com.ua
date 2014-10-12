@@ -17,7 +17,7 @@ class SPropertiesRenderer {
 	public function __construct() {
 		ShopCore::$ci->load->helper ( 'form' );
 	}
-	
+
 	/**
 	 * Render properties form for admin panel.
 	 * Used in create/edit products.
@@ -43,10 +43,10 @@ class SPropertiesRenderer {
 		foreach ( $properties as $property ) {
 			if ($property->getActive () === TRUE) {
 				$resultHtml .= '
-                <div class="control-group">
-                <label class="control-label" for="num_' . $i ++ . '">' . ShopCore::encode ( $property->getName () ) . ':</label>
-                <div class="controls">' . $this->_renderInput ( $property, $i, $locale ) . '</div>
-                                                    </div>';
+				<div class="control-group">
+				<label class="control-label" for="num_' . $i ++ . '">' . ShopCore::encode ( $property->getName () ) . ':</label>
+				<div class="controls">' . $this->_renderInput ( $property, $i, $locale ) . '</div>
+				</div>';
 			}
 		}
 		return $resultHtml;
@@ -54,7 +54,7 @@ class SPropertiesRenderer {
 	protected function _renderInput(SProperties $property, $i, $locale) {
 		$data = $property->asArray ( $locale );
 		$name = $this->inputsName . '[' . $property->getId () . ']';
-		
+
 		// Render select
 		if (sizeof ( $data ) > 0) {
 			array_unshift ( $data, $this->noValueText );
@@ -62,7 +62,7 @@ class SPropertiesRenderer {
 			$data [''] = $data [$this->noValueText];
 			unset ( $data [$this->noValueText] );
 			ksort ( $data );
-			
+				
 			if ($property->getMultiple () === true) {
 				$multiple = 'multiple';
 				$name .= '[]';
@@ -70,15 +70,15 @@ class SPropertiesRenderer {
 				$multiple = null;
 			return form_dropdown ( $name, $data, $this->_getProductPropertyValue ( $property->getId () ), $multiple );
 		} else {
-			
+				
 			$i --;
 			$inputData = array (
 					'name' => $name,
 					'value' => $this->_getProductPropertyValue ( $property->getId () ),
-					'id' => 'num_' . $i 
+					'id' => 'num_' . $i
 			);
 			return form_input ( $inputData );
-			
+				
 			// $i--;
 			// $value = $this->_getProductPropertyValue($property->getId());
 			// if(count($value)<=1){
@@ -94,7 +94,7 @@ class SPropertiesRenderer {
 			// return form_input($inputData);
 		}
 	}
-	
+
 	/**
 	 * Сombines array of the properties with identifier as the key and the properties object as a value.<br/>
 	 * Recommend to use only for the administrative part of the site.
@@ -109,9 +109,9 @@ class SPropertiesRenderer {
 		$propertiesDatas = SProductPropertiesDataQuery::create ()->filterByLocale ( $locale )->filterByProductId ( $this->productModel->Id )->find ();
 		if (count ( $propertiesDatas ))
 			foreach ( $propertiesDatas as $p )
-				$this->propertiesData [$p->getPropertyId ()] [] = $p;
+			$this->propertiesData [$p->getPropertyId ()] [] = $p;
 	}
-	
+
 	// protected function _loadProductPropertiesDataCompare() {
 	// // Clear current properties
 	// $this->propertiesData = null;
@@ -136,12 +136,12 @@ class SPropertiesRenderer {
 	// }
 	protected function _loadProductPropertiesData($locale = null, $forsed = false) {
 		$this->propertiesData = null;
-		
+
 		if ($this->productModel === null)
 			return false;
-		
+
 		$propertiesDatas = SPropertiesQuery::create ()->filterByShowInCompare ( true )->orderByPosition ( Criteria::ASC )->useSProductPropertiesDataQuery ()->filterByLocale ( MY_Controller::getCurrentLocale () )->filterByProductId ( $this->productModel->id )->endUse ()->joinWithI18n ()->distinct ()->find ();
-		
+
 		if (sizeof ( $propertiesDatas ) > 0) {
 			foreach ( $propertiesDatas as $p ) {
 				$propertyData = $p->getSProductPropertiesDatas ();
@@ -169,13 +169,13 @@ class SPropertiesRenderer {
 	protected function _getProductPropertyValue($propertyId) {
 		if ($this->propertiesData [$propertyId]) {
 			$property = $this->propertiesData [$propertyId];
-			
+				
 			if ($this->propertiesData [$propertyId] [0]->SProperties->getMultiple ()) {
 				$data = array ();
-				
+
 				foreach ( $property as $key => $val )
 					$data [] = $val->getValue ();
-					// return array_map('encode', $data);
+				// return array_map('encode', $data);
 				return $data;
 			} else {
 				return $property [0]->getValue ();
@@ -183,10 +183,10 @@ class SPropertiesRenderer {
 		} else {
 			return $_GET ['productProperties'] [$propertyId];
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Render table containing product properties data.
 	 *
@@ -198,11 +198,11 @@ class SPropertiesRenderer {
 	public function renderPropertiesTableNew($productId) {
 		$this->productId = $productId;
 		$properties = $this->_loadProductPropertiesDataNew ();
-		
+
 		if (sizeof ( $properties ) > 0) {
 			$table = ShopCore::$ci->load->library ( 'table', TRUE );
 			$table->set_template ( array (
-					'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="characteristic">' 
+					'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="characteristic">'
 			) );
 			$returnString = "";
 			foreach ( $properties as $k => $v ) {
@@ -228,22 +228,22 @@ class SPropertiesRenderer {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Render table containing product properties data.
 	 *
-	 * @param SProducts $product        	
+	 * @param SProducts $product
 	 * @access public
 	 * @return mixed string or null.
 	 */
 	public function renderPropertiesTable(SProducts $product) {
 		$this->productModel = $product;
 		$this->_loadProductPropertiesData ();
-		
+
 		if (sizeof ( $this->propertiesData ) > 0) {
 			$table = ShopCore::$ci->load->library ( 'table', TRUE );
 			$table->set_template ( array (
-					'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="characteristic">' 
+					'table_open' => '<table border="0" cellpadding="4" cellspacing="0" class="characteristic">'
 			) );
 			foreach ( $this->propertiesData as $property ) {
 				if ($property [0]->getSProperties ()->getActive () === TRUE && $property [0]->getSProperties ()->getShowOnSite () === TRUE) {
@@ -251,19 +251,19 @@ class SPropertiesRenderer {
 						$data = array ();
 						foreach ( $property as $key => $val )
 							$data [] = $val->getValue ();
-						
+
 						$data = array_reverse ( $data );
 						$value = implode ( ', ', $data );
 					} else
 						$value = $property [0]->getValue ();
-					
+						
 					$table->add_row ( $property [0]->getSProperties ()->getName (), $value );
 				}
 			}
-			
+				
 			return $table->generate ();
 		}
-		
+
 		return null;
 	}
 	public function renderPropertiesMainArray(SProducts $product, $if_main = 1) {
@@ -275,13 +275,13 @@ class SPropertiesRenderer {
 				'ShowInFilter',
 				'MainProperty',
 				'SPropertiesI18n.Name',
-				'SPropertiesI18n.Description' 
+				'SPropertiesI18n.Description'
 		) )->groupBy ( 'SProductPropertiesData.PropertyId' );
 		if ($if_main == 1)
 			$property = $property->where ( 'SProperties.MainProperty = ?', 1 );
-		
+
 		$property = $property->orderByPosition ()->find ()->toArray ();
-		
+
 		$arr_res = array ();
 		foreach ( $property as $prop ) {
 			if ($prop ['ShowOnSite']) {
@@ -290,28 +290,28 @@ class SPropertiesRenderer {
 				$arr_aux ['Desc'] = $prop ['SPropertiesI18n.Description'];
 				unset ( $arr_aux ['SPropertiesI18n.Name'] );
 				unset ( $arr_aux ['SPropertiesI18n.Description'] );
-				
+
 				$arr_aux_value = SProductPropertiesDataQuery::create ()->filterByLocale ( MY_Controller::getCurrentLocale () )->filterByProductId ( $product->getId () )->filterByPropertyId ( $prop ['Id'] )->select ( array (
-						'Value' 
+						'Value'
 				) )->find ()->toArray ();
-				
+
 				$str_prop = '';
 				foreach ( $arr_aux_value as $val )
 					$str_prop .= ' ' . $val . ',';
-				
+
 				$arr_aux ['Value'] = ltrim ( rtrim ( $str_prop, ',' ), ' ' );
-				
+
 				$arr_res [] = $arr_aux;
 			}
 		}
-		
+
 		return $arr_res;
 	}
 	public function renderProductsProperties(PropelObjectCollection $product) {
 		$propertiesData = null;
-		
+
 		$propertiesDatas = SPropertiesQuery::create ()->useSProductPropertiesDataQuery ()->filterByProduct ( $product )->endUse ()->distinct ()->joinWithI18n ( MY_Controller::getCurrentLocale (), Criteria::LEFT_JOIN )->find ();
-		
+
 		foreach ( $propertiesDatas as $key => $value ) {
 			foreach ( $product as $p ) {
 				$prp = SProductPropertiesDataQuery::create ()->filterByProductId ( $p->getId () )->filterByPropertyId ( $value->id )->findOne ();
@@ -320,25 +320,25 @@ class SPropertiesRenderer {
 		}
 		return $temp;
 		exit ();
-		
+
 		$result = array ();
 		$this->productModel = $product;
 		$this->_loadProductPropertiesData ();
-		
+
 		if (sizeof ( $this->propertiesData ) > 0) {
 			foreach ( $this->propertiesData as $property ) {
 				$result [ShopCore::encode ( $property [0]->getSProperties ()->getName () )] = ShopCore::encode ( $property [0]->getValue () );
 			}
-			
+				
 			return $result;
 		}
-		
+
 		return array ();
 	}
 	public function renderPropertiesInline(SProducts $product) {
 		$this->productModel = $product;
 		$this->_loadProductPropertiesData ();
-		
+
 		$result = '';
 		if (sizeof ( $this->propertiesData ) > 0) {
 			foreach ( $this->propertiesData as $property ) {
@@ -348,13 +348,13 @@ class SPropertiesRenderer {
 			if (! empty ( $result ))
 				return substr ( $result, 0, - 2 );
 		}
-		
+
 		return FALSE;
 	}
 	public function renderPropertiesInlineNew($productId) {
 		$this->productId = $productId;
 		$properties = $this->_loadProductPropertiesDataNew ();
-		
+
 		if (sizeof ( $properties ) > 0) {
 			$returnString = "";
 			foreach ( $properties as $k => $v ) {
@@ -366,7 +366,7 @@ class SPropertiesRenderer {
 				} else {
 					$ppSt = "";
 					foreach ( $v->values as $key => $value ) {
-						
+
 						// $ppSt .= ShopCore::encode($value->value);
 						$ppSt .= htmlspecialchars_decode ( $value->value );
 						if (count ( $v->values ) - 1 > $key)
@@ -383,7 +383,7 @@ class SPropertiesRenderer {
 		$result = array ();
 		$this->productModel = $product;
 		$this->_loadProductPropertiesDataCompare ();
-		
+
 		if (sizeof ( $this->propertiesData ) > 0) {
 			foreach ( $this->propertiesData as $property ) {
 				$name = ShopCore::encode ( $property [0]->getSProperties ()->getCsvName () );
@@ -398,24 +398,24 @@ class SPropertiesRenderer {
 		$result = array ();
 		$this->productModel = $product;
 		$this->_loadProductPropertiesDataCompare ();
-		
+
 		if (sizeof ( $this->propertiesData ) > 0) {
-			
+				
 			return $this->propertiesData;
 		}
-		
+
 		return array ();
 	}
 	public function renderCategoryPropertiesArray($categoryId) {
 		$categoryModel = SCategoryQuery::create ()->findPk ( ( int ) $categoryId );
-		
+
 		if ($categoryModel === null)
 			return false;
 		$properties = SPropertiesQuery::create ()->joinWithI18n ( MY_Controller::getCurrentLocale (), Criteria::LEFT_JOIN )->filterByActive ( true )->filterByShowInCompare ( true )->filterByPropertyCategory ( $categoryModel )->select ( 'SPropertiesI18n.Name' )->find ()->toArray ();
-		
+
 		if (sizeof ( $properties ) == 0)
 			return false;
-		
+
 		return $properties;
 	}
 	public function renderPropertiesCompareArray(SProducts $product) {
@@ -441,12 +441,12 @@ class SPropertiesRenderer {
 	protected function _loadProductPropertiesDataCompare() {
 		// Clear current properties
 		$this->propertiesData = null;
-		
+
 		if ($this->productModel === null)
 			return false;
-		
+
 		$propertiesDatas = SPropertiesQuery::create ()->filterByShowInCompare ( true )->useSProductPropertiesDataQuery ()->filterByLocale ( MY_Controller::getCurrentLocale () )->filterByProductId ( $this->productModel->id )->endUse ()->joinWithI18n ()->distinct ()->find ();
-		
+
 		if (sizeof ( $propertiesDatas ) > 0) {
 			foreach ( $propertiesDatas as $p ) {
 				$propertyData = $p->getSProductPropertiesDatas ();
@@ -460,7 +460,7 @@ class SPropertiesRenderer {
 			$this->propertiesData = array ();
 		}
 	}
-	
+
 	/**
 	 *
 	 *

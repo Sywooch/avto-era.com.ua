@@ -58,15 +58,15 @@ class PHPExcel_IOFactory {
 			array (
 					'type' => 'IWriter',
 					'path' => 'PHPExcel/Writer/{0}.php',
-					'class' => 'PHPExcel_Writer_{0}' 
+					'class' => 'PHPExcel_Writer_{0}'
 			),
 			array (
 					'type' => 'IReader',
 					'path' => 'PHPExcel/Reader/{0}.php',
-					'class' => 'PHPExcel_Reader_{0}' 
-			) 
+					'class' => 'PHPExcel_Reader_{0}'
+			)
 	);
-	
+
 	/**
 	 * Autoresolve classes
 	 *
@@ -83,15 +83,15 @@ class PHPExcel_IOFactory {
 			'SYLK',
 			'Gnumeric',
 			'HTML',
-			'CSV' 
+			'CSV'
 	);
-	
+
 	/**
 	 * Private constructor for PHPExcel_IOFactory
 	 */
 	private function __construct() {
 	}
-	
+
 	/**
 	 * Get search locations
 	 *
@@ -103,14 +103,14 @@ class PHPExcel_IOFactory {
 	public static function getSearchLocations() {
 		return self::$_searchLocations;
 	} // function getSearchLocations()
-	
+
 	/**
 	 * Set search locations
 	 *
 	 * @static
 	 *
 	 * @access public
-	 * @param array $value        	
+	 * @param array $value
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public static function setSearchLocations($value) {
@@ -120,7 +120,7 @@ class PHPExcel_IOFactory {
 			throw new PHPExcel_Reader_Exception ( 'Invalid parameter passed.' );
 		}
 	} // function setSearchLocations()
-	
+
 	/**
 	 * Add search location
 	 *
@@ -138,17 +138,17 @@ class PHPExcel_IOFactory {
 		self::$_searchLocations [] = array (
 				'type' => $type,
 				'path' => $location,
-				'class' => $classname 
+				'class' => $classname
 		);
 	} // function addSearchLocation()
-	
+
 	/**
 	 * Create PHPExcel_Writer_IWriter
 	 *
 	 * @static
 	 *
 	 * @access public
-	 * @param PHPExcel $phpExcel        	
+	 * @param PHPExcel $phpExcel
 	 * @param string $writerType
 	 *        	Excel2007
 	 * @return PHPExcel_Writer_IWriter
@@ -157,23 +157,23 @@ class PHPExcel_IOFactory {
 	public static function createWriter(PHPExcel $phpExcel, $writerType = '') {
 		// Search type
 		$searchType = 'IWriter';
-		
+
 		// Include class
 		foreach ( self::$_searchLocations as $searchLocation ) {
 			if ($searchLocation ['type'] == $searchType) {
 				$className = str_replace ( '{0}', $writerType, $searchLocation ['class'] );
-				
+
 				$instance = new $className ( $phpExcel );
 				if ($instance !== NULL) {
 					return $instance;
 				}
 			}
 		}
-		
+
 		// Nothing found...
 		throw new PHPExcel_Reader_Exception ( "No $searchType found for type $writerType" );
 	} // function createWriter()
-	
+
 	/**
 	 * Create PHPExcel_Reader_IReader
 	 *
@@ -188,23 +188,23 @@ class PHPExcel_IOFactory {
 	public static function createReader($readerType = '') {
 		// Search type
 		$searchType = 'IReader';
-		
+
 		// Include class
 		foreach ( self::$_searchLocations as $searchLocation ) {
 			if ($searchLocation ['type'] == $searchType) {
 				$className = str_replace ( '{0}', $readerType, $searchLocation ['class'] );
-				
+
 				$instance = new $className ();
 				if ($instance !== NULL) {
 					return $instance;
 				}
 			}
 		}
-		
+
 		// Nothing found...
 		throw new PHPExcel_Reader_Exception ( "No $searchType found for type $readerType" );
 	} // function createReader()
-	
+
 	/**
 	 * Loads PHPExcel from file using automatic PHPExcel_Reader_IReader resolution
 	 *
@@ -220,7 +220,7 @@ class PHPExcel_IOFactory {
 		$reader = self::createReaderForFile ( $pFilename );
 		return $reader->load ( $pFilename );
 	} // function load()
-	
+
 	/**
 	 * Identify file type using automatic PHPExcel_Reader_IReader resolution
 	 *
@@ -239,7 +239,7 @@ class PHPExcel_IOFactory {
 		unset ( $reader );
 		return array_pop ( $classType );
 	} // function identify()
-	
+
 	/**
 	 * Create PHPExcel_Reader_IReader for file using automatic PHPExcel_Reader_IReader resolution
 	 *
@@ -252,10 +252,10 @@ class PHPExcel_IOFactory {
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public static function createReaderForFile($pFilename) {
-		
+
 		// First, lucky guess by inspecting file extension
 		$pathinfo = pathinfo ( $pFilename );
-		
+
 		$extensionType = NULL;
 		if (isset ( $pathinfo ['extension'] )) {
 			switch (strtolower ( $pathinfo ['extension'] )) {
@@ -287,7 +287,7 @@ class PHPExcel_IOFactory {
 					$extensionType = 'HTML';
 					break;
 				case 'csv' :
-					
+						
 					// Do nothing
 					// We must not try to use CSV reader since it loads
 					// all files including Excel files etc.
@@ -295,7 +295,7 @@ class PHPExcel_IOFactory {
 				default :
 					break;
 			}
-			
+				
 			if ($extensionType !== NULL) {
 				$reader = self::createReader ( $extensionType );
 				// Let's see if we are lucky
@@ -304,7 +304,7 @@ class PHPExcel_IOFactory {
 				}
 			}
 		}
-		
+
 		// If we reach here then "lucky guess" didn't give any result
 		// Try walking through all the options in self::$_autoResolveClasses
 		foreach ( self::$_autoResolveClasses as $autoResolveClass ) {
@@ -316,7 +316,7 @@ class PHPExcel_IOFactory {
 				}
 			}
 		}
-		
+
 		throw new PHPExcel_Reader_Exception ( 'Unable to identify a reader for this file' );
 	} // function createReaderForFile()
 }

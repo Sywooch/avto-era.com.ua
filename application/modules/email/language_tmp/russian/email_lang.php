@@ -36,7 +36,7 @@ $lang['Settings_saved'] = 'Настройки сохранены';
 
 /**
  ******************************** Tempalets
- * 
+ *
  * Create and Edit template
  */
 
@@ -79,7 +79,7 @@ $lang['Template_list_empty'] = 'Список шаблонов пустой';
 $lang['Use_wraper'] = 'Использовать обгортку';
 
 /**
- *Settings 
+ *Settings
  */
 $lang['Server_path_to_sendmail'] = 'Серверный путь к Sendmail';
 $lang['Port'] = 'Порт';

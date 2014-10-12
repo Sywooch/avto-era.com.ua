@@ -39,28 +39,28 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	 * @var ZipAcrhive
 	 */
 	private $_archive;
-	
+
 	/**
 	 * Filename in ZipAcrhive
 	 *
 	 * @var string
 	 */
 	private $_fileNameInArchive = '';
-	
+
 	/**
 	 * Position in file
 	 *
 	 * @var int
 	 */
 	private $_position = 0;
-	
+
 	/**
 	 * Data
 	 *
 	 * @var mixed
 	 */
 	private $_data = '';
-	
+
 	/**
 	 * Register wrapper
 	 */
@@ -68,7 +68,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 		@stream_wrapper_unregister ( "zip" );
 		@stream_wrapper_register ( "zip", __CLASS__ );
 	}
-	
+
 	/**
 	 * Implements support for fopen().
 	 *
@@ -87,22 +87,22 @@ class PHPExcel_Shared_ZipStreamWrapper {
 		if ($mode {0} != 'r') {
 			throw new PHPExcel_Reader_Exception ( 'Mode ' . $mode . ' is not supported. Only read mode is supported.' );
 		}
-		
+
 		$pos = strrpos ( $path, '#' );
 		$url ['host'] = substr ( $path, 6, $pos - 6 ); // 6: strlen('zip://')
 		$url ['fragment'] = substr ( $path, $pos + 1 );
-		
+
 		// Open archive
 		$this->_archive = new ZipArchive ();
 		$this->_archive->open ( $url ['host'] );
-		
+
 		$this->_fileNameInArchive = $url ['fragment'];
 		$this->_position = 0;
 		$this->_data = $this->_archive->getFromName ( $this->_fileNameInArchive );
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Implements support for fstat().
 	 *
@@ -111,7 +111,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	public function statName() {
 		return $this->_fileNameInArchive;
 	}
-	
+
 	/**
 	 * Implements support for fstat().
 	 *
@@ -120,7 +120,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	public function url_stat() {
 		return $this->statName ( $this->_fileNameInArchive );
 	}
-	
+
 	/**
 	 * Implements support for fstat().
 	 *
@@ -129,7 +129,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	public function stream_stat() {
 		return $this->_archive->statName ( $this->_fileNameInArchive );
 	}
-	
+
 	/**
 	 * Implements support for fread(), fgets() etc.
 	 *
@@ -142,7 +142,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 		$this->_position += strlen ( $ret );
 		return $ret;
 	}
-	
+
 	/**
 	 * Returns the position of the file pointer, i.e.
 	 * its offset into the file
@@ -153,7 +153,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	public function stream_tell() {
 		return $this->_position;
 	}
-	
+
 	/**
 	 * EOF stream
 	 *
@@ -162,11 +162,11 @@ class PHPExcel_Shared_ZipStreamWrapper {
 	public function stream_eof() {
 		return $this->_position >= strlen ( $this->_data );
 	}
-	
+
 	/**
 	 * Seek stream
 	 *
-	 * @param int $offset        	
+	 * @param int $offset
 	 * @param int $whence
 	 *        	or SEEK_END
 	 * @return bool
@@ -181,7 +181,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 					return false;
 				}
 				break;
-			
+					
 			case SEEK_CUR :
 				if ($offset >= 0) {
 					$this->_position += $offset;
@@ -190,7 +190,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 					return false;
 				}
 				break;
-			
+					
 			case SEEK_END :
 				if (strlen ( $this->_data ) + $offset >= 0) {
 					$this->_position = strlen ( $this->_data ) + $offset;
@@ -199,7 +199,7 @@ class PHPExcel_Shared_ZipStreamWrapper {
 					return false;
 				}
 				break;
-			
+					
 			default :
 				return false;
 		}

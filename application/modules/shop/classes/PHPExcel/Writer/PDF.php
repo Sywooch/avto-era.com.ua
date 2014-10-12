@@ -33,14 +33,14 @@
  * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_PDF {
-	
+
 	/**
 	 * The wrapper for the requested PDF rendering engine
 	 *
 	 * @var PHPExcel_Writer_PDF_Core
 	 */
 	private $_renderer = NULL;
-	
+
 	/**
 	 * Instantiate a new renderer of the configured type within this container class
 	 *
@@ -53,7 +53,7 @@ class PHPExcel_Writer_PDF {
 		if (is_null ( $pdfLibraryName )) {
 			throw new PHPExcel_Writer_Exception ( "PDF Rendering library has not been defined." );
 		}
-		
+
 		$pdfLibraryPath = PHPExcel_Settings::getPdfRendererPath ();
 		if (is_null ( $pdfLibraryName )) {
 			throw new PHPExcel_Writer_Exception ( "PDF Rendering library path has not been defined." );
@@ -63,11 +63,11 @@ class PHPExcel_Writer_PDF {
 		if (strpos ( $rendererPath, $includePath ) === false) {
 			set_include_path ( get_include_path () . PATH_SEPARATOR . $pdfLibraryPath );
 		}
-		
+
 		$rendererName = 'PHPExcel_Writer_PDF_' . $pdfLibraryName;
 		$this->_renderer = new $rendererName ( $phpExcel );
 	}
-	
+
 	/**
 	 * Magic method to handle direct calls to the configured PDF renderer wrapper class.
 	 *
@@ -81,10 +81,10 @@ class PHPExcel_Writer_PDF {
 		if ($this->_renderer === NULL) {
 			throw new PHPExcel_Writer_Exception ( "PDF Rendering library has not been defined." );
 		}
-		
+
 		return call_user_func_array ( array (
 				$this->_renderer,
-				$name 
+				$name
 		), $arguments );
 	}
 }

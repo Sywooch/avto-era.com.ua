@@ -4,7 +4,7 @@ if (! defined ( 'BASEPATH' ))
 
 /**
  * Class Mobile version for Shop Module
- * 
+ *
  * @uses ShopController
  * @uses mobile.collection
  * @author Kaero <dev@imagecms.net>
@@ -20,10 +20,10 @@ class Mobile extends ShopController {
 	public function index() {
 		$this->core->error_404 ();
 	}
-	
+
 	/**
 	 * Emulatе category behavior
-	 * 
+	 *
 	 * @return view
 	 * @author Kaero <dev@imagecms.net>
 	 * @copyright (c) 2013, ImageCMS
@@ -31,10 +31,10 @@ class Mobile extends ShopController {
 	public function category() {
 		\mobile\collection\Mobile_category::init ();
 	}
-	
+
 	/**
 	 * Emulatе product behavior
-	 * 
+	 *
 	 * @return view
 	 * @author Kaero <dev@imagecms.net>
 	 * @copyright (c) 2013, ImageCMS
@@ -42,10 +42,10 @@ class Mobile extends ShopController {
 	public function product() {
 		\mobile\collection\Mobile_product::init ();
 	}
-	
+
 	/**
 	 * Emulatе user search behavior
-	 * 
+	 *
 	 * @return view
 	 * @author Kaero <dev@imagecms.net>
 	 * @copyright (c) 2013, ImageCMS
@@ -53,10 +53,10 @@ class Mobile extends ShopController {
 	public function search() {
 		\mobile\collection\Mobile_search::init ();
 	}
-	
+
 	/**
 	 * get settings
-	 * 
+	 *
 	 * @return view
 	 * @author Kaero <dev@imagecms.net>
 	 * @copyright (c) 2013, ImageCMS
@@ -83,26 +83,26 @@ class Mobile extends ShopController {
 				$this->template->add_array ( array (
 						'SHOP_THEME' => media_url ( $mobileSettings ['mobileTemplatePath'] ) . '/',
 						'THEME' => media_url ( $mobPath ) . '/',
-						'settings' => $mobileSettings 
+						'settings' => $mobileSettings
 				) );
 				$this->menu->template->template_dir = $mobPath;
 			}
 		}
 	}
-	
+
 	/**
 	 * Install module
 	 */
 	public function _install() {
 		$this->db->where ( 'name', 'mobile' );
 		$this->db->update ( 'components', array (
-				'autoload' => 1 
+				'autoload' => 1
 		) );
 	}
 	public function _deinstall() {
 		if ($this->dx_auth->is_admin () == FALSE)
 			exit ();
-		
+
 		$this->load->dbforge ();
 	}
 }

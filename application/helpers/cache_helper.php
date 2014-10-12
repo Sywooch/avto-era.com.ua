@@ -6,21 +6,21 @@ class CmsCacheHelper {
 	public static $duration = false;
 	public function init($key, $duration) {
 		$ci = get_instance ();
-		
+
 		self::$key = $key;
 		self::$duration = $duration;
-		
+
 		if (($data = $ci->cache->fetch ( 'parts' . $key, 'parts' )) === false) {
 			return false;
 		}
-		
+
 		return $data;
 	}
 	public function storeCache($content) {
 		$ci = get_instance ();
-		
+
 		$ci->cache->store ( 'parts' . self::$key, $content, self::$duration, 'parts' );
-		
+
 		return self::$key;
 	}
 }
@@ -28,7 +28,7 @@ class CmsCacheHelper {
 if (! function_exists ( 'beginCache' )) {
 	function beginCache($key, $duration = false) {
 		$result = CmsCacheHelper::init ( $key, $duration );
-		
+
 		if ($result === false) {
 			ob_start ();
 			ob_implicit_flush ( false );

@@ -1,6 +1,6 @@
 <?php
 class STimeHelper {
-	
+
 	/**
 	 * Returns a nicely formatted date string for given Datetime string.
 	 *
@@ -14,7 +14,7 @@ class STimeHelper {
 		$date = ($dateString == null) ? time () : strtotime ( $dateString );
 		return date ( $format, $date );
 	}
-	
+
 	/**
 	 * Returns a formatted descriptive date string for given datetime string.
 	 *
@@ -29,9 +29,9 @@ class STimeHelper {
 	 */
 	public static function niceShort($dateString = null) {
 		$date = ($dateString == null) ? time () : strtotime ( $dateString );
-		
+
 		$y = (self::isThisYear ( $date )) ? '' : ' Y';
-		
+
 		if (self::isToday ( $date )) {
 			$ret = sprintf ( 'Today, %s', date ( "g:i a", $date ) );
 		} elseif (self::wasYesterday ( $date )) {
@@ -39,10 +39,10 @@ class STimeHelper {
 		} else {
 			$ret = date ( "M jS{$y}, H:i", $date );
 		}
-		
+
 		return $ret;
 	}
-	
+
 	/**
 	 * Returns true if given date is today.
 	 *
@@ -53,7 +53,7 @@ class STimeHelper {
 	public static function isToday($date) {
 		return date ( 'Y-m-d', $date ) == date ( 'Y-m-d', time () );
 	}
-	
+
 	/**
 	 * Returns true if given date was yesterday
 	 *
@@ -64,7 +64,7 @@ class STimeHelper {
 	public static function wasYesterday($date) {
 		return date ( 'Y-m-d', $date ) == date ( 'Y-m-d', strtotime ( 'yesterday' ) );
 	}
-	
+
 	/**
 	 * Returns true if given date is in this year
 	 *
@@ -75,7 +75,7 @@ class STimeHelper {
 	public static function isThisYear($date) {
 		return date ( 'Y', $date ) == date ( 'Y', time () );
 	}
-	
+
 	/**
 	 * Returns true if given date is in this week
 	 *
@@ -86,7 +86,7 @@ class STimeHelper {
 	public static function isThisWeek($date) {
 		return date ( 'W Y', $date ) == date ( 'W Y', time () );
 	}
-	
+
 	/**
 	 * Returns true if given date is in this month
 	 *
@@ -97,7 +97,7 @@ class STimeHelper {
 	public static function isThisMonth($date) {
 		return date ( 'm Y', $date ) == date ( 'm Y', time () );
 	}
-	
+
 	/**
 	 * Returns either a relative date or a formatted date depending
 	 * on the difference between the current time and given datetime.
@@ -124,50 +124,50 @@ class STimeHelper {
 	 */
 	function timeAgoInWords($dateTime, $options = array()) {
 		$now = time ();
-		
+
 		$seconds_plural = array (
 				'секунду',
 				'секунды',
-				'секунд' 
+				'секунд'
 		);
 		$minutes_plural = array (
 				'минуту',
 				'минуты',
-				'минут' 
+				'минут'
 		);
 		$hours_plural = array (
 				'час',
 				'часа',
-				'часов' 
+				'часов'
 		);
 		$days_plural = array (
 				'день',
 				'дня',
-				'дней' 
+				'дней'
 		);
 		$weeks_plural = array (
 				'неделю',
 				'недели',
-				'недель' 
+				'недель'
 		);
 		$monthes_plural = array (
 				'месяц',
 				'месяца',
-				'месяцов' 
+				'месяцов'
 		);
 		$years_plural = array (
 				'год',
 				'года',
-				'лет' 
+				'лет'
 		);
-		
+
 		// $inSeconds = strtotime($dateTime);
 		$inSeconds = $dateTime;
 		$backwards = ($inSeconds > $now);
-		
+
 		$format = 'j/n/y';
 		$end = '+1 month';
-		
+
 		if (is_array ( $options )) {
 			if (isset ( $options ['format'] )) {
 				$format = $options ['format'];
@@ -180,7 +180,7 @@ class STimeHelper {
 		} else {
 			$format = $options;
 		}
-		
+
 		if ($backwards) {
 			$futureTime = $inSeconds;
 			$pastTime = $now;
@@ -189,17 +189,17 @@ class STimeHelper {
 			$pastTime = $inSeconds;
 		}
 		$diff = $futureTime - $pastTime;
-		
+
 		// If more than a week, then take into account the length of months
 		if ($diff >= 604800) {
 			$current = array ();
 			$date = array ();
-			
+				
 			list ( $future ['H'], $future ['i'], $future ['s'], $future ['d'], $future ['m'], $future ['Y'] ) = explode ( '/', date ( 'H/i/s/d/m/Y', $futureTime ) );
-			
+				
 			list ( $past ['H'], $past ['i'], $past ['s'], $past ['d'], $past ['m'], $past ['Y'] ) = explode ( '/', date ( 'H/i/s/d/m/Y', $pastTime ) );
 			$years = $months = $weeks = $days = $hours = $minutes = $seconds = 0;
-			
+				
 			if ($future ['Y'] == $past ['Y'] && $future ['m'] == $past ['m']) {
 				$months = 0;
 				$years = 0;
@@ -209,45 +209,45 @@ class STimeHelper {
 				} else {
 					$years = $future ['Y'] - $past ['Y'];
 					$months = $future ['m'] + ((12 * $years) - $past ['m']);
-					
+						
 					if ($months >= 12) {
 						$years = floor ( $months / 12 );
 						$months = $months - ($years * 12);
 					}
-					
+						
 					if ($future ['m'] < $past ['m'] && $future ['Y'] - $past ['Y'] == 1) {
 						$years --;
 					}
 				}
 			}
-			
+				
 			if ($future ['d'] >= $past ['d']) {
 				$days = $future ['d'] - $past ['d'];
 			} else {
 				$daysInPastMonth = date ( 't', $pastTime );
 				$daysInFutureMonth = date ( 't', mktime ( 0, 0, 0, $future ['m'] - 1, 1, $future ['Y'] ) );
-				
+
 				if (! $backwards) {
 					$days = ($daysInPastMonth - $past ['d']) + $future ['d'];
 				} else {
 					$days = ($daysInFutureMonth - $past ['d']) + $future ['d'];
 				}
-				
+
 				if ($future ['m'] != $past ['m']) {
 					$months --;
 				}
 			}
-			
+				
 			if ($months == 0 && $years >= 1 && $diff < ($years * 31536000)) {
 				$months = 11;
 				$years --;
 			}
-			
+				
 			if ($months >= 12) {
 				$years = $years + 1;
 				$months = $months - 12;
 			}
-			
+				
 			if ($days >= 7) {
 				$weeks = floor ( $days / 7 );
 				$days = $days - ($weeks * 7);
@@ -255,19 +255,19 @@ class STimeHelper {
 		} else {
 			$years = $months = $weeks = 0;
 			$days = floor ( $diff / 86400 );
-			
+				
 			$diff = $diff - ($days * 86400);
-			
+				
 			$hours = floor ( $diff / 3600 );
 			$diff = $diff - ($hours * 3600);
-			
+				
 			$minutes = floor ( $diff / 60 );
 			$diff = $diff - ($minutes * 60);
 			$seconds = $diff;
 		}
 		$relativeDate = '';
 		$diff = $futureTime - $pastTime;
-		
+
 		if ($diff > abs ( $now - strtotime ( $end ) )) {
 			$relativeDate = sprintf ( 'on %s', date ( $format, $inSeconds ) );
 		} else {
@@ -301,7 +301,7 @@ class STimeHelper {
 				// seconds only
 				$relativeDate .= ($relativeDate ? ', ' : '') . $seconds . ' ' . SStringHelper::Pluralize ( $seconds, $seconds_plural );
 			}
-			
+				
 			if (! $backwards) {
 				$relativeDate = sprintf ( '%s назад', $relativeDate );
 			}

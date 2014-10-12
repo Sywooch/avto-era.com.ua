@@ -3,7 +3,7 @@ $gettext_pattern = array (
 		"~\{\"([^\"]+)\"\|_([^\}]*)\}~", // search for smarty modifier: {"Text to be localized"|_}
 		"~\{t\}([^\{]+)\{/t\}~",
 		"~lang\(\'(.*?)\'\)~",
-		"~lang\(\"(.*?)\"\)~" 
+		"~lang\(\"(.*?)\"\)~"
 ) // search for smarty modifier: {t}Text to be localized{/t}
 ;
 
@@ -38,7 +38,7 @@ if ($mod) {
 		$result .= '_("' . $value . '");' . "\n";
 	}
 	$result = "<?php\n/*\n" . implode ( "\n", $found_in ) . "*/\n\n" . $result . "\n?>";
-	
+
 	_log ( $result );
 	exec ( 'xgettext --force-po -o "' . $p [1] . '" ' . $p [2] . ' ' . $p [3] . ' ' . _DAT );
 	// unlink(_DAT);

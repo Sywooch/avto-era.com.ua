@@ -1,8 +1,9 @@
-    <h4>{lang("Additional fields", 'cfcm')}</h4>
-	<div style="padding:8px;" id="cfcm_fields_block"></div>
 
-    {literal}
-    <script type="text/javascript">
+<h4>{lang("Additional fields", 'cfcm')}</h4>
+<div style="padding: 8px;" id="cfcm_fields_block"></div>
+
+{literal}
+<script type="text/javascript">
            $("category_selectbox").addEvent("change", function(event){
             category_id = $("category_selectbox").value;
             ajax_div('cfcm_fields_block',  base_url + "admin/components/cp/cfcm/form_from_category_group/" + category_id);
@@ -14,4 +15,4 @@
                 ajax_div('cfcm_fields_block',  base_url + "admin/components/cp/cfcm/form_from_category_group/" + category_id); 
             });
     </script>
-    {/literal}
+{/literal}

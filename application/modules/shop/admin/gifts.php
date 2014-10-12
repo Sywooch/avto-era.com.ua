@@ -15,15 +15,15 @@ class ShopAdminGifts extends ShopAdminController {
 	private $model;
 	public function __construct() {
 		parent::__construct ();
-		
+
 		if (! $this->dx_auth->is_logged_in ())
 			redirect ( '/' );
-		
+
 		$this->_userId = $this->dx_auth->get_user_id ();
 		$this->model = ShopGiftsQuery::create ()->find ();
 		$this->load->helper ( 'url' );
 	}
-	
+
 	/**
 	 * Display list of user order
 	 *
@@ -31,7 +31,7 @@ class ShopAdminGifts extends ShopAdminController {
 	 */
 	public function index() {
 		$this->render ( 'index', array (
-				'model' => $this->model 
+				'model' => $this->model
 		) );
 	}
 	public function create() {
@@ -56,9 +56,9 @@ class ShopAdminGifts extends ShopAdminController {
 				$model->setCreated ( date ( 'U' ) );
 				$model->setEspDate ( strtotime ( $_POST ['espir'] ) );
 				$model->save ();
-				
+
 				showMessage ( lang ( 'Certificate is created', 'admin' ) );
-				
+
 				if ($_POST ['action'] == 'new') {
 					pjax ( '/admin/components/run/shop/gifts/edit/' . $model->getId () );
 				} else {
@@ -78,7 +78,7 @@ class ShopAdminGifts extends ShopAdminController {
 			$this->load->helper ( 'string' );
 			$key = random_string ( 'alnum', 16 );
 			echo json_encode ( array (
-					"key" => "$key" 
+					"key" => "$key"
 			) );
 		}
 	}
@@ -96,7 +96,7 @@ class ShopAdminGifts extends ShopAdminController {
 		if (empty ( $_POST )) {
 			if ($model) {
 				$this->render ( 'edit', array (
-						'model' => $model 
+						'model' => $model
 				) );
 			}
 		} else {
@@ -112,7 +112,7 @@ class ShopAdminGifts extends ShopAdminController {
 					$model->save ();
 				}
 				showMessage ( lang ( 'Changes have been saved', 'admin' ) );
-				
+
 				if ($_POST ['action'] == 'edit') {
 					pjax ( '/admin/components/run/shop/gifts/edit/' . $model->getId () );
 				} else {
@@ -123,7 +123,7 @@ class ShopAdminGifts extends ShopAdminController {
 	}
 	public function ChangeActive($productId = null) {
 		$model = ShopGiftsQuery::create ()->findPk ( $productId );
-		
+
 		if ($model !== null) {
 			if (! $model->getActive ()) {
 				$model->setEspdate ( date ( 'U' ) + 86400 );
@@ -135,10 +135,10 @@ class ShopAdminGifts extends ShopAdminController {
 			showMessage ( lang ( 'You have changed the status of the certificate', 'admin' ) );
 			pjax ( '/admin/components/run/shop/gifts' );
 		}
-		
+
 		if (sizeof ( $_POST ['ids'] > 0 )) {
 			$model = ShopGiftsQuery::create ()->findPks ( $_POST ['ids'] );
-			
+				
 			if (! empty ( $model )) {
 				foreach ( $model as $product ) {
 					$product->setActive ( ! $product->getActive () );

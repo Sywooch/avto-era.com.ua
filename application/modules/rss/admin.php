@@ -12,29 +12,29 @@ class Admin extends BaseAdminController {
 		parent::__construct ();
 		$lang = new MY_Lang ();
 		$lang->load ( 'rss' );
-		
+
 		$this->load->library ( 'DX_Auth' );
 		// cp_check_perm('module_admin');
 	}
 	public function index() {
 		$this->load->library ( 'lib_category' );
 		$cats = $this->lib_category->build ();
-		
+
 		$this->template->add_array ( array (
 				'cats' => $cats,
-				'settings' => $this->get_settings () 
+				'settings' => $this->get_settings ()
 		) );
-		
+
 		// $this->display_tpl('settings');
 		$this->render ( 'settings' );
 	}
 	public function render($viewName, array $data = array(), $return = false) {
 		if (! empty ( $data ))
 			$this->template->add_array ( $data );
-		
+
 		$this->template->show ( 'file:' . 'application/modules/rss/templates/admin/' . $viewName );
 		exit ();
-		
+
 		if ($return === false)
 			$this->template->show ( 'file:' . 'application/modules/rss/templates/admin/' . $viewName );
 		else
@@ -46,20 +46,20 @@ class Admin extends BaseAdminController {
 				'description' => $this->input->post ( 'description' ),
 				'categories' => $this->input->post ( 'categories' ),
 				'cache_ttl' => ( int ) $this->input->post ( 'cache_ttl' ),
-				'pages_count' => ( int ) $this->input->post ( 'pages_count' ) 
+				'pages_count' => ( int ) $this->input->post ( 'pages_count' )
 		);
-		
+
 		$this->db->where ( 'name', 'rss' );
 		$this->db->update ( 'components', array (
-				'settings' => serialize ( $data ) 
+				'settings' => serialize ( $data )
 		) );
-		
+
 		showMessage ( lang ( "Changes have been saved", 'rss' ) );
 	}
 	private function get_settings() {
 		return $this->load->module ( 'rss' )->_load_settings ();
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -67,7 +67,7 @@ class Admin extends BaseAdminController {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/admin/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

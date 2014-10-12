@@ -43,17 +43,17 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	 *
 	 */
 	protected $_bestFitType = 'polynomial';
-	
+
 	/**
 	 * Polynomial order
 	 *
 	 * @protected
-	 * 
+	 *
 	 * @var int
 	 *
 	 */
 	protected $_order = 0;
-	
+
 	/**
 	 * Return the order of this polynomial
 	 *
@@ -63,11 +63,11 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	public function getOrder() {
 		return $this->_order;
 	} // function getOrder()
-	
+
 	/**
 	 * Return the Y-Value for a specified value of X
 	 *
-	 * @param float $xValue        	
+	 * @param float $xValue
 	 * @return float
 	 *
 	 */
@@ -81,18 +81,18 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 		}
 		return $retVal;
 	} // function getValueOfYForX()
-	
+
 	/**
 	 * Return the X-Value for a specified value of Y
 	 *
-	 * @param float $yValue        	
+	 * @param float $yValue
 	 * @return float
 	 *
 	 */
 	public function getValueOfXForY($yValue) {
 		return ($yValue - $this->getIntersect ()) / $this->getSlope ();
 	} // function getValueOfXForY()
-	
+
 	/**
 	 * Return the Equation of the best-fit line
 	 *
@@ -104,7 +104,7 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	public function getEquation($dp = 0) {
 		$slope = $this->getSlope ( $dp );
 		$intersect = $this->getIntersect ( $dp );
-		
+
 		$equation = 'Y = ' . $intersect;
 		foreach ( $slope as $key => $value ) {
 			if ($value != 0.0) {
@@ -116,7 +116,7 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 		}
 		return $equation;
 	} // function getEquation()
-	
+
 	/**
 	 * Return the Slope of the line
 	 *
@@ -137,10 +137,10 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	} // function getSlope()
 	public function getCoefficients($dp = 0) {
 		return array_merge ( array (
-				$this->getIntersect ( $dp ) 
+				$this->getIntersect ( $dp )
 		), $this->getSlope ( $dp ) );
 	} // function getCoefficients()
-	
+
 	/**
 	 * Execute the regression and calculate the goodness of fit for a set of X and Y data values
 	 *
@@ -150,7 +150,7 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	 *        	of Y-values for this regression
 	 * @param float[] $xValues
 	 *        	of X-values for this regression
-	 * @param boolean $const        	
+	 * @param boolean $const
 	 */
 	private function _polynomial_regression($order, $yValues, $xValues, $const) {
 		// calculate sums
@@ -164,12 +164,12 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 		}
 		/*
 		 * This routine uses logic from the PHP port of polyfit version 0.1
-		 * written by Michael Bommarito and Paul Meagher
-		 *
-		 * The function fits a polynomial function of order $order through
-		 * a series of x-y data points using least squares.
-		 *
-		 */
+		* written by Michael Bommarito and Paul Meagher
+		*
+		* The function fits a polynomial function of order $order through
+		* a series of x-y data points using least squares.
+		*
+		*/
 		for($i = 0; $i < $this->_valueCount; ++ $i) {
 			for($j = 0; $j <= $order; ++ $j) {
 				$A [$i] [$j] = pow ( $xValues [$i], $j );
@@ -177,13 +177,13 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 		}
 		for($i = 0; $i < $this->_valueCount; ++ $i) {
 			$B [$i] = array (
-					$yValues [$i] 
+					$yValues [$i]
 			);
 		}
 		$matrixA = new Matrix ( $A );
 		$matrixB = new Matrix ( $B );
 		$C = $matrixA->solve ( $matrixB );
-		
+
 		$coefficients = array ();
 		for($i = 0; $i < $C->m; ++ $i) {
 			$r = $C->get ( $i, 0 );
@@ -192,16 +192,16 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 			}
 			$coefficients [] = $r;
 		}
-		
+
 		$this->_intersect = array_shift ( $coefficients );
 		$this->_slope = $coefficients;
-		
+
 		$this->_calculateGoodnessOfFit ( $x_sum, $y_sum, $xx_sum, $yy_sum, $xy_sum );
 		foreach ( $this->_xValues as $xKey => $xValue ) {
 			$this->_yBestFitValues [$xKey] = $this->getValueOfYForX ( $xValue );
 		}
 	} // function _polynomial_regression()
-	
+
 	/**
 	 * Define the regression and calculate the goodness of fit for a set of X and Y data values
 	 *
@@ -211,7 +211,7 @@ class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit {
 	 *        	of Y-values for this regression
 	 * @param float[] $xValues
 	 *        	of X-values for this regression
-	 * @param boolean $const        	
+	 * @param boolean $const
 	 */
 	function __construct($order, $yValues, $xValues = array(), $const = True) {
 		if (parent::__construct ( $yValues, $xValues ) !== False) {

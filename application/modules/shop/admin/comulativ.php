@@ -2,13 +2,13 @@
 
 /**
  * ShopAdminDiscounts
- * 
+ *
  * @uses ShopAdminController
- * @package 
+ * @package
  * @version $id$
- * @copyright 
+ * @copyright
  * @author <dev@imagecms.net>
- * @license 
+ * @license
  */
 class ShopAdminComulativ extends ShopAdminController {
 	public $dbName = 'shop_comulativ_discount';
@@ -17,7 +17,7 @@ class ShopAdminComulativ extends ShopAdminController {
 	public function __construct() {
 		parent::__construct ();
 	}
-	
+
 	/**
 	 * Display list of discounts
 	 *
@@ -25,12 +25,12 @@ class ShopAdminComulativ extends ShopAdminController {
 	 */
 	public function index() {
 		$model = $this->db->get ( $this->dbName )->result_array ();
-		
+
 		$this->render ( 'list', array (
-				'model' => $model 
+				'model' => $model
 		) );
 	}
-	
+
 	/**
 	 * Create new currency
 	 *
@@ -44,9 +44,9 @@ class ShopAdminComulativ extends ShopAdminController {
 			$this->form_validation->set_rules ( 'total', lang ( 'The amount of', 'admin' ), 'required|numeric' );
 			$this->form_validation->set_rules ( 'total_a', lang ( 'Amount before', 'admin' ), 'required|numeric' );
 			$this->form_validation->set_rules ( 'description', lang ( 'Description', 'admin' ), 'required|trim' );
-			
-			if ($this->form_validation->run ( $this ) == FALSE) {
 				
+			if ($this->form_validation->run ( $this ) == FALSE) {
+
 				showMessage ( validation_errors (), '', 'r' );
 				exit ();
 			} else {
@@ -56,27 +56,27 @@ class ShopAdminComulativ extends ShopAdminController {
 				$active = $this->input->post ( 'active' );
 				$total = $this->input->post ( 'total' );
 				$total_a = $this->input->post ( 'total_a' );
-				
+
 				$data = array (
 						'description' => $description,
 						'discount' => $discount,
 						'active' => $active,
 						'date' => $date,
 						'total' => $total,
-						'total_a' => $total_a 
+						'total_a' => $total_a
 				);
-				
+
 				$this->db->insert ( $this->dbName, $data );
-				
+
 				showMessage ( lang ( 'Discount created', 'admin' ) );
-				
+
 				$info = $this->db->get_where ( 'shop_comulativ_discount', array (
-						'description' => $data ['description'] 
+						'description' => $data ['description']
 				) );
 				$row = $info->row ();
-				
+
 				$action = $_POST ['action'];
-				
+
 				if ($action == 'new') {
 					pjax ( '/admin/components/run/shop/comulativ/edit/' . $row->id );
 				} else {
@@ -87,7 +87,7 @@ class ShopAdminComulativ extends ShopAdminController {
 			$this->render ( 'create', array () );
 		}
 	}
-	
+
 	/**
 	 * Edit discount
 	 *
@@ -96,24 +96,24 @@ class ShopAdminComulativ extends ShopAdminController {
 	 */
 	public function edit($id = null) {
 		$model = $this->db->get_where ( $this->dbName, array (
-				'id' => $id 
+				'id' => $id
 		) )->result_array ();
-		
+
 		$query = $this->db->query ( "SELECT total, total_a FROM shop_comulativ_discount WHERE id = $id" );
 		$row = $query->row_array ();
-		
+
 		$queryDC = $this->db->query ( 'SELECT id, username, phone, address, email, created FROM users WHERE amout >= ' . $row ['total'] . ' AND amout < ' . $row ['total_a'] );
 		$rowDC = $queryDC->result_array ();
-		
+
 		if ($_POST) {
 			$this->load->library ( 'form_validation' );
 			$this->form_validation->set_rules ( 'discount', lang ( 'Discount', 'admin' ), 'required|trim|max_length[3]' );
 			$this->form_validation->set_rules ( 'total', lang ( 'The amount of', 'admin' ), 'required|trim|numeric' );
 			$this->form_validation->set_rules ( 'description', lang ( 'Description', 'admin' ), 'required|trim' );
 			$this->form_validation->set_rules ( 'total_a', lang ( 'Amount before', 'admin' ), 'required|trim|numeric' );
-			
-			if ($this->form_validation->run ( $this ) == FALSE) {
 				
+			if ($this->form_validation->run ( $this ) == FALSE) {
+
 				showMessage ( validation_errors (), '', 'r' );
 			} else {
 				$date = date ( 'U' );
@@ -122,23 +122,23 @@ class ShopAdminComulativ extends ShopAdminController {
 				$active = $this->input->post ( 'active' );
 				$total = $this->input->post ( 'total' );
 				$total_a = $this->input->post ( 'total_a' );
-				
+
 				$data = array (
 						'description' => $description,
 						'discount' => $discount,
 						'active' => $active,
 						'date' => $date,
 						'total' => $total,
-						'total_a' => $total_a 
+						'total_a' => $total_a
 				);
-				
+
 				$this->db->where ( 'id', $id );
 				$this->db->update ( $this->dbName, $data );
-				
+
 				showMessage ( lang ( 'Discount updated', 'admin' ) );
-				
+
 				$action = $_POST ['action'];
-				
+
 				if ($action == 'edit') {
 					pjax ( '/admin/components/run/shop/comulativ/edit/' . $id );
 				} else {
@@ -146,16 +146,16 @@ class ShopAdminComulativ extends ShopAdminController {
 				}
 			}
 		} else {
-			
+				
 			$totalUsers = count ( $rowDC );
 			if ($totalUsers > $this->perPage) {
 				$this->load->library ( 'Pagination' );
-				
+
 				$config ['base_url'] = site_url ( 'admin/components/run/shop//comulativ/edit/' . $id );
 				$config ['total_rows'] = $totalUsers;
 				$config ['per_page'] = $this->perPage;
 				$config ['uri_segment'] = $this->uri->total_segments ();
-				
+
 				$config ['separate_controls'] = true;
 				$config ['full_tag_open'] = '<div class="pagination pull-left"><ul>';
 				$config ['full_tag_close'] = '</ul></div>';
@@ -172,49 +172,49 @@ class ShopAdminComulativ extends ShopAdminController {
 				$config ['num_tag_close'] = '</li>';
 				$config ['num_tag_open'] = '<li>';
 				$config ['num_tag_close'] = '</li>';
-				
+
 				$this->pagination->num_links = 5;
 				$this->pagination->initialize ( $config );
 				$this->template->assign ( 'paginator', $this->pagination->create_links_ajax () );
 			}
 			$this->render ( 'edit', array (
 					'model' => $model,
-					'rowDC' => $rowDC 
+					'rowDC' => $rowDC
 			) );
 		}
 	}
 	public function allUsers() {
 		$model = $this->db->query ( 'SELECT  id, username, email, created, amout, discount FROM users' );
 		$users = $model->result_array ();
-		
+
 		$this->render ( 'allusers', array (
-				'users' => $users 
+				'users' => $users
 		) );
 	}
 	public function user($id = Null) {
 		$model = $this->db->query ( 'SELECT id, username, email, amout, discount FROM users WHERE id =' . $id );
 		$user = $model->result_array ();
-		
+
 		if ($_POST) {
 			$this->load->library ( 'form_validation' );
 			$this->form_validation->set_rules ( 'discount', lang ( 'Discount', 'admin' ), 'numeric|max_length[3]' );
-			
-			if ($this->form_validation->run ( $this ) == FALSE) {
 				
+			if ($this->form_validation->run ( $this ) == FALSE) {
+
 				showMessage ( validation_errors (), '', 'r' );
 			} else {
-				
+
 				$discount_user_profile = $this->input->post ( 'discount' );
-				
+
 				$data = array (
-						'discount' => $discount_user_profile 
+						'discount' => $discount_user_profile
 				);
-				
+
 				$this->db->where ( 'id', $id );
 				$this->db->update ( 'users', $data );
-				
+
 				showMessage ( lang ( 'Deposit rates', 'admin' ) . ' <b>' . $user ['0'] ['username'] . '</b> ' . lang ( 'refreshed successfully', 'admin' ) );
-				
+
 				$action = $_POST ['action'];
 				if ($action == 'edit') {
 					pjax ( '/admin/components/run/shop/comulativ/user/' . $id );
@@ -224,11 +224,11 @@ class ShopAdminComulativ extends ShopAdminController {
 			}
 		} else {
 			$this->render ( 'user', array (
-					'user' => $user 
+					'user' => $user
 			) );
 		}
 	}
-	
+
 	/**
 	 * Delete warehouse
 	 *
@@ -241,12 +241,12 @@ class ShopAdminComulativ extends ShopAdminController {
 		}
 		if (sizeof ( $_POST ['ids'] > 0 )) {
 			$model = ShopComulativQuery::create ()->findPks ( $_POST ['ids'] );
-			
+				
 			if (! empty ( $model )) {
 				foreach ( $model as $order ) {
 					$order->delete ();
 				}
-				
+
 				showMessage ( lang ( 'Cumulative discount removed', 'admin' ) );
 			}
 		}

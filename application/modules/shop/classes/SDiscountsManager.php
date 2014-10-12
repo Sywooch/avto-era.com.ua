@@ -14,26 +14,26 @@ class SDiscountsManager {
 	public function __construct() {
 		if (! ShopCore::$ci->dx_auth->is_logged_in () && ! $this->DFA)
 			return FALSE;
-		
+
 		if ($this->DFA && ShopCore::$ci->dx_auth->is_logged_in ())
 			$model = SUserProfileQuery::create ()->orderByDiscount ()->findOneById ( ShopCore::$ci->dx_auth->get_user_id () );
-		
+
 		elseif (ShopCore::$ci->dx_auth->is_logged_in ())
-			$model = SUserProfileQuery::create ()->orderByDiscount ()->findOneById ( ShopCore::$ci->dx_auth->get_user_id () );
-		
+		$model = SUserProfileQuery::create ()->orderByDiscount ()->findOneById ( ShopCore::$ci->dx_auth->get_user_id () );
+
 		if ($model) {
-			
-			if (($model->getDiscount () === Null or $model->getDiscount () == 0) && ! $this->DMA) {
 				
+			if (($model->getDiscount () === Null or $model->getDiscount () == 0) && ! $this->DMA) {
+
 				$result = ShopComulativQuery::create ()->orderByTotalA ( Criteria::DESC )->condition ( 'cond1', 'ShopComulativ.Total <= ?', $model->getAmout () )->condition ( 'cond2', 'ShopComulativ.TotalA >= ?', $model->getAmout () )->condition ( 'cond4', 'ShopComulativ.Active = 1' )->where ( array (
 						'cond1',
 						'cond2',
-						'cond4' 
+						'cond4'
 				), Criteria::LOGICAL_AND )->condition ( 'cond5', 'ShopComulativ.Active = 1' )->condition ( 'cond6', 'ShopComulativ.TotalA <= ?', $model->getAmout () )->orWhere ( array (
 						'cond5',
-						'cond6' 
+						'cond6'
 				), Criteria::LOGICAL_AND )->findOne ();
-				
+
 				if ($result) {
 					$this->comulativ = false;
 					$this->discounts [] = $result;
@@ -47,15 +47,15 @@ class SDiscountsManager {
 		} else {
 			$this->comulativ = true;
 		}
-		
+
 		if ($this->comulativ === true) {
-			
-			$timeNow = date ( 'U' );
-			
-			$discounts = ShopDiscountsQuery::create ()->filterByActive ( true )->orderBy ( 'ShopDiscounts.Discount', Criteria::DESC )->where ( 'ShopDiscounts.DateStart <= ?', $timeNow )->where ( 'ShopDiscounts.DateStop >= ?', $timeNow )->find ();
-			
-			if (count ( $discounts ) > 0) {
 				
+			$timeNow = date ( 'U' );
+				
+			$discounts = ShopDiscountsQuery::create ()->filterByActive ( true )->orderBy ( 'ShopDiscounts.Discount', Criteria::DESC )->where ( 'ShopDiscounts.DateStart <= ?', $timeNow )->where ( 'ShopDiscounts.DateStop >= ?', $timeNow )->find ();
+				
+			if (count ( $discounts ) > 0) {
+
 				foreach ( $discounts as $d ) {
 					// Create categories array
 					// $categoriesArray = unserialize($d->getCategories());
@@ -63,9 +63,9 @@ class SDiscountsManager {
 					// $categoriesArray = array();
 					// Check what to type of discount to use
 					$d->setVirtualColumn ( 'UsePercentage', true );
-					
+						
 					$d->setDiscount ( str_replace ( '%', '', $d->getDiscount () ) );
-					
+						
 					// Create products array
 					// $productIds = array();
 					// if ($d->getProducts() != '') {

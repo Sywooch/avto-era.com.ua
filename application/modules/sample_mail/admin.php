@@ -13,15 +13,15 @@ class Admin extends BaseAdminController {
 		parent::__construct ();
 		$lang = new MY_Lang ();
 		$lang->load ( 'sample_mail' );
-		
+
 		// loading model for work with emails
 		$this->load->model ( 'sample_mail_model' );
-		
+
 		$this->load->library ( 'form_validation' );
 		$this->load->module ( 'core' );
 		$this->locale = $this->core->def_lang [0] ['identif'];
 	}
-	
+
 	// creating new email template
 	public function create() {
 		if (empty ( $_POST )) {
@@ -51,7 +51,7 @@ class Admin extends BaseAdminController {
 			}
 		}
 	}
-	
+
 	// editing email template according to its name and locale
 	public function edit($name, $locale = null) {
 		if ($locale == null)
@@ -67,7 +67,7 @@ class Admin extends BaseAdminController {
 					'model' => $model,
 					'settings' => $settings,
 					'languages' => $this->cms_admin->get_langs (),
-					'locale' => $locale 
+					'locale' => $locale
 			) );
 		} else {
 			$this->form_validation->set_rules ( 'mail_name', lang ( 'Template name' ), 'required|xss_clean' );
@@ -111,7 +111,7 @@ class Admin extends BaseAdminController {
 		$models = $this->sample_mail_model->getList ( $locale );
 		$this->render ( 'list', array (
 				'models' => $models,
-				'locale' => $locale 
+				'locale' => $locale
 		) );
 	}
 	public function delete() {

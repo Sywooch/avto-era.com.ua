@@ -22,20 +22,20 @@ class Rss extends MY_Controller {
 			// rss feed fetched from cache
 		} else {
 			$this->load->library ( 'lib_category' );
-			
+				
 			$this->settings = $this->_load_settings ();
-			
+				
 			if ($this->settings ['pages_count'] == 0) {
 				$this->settings ['pages_count'] = 10;
 			}
-			
+				
 			$pages = $this->get_pages ();
-			
+				
 			$cnt = count ( $pages );
 			if ($cnt > 0) {
 				for($i = 0; $i < $cnt; $i ++) {
 					$pages [$i] ['prev_text'] = htmlspecialchars_decode ( $pages [$i] ['prev_text'] );
-					
+						
 					if ($pages [$i] ['category'] > 0) {
 						$category = $this->lib_category->get_category ( $pages [$i] ['category'] );
 						$pages [$i] ['title'] = $category ['name'] . ' / ' . $pages [$i] ['title'];
@@ -43,25 +43,25 @@ class Rss extends MY_Controller {
 					}
 				}
 			}
-			
+				
 			$tpl_data = array (
 					'header' => $this->rss_header,
 					'title' => $this->settings ['title'],
 					'description' => $this->settings ['description'],
 					'pub_date' => gmdate ( 'D, d M Y H:i:s', time () ) . ' GMT',
-					'items' => $pages 
+					'items' => $pages
 			);
-			
+				
 			$this->template->add_array ( $tpl_data );
-			
+				
 			$content = $this->fetch_tpl ( 'feed_theme' );
-			
+				
 			$this->cache->store ( $this->cache_key, $content, $this->settings ['cache_ttl'] * 60 );
 		}
-		
+
 		echo $content;
 	}
-	
+
 	/**
 	 * Load pages
 	 */
@@ -70,37 +70,37 @@ class Rss extends MY_Controller {
 		$this->db->where ( 'post_status', 'publish' );
 		$this->db->where ( 'prev_text !=', 'null' );
 		$this->db->where ( 'publish_date <=', time () );
-		
+
 		if (count ( $this->settings ['categories'] ) > 0) {
 			$this->db->where_in ( 'category', $this->settings ['categories'] );
 		}
-		
+
 		$this->db->order_by ( 'publish_date', 'desc' );
 		$query = $this->db->get ( 'content', $this->settings ['pages_count'] );
-		
+
 		return $query->result_array ();
 	}
-	
+
 	/**
 	 * Load rss settings
 	 */
 	public function _load_settings() {
 		$this->db->where ( 'name', 'rss' );
 		$query = $this->db->get ( 'components', 1 )->row_array ();
-		
+
 		return unserialize ( $query ['settings'] );
 	}
 	public function _install() {
 		if ($this->dx_auth->is_admin () == FALSE)
 			exit ();
 			
-			// Enable module url access
+		// Enable module url access
 		$this->db->where ( 'name', 'rss' );
 		$this->db->update ( 'components', array (
-				'enabled' => '1' 
+				'enabled' => '1'
 		) );
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -108,7 +108,7 @@ class Rss extends MY_Controller {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/public/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

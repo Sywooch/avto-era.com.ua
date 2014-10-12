@@ -15,14 +15,14 @@ class Mabilis {
 	public function __construct(&$config = array()) {
 		$this->load_config ( $config );
 	}
-	
+
 	/**
 	 * Display or fetch template file
 	 */
 	public function view($file, $data = array(), $return = FALSE) {
 		// Delete double .tpl.tpl
 		$file = preg_replace ( '/.tpl.tpl/', '.tpl', $file );
-		
+
 		if (preg_match ( '/file:/', $file, $_Matches )) {
 			$file_dir = preg_replace ( '/\/\//', '/', $file );
 			$file_dir = preg_replace ( '/file\:/', '', $file_dir );
@@ -34,24 +34,24 @@ class Mabilis {
 		if (strpos ( $file_dir, 'application\modules' )) {
 			$newFile = explode ( 'application\modules', $file_dir );
 			$new_file_dir = $all_tpl_path . 'modules' . $newFile [1];
-			
+				
 			if (file_exists ( $new_file_dir )) {
 				$file_dir = $new_file_dir;
 			}
 		}
-		
+
 		$compiled_file = $this->config->compile_path . md5 ( $file_dir ) . $this->config->compiled_ext;
-		
+
 		if (! file_exists ( $compiled_file ) or $this->config->force_compile == TRUE) {
 			// Compile file
 			$this->load_compiler ();
 			$this->compiler->compile ( $file_dir );
 		}
-		
+
 		extract ( $data );
-		
+
 		ob_start ();
-		
+
 		if (file_exists ( $compiled_file )) {
 			// if (!in_array($compiled_file, $this->arr)) {
 			include ($compiled_file);
@@ -62,22 +62,22 @@ class Mabilis {
 		} else {
 			print '<p class="error">Error: ' . $compiled_file . ' does not exists!</p>';
 		}
-		
+
 		// Time to live expried
 		if ($mabilis_ttl <= time ()) {
 			@unlink ( $compiled_file );
 		}
-		
+
 		if ($this->config->use_filemtime == TRUE and $mabilis_last_modified != @filemtime ( $file_dir )) {
 			@unlink ( $compiled_file );
 		}
-		
+
 		if ($return == TRUE) {
 			$buffer = ob_get_contents ();
 			ob_end_clean ();
 			return $buffer;
 		}
-		
+
 		ob_end_flush ();
 	}
 	public function load_config($config = array()) {
@@ -86,12 +86,12 @@ class Mabilis {
 				ob_start ( 'ob_gzhandler' );
 			}
 		}
-		
+
 		if ($this->config == NULL) {
 			include 'Config.class.php';
 			$this->config = new Mabilis_Config ( $config );
 		}
-		
+
 		return TRUE;
 	}
 	public function set_config_value($param, $value) {
@@ -102,7 +102,7 @@ class Mabilis {
 			return $this->config->$param;
 		}
 	}
-	
+
 	/**
 	 * Load compiler class if not loaded yet
 	 */
@@ -111,7 +111,7 @@ class Mabilis {
 			include 'Mabilis.compiler.php';
 			$this->compiler = new Mabilis_Compiler ( $this->config );
 		}
-		
+
 		return TRUE;
 	}
 }

@@ -33,7 +33,7 @@
  * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Worksheet_SheetView {
-	
+
 	/* Sheet View types */
 	const SHEETVIEW_NORMAL = 'normal';
 	const SHEETVIEW_PAGE_LAYOUT = 'pageLayout';
@@ -41,9 +41,9 @@ class PHPExcel_Worksheet_SheetView {
 	private static $_sheetViewTypes = array (
 			self::SHEETVIEW_NORMAL,
 			self::SHEETVIEW_PAGE_LAYOUT,
-			self::SHEETVIEW_PAGE_BREAK_PREVIEW 
+			self::SHEETVIEW_PAGE_BREAK_PREVIEW
 	);
-	
+
 	/**
 	 * ZoomScale
 	 *
@@ -52,7 +52,7 @@ class PHPExcel_Worksheet_SheetView {
 	 * @var int
 	 */
 	private $_zoomScale = 100;
-	
+
 	/**
 	 * ZoomScaleNormal
 	 *
@@ -61,7 +61,7 @@ class PHPExcel_Worksheet_SheetView {
 	 * @var int
 	 */
 	private $_zoomScaleNormal = 100;
-	
+
 	/**
 	 * View
 	 *
@@ -70,13 +70,13 @@ class PHPExcel_Worksheet_SheetView {
 	 * @var string
 	 */
 	private $_sheetviewType = self::SHEETVIEW_NORMAL;
-	
+
 	/**
 	 * Create a new PHPExcel_Worksheet_SheetView
 	 */
 	public function __construct() {
 	}
-	
+
 	/**
 	 * Get ZoomScale
 	 *
@@ -85,13 +85,13 @@ class PHPExcel_Worksheet_SheetView {
 	public function getZoomScale() {
 		return $this->_zoomScale;
 	}
-	
+
 	/**
 	 * Set ZoomScale
 	 *
 	 * Valid values range from 10 to 400.
 	 *
-	 * @param int $pValue        	
+	 * @param int $pValue
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Worksheet_SheetView
 	 */
@@ -105,7 +105,7 @@ class PHPExcel_Worksheet_SheetView {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get ZoomScaleNormal
 	 *
@@ -114,13 +114,13 @@ class PHPExcel_Worksheet_SheetView {
 	public function getZoomScaleNormal() {
 		return $this->_zoomScaleNormal;
 	}
-	
+
 	/**
 	 * Set ZoomScale
 	 *
 	 * Valid values range from 10 to 400.
 	 *
-	 * @param int $pValue        	
+	 * @param int $pValue
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Worksheet_SheetView
 	 */
@@ -132,7 +132,7 @@ class PHPExcel_Worksheet_SheetView {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get View
 	 *
@@ -141,7 +141,7 @@ class PHPExcel_Worksheet_SheetView {
 	public function getView() {
 		return $this->_sheetviewType;
 	}
-	
+
 	/**
 	 * Set View
 	 *
@@ -150,7 +150,7 @@ class PHPExcel_Worksheet_SheetView {
 	 * 'pageLayout'		self::SHEETVIEW_PAGE_LAYOUT
 	 * 'pageBreakPreview'	self::SHEETVIEW_PAGE_BREAK_PREVIEW
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Worksheet_SheetView
 	 */
@@ -164,10 +164,10 @@ class PHPExcel_Worksheet_SheetView {
 		} else {
 			throw new PHPExcel_Exception ( "Invalid sheetview layout type." );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

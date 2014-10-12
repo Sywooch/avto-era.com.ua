@@ -17,8 +17,8 @@ $error = array ();
 
 /*
  * I've used Babelfish and a little poor knowledge of Romance/Germanic languages for the translations here.
- * Feel free to correct anything that looks amiss to you.
- */
+* Feel free to correct anything that looks amiss to you.
+*/
 
 define ( 'PolymorphicArgumentException', - 1 );
 $error ['EN'] [PolymorphicArgumentException] = "Invalid argument pattern for polymorphic function.";
@@ -63,13 +63,13 @@ $error ['EN'] [RowLengthException] = "All rows must have the same length.";
 
 /**
  * Custom error handler
- * 
+ *
  * @param int $num
  *        	Error number
  */
 function JAMAError($errorNumber = null) {
 	global $error;
-	
+
 	if (isset ( $errorNumber )) {
 		if (isset ( $error [JAMALANG] [$errorNumber] )) {
 			return $error [JAMALANG] [$errorNumber];

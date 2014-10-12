@@ -9,22 +9,22 @@ class SAdminSidebarRenderer {
 		ob_start ();
 		$this->_walkArrayAdmin ( ShopCore::app ()->SCategoryTree->getTree ( SCategoryTree::MODE_MULTI ) );
 		$tree = ob_get_clean ();
-		
+
 		if ($tree == '')
 			echo '<a href="javascript:ajaxShop(\'categories/create\')">Создать категорию</a>';
-		
+
 		echo '<div class="rdTreeFirebug demotree">
-        <ul id="desktop_tree">';
+		<ul id="desktop_tree">';
 		echo $tree;
 		echo '
-        </ul>
-        </div>
-        <script type="text/javascript">
-        var ShopCatsTree = new rdTree(\'desktop_tree\');
-        ShopCatsTree.expandAll();
-        </script>';
+		</ul>
+		</div>
+		<script type="text/javascript">
+		var ShopCatsTree = new rdTree(\'desktop_tree\');
+		ShopCatsTree.expandAll();
+		</script>';
 	}
-	
+
 	/**
 	 * Display categories ul list.
 	 *
@@ -39,7 +39,7 @@ class SAdminSidebarRenderer {
 				$style = 'style="color:silver;"';
 			else
 				$style = '';
-			
+				
 			echo '<li><a href="#" ' . $style . ' onclick="ajaxShop(\'products/index/' . $key->getId () . '\'); return false;">' . ShopCore::encode ( $key->getName () ) . '</a>';
 			if (sizeof ( $key->getSubtree () )) {
 				echo '<ul>';

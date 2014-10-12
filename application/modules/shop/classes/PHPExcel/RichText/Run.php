@@ -37,18 +37,18 @@ class PHPExcel_RichText_Run extends PHPExcel_RichText_TextElement implements PHP
 	 * @var PHPExcel_Style_Font
 	 */
 	private $_font;
-	
+
 	/**
 	 * Create a new PHPExcel_RichText_Run instance
 	 *
-	 * @param string $pText        	
+	 * @param string $pText
 	 */
 	public function __construct($pText = '') {
 		// Initialise variables
 		$this->setText ( $pText );
 		$this->_font = new PHPExcel_Style_Font ();
 	}
-	
+
 	/**
 	 * Get font
 	 *
@@ -57,11 +57,11 @@ class PHPExcel_RichText_Run extends PHPExcel_RichText_TextElement implements PHP
 	public function getFont() {
 		return $this->_font;
 	}
-	
+
 	/**
 	 * Set font
 	 *
-	 * @param PHPExcel_Style_Font $pFont        	
+	 * @param PHPExcel_Style_Font $pFont
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_RichText_ITextElement
 	 */
@@ -69,7 +69,7 @@ class PHPExcel_RichText_Run extends PHPExcel_RichText_TextElement implements PHP
 		$this->_font = $pFont;
 		return $this;
 	}
-	
+
 	/**
 	 * Get hash code
 	 *
@@ -78,7 +78,7 @@ class PHPExcel_RichText_Run extends PHPExcel_RichText_TextElement implements PHP
 	public function getHashCode() {
 		return md5 ( $this->getText () . $this->_font->getHashCode () . __CLASS__ );
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

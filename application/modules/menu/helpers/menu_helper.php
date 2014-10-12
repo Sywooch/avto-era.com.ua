@@ -6,7 +6,7 @@ if (! defined ( 'BASEPATH' ))
 /**
  * Display menu
  *
- * @param string $menu_name        	
+ * @param string $menu_name
  */
 
 if (! function_exists ( 'load_menu' )) {
@@ -23,14 +23,14 @@ if (! function_exists ( 'load_menu' )) {
 if (! function_exists ( 'menu_inject' )) {
 	function menu_inject($str) {
 		preg_match_all ( "/\{load_menu\((.*?)\)\}/", $str, $matches );
-		
+
 		if (count ( $matches [1] ) > 0) {
 			foreach ( $matches [1] as $k => $v ) {
 				$html = modules::run ( 'menu/render', $v );
 				$str = str_replace ( '{load_menu(' . $v . ')}', $html, $str );
 			}
 		}
-		
+
 		return $str;
 	}
 }

@@ -15,7 +15,7 @@ class Search extends \MY_Controller {
 		$lang = new \MY_Lang ();
 		$lang->load ( 'mod_stats' );
 	}
-	
+
 	/**
 	 *
 	 * @return Search
@@ -24,7 +24,7 @@ class Search extends \MY_Controller {
 		(null !== self::$instanse) or self::$instanse = new self ();
 		return self::$instanse;
 	}
-	
+
 	/**
 	 * Table representation for keywords searched
 	 */
@@ -33,10 +33,10 @@ class Search extends \MY_Controller {
 		$keywords = $this->stats_model_search->getKeywordsByDateRange ();
 		return $keywords;
 	}
-	
+
 	/**
 	 * Return brands and counts data for chart
-	 * 
+	 *
 	 * @return chart data
 	 */
 	public function getBrandsInSearch() {
@@ -45,10 +45,10 @@ class Search extends \MY_Controller {
 		/* * Get keywords from search * */
 		$keywords = $this->stats_model_search->queryKeywordsByDateRange ( new \mod_stats\classes\LineDiagramBase (), $params ['words_quantity'] );
 		$keywordsArray = $keywords->result_array ();
-		
+
 		/* * Prepare query string, which will be inserted after WHERE * */
 		$queryStringWhere = $this->prepareQueryStringForSearchAnalisis ( $keywordsArray );
-		
+
 		if ($queryStringWhere != false) {
 			/**
 			 * Run analysis and get array with brands *
@@ -57,7 +57,7 @@ class Search extends \MY_Controller {
 		} else {
 			return FALSE;
 		}
-		
+
 		if ($arrayWithBrandsInSearch != FALSE) {
 			/**
 			 * Data for pie diagram *
@@ -66,22 +66,22 @@ class Search extends \MY_Controller {
 			foreach ( $arrayWithBrandsInSearch as $brand ) {
 				$pieData [] = array (
 						'key' => $brand ['name'],
-						'y' => ( int ) $brand ['count'] 
+						'y' => ( int ) $brand ['count']
 				);
 			}
-			
+				
 			return json_encode ( array (
 					'type' => 'pie',
-					'data' => $pieData 
+					'data' => $pieData
 			) );
 		} else {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Return categories and counts data for chart
-	 * 
+	 *
 	 * @return chart data
 	 */
 	public function getCategoriesInSearch() {
@@ -90,10 +90,10 @@ class Search extends \MY_Controller {
 		/* * Get keywords from search * */
 		$keywords = $this->stats_model_search->queryKeywordsByDateRange ( new \mod_stats\classes\LineDiagramBase (), $params ['words_quantity'] );
 		$keywordsArray = $keywords->result_array ();
-		
+
 		/* * Prepare query string, which will be inserted after WHERE * */
 		$queryStringWhere = $this->prepareQueryStringForSearchAnalisis ( $keywordsArray );
-		
+
 		if ($queryStringWhere != false) {
 			/**
 			 * Run analysis and get array with brands *
@@ -102,7 +102,7 @@ class Search extends \MY_Controller {
 		} else {
 			return FALSE;
 		}
-		
+
 		if ($arrayWithBrandsInSearch != FALSE) {
 			/**
 			 * Data for pie diagram *
@@ -111,30 +111,30 @@ class Search extends \MY_Controller {
 			foreach ( $arrayWithBrandsInSearch as $brand ) {
 				$pieData [] = array (
 						'key' => $brand ['name'],
-						'y' => ( int ) $brand ['count'] 
+						'y' => ( int ) $brand ['count']
 				);
 			}
-			
+				
 			return json_encode ( array (
 					'type' => 'pie',
-					'data' => $pieData 
+					'data' => $pieData
 			) );
 		} else {
 			return;
 		}
 	}
-	
+
 	/**
 	 * Prepare query string, which will be inserted after WHERE
-	 * 
-	 * @param array $searchResults        	
+	 *
+	 * @param array $searchResults
 	 * @return boolean|string
 	 */
 	private function prepareQueryStringForSearchAnalisis($searchResults = null) {
 		if ($searchResults == null) {
 			return FALSE;
 		} else {
-			
+				
 			$returnResult = "(";
 			$isFirst = "";
 			foreach ( $searchResults as $value ) {
@@ -145,10 +145,10 @@ class Search extends \MY_Controller {
 			return $returnResult;
 		}
 	}
-	
+
 	/**
 	 * Get params for analysis from cookie
-	 * 
+	 *
 	 * @return array
 	 */
 	public function prepareParamsFromCookiesForAnalysis() {
@@ -177,7 +177,7 @@ class Search extends \MY_Controller {
 		} else {
 			$params ['useLocale'] = "";
 		}
-		
+
 		return $params;
 	}
 }

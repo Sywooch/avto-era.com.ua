@@ -35,10 +35,13 @@ h1 {
 </head>
 <body>
 	<div id="content">
-		<h1><?php echo $heading; ?></h1>
-		<div id="error_text"><?php echo $message; ?></div>
-		<a href="mailto:username@domain">Сообщить
-			администратору</a> <img
+		<h1>
+			<?php echo $heading; ?>
+		</h1>
+		<div id="error_text">
+			<?php echo $message; ?>
+		</div>
+		<a href="mailto:username@domain">Сообщить администратору</a> <img
 			src="/templates/administrator/img/logo.png" />
 	</div>
 </body>

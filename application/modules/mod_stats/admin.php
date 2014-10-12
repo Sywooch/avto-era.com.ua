@@ -21,27 +21,27 @@ class Admin extends \BaseAdminController {
 		 * Load model *
 		 */
 		$this->load->model ( 'stats_model' );
-		
+
 		/**
 		 * Variable for main.tpl wich contain value of setting "save_search_result" *
 		 */
 		$saveSearchResults = $this->getSetting ( 'save_search_results' );
 		$savePageUrls = $this->getSetting ( 'save_page_urls' );
-		
+
 		/**
 		 * Show main.tpl with scripts, styles and data *
 		 */
 		if ($this->input->get ( 'notLoadMain' ) != 'true') {
 			\CMSFactory\assetManager::create ()->setData ( array (
 					'saveSearchResults' => $saveSearchResults,
-					'savePageUrls' => $savePageUrls 
+					'savePageUrls' => $savePageUrls
 			) )->registerStyle ( 'style' )->registerStyle ( 'nvd3/nv.d3' )->registerScript ( 'scripts', FALSE, 'after' )->registerScript ( 'nvd3/lib/d3.v3', FALSE, 'before' )->registerScript ( 'nvd3/nv.d3', FALSE, 'before' )->renderAdmin ( 'main', true );
 		}
 	}
-	
+
 	/**
 	 * Loads template
-	 * 
+	 *
 	 * @param string $statType
 	 *        	first menu level (folder)
 	 * @param string $statSubType
@@ -49,22 +49,22 @@ class Admin extends \BaseAdminController {
 	 */
 	public function getStatsTemplate($statType, $statSubType) {
 		$template = $statType . "/" . $statSubType;
-		
+
 		// trying to get template data (if has)
 		if (FALSE !== $templateDataArray = $this->getTemplateData ( $statType, $statSubType )) {
 			$data = $templateDataArray;
 		} else {
 			$data = array ();
 		}
-		
+
 		echo \CMSFactory\assetManager::create ()->setData ( array (
-				'data' => $data 
+				'data' => $data
 		) )->fetchAdminTemplate ( $template, TRUE );
 	}
-	
+
 	/**
 	 * Returns data for specific diagram
-	 * 
+	 *
 	 * @param string $statType
 	 *        	class of diagram type
 	 * @param string $statSubType
@@ -81,12 +81,12 @@ class Admin extends \BaseAdminController {
 			echo "Error";
 		}
 	}
-	
+
 	/**
 	 * Some templates may have their own data - this method obtain them
-	 * 
-	 * @param string $folder        	
-	 * @param string $template        	
+	 *
+	 * @param string $folder
+	 * @param string $template
 	 * @return array associative array with current template data
 	 */
 	protected function getTemplateData($folder, $template) {
@@ -94,13 +94,13 @@ class Admin extends \BaseAdminController {
 		$methodName = 'template' . ucfirst ( $template );
 		if (method_exists ( $statsObject, $methodName ))
 			return $statsObject->$methodName ();
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * For getting object of needed statistic category
-	 * 
+	 *
 	 * @return boolean|object
 	 */
 	protected function getStatsObject($statType) {
@@ -125,33 +125,33 @@ class Admin extends \BaseAdminController {
 		}
 		return $object;
 	}
-	
+
 	/**
 	 * Get setting by value
-	 * 
-	 * @param string $settingName        	
+	 *
+	 * @param string $settingName
 	 * @return string|boolean
 	 */
 	public function getSetting($settingName) {
 		return $this->stats_model->getSettingByName ( $settingName );
 	}
-	
+
 	/**
 	 * Ajax update setting by value and setting name
 	 */
 	public function ajaxUpdateSettingValue() {
 		\mod_stats\classes\AdminHelper::create ()->ajaxUpdateSettingValue ();
 	}
-	
+
 	/**
 	 * Autocomlete products
-	 * 
+	 *
 	 * @return jsone
 	 */
 	public function autoCompliteProducts() {
 		\mod_stats\classes\AdminHelper::create ()->autoCompliteProducts ();
 	}
-	
+
 	/**
 	 * Ajax get product info by id (name, count of purchasses, rating, comments count)
 	 */

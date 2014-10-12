@@ -4,7 +4,7 @@
 /**
  * Image CMS
  * parce_opencart Admin
- * 
+ *
  * @property CI_DB_active_record $db_opencart
  * @link http://opencartforum.ru/topic/5852-opisaniia-failov-shablona-15kh-diagramma-mysql/ опис бази
  */
@@ -36,34 +36,34 @@ class Admin extends BaseAdminController {
 		$db ['swap_pre'] = '';
 		$db ['autoinit'] = TRUE;
 		$db ['stricton'] = FALSE;
-		
+
 		$this->db_opencart = $this->load->database ( $db, TRUE, TRUE );
-		
+
 		$this->db->truncate ( 'shop_category' );
 		$this->db->truncate ( 'shop_category_i18n' );
-		
+
 		$this->db->truncate ( 'shop_brands' );
 		$this->db->truncate ( 'shop_brands_i18n' );
-		
+
 		$this->db->truncate ( 'shop_currencies' );
-		
+
 		$this->db->truncate ( 'shop_products' );
 		$this->db->truncate ( 'shop_products_i18n' );
 		$this->db->truncate ( 'shop_product_variants' );
 		$this->db->truncate ( 'shop_product_variants_i18n' );
 		$this->db->truncate ( 'shop_product_categories' );
-		
+
 		$this->db->truncate ( 'shop_product_properties' );
 		$this->db->truncate ( 'shop_product_properties_i18n' );
 		$this->db->truncate ( 'shop_product_properties_categories' );
 		$this->db->truncate ( 'shop_product_properties_data' );
 		$this->db->truncate ( 'shop_product_properties_data_i18n' );
-		
+
 		$this->db->truncate ( 'shop_orders' );
 		$this->db->truncate ( 'shop_orders_products' );
-		
+
 		$this->db->truncate ( 'trash' );
-		
+
 		$this->insert_lang ();
 		$this->insert_category ();
 		$this->insert_brands ();
@@ -72,41 +72,41 @@ class Admin extends BaseAdminController {
 		// $this->insert_properties();
 		$this->insert_products ();
 		// $this->insert_orders();
-		
+
 		$this->cache->delete_all ();
-		
+
 		\ShopCore::app ()->SCurrencyHelper->checkPrices ();
-		
+
 		showMessage ( lang ( 'Process completed', 'parce_opencart' ) );
 	}
 	public function insert_orders() {
 		$array = $this->db_opencart->order_by ( 'order_id' )->get ( 'order' )->result_array ();
-		
+
 		foreach ( $array as $value ) {
 			$orders [$value ['order_id']] = $value;
 		}
-		
+
 		$array = $this->db_opencart->get ( 'order_product' )->result_array ();
-		
+
 		foreach ( $array as $value ) {
 			$order_products [$value ['order_id']] [] = $value;
 		}
-		
+
 		foreach ( $orders as $order ) {
 			$orders_insert [] = array ();
-			
+				
 			foreach ( $order_products as $order_product ) {
 			}
 		}
 	}
 	public function insert_properties() {
 		$array = $this->db_opencart->join ( 'option_description', 'option_description.option_id=option.option_id' )->get ( 'option' )->result_array ();
-		
+
 		// var_dump($array);
 	}
 	public function insert_lang() {
 		$array = $this->db_opencart->get ( 'language' );
-		
+
 		try {
 			if ($array) {
 				$array = $array->result_array ();
@@ -117,13 +117,13 @@ class Admin extends BaseAdminController {
 			showMessage ( $exc->getMessage (), '', 'r' );
 			return FALSE;
 		}
-		
+
 		foreach ( $array as $value ) {
 			$langs [$value ['language_id']] = $value;
 		}
-		
+
 		$template = $this->db->get ( 'settings' )->row ()->site_template;
-		
+
 		foreach ( $langs as $lang ) {
 			$insert [] = array (
 					'id' => $lang ['language_id'],
@@ -133,13 +133,13 @@ class Admin extends BaseAdminController {
 					'folder' => $lang ['directory'],
 					'template' => $template,
 					'default' => $lang ['status'],
-					'locale' => $lang ['locale'] 
+					'locale' => $lang ['locale']
 			);
 		}
 		$this->db->insert_batch ( 'languages', $insert );
-		
+
 		$array = $this->db->get ( 'languages' )->result_array ();
-		
+
 		foreach ( $array as $lang ) {
 			$this->langs [$lang ['id']] = $lang ['identif'];
 		}
@@ -148,7 +148,7 @@ class Admin extends BaseAdminController {
 	}
 	public function insert_currency() {
 		$data = $this->db_opencart->get ( 'currency' );
-		
+
 		try {
 			if ($data) {
 				$data = $data->result_array ();
@@ -159,7 +159,7 @@ class Admin extends BaseAdminController {
 			showMessage ( $exc->getMessage (), '', 'r' );
 			return FALSE;
 		}
-		
+
 		foreach ( $data as $cur ) {
 			$insert [] = array (
 					'id' => $cur ['currency_id'],
@@ -169,10 +169,10 @@ class Admin extends BaseAdminController {
 					'code' => $cur ['code'],
 					'rate' => $cur ['value'],
 					'symbol' => $cur ['symbol_right'],
-					'showOnSite' => 1 
+					'showOnSite' => 1
 			);
 		}
-		
+
 		$this->db->insert_batch ( 'shop_currencies', $insert );
 	}
 	public function insert_brands() {
@@ -187,28 +187,28 @@ class Admin extends BaseAdminController {
 			showMessage ( $exc->getMessage (), '', 'r' );
 			return FALSE;
 		}
-		
+
 		foreach ( $data as $dd ) {
 			$manufacturer [$dd ['manufacturer_id']] = $dd;
 		}
-		
+
 		$u = $this->db_opencart->like ( 'query', 'manufacturer_id' )->order_by ( 'url_alias_id' )->get ( 'url_alias' )->result_array ();
-		
+
 		foreach ( $u as $url ) {
 			$id = str_replace ( 'manufacturer_id=', '', $url ['query'] );
 			$manufacturer [$id] ['url'] = $url ['keyword'];
 		}
-		
+
 		foreach ( $manufacturer as $brand ) {
 			$insert [] = array (
 					'id' => $brand ['manufacturer_id'],
 					'url' => $brand ['url'],
 					'image' => pathinfo ( $brand ['image'], PATHINFO_BASENAME ),
-					'position' => $brand ['manufacturer_id'] 
+					'position' => $brand ['manufacturer_id']
 			);
-			
+				
 			copy ( 'uploads/' . $brand ['image'], 'uploads/shop/brands/' . pathinfo ( $brand ['image'], PATHINFO_BASENAME ) );
-			
+				
 			$insert_i18n [] = array (
 					'id' => $brand ['manufacturer_id'],
 					'locale' => 'ru',
@@ -216,24 +216,24 @@ class Admin extends BaseAdminController {
 					'description' => $brand ['description'],
 					'meta_title' => $brand ['seo_title'],
 					'meta_description' => $brand ['meta_description'],
-					'meta_keywords' => $brand ['meta_keyword'] 
+					'meta_keywords' => $brand ['meta_keyword']
 			);
-			
+				
 			$trash [] = array (
 					'trash_url' => $brand ['url'],
 					'trash_redirect_type' => 'url',
 					'trash_redirect' => site_url () . 'shop/brand/' . $brand ['url'],
-					'trash_type' => 301 
+					'trash_type' => 301
 			);
 		}
-		
+
 		$this->db->insert_batch ( 'shop_brands', $insert );
 		$this->db->insert_batch ( 'shop_brands_i18n', $insert_i18n );
 		$this->db->insert_batch ( 'trash', $trash );
 	}
 	public function insert_products() {
 		$data = $this->db_opencart->join ( 'product_description', 'product.product_id=product_description.product_id' )->order_by ( 'product.product_id' )->get ( 'product' );
-		
+
 		try {
 			if ($data) {
 				$data = $data->result_array ();
@@ -244,22 +244,22 @@ class Admin extends BaseAdminController {
 			showMessage ( $exc->getMessage (), '', 'r' );
 			return FALSE;
 		}
-		
+
 		foreach ( $data as $d ) {
 			$array [$d ['product_id']] = $d;
 		}
-		
+
 		$data = $array;
-		
+
 		$u = $this->db_opencart->like ( 'query', 'product_id' )->order_by ( 'url_alias_id' )->get ( 'url_alias' )->result_array ();
-		
+
 		foreach ( $u as $key => $url ) {
 			$id = str_replace ( 'product_id=', '', $url ['query'] );
 			$data [$id] ['url'] = $url ['keyword'];
 		}
-		
+
 		$category = $this->db_opencart->order_by ( 'product_to_category.product_id' )->get ( 'product_to_category' )->result_array ();
-		
+
 		foreach ( $category as $value ) {
 			if ($value ['main_category']) {
 				$data [$value ['product_id']] ['categorys'] ['main_category'] = $value ['category_id'];
@@ -267,9 +267,9 @@ class Admin extends BaseAdminController {
 				$data [$value ['product_id']] ['categorys'] [] = $value ['category_id'];
 			}
 		}
-		
+
 		$cur = $this->db->where ( 'main', 1 )->get ( 'shop_currencies' )->row ()->id;
-		
+
 		foreach ( $data as $product ) {
 			$insert [] = array (
 					'id' => $product ['product_id'],
@@ -293,9 +293,9 @@ class Admin extends BaseAdminController {
 					'mainModImage' => NULL,
 					'smallModImage' => NULL,
 					'tpl' => NULL,
-					'user_id' => NULL 
+					'user_id' => NULL
 			);
-			
+				
 			$insert_i18n [] = array (
 					'id' => $product ['product_id'],
 					'locale' => 'ru',
@@ -304,11 +304,11 @@ class Admin extends BaseAdminController {
 					'full_description' => htmlspecialchars_decode ( $product ['description'] ),
 					'meta_title' => $product ['seo_title'],
 					'meta_description' => $product ['meta_description'],
-					'meta_keywords' => $product ['meta_keyword'] 
+					'meta_keywords' => $product ['meta_keyword']
 			);
-			
+				
 			copy ( 'uploads/' . $product ['image'], 'uploads/shop/products/origin/' . pathinfo ( $product ['image'], PATHINFO_BASENAME ) );
-			
+				
 			$insert_variant [] = array (
 					'product_id' => $product ['product_id'],
 					'price' => NULL,
@@ -319,34 +319,34 @@ class Admin extends BaseAdminController {
 					'smallImage' => NULL,
 					'external_id' => NULL,
 					'currency' => $cur,
-					'price_in_main' => $product ['price'] 
+					'price_in_main' => $product ['price']
 			);
-			
+				
 			foreach ( $product ['categorys'] as $cat ) {
 				$insert_categorys [] = array (
 						'product_id' => $product ['product_id'],
-						'category_id' => $cat 
+						'category_id' => $cat
 				);
 			}
-			
+				
 			$trash [] = array (
 					'trash_url' => ltrim ( $this->db->where ( 'id', $product ['categorys'] ['main_category'] ? $product ['categorys'] ['main_category'] : $product ['categorys'] [0] )->get ( 'shop_category' )->row ()->full_path . '/' ) . $product ['url'],
 					'trash_redirect_type' => 'url',
 					'trash_redirect' => site_url () . 'shop/product/' . $product ['url'],
-					'trash_type' => 301 
+					'trash_type' => 301
 			);
 		}
-		
+
 		$this->db->insert_batch ( 'shop_products', $insert );
 		$this->db->insert_batch ( 'shop_products_i18n', $insert_i18n );
 		$this->db->insert_batch ( 'shop_product_variants', $insert_variant );
 		$this->db->insert_batch ( 'shop_product_categories', $insert_categorys );
-		
+
 		foreach ( $data as $product ) {
 			$insert_variant_i18n [] = array (
 					'id' => $this->db->where ( 'product_id', $product ['product_id'] )->get ( 'shop_product_variants' )->row ()->id,
 					'locale' => 'ru',
-					'name' => htmlspecialchars_decode ( $product ['name'] ) 
+					'name' => htmlspecialchars_decode ( $product ['name'] )
 			);
 		}
 		$this->db->insert_batch ( 'shop_product_variants_i18n', $insert_variant_i18n );
@@ -364,38 +364,38 @@ class Admin extends BaseAdminController {
 			showMessage ( $exc->getMessage (), '', 'r' );
 			return FALSE;
 		}
-		
+
 		$u = $this->db_opencart->like ( 'query', 'category_id' )->get ( 'url_alias' )->result_array ();
-		
+
 		foreach ( $u as $url ) {
 			$id = str_replace ( 'category_id=', '', $url ['query'] );
 			$urls [$id] = $url ['keyword'];
 		}
-		
+
 		foreach ( $data as $d ) {
 			$array [$d ['category_id']] = $d;
 		}
-		
+
 		$data = $array;
-		
+
 		foreach ( $data as $d ) {
 			$parentId = $d ['parent_id'];
 			$fp [$d ['category_id']] [] = $urls [$d ['category_id']];
-			
+				
 			while ( $parentId != 0 ) {
 				$fpi [$d ['category_id']] [] = ( int ) $parentId;
 				$fp [$d ['category_id']] [] = $urls [$parentId];
-				
+
 				$parentId = $data [$parentId] ['parent_id'];
 			}
-			
+				
 			if (count ( $fpi [$d ['category_id']] ) == 0) {
 				$fpi [$d ['category_id']] = array ();
 			}
-			
+				
 			$fp [$d ['category_id']] = implode ( '/', array_reverse ( $fp [$d ['category_id']] ) );
 			$fpi [$d ['category_id']] = serialize ( $fpi [$d ['category_id']] );
-			
+				
 			$insert [] = array (
 					'id' => $d ['category_id'],
 					'url' => $urls [$d ['category_id']],
@@ -406,7 +406,7 @@ class Admin extends BaseAdminController {
 					'active' => $d ['status'],
 					'image' => '',
 					'tpl' => '',
-					'order_method' => '' 
+					'order_method' => ''
 			);
 			$insert_i18n [] = array (
 					'id' => $d ['category_id'],
@@ -416,17 +416,17 @@ class Admin extends BaseAdminController {
 					'description' => $d ['description'],
 					'meta_desc' => $d ['meta_description'],
 					'meta_title' => $d ['seo_title'],
-					'meta_keywords' => $d ['meta_keyword'] 
+					'meta_keywords' => $d ['meta_keyword']
 			);
-			
+				
 			$trash [] = array (
 					'trash_url' => $fp [$d ['category_id']],
 					'trash_redirect_type' => 'category',
 					'trash_redirect' => site_url () . 'shop/category/' . $fp [$d ['category_id']],
-					'trash_type' => 301 
+					'trash_type' => 301
 			);
 		}
-		
+
 		$this->db->insert_batch ( 'shop_category', $insert );
 		$this->db->insert_batch ( 'shop_category_i18n', $insert_i18n );
 		$this->db->insert_batch ( 'trash', $trash );

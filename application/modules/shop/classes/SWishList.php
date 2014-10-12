@@ -9,57 +9,57 @@
  */
 class SWishList {
 	protected $model; // SProducts model.
-	                  
+	 
 	// public $sessKey = 'ShopWishListData'; // Session key to store WishList items list.
 	public function __construct() {
 	}
-	
+
 	/**
 	 * Add product to WishList.
 	 *
 	 * @param array $data
 	 *        	Product Data
-	 *        	
+	 *
 	 *        	array(SProducts model,variantId,quantity)
-	 *        	
+	 *
 	 * @access public
 	 * @return bool
 	 */
 	public function add($data = array()) {
 		$data = ( object ) $data;
-		
+
 		if ($data->model instanceof SProducts) {
 			// $variant = SProductVariantsQuery::create()
 			// ->filterByProductId($data->model->getId())
 			// ->findPk($data->variantId);
-			
+				
 			$productVariants = $data->model->getProductVariants ();
-			
+				
 			$variant = null;
 			foreach ( $productVariants as $v ) {
 				if ($v->getId () == $data->variantId) {
 					$variant = $v;
 				}
 			}
-			
+				
 			if ($variant === null)
 				return false;
-			
+				
 			$itemData = array (
 					$data->model->getId (),
-					$variant->getId () 
+					$variant->getId ()
 			);
-			
+				
 			$this->_addToWishList ( $itemData );
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Add product to session data.
 	 *
-	 * @param array $data        	
+	 * @param array $data
 	 * @access protected
 	 * @return bool always returns true
 	 */
@@ -72,12 +72,12 @@ class SWishList {
 		}
 		if ($insert)
 			$wishData [] = $data;
-		
+
 		$this->setData ( $wishData );
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Remove all items.
 	 *
@@ -96,18 +96,18 @@ class SWishList {
 	}
 	public function removeOne($key) {
 		$data = $this->getData ();
-		
+
 		foreach ( $data as $keys => $val ) {
 			if ($val [0] . '_' . $val [1] == $key)
 				unset ( $data [$keys] );
 		}
-		
+
 		$this->setData ( $data );
-		
+
 		// $this->setData(array_values($data));
 		return true;
 	}
-	
+
 	/**
 	 * Get total items count.
 	 *
@@ -118,7 +118,7 @@ class SWishList {
 		$total = count ( $this->getData () );
 		return $total;
 	}
-	
+
 	/**
 	 * Get total price.
 	 *
@@ -128,7 +128,7 @@ class SWishList {
 	public function totalPrice($converToCurrent = true) {
 		$data = $this->getData ();
 		$result = 0;
-		
+
 		if (sizeof ( $data ) > 0) {
 			foreach ( $data as $item ) {
 				$productVariant = SProductVariantsQuery::create ()->filterById ( $item [1] )->findOne ();
@@ -136,13 +136,13 @@ class SWishList {
 				$result += $price;
 			}
 		}
-		
+
 		if ($converToCurrent === true)
 			$result = ShopCore::app ()->SCurrencyHelper->convert ( $result );
-		
+
 		return round ( $result, ShopCore::app ()->SSettings->pricePrecision );
 	}
-	
+
 	/**
 	 * Get session data
 	 *
@@ -164,8 +164,8 @@ class SWishList {
 		}
 		if ($sUserData != null)
 			$data = unserialize ( $sUserData->getWishListData () );
-			// $data = $this->getWishListCookie();
-		
+		// $data = $this->getWishListCookie();
+
 		if ($data === false or $data == null)
 			return array ();
 		else
@@ -194,7 +194,7 @@ class SWishList {
 		else
 			return count ( $data );
 	}
-	
+
 	/**
 	 * Load products from $this->getData ids array.
 	 *
@@ -203,24 +203,24 @@ class SWishList {
 	 */
 	public function loadProducts($key = NULL) {
 		$data = $this->getData ( $key );
-		
+
 		if (empty ( $data ))
 			return array ();
 		else {
 			$newData = array ();
 			$newCollection = array ();
 			$ids = array_map ( "array_shift", $data );
-			
+				
 			if (sizeof ( $ids ) > 0) {
 				// Load products
 				$collection = SProductsQuery::create ()->findPks ( array_unique ( $ids ) );
 			} else
 				return false;
-			
+				
 			for($i = 0; $i < sizeof ( $collection ); $i ++) {
 				$newCollection [$collection [$i]->getId ()] = $collection [$i];
 			}
-			
+				
 			foreach ( $data as $key => $item ) {
 				if ($newCollection [$item [0]] !== null) {
 					$item ['model'] = $newCollection [$item [0]];
@@ -257,16 +257,16 @@ class SWishList {
 		$cookie = array (
 				'name' => 'wish_list',
 				'value' => serialize ( $data ),
-				'expire' => 60 * 60 * 24 * 31 * 2 
+				'expire' => 60 * 60 * 24 * 31 * 2
 		);
 		set_cookie ( $cookie );
 	}
 	public function removeWishListCookie() {
 		// Load Cookie Helper
 		ShopCore::$ci->load->helper ( 'cookie' );
-		
+
 		$cookie = array (
-				'name' => 'wish_list' 
+				'name' => 'wish_list'
 		);
 		delete_cookie ( $cookie );
 	}

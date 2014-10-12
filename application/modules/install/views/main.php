@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>ImageCMS - <?php lang('Installing', 'install') ?></title>
-	<link rel="stylesheet" type="text/css"
-		href="/templates/administrator/css/bootstrap.css">
+<title>ImageCMS - <?php lang('Installing', 'install') ?></title>
+<link rel="stylesheet" type="text/css"
+	href="/templates/administrator/css/bootstrap.css">
 
-		<style>
+<style>
 body {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	background-image: url("/templates/administrator/img/fon_document.png");
@@ -47,7 +47,7 @@ a.btn {
 	text-decoration: none;
 }
 
-.button_130, .button_silver_130 {
+.button_130,.button_silver_130 {
 	-moz-background-clip: border;
 	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
@@ -60,7 +60,7 @@ a.btn {
 	width: 130px;
 }
 
-.button_130:hover, .button_silver_130:hover {
+.button_130:hover,.button_silver_130:hover {
 	background-position: center -22px;
 }
 
@@ -157,18 +157,17 @@ section.mini-layout {
 				<select name="language" onchange="this.form.submit()"
 					style="float: right; width: 100px;">
 					<option value="russian"
-						<?php if ($_SESSION['language'] == 'russian') echo 'selected'; ?>><?php echo lang('Russian', 'install')?></option>
+					<?php if ($_SESSION['language'] == 'russian') echo 'selected'; ?>><?php echo lang('Russian', 'install')?></option>
 					<option value="english"
-						<?php if ($_SESSION['language'] == 'english' || !$_SESSION['language']) echo 'selected'; ?>><?php echo lang('English', 'install')?></option>
+					<?php if ($_SESSION['language'] == 'english' || !$_SESSION['language']) echo 'selected'; ?>><?php echo lang('English', 'install')?></option>
 				</select>
 				<div
 					style="text-align: right; font-size: 17px; float: right; margin-right: 10px; margin-top: 5px">
 					<b><?php echo lang('Language', 'install') ?>:</b>
 				</div>
-                                    <?php echo form_csrf()?>
-                                </form>
-                                <?php echo $content?>
-                            </section>
+				<?php echo form_csrf()?>
+			</form>
+			<?php echo $content?> </section>
 		</div>
 	</div>
 

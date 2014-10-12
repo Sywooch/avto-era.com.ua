@@ -1,41 +1,41 @@
 <?php
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	
-	/*
+
+/*
  * |--------------------------------------------------------------------------
- * | Website details
- * |--------------------------------------------------------------------------
- * |
- * | This details are used in email sent by DX Auth library.
- * |
- */
-	
+* | Website details
+* |--------------------------------------------------------------------------
+* |
+* | This details are used in email sent by DX Auth library.
+* |
+*/
+
 /*
  * List of languages
- */
+*/
 $config ['languages'] = array (
 		'russian' => array (
 				'ru',
-				'ru_RU' 
+				'ru_RU'
 		),
 		'english' => array (
 				'en',
-				'en_US' 
+				'en_US'
 		),
 		'german' => array (
 				'de',
-				'de_CH' 
+				'de_CH'
 		),
 		'ukrainian' => array (
 				'uk',
-				'uk_UA2' 
-		) 
+				'uk_UA2'
+		)
 );
 
 /*
  * List of locales
- */
+*/
 $config ['locales'] = array (
 		'af_ZA',
 		'am_ET',
@@ -203,5 +203,5 @@ $config ['locales'] = array (
 		'zh_MO',
 		'zh_SG',
 		'zh_TW',
-		'zu_ZA' 
+		'zu_ZA'
 );

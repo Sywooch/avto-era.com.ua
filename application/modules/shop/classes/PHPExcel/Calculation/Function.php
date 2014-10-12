@@ -45,28 +45,28 @@ class PHPExcel_Calculation_Function {
 	const CATEGORY_MATH_AND_TRIG = 'Math and Trig';
 	const CATEGORY_STATISTICAL = 'Statistical';
 	const CATEGORY_TEXT_AND_DATA = 'Text and Data';
-	
+
 	/**
 	 * Category (represented by CATEGORY_*)
 	 *
 	 * @var string
 	 */
 	private $_category;
-	
+
 	/**
 	 * Excel name
 	 *
 	 * @var string
 	 */
 	private $_excelName;
-	
+
 	/**
 	 * PHPExcel name
 	 *
 	 * @var string
 	 */
 	private $_phpExcelName;
-	
+
 	/**
 	 * Create a new PHPExcel_Calculation_Function
 	 *
@@ -88,7 +88,7 @@ class PHPExcel_Calculation_Function {
 			throw new PHPExcel_Calculation_Exception ( "Invalid parameters passed." );
 		}
 	}
-	
+
 	/**
 	 * Get Category (represented by CATEGORY_*)
 	 *
@@ -97,11 +97,11 @@ class PHPExcel_Calculation_Function {
 	public function getCategory() {
 		return $this->_category;
 	}
-	
+
 	/**
 	 * Set Category (represented by CATEGORY_*)
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 * @throws PHPExcel_Calculation_Exception
 	 */
 	public function setCategory($value = null) {
@@ -111,7 +111,7 @@ class PHPExcel_Calculation_Function {
 			throw new PHPExcel_Calculation_Exception ( "Invalid parameter passed." );
 		}
 	}
-	
+
 	/**
 	 * Get Excel name
 	 *
@@ -120,16 +120,16 @@ class PHPExcel_Calculation_Function {
 	public function getExcelName() {
 		return $this->_excelName;
 	}
-	
+
 	/**
 	 * Set Excel name
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	public function setExcelName($value) {
 		$this->_excelName = $value;
 	}
-	
+
 	/**
 	 * Get PHPExcel name
 	 *
@@ -138,11 +138,11 @@ class PHPExcel_Calculation_Function {
 	public function getPHPExcelName() {
 		return $this->_phpExcelName;
 	}
-	
+
 	/**
 	 * Set PHPExcel name
 	 *
-	 * @param string $value        	
+	 * @param string $value
 	 */
 	public function setPHPExcelName($value) {
 		$this->_phpExcelName = $value;

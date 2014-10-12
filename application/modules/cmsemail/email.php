@@ -15,7 +15,7 @@ class email extends classes\BaseEmail {
 	}
 	private function __clone() {
 	}
-	
+
 	/**
 	 *
 	 * @return email

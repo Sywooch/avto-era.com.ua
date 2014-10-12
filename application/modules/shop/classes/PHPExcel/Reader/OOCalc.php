@@ -52,18 +52,18 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 	 * @var array
 	 */
 	private $_styles = array ();
-	
+
 	/**
 	 * Create a new PHPExcel_Reader_OOCalc
 	 */
 	public function __construct() {
 		$this->_readFilter = new PHPExcel_Reader_DefaultReadFilter ();
 	}
-	
+
 	/**
 	 * Can the current PHPExcel_Reader_IReader read the file?
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @return boolean
 	 * @throws PHPExcel_Reader_Exception
 	 */
@@ -72,12 +72,12 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		// Check if zip class exists
 		if (! class_exists ( 'ZipArchive', FALSE )) {
 			throw new PHPExcel_Reader_Exception ( "ZipArchive library is not enabled" );
 		}
-		
+
 		$mimeType = 'UNKNOWN';
 		// Load file
 		$zip = new ZipArchive ();
@@ -100,19 +100,19 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 					}
 				}
 			}
-			
+				
 			$zip->close ();
-			
+				
 			return ($mimeType === 'application/vnd.oasis.opendocument.spreadsheet');
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * Reads names of the worksheets from a file, without parsing the whole file to a PHPExcel object
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function listWorksheetNames($pFilename) {
@@ -120,18 +120,18 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$zip = new ZipArchive ();
 		if (! $zip->open ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! Error opening file." );
 		}
-		
+
 		$worksheetNames = array ();
-		
+
 		$xml = new XMLReader ();
 		$res = $xml->open ( 'zip://' . realpath ( $pFilename ) . '#content.xml' );
 		$xml->setParserProperty ( 2, true );
-		
+
 		// Step into the first level of content of the XML
 		$xml->read ();
 		while ( $xml->read () ) {
@@ -153,14 +153,14 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 				}
 			}
 		}
-		
+
 		return $worksheetNames;
 	}
-	
+
 	/**
 	 * Return worksheet info (Name, Last Column Letter, Last Column Index, Total Rows, Total Columns)
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function listWorksheetInfo($pFilename) {
@@ -168,18 +168,18 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$worksheetInfo = array ();
-		
+
 		$zip = new ZipArchive ();
 		if (! $zip->open ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! Error opening file." );
 		}
-		
+
 		$xml = new XMLReader ();
 		$res = $xml->open ( 'zip://' . realpath ( $pFilename ) . '#content.xml' );
 		$xml->setParserProperty ( 2, true );
-		
+
 		// Step into the first level of content of the XML
 		$xml->read ();
 		while ( $xml->read () ) {
@@ -194,15 +194,15 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 			while ( $xml->read () ) {
 				if ($xml->name == 'table:table' && $xml->nodeType == XMLReader::ELEMENT) {
 					$worksheetNames [] = $xml->getAttribute ( 'table:name' );
-					
+						
 					$tmpInfo = array (
 							'worksheetName' => $xml->getAttribute ( 'table:name' ),
 							'lastColumnLetter' => 'A',
 							'lastColumnIndex' => 0,
 							'totalRows' => 0,
-							'totalColumns' => 0 
+							'totalColumns' => 0
 					);
-					
+						
 					// Loop through each child node of the table:table element reading
 					$currCells = 0;
 					do {
@@ -231,14 +231,14 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 							} while ( $xml->name != 'table:table-row' );
 						}
 					} while ( $xml->name != 'table:table' );
-					
+						
 					$tmpInfo ['totalColumns'] = max ( $tmpInfo ['totalColumns'], $currCells );
 					$tmpInfo ['lastColumnIndex'] = $tmpInfo ['totalColumns'] - 1;
 					$tmpInfo ['lastColumnLetter'] = PHPExcel_Cell::stringFromColumnIndex ( $tmpInfo ['lastColumnIndex'] );
 					$worksheetInfo [] = $tmpInfo;
 				}
 			}
-			
+				
 			// foreach($workbookData->table as $worksheetDataSet) {
 			// $worksheetData = $worksheetDataSet->children($namespacesContent['table']);
 			// $worksheetDataAttributes = $worksheetDataSet->attributes($namespacesContent['table']);
@@ -274,21 +274,21 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 			// }
 			// }
 		}
-		
+
 		return $worksheetInfo;
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function load($pFilename) {
 		// Create new PHPExcel
 		$objPHPExcel = new PHPExcel ();
-		
+
 		// Load into this instance
 		return $this->loadIntoExisting ( $pFilename, $objPHPExcel );
 	}
@@ -302,12 +302,12 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file into PHPExcel instance
 	 *
-	 * @param string $pFilename        	
-	 * @param PHPExcel $objPHPExcel        	
+	 * @param string $pFilename
+	 * @param PHPExcel $objPHPExcel
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
@@ -316,22 +316,22 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$timezoneObj = new DateTimeZone ( 'Europe/London' );
 		$GMT = new DateTimeZone ( 'UTC' );
-		
+
 		$zip = new ZipArchive ();
 		if (! $zip->open ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! Error opening file." );
 		}
-		
+
 		// echo '<h1>Meta Information</h1>';
 		$xml = simplexml_load_string ( $zip->getFromName ( "meta.xml" ) );
 		$namespacesMeta = $xml->getNamespaces ( true );
 		// echo '<pre>';
 		// print_r($namespacesMeta);
 		// echo '</pre><hr />';
-		
+
 		$docProps = $objPHPExcel->getProperties ();
 		$officeProperty = $xml->children ( $namespacesMeta ['office'] );
 		foreach ( $officeProperty as $officePropertyData ) {
@@ -407,14 +407,14 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 				}
 			}
 		}
-		
+
 		// echo '<h1>Workbook Content</h1>';
 		$xml = simplexml_load_string ( $zip->getFromName ( "content.xml" ) );
 		$namespacesContent = $xml->getNamespaces ( true );
 		// echo '<pre>';
 		// print_r($namespacesContent);
 		// echo '</pre><hr />';
-		
+
 		$workbook = $xml->children ( $namespacesContent ['office'] );
 		foreach ( $workbook->body->spreadsheet as $workbookData ) {
 			$workbookData = $workbookData->children ( $namespacesContent ['table'] );
@@ -429,7 +429,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 				if ((isset ( $this->_loadSheetsOnly )) && (isset ( $worksheetDataAttributes ['name'] )) && (! in_array ( $worksheetDataAttributes ['name'], $this->_loadSheetsOnly ))) {
 					continue;
 				}
-				
+
 				// echo '<h2>Worksheet '.$worksheetDataAttributes['name'].'</h2>';
 				// Create new Worksheet
 				$objPHPExcel->createSheet ();
@@ -441,7 +441,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 					// bringing the worksheet name in line with the formula, not the reverse
 					$objPHPExcel->getActiveSheet ()->setTitle ( $worksheetName, false );
 				}
-				
+
 				$rowID = 1;
 				foreach ( $worksheetData as $key => $rowData ) {
 					// echo '<b>'.$key.'</b><br />';
@@ -461,13 +461,13 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 										continue;
 									}
 								}
-								
+
 								// echo '<b>'.$columnID.$rowID.'</b><br />';
 								$cellDataText = (isset ( $namespacesContent ['text'] )) ? $cellData->children ( $namespacesContent ['text'] ) : '';
 								$cellDataOffice = $cellData->children ( $namespacesContent ['office'] );
 								$cellDataOfficeAttributes = $cellData->attributes ( $namespacesContent ['office'] );
 								$cellDataTableAttributes = $cellData->attributes ( $namespacesContent ['table'] );
-								
+
 								// echo 'Office Attributes: ';
 								// print_r($cellDataOfficeAttributes);
 								// echo '<br />Table Attributes: ';
@@ -483,7 +483,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 									$cellDataFormula = $cellDataTableAttributes ['formula'];
 									$hasCalculatedValue = true;
 								}
-								
+
 								if (isset ( $cellDataOffice->annotation )) {
 									// echo 'Cell has comment<br />';
 									$annotationText = $cellDataOffice->annotation->children ( $namespacesContent ['text'] );
@@ -499,7 +499,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 									// ->setAuthor( $author )
 									setText ( $this->_parseRichText ( $text ) );
 								}
-								
+
 								if (isset ( $cellDataText->p )) {
 									// Consolidate if there are multiple p records (maybe with spans as well)
 									$dataArray = array ();
@@ -520,7 +520,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 										}
 									}
 									$allCellDataText = implode ( $dataArray, "\n" );
-									
+										
 									// echo 'Value Type is '.$cellDataOfficeAttributes['value-type'].'<br />';
 									switch ($cellDataOfficeAttributes ['value-type']) {
 										case 'string' :
@@ -588,7 +588,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 									$type = PHPExcel_Cell_DataType::TYPE_NULL;
 									$dataValue = NULL;
 								}
-								
+
 								if ($hasCalculatedValue) {
 									$type = PHPExcel_Cell_DataType::TYPE_FORMULA;
 									// echo 'Formula: '.$cellDataFormula.'<br />';
@@ -608,7 +608,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 									$cellDataFormula = implode ( '"', $temp );
 									// echo 'Adjusted Formula: '.$cellDataFormula.'<br />';
 								}
-								
+
 								$colRepeats = (isset ( $cellDataTableAttributes ['number-columns-repeated'] )) ? $cellDataTableAttributes ['number-columns-repeated'] : 1;
 								if ($type !== NULL) {
 									for($i = 0; $i < $colRepeats; ++ $i) {
@@ -635,7 +635,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 										}
 									}
 								}
-								
+
 								// Merged cells
 								if ((isset ( $cellDataTableAttributes ['number-columns-spanned'] )) || (isset ( $cellDataTableAttributes ['number-rows-spanned'] ))) {
 									if (($type !== PHPExcel_Cell_DataType::TYPE_NULL) || (! $this->_readDataOnly)) {
@@ -651,7 +651,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 										$objPHPExcel->getActiveSheet ()->mergeCells ( $cellRange );
 									}
 								}
-								
+
 								++ $columnID;
 							}
 							$rowID += $rowRepeats;
@@ -661,15 +661,15 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 				++ $worksheetID;
 			}
 		}
-		
+
 		// Return
 		return $objPHPExcel;
 	}
 	private function _parseRichText($is = '') {
 		$value = new PHPExcel_RichText ();
-		
+
 		$value->createText ( $is );
-		
+
 		return $value;
 	}
 }

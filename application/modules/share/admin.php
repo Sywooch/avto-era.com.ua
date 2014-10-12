@@ -11,13 +11,13 @@ class Admin extends BaseAdminController {
 		parent::__construct ();
 		$lang = new MY_Lang ();
 		$lang->load ( 'share' );
-		
+
 		$this->load->library ( 'DX_Auth' );
 		// cp_check_perm('module_admin');
 	}
 	public function index() {
 		$this->template->add_array ( array (
-				'settings' => $this->get_settings () 
+				'settings' => $this->get_settings ()
 		) );
 		// $this->display_tpl('settings');
 		$this->render ( 'settings' );
@@ -29,11 +29,11 @@ class Admin extends BaseAdminController {
 	public function update_settings() {
 		$data = $_POST ['ss'];
 		$string = serialize ( $data );
-		
+
 		$this->db->set ( 'settings', $string );
 		$this->db->where ( 'name', 'share' );
 		$this->db->update ( 'components' );
-		
+
 		if ($this->input->post ( 'action' ) == 'tomain')
 			pjax ( '/admin/components/modules_table' );
 		showMessage ( lang ( 'Settings successfully saved', 'share' ) );
@@ -41,17 +41,17 @@ class Admin extends BaseAdminController {
 	public function get_settings() {
 		$this->db->select ( 'settings' );
 		$this->settings = unserialize ( implode ( ',', $this->db->get_where ( 'components', array (
-				'name' => 'share' 
+				'name' => 'share'
 		) )->row_array () ) );
 		return $this->settings;
 	}
 	public function render($viewName, array $data = array(), $return = false) {
 		if (! empty ( $data ))
 			$this->template->add_array ( $data );
-		
+
 		$this->template->show ( 'file:' . 'application/modules/share/templates/admin/' . $viewName );
 		exit ();
-		
+
 		if ($return === false)
 			$this->template->show ( 'file:' . 'application/modules/share/templates/admin/' . $viewName );
 		else

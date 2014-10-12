@@ -3,7 +3,7 @@
 
 /**
  * Admin Class for Banners module
- * 
+ *
  * @uses BaseAdminController
  * @author L.Andriy <l.andriy@siteimage.com.ua>
  * @copyright (c) 2013, ImageCMS
@@ -15,16 +15,16 @@ class Admin extends BaseAdminController {
 		parent::__construct ();
 		$this->load->model ( 'banner_model' );
 		$this->load->helper ( 'banners' );
-		
+
 		$locale = $this->db->where ( 'default', 1 )->get ( 'languages' )->result_array ();
 		$this->def_locale = $locale [0] ['identif'];
-		
+
 		$lang = new MY_Lang ();
 		$lang->load ( 'banners' );
-		
+
 		$this->is_shop = SHOP_INSTALLED;
 	}
-	
+
 	/**
 	 *
 	 * @access public
@@ -37,17 +37,17 @@ class Admin extends BaseAdminController {
 		 */
 		$locale = $this->def_locale;
 		$banners = $this->banner_model->get_all_banner ( $locale );
-		
+
 		/**
 		 * Show Banners list
 		 */
 		\CMSFactory\assetManager::create ()->registerScript ( 'main' )->setData ( array (
 				'banners' => $banners,
 				'locale' => $locale,
-				'show_tpl' => $this->banner_model->get_settings_tpl () 
+				'show_tpl' => $this->banner_model->get_settings_tpl ()
 		) )->renderAdmin ( 'list' );
 	}
-	
+
 	/**
 	 *
 	 * @access public
@@ -56,16 +56,16 @@ class Admin extends BaseAdminController {
 	 */
 	public function settings() {
 		$st = ( int ) $_POST ['status'];
-		
+
 		$arr = serialize ( array (
-				'show_tpl' => $st 
+				'show_tpl' => $st
 		) );
 		$sql = $this->db->query ( "update  components set settings = '$arr' where name = 'banners'" );
 	}
-	
+
 	/**
 	 * Switch Banners activity status
-	 * 
+	 *
 	 * @access public
 	 * @author L.Andriy <l.andriy@siteimage.com.ua>
 	 * @copyright (c) 2013, ImageCMS
@@ -74,12 +74,12 @@ class Admin extends BaseAdminController {
 		$status = ($this->input->post ( 'status' )) === 'false' ? 1 : 0;
 		$this->banner_model->chose_active ( $this->input->post ( 'id' ), $status );
 	}
-	
+
 	/**
 	 * Banners remove method
-	 * 
+	 *
 	 * @access public
-	 * @param $_POST $id        	
+	 * @param $_POST $id
 	 * @author L.Andriy <l.andriy@siteimage.com.ua>
 	 * @copyright (c) 2013, ImageCMS
 	 */
@@ -91,10 +91,10 @@ class Admin extends BaseAdminController {
 		foreach ( json_decode ( $ids ) as $key )
 			$this->banner_model->del_banner ( $key );
 	}
-	
+
 	/**
 	 * Сreate new Banner
-	 * 
+	 *
 	 * @access public
 	 * @param
 	 *        	$_POST
@@ -109,7 +109,7 @@ class Admin extends BaseAdminController {
 			 */
 			$this->form_validation->set_rules ( 'name', lang ( 'Banner name', 'banners' ), 'required|xss_clean|max_length[45]' );
 			$this->form_validation->set_rules ( 'photo', lang ( 'Image', 'banners' ), 'required|xss_clean' );
-			
+				
 			if ($this->form_validation->run ( $this ) !== FALSE) {
 				/**
 				 * Set Instart data
@@ -122,21 +122,21 @@ class Admin extends BaseAdminController {
 						'where_show' => count ( $this->input->post ( 'data' ) ) ? serialize ( array_unique ( $this->input->post ( 'data' ) ) ) : serialize ( array () ),
 						'photo' => $this->input->post ( 'photo' ),
 						'url' => $this->input->post ( 'url' ),
-						'locale' => $this->def_locale 
+						'locale' => $this->def_locale
 				);
 				/**
 				 * Create new banner from data-array
 				 */
-				
+
 				$lid = $this->banner_model->add_banner ( $data );
-				
+
 				/**
 				 * Reupdate banner info for each lang
 				 */
 				foreach ( $lan = $this->db->get ( 'languages' )->result_array () as $lan )
 					if ($lan ['identif'] != $this->def_locale)
-						$this->banner_model->add_empty_banner ( $lid, $lan ['identif'] );
-				
+					$this->banner_model->add_empty_banner ( $lid, $lan ['identif'] );
+
 				/**
 				 * Show successful message and redirect
 				 */
@@ -148,24 +148,24 @@ class Admin extends BaseAdminController {
 				showMessage ( validation_errors (), false, 'r' );
 			}
 		} else {
-			
+				
 			/**
 			 * Show empty form for create
 			 */
 			\CMSFactory\assetManager::create ()->registerScript ( 'main' )->registerStyle ( 'style' )->setData ( array (
 					'is_shop' => $this->is_shop,
 					'locale' => $locale,
-					'languages' => $lan 
+					'languages' => $lan
 			) )->renderAdmin ( 'create' );
 		}
 	}
-	
+
 	/**
 	 * Edit Banner by Id Banner
-	 * 
+	 *
 	 * @access public
-	 * @param int $id        	
-	 * @param string $locale        	
+	 * @param int $id
+	 * @param string $locale
 	 * @author L.Andriy <l.andriy@siteimage.com.ua>
 	 * @copyright (c) 2013, ImageCMS
 	 */
@@ -174,15 +174,15 @@ class Admin extends BaseAdminController {
 		 * Locale value is necessary
 		 */
 		($locale != null) or $locale = $this->def_locale;
-		
+
 		if ($_POST) {
-			
+				
 			$this->load->library ( 'Form_validation' );
 			$this->form_validation->set_rules ( 'name', lang ( 'Banner name', 'banners' ), 'required|xss_clean|max_length[45]' );
 			$this->form_validation->set_rules ( 'photo', lang ( 'Photo', 'banners' ), 'required|xss_clean' );
-			
-			if ($this->form_validation->run ( $this ) != FALSE) {
 				
+			if ($this->form_validation->run ( $this ) != FALSE) {
+
 				/**
 				 * Set Update data
 				 */
@@ -195,14 +195,14 @@ class Admin extends BaseAdminController {
 						'photo' => $this->input->post ( 'photo' ),
 						'url' => $this->input->post ( 'url' ),
 						'locale' => $locale,
-						'id' => ( int ) $id 
+						'id' => ( int ) $id
 				);
-				
+
 				/**
 				 * Update banner from data-array
 				 */
 				$this->banner_model->edit_banner ( $data );
-				
+
 				/**
 				 * Show successful message and redirect
 				 */
@@ -216,9 +216,9 @@ class Admin extends BaseAdminController {
 				showMessage ( validation_errors (), false, 'r' );
 			}
 		} else {
-			
+				
 			$banner = $this->banner_model->get_one_banner ( $id, $locale );
-			
+				
 			/**
 			 * Show Banner edit template
 			 */
@@ -226,14 +226,14 @@ class Admin extends BaseAdminController {
 					'is_shop' => $this->is_shop,
 					'banner' => $banner,
 					'locale' => $locale,
-					'languages' => $this->db->get ( 'languages' )->result_array () 
+					'languages' => $this->db->get ( 'languages' )->result_array ()
 			) )->renderAdmin ( 'edit' );
 		}
 	}
-	
+
 	/**
 	 * Data Autocomplete
-	 * 
+	 *
 	 * @access public
 	 * @author L.Andriy <l.andriy@siteimage.com.ua>
 	 * @copyright (c) 2013, ImageCMS
@@ -242,20 +242,20 @@ class Admin extends BaseAdminController {
 		switch ($this->input->post ( 'queryString' )) {
 			case 'product' :
 				$entity = SProductsQuery::create ()->joinWithI18n ( $this->def_locale )->filterByActive ( true )->withColumn ( 'SProductsI18n.Name', 'Name' )->select ( array (
-						'Id',
-						'Name' 
+				'Id',
+				'Name'
 				) )->find ()->toArray ();
 				break;
 			case 'shop_category' :
 				$entity = SCategoryQuery::create ()->joinWithI18n ( $this->def_locale )->withColumn ( 'SCategoryI18n.Name', 'Name' )->select ( array (
-						'Id',
-						'Name' 
+				'Id',
+				'Name'
 				) )->find ()->toArray ();
 				break;
 			case 'brand' :
 				$entity = SBrandsQuery::create ()->joinWithI18n ( $this->def_locale )->withColumn ( 'SBrandsI18n.Name', 'Name' )->select ( array (
-						'Id',
-						'Name' 
+				'Id',
+				'Name'
 				) )->find ()->toArray ();
 				break;
 			case 'category' :
@@ -266,38 +266,38 @@ class Admin extends BaseAdminController {
 				break;
 			case 'main' :
 				$entity = array (
-						array (
-								'Id' => 0,
-								'Name' => lang ( 'Main', 'banners' ) 
-						) 
+				array (
+				'Id' => 0,
+				'Name' => lang ( 'Main', 'banners' )
+				)
 				);
 				break;
 			default :
 				break;
 		}
-		
+
 		/**
 		 * Show template with data
 		 */
 		\CMSFactory\assetManager::create ()->setData ( 'entity', $entity )->render ( $this->input->post ( 'tpl' ), TRUE );
 	}
-	
+
 	/**
 	 * Save banners positions
-	 * 
+	 *
 	 * @access public
 	 * @author koloda90 <koloda90@gmail.com>
 	 */
 	public function save_positions() {
 		if (! is_array ( $this->input->post ( 'positions' ) ))
 			return;
-		
+
 		foreach ( $this->input->post ( 'positions' ) as $key => $value ) {
 			$this->db->where ( 'id = ' . $value )->update ( 'mod_banner', array (
-					'position' => $key 
+					'position' => $key
 			) );
 		}
-		
+
 		showMessage ( 'Positions saved' );
 	}
 }

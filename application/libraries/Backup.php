@@ -10,64 +10,64 @@ namespace libraries;
  * @author kolia
  */
 class Backup {
-	
+
 	/**
 	 *
 	 * @var Backup
 	 */
 	protected static $instanse;
-	
+
 	/**
 	 * Backup directory
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $directory = './application/backups';
-	
+
 	/**
 	 * Aviable extentions
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $ext = array (
 			'sql',
 			'zip',
-			'gzip' 
+			'gzip'
 	);
-	
+
 	/**
 	 * Patterns for backup file names
 	 * key - regex pattern, value - boolean (allow delete)
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $filePatterns = array (
-			
+				
 			// для файлів із авт. підбором імені.
 			'/^[a-zA-Z]{1,10}_[0-9]{2}-[0-9]{2}-[0-9]{4}_[0-9]{2}.[0-9]{2}.[0-9]{2}.(zip|gzip|sql|txt)$/' => array (
 					'allowDelete' => TRUE,
-					'type' => "default" 
+					'type' => "default"
 			),
-			
+				
 			// для старіших бекапів із обновлення
 			'/^[0-9]{10}.(zip|gzip|sql|txt)$/' => array (
 					'allowDelete' => TRUE,
-					'type' => "update" 
+					'type' => "update"
 			),
-			
+				
 			// для новіших бекапів із обновлення
 			'/^backup.(zip|gzip|sql|txt)$/' => array (
 					'allowDelete' => FALSE,
-					'type' => "update" 
-			) 
+					'type' => "update"
+			)
 	);
-	
+
 	/**
 	 *
 	 * @var CodeIgniter
 	 */
 	protected $ci;
-	
+
 	/**
 	 *
 	 * @var string
@@ -77,7 +77,7 @@ class Backup {
 		$this->ci = &get_instance ();
 		$this->ci->load->dbutil ();
 	}
-	
+
 	/**
 	 *
 	 * @return Backup
@@ -86,12 +86,12 @@ class Backup {
 		(null !== self::$instanse) or self::$instanse = new self ();
 		return self::$instanse;
 	}
-	
+
 	/**
 	 * Setting the backup value into the DB
-	 * 
-	 * @param string $key        	
-	 * @param string|int $value        	
+	 *
+	 * @param string $key
+	 * @param string|int $value
 	 */
 	public function setSetting($key, $value) {
 		$settings = $this->getSetting ();
@@ -100,13 +100,13 @@ class Backup {
 		}
 		$settings [$key] = $value;
 		return $this->ci->db->update ( 'settings', array (
-				'backup' => serialize ( $settings ) 
+				'backup' => serialize ( $settings )
 		) );
 	}
-	
+
 	/**
 	 * Getting the backup value from the DB
-	 * 
+	 *
 	 * @param
 	 *        	string
 	 * @return mixed settings array or specified value
@@ -118,7 +118,7 @@ class Backup {
 		} else {
 			$row = array ();
 		}
-		
+
 		$backupSettings = unserialize ( $row [0] ['backup'] );
 		if (! is_array ( $backupSettings )) { // no settings yet
 			return NULL;
@@ -131,10 +131,10 @@ class Backup {
 		}
 		return $backupSettings;
 	}
-	
+
 	/**
 	 * Creating the backup file
-	 * 
+	 *
 	 * @param string $ext
 	 *        	extention (txt|zip|gzip)
 	 * @param string $fileName
@@ -152,7 +152,7 @@ class Backup {
 				$fileName = $prefix . "_" . date ( "d-m-Y_H.i.s" );
 			}
 			$backup = & $this->ci->dbutil->backup ( array (
-					'format' => $ext == 'sql' ? 'txt' : $ext 
+					'format' => $ext == 'sql' ? 'txt' : $ext
 			) );
 			if (write_file ( $this->directory . '/' . $fileName . '.' . $ext, $backup )) {
 				return $this->directory . '/' . $fileName . '.' . $ext;
@@ -164,7 +164,7 @@ class Backup {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 *
 	 * @return boolean
@@ -172,18 +172,18 @@ class Backup {
 	public function deleteOldFiles() {
 		$term = $this->getSetting ( 'backup_term' );
 		$maxSize = ($this->getSetting ( 'backup_maxsize' ) * 1024 * 1024);
-		
+
 		$maxSize = 5 * 1024 * 1024;
 		// if time of file will be lower then delete
 		$time = time () - (60 * 60 * 24 * 30.5 * $term);
-		
+
 		$files = $this->backupFiles ();
 		// get summary backup size
 		$size = 0;
 		foreach ( $files as $file ) {
 			$size += $file ['size'];
 		}
-		
+
 		// start deleting if overload more then max size
 		if ($size > $maxSize) {
 			$deleteSize = $size - $maxSize;
@@ -201,15 +201,15 @@ class Backup {
 				$deletEdOnSize += $fileToDelete ['size'];
 				unlink ( $this->directory . "/" . $fileToDelete ['filename'] );
 			} while ( $deletEdOnSize < $deleteSize );
-			
+				
 			return array (
 					'count' => $filesCount,
-					'size' => $deletEdOnSize 
+					'size' => $deletEdOnSize
 			);
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 *
 	 * @return boolean
@@ -222,10 +222,10 @@ class Backup {
 			if ($this->checkFileName ( $file ['filename'], 'allowDelete' ) && $file ['locked'] != 1)
 				$files [] = $file;
 		}
-		
+
 		if (! count ( $files ) > 0)
 			return FALSE;
-		
+
 		$minKey = 0;
 		$minTime = $files [0] ['timeUpdate'];
 		for($i = 1; $i < count ( $files ); $i ++) {
@@ -236,10 +236,10 @@ class Backup {
 		}
 		return $files [$minKey];
 	}
-	
+
 	/**
 	 * Getting list of backup files
-	 * 
+	 *
 	 * @return array
 	 */
 	public function backupFiles() {
@@ -258,7 +258,7 @@ class Backup {
 								'type' => $this->checkFileName ( $fileName, 'type' ),
 								'ext' => pathinfo ( $fileName, PATHINFO_EXTENSION ),
 								'size' => filesize ( $this->directory . "/" . $fileName ),
-								'timeUpdate' => filemtime ( $this->directory . "/" . $fileName ) 
+								'timeUpdate' => filemtime ( $this->directory . "/" . $fileName )
 						);
 						if ($file ['type'] == "default") {
 							$prefIndex = strpos ( $fileName, "_" );
@@ -279,12 +279,12 @@ class Backup {
 		}
 		return $files;
 	}
-	
+
 	/**
 	 * Checking file name by pattern
-	 * 
-	 * @param string $fileName        	
-	 * @param boolean $returnValue        	
+	 *
+	 * @param string $fileName
+	 * @param boolean $returnValue
 	 * @return boolean
 	 */
 	protected function checkFileName($fileName, $returnValue = FALSE) {
@@ -295,11 +295,11 @@ class Backup {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Deleting backup file
-	 * 
-	 * @param string $file        	
+	 *
+	 * @param string $file
 	 * @return boolean true on success, false on error
 	 */
 	public function deleteFile($file) {

@@ -81,38 +81,54 @@
 }
 /* Hides flash (Firefox problem) and selects (IE) */
 .body-overlayed
+
  
+
 embed
 ,
 .body-overlayed
+
  
+
 object
 ,
 {
 visibility
+
+
 :
+
  
+
 hidden
+
+
 ;
-
-
 }
 #sbox-window
+
  
+
 embed
 ,
 #sbox-window
+
  
+
 object
 ,
 {
 visibility
+
+
 :
+
  
+
 visible
+
+
 ;
-
-
 }
 
 /* Shadows */

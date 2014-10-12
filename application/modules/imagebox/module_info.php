@@ -11,7 +11,7 @@ $com_info = array (
 		'w' => 600, // Window width
 		'h' => 550, // Window height
 		'version' => '0.1 Beta', // Module version
-		'author' => 'dev@imagecms.net' 
+		'author' => 'dev@imagecms.net'
 ) // Author info
 ;
 

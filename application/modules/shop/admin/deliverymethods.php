@@ -18,12 +18,12 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 	}
 	public function index() {
 		$model = SDeliveryMethodsQuery::create ()->orderByPosition ( Criteria::ASC )->find ();
-		
+
 		$this->render ( 'list', array (
-				'model' => $model 
+				'model' => $model
 		) );
 	}
-	
+
 	/**
 	 * Create new brand
 	 *
@@ -32,7 +32,7 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 	public function create() {
 		$model = new SDeliveryMethods ();
 		$model->setLocale ( $this->defaultLanguage ['identif'] );
-		
+
 		if ($_POST) {
 			if (substr ( trim ( $_POST ['Price'], ' ' ), - 1 ) == '%') {
 				$_POST ['IsPriceInPercent'] = true;
@@ -41,16 +41,16 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 			}
 			$model->fromArray ( $_POST );
 			$this->form_validation->set_rules ( $model->rules () );
-			
+				
 			if ($this->form_validation->run ( $this ) == FALSE) {
 				showMessage ( validation_errors (), '', 'r' );
 			} else {
 				$model->setPricedescription ( $this->input->post ( 'pricedescription' ) );
 				$model->save ();
-				
+
 				// Clear payment systems relation
 				ShopDeliveryMethodsSystemsQuery::create ()->filterByDeliveryMethodId ( $model->getId () )->delete ();
-				
+
 				if (sizeof ( $_POST ['paymentMethods'] ) > 0) {
 					foreach ( $_POST ['paymentMethods'] as $key => $val ) {
 						$pm = SPaymentMethodsQuery::create ()->findPk ( $val );
@@ -58,9 +58,9 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 							$model->addPaymentMethods ( $pm );
 					}
 				}
-				
+
 				$model->save ();
-				
+
 				showMessage ( lang ( 'Delivery created', 'admin' ) );
 				if ($_POST ['action'] == 'close') {
 					pjax ( '/admin/components/run/shop/deliverymethods/index' );
@@ -71,7 +71,7 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 		} else {
 			$this->render ( 'create', array (
 					'model' => $model,
-					'paymentMethods' => SPaymentMethodsQuery::create ()->orderByPosition ()->find () 
+					'paymentMethods' => SPaymentMethodsQuery::create ()->orderByPosition ()->find ()
 			) );
 		}
 	}
@@ -90,12 +90,12 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 	}
 	public function edit($deliveryMethodId = null, $locale = null) {
 		$locale = $locale == null ? $this->defaultLanguage ['identif'] : $locale;
-		
+
 		$model = SDeliveryMethodsQuery::create ()->findPk ( ( int ) $deliveryMethodId );
-		
+
 		if ($model === null)
 			$this->error404 ( lang ( 'Delivery method is not found', 'admin' ) );
-		
+
 		if (! empty ( $_POST )) {
 			$this->form_validation->set_rules ( $model->rules () );
 			if (substr ( trim ( $_POST ['Price'], ' ' ), - 1 ) == '%') {
@@ -108,17 +108,17 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 			} else {
 				if (! $_POST ['Enabled'])
 					$_POST ['Enabled'] = false;
-				
+
 				$_POST ['Locale'] = $locale;
-				
+
 				$model->fromArray ( $_POST );
 				$model->setPricedescription ( $this->input->post ( 'pricedescription' ) );
 				$model->setDescription ( $this->input->post ( 'Description' ) );
 				$model->save ();
-				
+
 				// Clear payment systems relation
 				ShopDeliveryMethodsSystemsQuery::create ()->filterByDeliveryMethodId ( $model->getId () )->delete ();
-				
+
 				if (sizeof ( $_POST ['paymentMethods'] ) > 0) {
 					foreach ( $_POST ['paymentMethods'] as $key => $val ) {
 						$pm = SPaymentMethodsQuery::create ()->findPk ( $val );
@@ -128,10 +128,10 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 				}
 				$model->setDescription ( $this->input->post ( 'Description' ) );
 				$model->save ();
-				
+
 				showMessage ( lang ( 'Changes have been saved', 'admin' ) );
 				if ($_POST ['action'] == 'close') {
-					
+						
 					pjax ( '/admin/components/run/shop/deliverymethods/edit/' . $deliveryMethodId . '/' . $locale );
 				} else {
 					pjax ( '/admin/components/run/shop/deliverymethods/index' );
@@ -139,16 +139,16 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 			}
 		} else {
 			$model->setLocale ( $locale );
-			
+				
 			$this->render ( 'edit', array (
 					'model' => $model,
 					'languages' => ShopCore::$ci->cms_admin->get_langs ( true ),
 					'paymentMethods' => SPaymentMethodsQuery::create ()->orderByPosition ()->find (),
-					'locale' => $locale 
+					'locale' => $locale
 			) );
 		}
 	}
-	
+
 	/**
 	 * Delete delivery method by id.
 	 *
@@ -161,12 +161,12 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 		}
 		if (sizeof ( $_POST ['ids'] > 0 )) {
 			$model = SDeliveryMethodsQuery::create ()->findPks ( $_POST ['ids'] );
-			
+				
 			if (! empty ( $model )) {
 				foreach ( $model as $order ) {
 					$order->delete ();
 				}
-				
+
 				showMessage ( lang ( 'Delivery method removed', 'admin' ) );
 			}
 		}
@@ -176,10 +176,10 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 		if ($_POST ['_add'])
 			$this->ajaxShopDiv ( 'deliverymethods/index' );
 			
-			// Redirect to create new object
+		// Redirect to create new object
 		if ($_POST ['_create'])
 			$this->ajaxShopDiv ( 'deliverymethods/create' );
-		
+
 		if ($_POST ['_edit'])
 			$this->ajaxShopDiv ( 'deliverymethods/edit/' . $model->getId () . '/' . $locale );
 	}
@@ -192,7 +192,7 @@ class ShopAdminDeliverymethods extends ShopAdminController {
 		if (sizeof ( $positions ) == 0) {
 			return false;
 		}
-		
+
 		foreach ( $positions as $key => $val ) {
 			$query = "UPDATE `shop_delivery_methods` SET `position`=" . $key . " WHERE `id`=" . ( int ) $val . "; ";
 			$this->db->query ( $query );

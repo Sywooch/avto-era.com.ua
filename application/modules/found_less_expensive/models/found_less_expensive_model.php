@@ -5,10 +5,10 @@ class Found_less_expensive_model extends CI_Model {
 	}
 	/**
 	 * Get
-	 * 
-	 * @param int $row_count        	
-	 * @param int $offset        	
-	 * @param int $status        	
+	 *
+	 * @param int $row_count
+	 * @param int $offset
+	 * @param int $status
 	 * @return array
 	 */
 	function allByStatus($row_count, $offset, $status) {
@@ -18,13 +18,13 @@ class Found_less_expensive_model extends CI_Model {
 		} else {
 			$query = $this->db->where_in ( 'status', $status )->get ( 'mod_found_less_expensive' )->result_array ();
 		}
-		
+
 		return $query;
 	}
 	/**
 	 * Get count of all messages about found less expensive
-	 * 
-	 * @param type $status        	
+	 *
+	 * @param type $status
 	 * @return type
 	 */
 	public function getCountAll($status) {
@@ -33,19 +33,19 @@ class Found_less_expensive_model extends CI_Model {
 	}
 	/**
 	 * Delete
-	 * 
-	 * @param type $id        	
+	 *
+	 * @param type $id
 	 * @return boolean
 	 */
 	public function deleteByIds($id) {
 		$this->db->delete ( 'mytable', array (
-				'id' => $id 
+				'id' => $id
 		) );
 		return true;
 	}
 	/**
 	 * Get module settings
-	 * 
+	 *
 	 * @return type
 	 */
 	public function getModuleSettings() {

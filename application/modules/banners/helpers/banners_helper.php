@@ -36,7 +36,7 @@ if (! function_exists ( 'get_entity_mod' )) {
 			case strstr ( $w, 'main' ) :
 				return 'main - ' . lang ( 'Main', 'banners' );
 				break;
-			
+					
 			default :
 				break;
 		}

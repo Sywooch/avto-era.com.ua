@@ -1,25 +1,26 @@
 <section class="mini-layout">
-    <div class="frame_title clearfix">
-        <div class="pull-left">
-            <span class="help-inline"></span>
-            <span class="title">{lang('Brands statistics','admin')}</span>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span7" id="holder"></div>
-        <div class="span5">
-            <table id="chart" class="table table-bordered table-striped table-hover table-condensed">
-                <tbody>
-                    {foreach $data as $key=>$val}
-                    <tr>
-                        <th class="span3">{echo encode($key)}</th>
-                        <td class="span2">{$val}</td>
-                    </tr>
-                    {/foreach}
-                </tbody>
-            </table>
-        </div>
-    </div>
+	<div class="frame_title clearfix">
+		<div class="pull-left">
+			<span class="help-inline"></span> <span class="title">{lang('Brands
+				statistics','admin')}</span>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span7" id="holder"></div>
+		<div class="span5">
+			<table id="chart"
+				class="table table-bordered table-striped table-hover table-condensed">
+				<tbody>
+					{foreach $data as $key=>$val}
+					<tr>
+						<th class="span3">{echo encode($key)}</th>
+						<td class="span2">{$val}</td>
+					</tr>
+					{/foreach}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </section>
 
 <script src="{$THEME}js/raphael-min.js" type="text/javascript"></script>

@@ -10,20 +10,20 @@ namespace CMSFactory;
  */
 abstract class BaseEvents {
 	public $holder = array ();
-	
+
 	/**
 	 * Returns or creates and returns an BaseEvents instance.
 	 * Is a static method. Chaining method allows you to simplify your syntax by connecting multiple functions.
-	 * 
+	 *
 	 * @return Events
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
 	 */
 	abstract static function create();
-	
+
 	/**
 	 * Declares a new event.
 	 * The method adds the general pool of information about the event and sets it as held. The user can call the place where, in his opinion, there is a need. Will be generated key that consists of a pair of "Class: method."
-	 * 
+	 *
 	 * @param mixed $data
 	 *        	<b>[optional]</b>Fetch some Data and peredaje to user method's
 	 * @access public
@@ -38,7 +38,7 @@ abstract class BaseEvents {
 		$this->storage [$key] ['params'] = $data;
 		return $this;
 	}
-	
+
 	/**
 	 * Binds a custom method to the event.
 	 * <br/><br/><code>
@@ -46,7 +46,7 @@ abstract class BaseEvents {
 	 * &emsp;&emsp;\CMSFactory\Events::create()->setListener('myMethod', 'Comments::add');<br/>
 	 * }
 	 * </code>
-	 * 
+	 *
 	 * @param string $methodName
 	 *        	Indicates the name of the method that will be called in response to a trigger-event. The method will be matched in the class from which the requested binding.
 	 * @param string $alias
@@ -64,14 +64,14 @@ abstract class BaseEvents {
 			$this->holder [$alias] [$methodName] = $trace [1] ['class'];
 			$this->storage [$alias] ['collable'] [] = array (
 					'collMethod' => $methodName,
-					'collClass' => $trace [1] ['class'] 
+					'collClass' => $trace [1] ['class']
 			);
 		}
 	}
-	
+
 	/**
 	 * Run Behavior factory when contoller is comletly loaded
-	 * 
+	 *
 	 * @return void
 	 * @access public
 	 * @author Kaero
@@ -82,17 +82,17 @@ abstract class BaseEvents {
 		foreach ( Events::create ()->storage as $key => $value ) {
 			if ($value ['run'] === TRUE && count ( $value ['collable'] ))
 				foreach ( $value ['collable'] as $run )
-					call_user_func ( array (
-							$run ['collClass'],
-							$run ['collMethod'] 
-					), $value ['params'] );
+				call_user_func ( array (
+						$run ['collClass'],
+						$run ['collMethod']
+				), $value ['params'] );
 		}
 		// \CMSFactory\Events::create()->get();
 	}
 	public function get() {
 		var_dumps ( $this->storage );
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
@@ -101,7 +101,7 @@ abstract class BaseEvents {
 	 * <tr valign="top"><td>['full_text']</td><td>Page full text</td></tr>
 	 * <tr valign="top"><td>['prev_text']</td><td>Page short text</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -118,15 +118,15 @@ abstract class BaseEvents {
 		$this->key = 'BaseAdminPage:preCreate';
 		return $this;
 	}
-	
+
 	/*
 	 *
-	 */
+	*/
 	final public function on($key) {
 		$this->key = $key;
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
@@ -135,7 +135,7 @@ abstract class BaseEvents {
 	 * <tr valign="top"><td>['full_text']</td><td>Page full text</td></tr>
 	 * <tr valign="top"><td>['prev_text']</td><td>Page short text</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -144,7 +144,7 @@ abstract class BaseEvents {
 		$this->key = 'Page:update';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
@@ -153,7 +153,7 @@ abstract class BaseEvents {
 	 * <tr valign="top"><td>['full_text']</td><td>Page full text</td></tr>
 	 * <tr valign="top"><td>['prev_text']</td><td>Page short text</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -162,7 +162,7 @@ abstract class BaseEvents {
 		$this->key = 'Page:delete';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
@@ -171,7 +171,7 @@ abstract class BaseEvents {
 	 * <tr valign="top"><td>['url']</td><td>Category url</td></tr>
 	 * <tr valign="top"><td>['short_desc']</td><td>Category short description</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -184,7 +184,7 @@ abstract class BaseEvents {
 		$this->key = 'BaseAdminCategory:preCreate';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
@@ -193,7 +193,7 @@ abstract class BaseEvents {
 	 * <tr valign="top"><td>['url']</td><td>Category url</td></tr>
 	 * <tr valign="top"><td>['short_desc']</td><td>Category short description</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -222,14 +222,14 @@ abstract class BaseEvents {
 		$this->key = 'ShopDashboard:show';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['userId']</td><td>User ID</td></tr>
 	 * <tr valign="top"><td>['productId']</td><td>Product ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -242,14 +242,14 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminProducts:preEdit';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['userId']</td><td>User ID</td></tr>
 	 * <tr valign="top"><td>['productId']</td><td>Product ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -262,14 +262,14 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminProducts:preCreate';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['userId']</td><td>User ID</td></tr>
 	 * <tr valign="top"><td>['model']</td><td></td>Instanceof SProducts</tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -278,13 +278,13 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminProducts:delete';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['ShopCategoryId']</td><td>Category ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -297,13 +297,13 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminCategories:preCreate';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['ShopCategoryId']</td><td>Category ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -316,13 +316,13 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminCategories:preEdit';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['ShopCategoryId']</td><td>Category ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -331,13 +331,13 @@ abstract class BaseEvents {
 		$this->key = 'ShopAdminCategories:delete';
 		return $this;
 	}
-	
+
 	/**
 	 * <p>The possible returned elements from <b>setListener</b> are as follows:</p>
 	 * <table>
 	 * <tr valign="top"><td>['commentId']</td><td>Comment ID</td></tr>
 	 * </table>
-	 * 
+	 *
 	 * @return BehaviorFactory
 	 * @author Kaero
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
@@ -346,14 +346,14 @@ abstract class BaseEvents {
 		$this->key = 'Commentsapi:newPost';
 		return $this;
 	}
-	
+
 	/**
 	 */
 	/**
 	 */
 	/**
 	 */
-	
+
 	/**
 	 */
 	public function onAddToCart() {

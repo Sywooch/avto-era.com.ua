@@ -5,25 +5,25 @@ if (! defined ( 'BASEPATH' ))
 if (! function_exists ( 'admin_or_redirect' )) {
 	function admin_or_redirect() {
 		$ci = & get_instance ();
-		
+
 		if (! $ci->dx_auth->is_logged_in ()) {
 			if ($ci->input->is_ajax_request ())
 				echo json_encode ( array (
 						'success' => false,
-						'redirect' => '/admin/login' 
+						'redirect' => '/admin/login'
 				) );
 			else
 				redirect ( 'admin/login', '' );
 			exit ();
 		}
-		
+
 		if ($ci->dx_auth->is_admin ())
 			return true;
 		else {
 			if ($ci->input->is_ajax_request ())
 				echo json_encode ( array (
 						'success' => false,
-						'redirect' => '/admin/login' 
+						'redirect' => '/admin/login'
 				) );
 			else
 				redirect ( 'admin/login', '' );
@@ -36,23 +36,23 @@ if (! function_exists ( 'admin_or_redirect' )) {
 if (! function_exists ( 'cp_check_perm' )) {
 	function cp_check_perm($perm) {
 		$ci = & get_instance ();
-		
+
 		if ($ci->dx_auth->is_logged_in ()) {
 			if ($ci->dx_auth->get_permission_value ( $perm )) {
 				return TRUE;
 			} else {
 				$perms = get_permissions_array ();
-				
+
 				if (isset ( $perms [$perm] )) {
 					$err_text = lang ( "No rights for", "admin" ) . ': <b>' . $perms [$perm] . '</b>.';
-					
+						
 					echo '<script type="text/javascript">
-							$(\'page\').set(\'html\',\'<div id="notice" style="width: 500px;">' . $err_text . '</div>\');
-						</script>';
+					$(\'page\').set(\'html\',\'<div id="notice" style="width: 500px;">' . $err_text . '</div>\');
+					</script>';
 				} else {
 					return TRUE;
 				}
-				
+
 				die ();
 			}
 		} else {
@@ -65,7 +65,7 @@ if (! function_exists ( 'cp_check_perm' )) {
 if (! function_exists ( 'check_perm' )) {
 	function check_perm($perm) {
 		$ci = & get_instance ();
-		
+
 		if ($ci->dx_auth->is_logged_in ()) {
 			if ($ci->dx_auth->get_permission_value ( $perm )) {
 				return TRUE;
@@ -93,11 +93,11 @@ if (! function_exists ( 'get_perms_groups' )) {
 				'roles' => lang ( "Group", "admin" ),
 				'logs' => lang ( "Logs", "admin" ),
 				'backup' => lang ( "Backup copying", "admin" ),
-				'tinybrowser' => lang ( "File Editor", "admin" ) 
+				'tinybrowser' => lang ( "File Editor", "admin" )
 		);
-		
+
 		($hook = get_hook ( 'on_get_perms_groups' )) ? eval ( $hook ) : NULL;
-		
+
 		return $group_names;
 	}
 }
@@ -141,11 +141,11 @@ if (! function_exists ( 'get_permissions_array' )) {
 				'tinybrowser_all' => lang ( "Access to the file editor", "admin" ),
 				'tinybrowser_upload' => lang ( "Download files", "admin" ),
 				'tinybrowser_edit' => lang ( "Editing Files", "admin" ),
-				'tinybrowser_folders' => lang ( "Edit Folders", "admin" ) 
+				'tinybrowser_folders' => lang ( "Edit Folders", "admin" )
 		);
-		
+
 		($hook = get_hook ( 'get_permissions_array' )) ? eval ( $hook ) : NULL;
-		
+
 		return $all_perms;
 	}
 }

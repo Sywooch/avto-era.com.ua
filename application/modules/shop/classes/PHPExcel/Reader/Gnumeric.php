@@ -52,7 +52,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 	 * @var array
 	 */
 	private $_styles = array ();
-	
+
 	/**
 	 * Shared Expressions
 	 *
@@ -60,7 +60,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 	 */
 	private $_expressions = array ();
 	private $_referenceHelper = null;
-	
+
 	/**
 	 * Create a new PHPExcel_Reader_Gnumeric
 	 */
@@ -68,11 +68,11 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		$this->_readFilter = new PHPExcel_Reader_DefaultReadFilter ();
 		$this->_referenceHelper = PHPExcel_ReferenceHelper::getInstance ();
 	}
-	
+
 	/**
 	 * Can the current PHPExcel_Reader_IReader read the file?
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @return boolean
 	 * @throws PHPExcel_Reader_Exception
 	 */
@@ -81,28 +81,28 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		// Check if gzlib functions are available
 		if (! function_exists ( 'gzread' )) {
 			throw new PHPExcel_Reader_Exception ( "gzlib library is not enabled" );
 		}
-		
+
 		// Read signature data (first 3 bytes)
 		$fh = fopen ( $pFilename, 'r' );
 		$data = fread ( $fh, 2 );
 		fclose ( $fh );
-		
+
 		if ($data != chr ( 0x1F ) . chr ( 0x8B )) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Reads names of the worksheets from a file, without parsing the whole file to a PHPExcel object
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function listWorksheetNames($pFilename) {
@@ -110,11 +110,11 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$xml = new XMLReader ();
 		$xml->open ( 'compress.zlib://' . realpath ( $pFilename ) );
 		$xml->setParserProperty ( 2, true );
-		
+
 		$worksheetNames = array ();
 		while ( $xml->read () ) {
 			if ($xml->name == 'gnm:SheetName' && $xml->nodeType == XMLReader::ELEMENT) {
@@ -125,14 +125,14 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				break;
 			}
 		}
-		
+
 		return $worksheetNames;
 	}
-	
+
 	/**
 	 * Return worksheet info (Name, Last Column Letter, Last Column Index, Total Rows, Total Columns)
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function listWorksheetInfo($pFilename) {
@@ -140,11 +140,11 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$xml = new XMLReader ();
 		$xml->open ( 'compress.zlib://' . realpath ( $pFilename ) );
 		$xml->setParserProperty ( 2, true );
-		
+
 		$worksheetInfo = array ();
 		while ( $xml->read () ) {
 			if ($xml->name == 'gnm:Sheet' && $xml->nodeType == XMLReader::ELEMENT) {
@@ -153,9 +153,9 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 						'lastColumnLetter' => 'A',
 						'lastColumnIndex' => 0,
 						'totalRows' => 0,
-						'totalColumns' => 0 
+						'totalColumns' => 0
 				);
-				
+
 				while ( $xml->read () ) {
 					if ($xml->name == 'gnm:Name' && $xml->nodeType == XMLReader::ELEMENT) {
 						$xml->read (); // Move onto the value node
@@ -174,7 +174,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				$worksheetInfo [] = $tmpInfo;
 			}
 		}
-		
+
 		return $worksheetInfo;
 	}
 	private function _gzfileGetContents($filename) {
@@ -188,27 +188,27 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function load($pFilename) {
 		// Create new PHPExcel
 		$objPHPExcel = new PHPExcel ();
-		
+
 		// Load into this instance
 		return $this->loadIntoExisting ( $pFilename, $objPHPExcel );
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file into PHPExcel instance
 	 *
-	 * @param string $pFilename        	
-	 * @param PHPExcel $objPHPExcel        	
+	 * @param string $pFilename
+	 * @param PHPExcel $objPHPExcel
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
@@ -217,32 +217,32 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 		if (! file_exists ( $pFilename )) {
 			throw new PHPExcel_Reader_Exception ( "Could not open " . $pFilename . " for reading! File does not exist." );
 		}
-		
+
 		$timezoneObj = new DateTimeZone ( 'Europe/London' );
 		$GMT = new DateTimeZone ( 'UTC' );
-		
+
 		$gFileData = $this->_gzfileGetContents ( $pFilename );
-		
+
 		// echo '<pre>';
 		// echo htmlentities($gFileData,ENT_QUOTES,'UTF-8');
 		// echo '</pre><hr />';
 		//
 		$xml = simplexml_load_string ( $gFileData );
 		$namespacesMeta = $xml->getNamespaces ( true );
-		
+
 		// var_dump($namespacesMeta);
 		//
 		$gnmXML = $xml->children ( $namespacesMeta ['gnm'] );
-		
+
 		$docProps = $objPHPExcel->getProperties ();
 		// Document Properties are held differently, depending on the version of Gnumeric
 		if (isset ( $namespacesMeta ['office'] )) {
 			$officeXML = $xml->children ( $namespacesMeta ['office'] );
 			$officeDocXML = $officeXML->{'document-meta'};
 			$officeDocMetaXML = $officeDocXML->meta;
-			
-			foreach ( $officeDocMetaXML as $officePropertyData ) {
 				
+			foreach ( $officeDocMetaXML as $officePropertyData ) {
+
 				$officePropertyDC = array ();
 				if (isset ( $namespacesMeta ['dc'] )) {
 					$officePropertyDC = $officePropertyData->children ( $namespacesMeta ['dc'] );
@@ -337,7 +337,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				}
 			}
 		}
-		
+
 		$worksheetID = 0;
 		foreach ( $gnmXML->Sheets->Sheet as $sheet ) {
 			$worksheetName = ( string ) $sheet->Name;
@@ -345,9 +345,9 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 			if ((isset ( $this->_loadSheetsOnly )) && (! in_array ( $worksheetName, $this->_loadSheetsOnly ))) {
 				continue;
 			}
-			
+				
 			$maxRow = $maxCol = 0;
-			
+				
 			// Create new Worksheet
 			$objPHPExcel->createSheet ();
 			$objPHPExcel->setActiveSheetIndex ( $worksheetID );
@@ -355,7 +355,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 			// cells... during the load, all formulae should be correct, and we're simply bringing the worksheet
 			// name in line with the formula, not the reverse
 			$objPHPExcel->getActiveSheet ()->setTitle ( $worksheetName, false );
-			
+				
 			if ((! $this->_readDataOnly) && (isset ( $sheet->PrintInformation ))) {
 				if (isset ( $sheet->PrintInformation->Margins )) {
 					foreach ( $sheet->PrintInformation->Margins->children ( 'gnm', TRUE ) as $key => $margin ) {
@@ -389,26 +389,26 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					}
 				}
 			}
-			
+				
 			foreach ( $sheet->Cells->Cell as $cell ) {
 				$cellAttributes = $cell->attributes ();
 				$row = ( int ) $cellAttributes->Row + 1;
 				$column = ( int ) $cellAttributes->Col;
-				
+
 				if ($row > $maxRow)
 					$maxRow = $row;
 				if ($column > $maxCol)
 					$maxCol = $column;
-				
+
 				$column = PHPExcel_Cell::stringFromColumnIndex ( $column );
-				
+
 				// Read cell?
 				if ($this->getReadFilter () !== NULL) {
 					if (! $this->getReadFilter ()->readCell ( $column, $row, $worksheetName )) {
 						continue;
 					}
 				}
-				
+
 				$ValueType = $cellAttributes->ValueType;
 				$ExprID = ( string ) $cellAttributes->ExprID;
 				// echo 'Cell ',$column,$row,'<br />';
@@ -417,16 +417,16 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				$type = PHPExcel_Cell_DataType::TYPE_FORMULA;
 				if ($ExprID > '') {
 					if ((( string ) $cell) > '') {
-						
+
 						$this->_expressions [$ExprID] = array (
 								'column' => $cellAttributes->Col,
 								'row' => $cellAttributes->Row,
-								'formula' => ( string ) $cell 
+								'formula' => ( string ) $cell
 						);
 						// echo 'NEW EXPRESSION ',$ExprID,'<br />';
 					} else {
 						$expression = $this->_expressions [$ExprID];
-						
+
 						$cell = $this->_referenceHelper->updateFormulaReferences ( $expression ['formula'], 'A1', $cellAttributes->Col - $expression ['column'], $cellAttributes->Row - $expression ['row'], $worksheetName );
 						// echo 'SHARED EXPRESSION ',$ExprID,'<br />';
 						// echo 'New Value is ',$cell,'<br />';
@@ -458,7 +458,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				}
 				$objPHPExcel->getActiveSheet ()->getCell ( $column . $row )->setValueExplicit ( $cell, $type );
 			}
-			
+				
 			if ((! $this->_readDataOnly) && (isset ( $sheet->Objects ))) {
 				foreach ( $sheet->Objects->children ( 'gnm', TRUE ) as $key => $comment ) {
 					$commentAttributes = $comment->attributes ();
@@ -473,21 +473,21 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 			foreach ( $sheet->Styles->StyleRegion as $styleRegion ) {
 				$styleAttributes = $styleRegion->attributes ();
 				if (($styleAttributes ['startRow'] <= $maxRow) && ($styleAttributes ['startCol'] <= $maxCol)) {
-					
+						
 					$startColumn = PHPExcel_Cell::stringFromColumnIndex ( ( int ) $styleAttributes ['startCol'] );
 					$startRow = $styleAttributes ['startRow'] + 1;
-					
+						
 					$endColumn = ($styleAttributes ['endCol'] > $maxCol) ? $maxCol : ( int ) $styleAttributes ['endCol'];
 					$endColumn = PHPExcel_Cell::stringFromColumnIndex ( $endColumn );
 					$endRow = ($styleAttributes ['endRow'] > $maxRow) ? $maxRow : $styleAttributes ['endRow'];
 					$endRow += 1;
 					$cellRange = $startColumn . $startRow . ':' . $endColumn . $endRow;
 					// echo $cellRange,'<br />';
-					
+						
 					$styleAttributes = $styleRegion->Style->attributes ();
 					// var_dump($styleAttributes);
 					// echo '<br />';
-					
+						
 					// We still set the number format mask for date/time values, even if _readDataOnly is true
 					if ((! $this->_readDataOnly) || (PHPExcel_Shared_Date::isDateTimeFormatCode ( $styleArray ['numberformat'] ['code'] ))) {
 						$styleArray = array ();
@@ -515,7 +515,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 									$styleArray ['alignment'] ['horizontal'] = PHPExcel_Style_Alignment::HORIZONTAL_JUSTIFY;
 									break;
 							}
-							
+								
 							switch ($styleAttributes ['VAlign']) {
 								case '1' :
 									$styleArray ['alignment'] ['vertical'] = PHPExcel_Style_Alignment::VERTICAL_TOP;
@@ -530,11 +530,11 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 									$styleArray ['alignment'] ['vertical'] = PHPExcel_Style_Alignment::VERTICAL_JUSTIFY;
 									break;
 							}
-							
+								
 							$styleArray ['alignment'] ['wrap'] = ($styleAttributes ['WrapText'] == '1') ? True : False;
 							$styleArray ['alignment'] ['shrinkToFit'] = ($styleAttributes ['ShrinkToFit'] == '1') ? True : False;
 							$styleArray ['alignment'] ['indent'] = (intval ( $styleAttributes ["Indent"] ) > 0) ? $styleAttributes ["indent"] : 0;
-							
+								
 							$RGB = self::_parseGnumericColour ( $styleAttributes ["Fore"] );
 							$styleArray ['font'] ['color'] ['rgb'] = $RGB;
 							$RGB = self::_parseGnumericColour ( $styleAttributes ["Back"] );
@@ -606,7 +606,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 										break;
 								}
 							}
-							
+								
 							$fontAttributes = $styleRegion->Style->Font->attributes ();
 							// var_dump($fontAttributes);
 							// echo '<br />';
@@ -640,7 +640,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 									$styleArray ['font'] ['subScript'] = True;
 									break;
 							}
-							
+								
 							if (isset ( $styleRegion->Style->StyleBorder )) {
 								if (isset ( $styleRegion->Style->StyleBorder->Top )) {
 									$styleArray ['borders'] ['top'] = self::_parseBorderAttributes ( $styleRegion->Style->StyleBorder->Top->attributes () );
@@ -676,7 +676,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					}
 				}
 			}
-			
+				
 			if ((! $this->_readDataOnly) && (isset ( $sheet->Cols ))) {
 				// Column Widths
 				$columnAttributes = $sheet->Cols->attributes ();
@@ -705,13 +705,13 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					++ $c;
 				}
 			}
-			
+				
 			if ((! $this->_readDataOnly) && (isset ( $sheet->Rows ))) {
 				// Row Heights
 				$rowAttributes = $sheet->Rows->attributes ();
 				$defaultHeight = $rowAttributes ['DefaultSizePts'];
 				$r = 0;
-				
+
 				foreach ( $sheet->Rows->RowInfo as $rowOverride ) {
 					$rowAttributes = $rowOverride->attributes ();
 					$row = $rowAttributes ['No'];
@@ -735,7 +735,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					$objPHPExcel->getActiveSheet ()->getRowDimension ( $r )->setRowHeight ( $defaultHeight );
 				}
 			}
-			
+				
 			// Handle Merged Cells in this worksheet
 			if (isset ( $sheet->MergedRegions )) {
 				foreach ( $sheet->MergedRegions->Merge as $mergeCells ) {
@@ -744,10 +744,10 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					}
 				}
 			}
-			
+				
 			$worksheetID ++;
 		}
-		
+
 		// Loop through definedNames (global named ranges)
 		if (isset ( $gnmXML->Names )) {
 			foreach ( $gnmXML->Names->Name as $namedRange ) {
@@ -756,7 +756,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				if (stripos ( $range, '#REF!' ) !== false) {
 					continue;
 				}
-				
+
 				$range = explode ( '!', $range );
 				$range [0] = trim ( $range [0], "'" );
 				;
@@ -766,18 +766,18 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				}
 			}
 		}
-		
+
 		// Return
 		return $objPHPExcel;
 	}
 	private static function _parseBorderAttributes($borderAttributes) {
 		$styleArray = array ();
-		
+
 		if (isset ( $borderAttributes ["Color"] )) {
 			$RGB = self::_parseGnumericColour ( $borderAttributes ["Color"] );
 			$styleArray ['color'] ['rgb'] = $RGB;
 		}
-		
+
 		switch ($borderAttributes ["Style"]) {
 			case '0' :
 				$styleArray ['style'] = PHPExcel_Style_Border::BORDER_NONE;
@@ -826,9 +826,9 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 	}
 	private function _parseRichText($is = '') {
 		$value = new PHPExcel_RichText ();
-		
+
 		$value->createText ( $is );
-		
+
 		return $value;
 	}
 	private static function _parseGnumericColour($gnmColour) {

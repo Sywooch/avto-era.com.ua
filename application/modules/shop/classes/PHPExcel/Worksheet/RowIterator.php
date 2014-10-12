@@ -41,21 +41,21 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 	 * @var PHPExcel_Worksheet
 	 */
 	private $_subject;
-	
+
 	/**
 	 * Current iterator position
 	 *
 	 * @var int
 	 */
 	private $_position = 1;
-	
+
 	/**
 	 * Start position
 	 *
 	 * @var int
 	 */
 	private $_startRow = 1;
-	
+
 	/**
 	 * Create a new row iterator
 	 *
@@ -69,14 +69,14 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 		$this->_subject = $subject;
 		$this->resetStart ( $startRow );
 	}
-	
+
 	/**
 	 * Destructor
 	 */
 	public function __destruct() {
 		unset ( $this->_subject );
 	}
-	
+
 	/**
 	 * (Re)Set the start row and the current row pointer
 	 *
@@ -87,7 +87,7 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 		$this->_startRow = $startRow;
 		$this->seek ( $startRow );
 	}
-	
+
 	/**
 	 * Set the row pointer to the selected row
 	 *
@@ -97,14 +97,14 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 	public function seek($row = 1) {
 		$this->_position = $row;
 	}
-	
+
 	/**
 	 * Rewind the iterator to the starting row
 	 */
 	public function rewind() {
 		$this->_position = $this->_startRow;
 	}
-	
+
 	/**
 	 * Return the current row in this worksheet
 	 *
@@ -113,7 +113,7 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 	public function current() {
 		return new PHPExcel_Worksheet_Row ( $this->_subject, $this->_position );
 	}
-	
+
 	/**
 	 * Return the current iterator key
 	 *
@@ -122,14 +122,14 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 	public function key() {
 		return $this->_position;
 	}
-	
+
 	/**
 	 * Set the iterator to its next value
 	 */
 	public function next() {
 		++ $this->_position;
 	}
-	
+
 	/**
 	 * Set the iterator to its previous value
 	 */
@@ -137,7 +137,7 @@ class PHPExcel_Worksheet_RowIterator implements Iterator {
 		if ($this->_position > 1)
 			-- $this->_position;
 	}
-	
+
 	/**
 	 * Indicate if more rows exist in the worksheet
 	 *

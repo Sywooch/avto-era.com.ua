@@ -4,14 +4,14 @@
 /**
  * Image CMS
  * Email Module Admin
- * 
+ *
  * @property Cache $cache
  */
 class Admin extends BaseAdminController {
-	
+
 	/**
 	 * Object of Email class
-	 * 
+	 *
 	 * @var Email
 	 */
 	public $email;
@@ -31,9 +31,9 @@ class Admin extends BaseAdminController {
 	public function create() {
 		if ($_POST) {
 			if ($this->email->create ()) {
-				
+
 				showMessage ( lang ( 'Template created', 'cms_email' ) );
-				
+
 				if ($this->input->post ( 'action' ) == 'save')
 					pjax ( '/admin/components/cp/cmsemail/index' );
 			} else {
@@ -52,20 +52,20 @@ class Admin extends BaseAdminController {
 	public function edit($id, $locale = null) {
 		if (null === $locale)
 			$locale = chose_language ();
-		
+
 		$model = $this->email->getTemplateById ( $id, $locale );
-		
+
 		if (! $model) {
 			$this->load->module ( 'core' );
 			$this->core->error_404 ();
 			exit ();
 		}
 		$variables = unserialize ( $model ['variables'] );
-		
+
 		if ($_POST) {
 			if ($this->email->edit ( $id, array (), $locale )) {
 				showMessage ( lang ( 'Template edited', 'cmsemail' ) );
-				
+
 				if ($this->input->post ( 'action' ) == 'tomain')
 					pjax ( '/admin/components/cp/cmsemail/index' );
 			} else {
@@ -74,7 +74,7 @@ class Admin extends BaseAdminController {
 		} else
 			\CMSFactory\assetManager::create ()->setData ( 'locale', $locale )->setData ( 'languages', $this->db->get ( 'languages' )->result_array () )->setData ( 'model', $model )->setData ( 'variables', $variables )->registerScript ( 'email', TRUE )->renderAdmin ( 'edit' );
 	}
-	
+
 	/**
 	 * updare settings for email
 	 */
@@ -84,19 +84,19 @@ class Admin extends BaseAdminController {
 			$this->form_validation->set_rules ( 'settings[from_email]', lang ( 'Email sender', 'cmsemail' ), 'required|xss_clean|valid_email' );
 			$this->form_validation->set_rules ( 'settings[from]', lang ( 'From', 'cmsemail' ), 'required|xss_clean' );
 			$this->form_validation->set_rules ( 'settings[theme]', lang ( 'From email', 'cmsemail' ), 'xss_clean|required' );
-			
+				
 			if ($_POST ['settings'] ['wraper_activ'])
 				$this->form_validation->set_rules ( 'settings[wraper]', lang ( 'Wraper', 'cmsemail' ), 'required|xss_clean|callback_wraper_check' );
 			else
 				$this->form_validation->set_rules ( 'settings[wraper]', lang ( 'Wraper', 'cmsemail' ), 'xss_clean' );
-			
+				
 			if ($this->form_validation->run ( $this ) == FALSE) {
 				showMessage ( validation_errors (), lang ( 'Message', 'cmsemail' ), 'r' );
 			} else {
 				if ($this->email->setSettings ( $_POST ['settings'] ))
 					showMessage ( lang ( 'Settings saved', 'cmsemail' ), lang ( 'Message', 'cmsemail' ) );
 			}
-			
+				
 			$this->cache->delete_all ();
 		}
 	}
@@ -113,7 +113,7 @@ class Admin extends BaseAdminController {
 			$locale = chose_language ();
 		$template_id = $this->input->post ( 'template_id' );
 		$variable = $this->input->post ( 'variable' );
-		
+
 		return $this->email->deleteVariable ( $template_id, $variable, $locale );
 	}
 	public function updateVariable($locale = null) {
@@ -131,7 +131,7 @@ class Admin extends BaseAdminController {
 		$template_id = $this->input->post ( 'template_id' );
 		$variable = $this->input->post ( 'variable' );
 		$variableValue = $this->input->post ( 'variableValue' );
-		
+
 		if ($this->email->addVariable ( $template_id, $variable, $variableValue, $locale )) {
 			\CMSFactory\assetManager::create ()->setData ( 'template_id', $template_id )->setData ( 'variable', $variable )->setData ( 'variable_value', $variableValue )->render ( 'newVariable', true );
 		} else {
@@ -149,7 +149,7 @@ class Admin extends BaseAdminController {
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * import templates from file
 	 */
@@ -161,7 +161,7 @@ class Admin extends BaseAdminController {
 				4,
 				5,
 				6,
-				7 
+				7
 		) )->delete ( 'mod_email_paterns' );
 		$file = $this->load->file ( dirname ( __FILE__ ) . '/models/paterns.sql', true );
 		$this->db->query ( $file );

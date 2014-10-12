@@ -89,14 +89,13 @@
 	margin-right: 7px;
 }
 
-.discount-out #valueInput, .discount-out #comulativBlock .input-small,
-	.discount-out #how-much {
+.discount-out #valueInput,.discount-out #comulativBlock .input-small,.discount-out #how-much
+	{
 	width: 60px !important;
 	margin-right: 5px;
 }
 
-.discount-out #selectDiscountType, .discount-out #usersForDiscount,
-	.discount-out #categoryBlock, .discount-out #brandBlock, .discount-out #productForDiscount
+.discount-out #selectDiscountType,.discount-out #usersForDiscount,.discount-out #categoryBlock,.discount-out #brandBlock,.discount-out #productForDiscount
 	{
 	width: 320px !important;
 }

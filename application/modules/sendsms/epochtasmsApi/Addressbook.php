@@ -4,14 +4,14 @@ class Addressbook {
 	function __construct($gateway) {
 		$this->gateway = $gateway;
 	}
-	
+
 	/**
 	 * Create address book
 	 */
 	function addAddressBook($name, $description = NULL) {
 		return $this->gateway->execCommad ( 'addAddressbook', array (
 				'name' => $name,
-				'description' => $description 
+				'description' => $description
 		) );
 	}
 	/**
@@ -19,7 +19,7 @@ class Addressbook {
 	 */
 	function delAddressBook($idAddressBook) {
 		return $this->gateway->execCommad ( 'delAddressbook', array (
-				'idAddressBook' => $idAddressBook 
+				'idAddressBook' => $idAddressBook
 		) );
 	}
 	/**
@@ -29,29 +29,29 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'editAddressbook', array (
 				'idAddressBook' => $idAddressBook,
 				'newName' => $newName,
-				'newDescr' => $newDescr 
+				'newDescr' => $newDescr
 		) );
 	}
-	
+
 	/**
 	 * Get address book by address book ID
 	 */
 	function getAddressBook($idAddressBook) {
 		return $this->gateway->execCommad ( 'getAddressbook', array (
-				'idAddressBook' => $idAddressBook 
+				'idAddressBook' => $idAddressBook
 		) );
 	}
-	
+
 	/**
 	 * Get all address books
 	 */
 	function getAllAddressBook($from = null, $offset = null) {
 		return $this->gateway->execCommad ( 'getAddressbook', array (
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), true );
 	}
-	
+
 	/**
 	 * Add phone to addressbook
 	 */
@@ -59,48 +59,48 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'addPhoneToAddressBook', array (
 				'idAddressBook' => $idAddressBook,
 				'phone' => $phone,
-				'variables' => $variables 
+				'variables' => $variables
 		) );
 	}
-	
+
 	/**
 	 * Get phone from addressbook
 	 */
 	function getPhoneFromAddressBookByIdPhone($idPhone, $idAddressBook = null) {
 		return $this->gateway->execCommad ( 'getPhoneFromAddressBook', array (
 				'idAddressBook' => $idAddressBook,
-				'idPhone' => $idPhone 
+				'idPhone' => $idPhone
 		) );
 	}
-	
+
 	/**
 	 * Get phone from addressbook by phon ID
 	 */
 	function getPhoneById($idPhone) {
 		return $this->gateway->execCommad ( 'getPhoneFromAddressBook', array (
-				'idPhone' => $idPhone 
+				'idPhone' => $idPhone
 		) );
 	}
-	
+
 	/**
 	 * Get phone from addressbook by phone
 	 */
 	function getPhoneByPhone($phone) {
 		return $this->gateway->execCommad ( 'getPhoneFromAddressBook', array (
-				'phone' => $phone 
+				'phone' => $phone
 		) );
 	}
-	
+
 	/**
 	 * Get phone from addressbook by phone
 	 */
 	function getAllPhones($from, $offset) {
 		return $this->gateway->execCommad ( 'getPhoneFromAddressBook', array (
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), $true );
 	}
-	
+
 	/**
 	 * Get phone from addressbook by address book ID
 	 */
@@ -108,10 +108,10 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'getPhoneFromAddressBook', array (
 				'idAddressBook' => $idAddressBook,
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		) );
 	}
-	
+
 	/**
 	 * Get phone from addressbook by address book ID and phone
 	 */
@@ -120,28 +120,28 @@ class Addressbook {
 				'idAddressBook' => $idAddressBook,
 				'phone' => $phone,
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		) );
 	}
-	
+
 	/**
 	 * Delete phone from addressbook by phone ID
 	 */
 	function delPhoneFromAddressBookById($idPhone) {
 		return $this->gateway->execCommad ( 'delPhoneFromAddressBook', array (
-				'idPhone' => $idPhone 
+				'idPhone' => $idPhone
 		) );
 	}
-	
+
 	/**
 	 * Delete all phones from addressbook by address book ID
 	 */
 	function delPhonesFromAddressBookByAdressBookId($idAddressBook) {
 		return $this->gateway->execCommad ( 'delPhoneFromAddressBook', array (
-				'idAddressBook' => $idAddressBook 
+				'idAddressBook' => $idAddressBook
 		) );
 	}
-	
+
 	/**
 	 * Edit phone addressbook by phone ID
 	 */
@@ -149,10 +149,10 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'editPhone', array (
 				'idPhone' => $idPhone,
 				'phone' => $phone,
-				'variables' => $variables 
+				'variables' => $variables
 		) );
 	}
-	
+
 	/**
 	 * Search addressbook
 	 * Availible fields: name,phones,date.
@@ -165,10 +165,10 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'searchAddressBook', array (
 				'searchFields' => $searchFields_json,
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), true );
 	}
-	
+
 	/**
 	 * Search phone
 	 * Availible fields: idAddressBook,phones,normalPhone, variables, status.
@@ -181,7 +181,7 @@ class Addressbook {
 		return $this->gateway->execCommad ( 'searchPhones', array (
 				'searchFields' => $searchFields_json,
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		), true );
 	}
 }

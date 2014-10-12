@@ -8,18 +8,18 @@
 class Users extends CI_Model {
 	function Users() {
 		parent::__construct ();
-		
+
 		// Other stuff
 		$this->_prefix = $this->config->item ( 'DX_table_prefix' );
 		$this->_table = $this->_prefix . $this->config->item ( 'DX_users_table' );
 		$this->_roles_table = $this->_prefix . $this->config->item ( 'DX_roles_table' );
 	}
-	
+
 	// General function
 	function get_all($offset = 0, $row_count = 0) {
 		$users_table = $this->_table;
 		$roles_table = $this->_roles_table;
-		
+
 		if ($offset >= 0 and $row_count > 0) {
 			$locale = MY_Controller::getCurrentLocale ();
 			$this->db->select ( "$users_table.*", FALSE );
@@ -29,12 +29,12 @@ class Users extends CI_Model {
 			$this->db->join ( "shop_rbac_roles_i18n", "shop_rbac_roles_i18n.id = shop_rbac_roles.id AND shop_rbac_roles_i18n.locale ='$locale'", "left" );
 			// $this->db->where('shop_rbac_roles_i18n.locale', MY_Controller::getCurrentLocale());
 			$this->db->order_by ( "$users_table.id", "ASC" );
-			
+				
 			$query = $this->db->get ( $this->_table, $row_count, $offset );
 		} else {
 			$query = $this->db->get ( $this->_table );
 		}
-		
+
 		return $query;
 	}
 	function get_user_by_id($user_id) {
@@ -74,24 +74,24 @@ class Users extends CI_Model {
 	function ban_user($user_id, $reason = NULL) {
 		$data = array (
 				'banned' => 1,
-				'ban_reason' => $reason 
+				'ban_reason' => $reason
 		);
 		return $this->set_user ( $user_id, $data );
 	}
 	function unban_user($user_id) {
 		$data = array (
 				'banned' => 0,
-				'ban_reason' => NULL 
+				'ban_reason' => NULL
 		);
 		return $this->set_user ( $user_id, $data );
 	}
 	function set_role($user_id, $role_id) {
 		$data = array (
-				'role_id' => $role_id 
+				'role_id' => $role_id
 		);
 		return $this->set_user ( $user_id, $data );
 	}
-	
+
 	// User table function
 	function create_user($data) {
 		$data ['created'] = date ( 'U' );
@@ -111,13 +111,13 @@ class Users extends CI_Model {
 		$this->db->delete ( $this->_table );
 		return $this->db->affected_rows () > 0;
 	}
-	
+
 	// Forgot password function
 	function newpass($user_id, $pass, $key) {
 		$data = array (
 				'newpass' => $pass,
 				'newpass_key' => $key,
-				'newpass_time' => date ( 'Y-m-d h:i:s', time () + $this->config->item ( 'DX_forgot_password_expire' ) ) 
+				'newpass_time' => date ( 'Y-m-d h:i:s', time () + $this->config->item ( 'DX_forgot_password_expire' ) )
 		);
 		return $this->set_user ( $user_id, $data );
 	}
@@ -128,18 +128,18 @@ class Users extends CI_Model {
 		$this->db->set ( 'newpass_time', NULL );
 		$this->db->where ( 'id', $user_id );
 		$this->db->where ( 'newpass_key', $key );
-		
+
 		return $this->db->update ( $this->_table );
 	}
 	function clear_newpass($user_id) {
 		$data = array (
 				'newpass' => NULL,
 				'newpass_key' => NULL,
-				'newpass_time' => NULL 
+				'newpass_time' => NULL
 		);
 		return $this->set_user ( $user_id, $data );
 	}
-	
+
 	// Change password function
 	function change_password($user_id, $new_pass) {
 		$this->db->set ( 'password', $new_pass );

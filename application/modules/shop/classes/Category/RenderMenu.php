@@ -41,17 +41,17 @@ class RenderMenu extends \CI_Model {
 			'item_last' => 'item_last',
 			'item_last_active' => 'item_last_active',
 			'item_one' => 'item_one',
-			'item_one_active' => 'item_one_active' 
+			'item_one_active' => 'item_one_active'
 	);
 	public function __construct() {
 		parent::__construct ();
 		$this->setConfig ();
 		$this->current_uri = $this->uri->uri_string ();
 	}
-	
+
 	/**
 	 * Returns a new ImportBootstrap object.
-	 * 
+	 *
 	 * @return ImportBootstrap
 	 * @access public static
 	 * @author Kaero
@@ -67,7 +67,7 @@ class RenderMenu extends \CI_Model {
 	}
 	public function setConfig(array $arg = null) {
 		$this->config = array (
-				'url.shop.category' => '/shop/category/' 
+				'url.shop.category' => '/shop/category/'
 		);
 		if ($arg != null) {
 			$this->config = array_unique ( array_merge ( $this->config, $arg ) );
@@ -84,7 +84,7 @@ class RenderMenu extends \CI_Model {
 		$this->noCache = $noCache;
 		$this->startRenderCategory ();
 	}
-	
+
 	/**
 	 *
 	 * @tutorial Shows all categories.
@@ -104,7 +104,7 @@ class RenderMenu extends \CI_Model {
 			echo $menu;
 		}
 	}
-	
+
 	/**
 	 *
 	 * @return Returns all the categories in the form of templates
@@ -115,7 +115,7 @@ class RenderMenu extends \CI_Model {
 	private function showMenu() {
 		$this->categorydb ();
 	}
-	
+
 	/**
 	 *
 	 * @return no cache category DB
@@ -132,10 +132,10 @@ class RenderMenu extends \CI_Model {
 		$this->db->order_by ( 'position', 'ASC' );
 		$this->db->join ( 'shop_category_i18n', 'shop_category_i18n.id = shop_category.id' );
 		$query = $this->db->get ()->result_array ();
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 *
 	 * @return cache category DB
@@ -145,7 +145,7 @@ class RenderMenu extends \CI_Model {
 	 */
 	private function cache_category_db() {
 		$locale = \MY_Controller::getCurrentLocale ();
-		
+
 		$this->load->driver ( 'cache' );
 		if (($query = $this->cache->fetch ( 'category_db_' . $locale, 'category' )) == null) {
 			$this->db->select ( '*' );
@@ -159,7 +159,7 @@ class RenderMenu extends \CI_Model {
 		}
 		return $query;
 	}
-	
+
 	/**
 	 *
 	 * @return Returns an array with the categories.
@@ -174,7 +174,7 @@ class RenderMenu extends \CI_Model {
 			$this->noCache = false;
 		} else {
 			$this->category = $this->cache_category_db ();
-			
+				
 			$this->load->driver ( 'cache' );
 			if (($categoryTree = $this->cache->fetch ( 'categoryTree_' . $this->locale (), 'category' )) == null) {
 				$categoryTree = $this->renderCategory ();
@@ -183,19 +183,19 @@ class RenderMenu extends \CI_Model {
 		}
 		$this->recursionSubCategory ( $categoryTree, $this->productActive () );
 	}
-	
+
 	/**
 	 *
 	 * @tutorial Function recursively examines the category tree, and passes on the template. Be careful when mutations both! :)
 	 * @access Private
 	 * @author PefoliosInc
 	 * @copyright ImageCMS (c) 2012, <m.mamonchuk@imagecms.net>
-	 *           
+	 *
 	 */
 	private function recursionSubCategory($array = NULL, $productActive = NULL) {
 		if (is_array ( $array )) {
 			foreach ( $array as $v ) {
-				
+
 				if ($v ['subCategory'] != NULL) {
 					$this->recursionSubCategory ( $v ['subCategory'], $productActive );
 				} else {
@@ -206,14 +206,14 @@ class RenderMenu extends \CI_Model {
 						'title' => $v ['name'],
 						'link' => site_url ( $this->config ['url.shop.category'] . $v ['full_path'] ),
 						'image' => $v ['image'],
-						'column' => $v ['column'] 
+						'column' => $v ['column']
 				);
 				if ($productActive == null) {
 					$categoriesPathsArray = $this->returnArrayOfPathsToActiveCategory ();
 				} else {
 					$categoriesPathsArray = $this->composeCategoriesPaths ( $productActive );
 				}
-				
+
 				if (! is_array ( $categoriesPathsArray )) {
 					$categoriesPathsArray = array ();
 				}
@@ -224,23 +224,23 @@ class RenderMenu extends \CI_Model {
 				}
 			}
 			$this->template->assign ( 'wrapper', $wrappers );
-			
+				
 			if ($v ['lvl'] != 0) {
 				$wrapper .= $this->template->fetch ( '/' . $this->tpl_folder . '/level_' . $v ['lvl'] . '/container', $data );
 			} else {
 				$this->template->display ( '/' . $this->tpl_folder . '/level_0/container' );
 			}
-			
+				
 			$this->template->assign ( 'wrapper', $wrapper );
 		} else {
 			log_message ( 'error', 'Class RenderMenyu function recursionSubCategory not received array' );
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Return array of paths to active category
-	 * 
+	 *
 	 * @return array|boolean
 	 */
 	public function returnArrayOfPathsToActiveCategory() {
@@ -256,17 +256,17 @@ class RenderMenu extends \CI_Model {
 			unset ( $uriSegmentsArray [1] );
 			$arrayOfPaths = $this->composeCategoriesPaths ( $uriSegmentsArray );
 		}
-		
+
 		if ($arrayOfPaths != null)
 			return $arrayOfPaths;
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Compose categories paths to active category
-	 * 
-	 * @param array $array        	
+	 *
+	 * @param array $array
 	 * @return array|boolean
 	 */
 	private function composeCategoriesPaths($segments = null) {
@@ -274,7 +274,7 @@ class RenderMenu extends \CI_Model {
 			$count = count ( $segments );
 			$step = 0;
 			while ( $step < $count ) {
-				
+
 				$arrayOfCategoriesPaths [$step] = implode ( '/', array_slice ( $segments, 0, $step + 1 ) );
 				$step ++;
 			}
@@ -292,7 +292,7 @@ class RenderMenu extends \CI_Model {
 	public function locale() {
 		return \MY_Controller::getCurrentLocale ();
 	}
-	
+
 	/**
 	 *
 	 * @return Tree of all categories.
@@ -303,19 +303,19 @@ class RenderMenu extends \CI_Model {
 	private function renderCategory($owner_id = 0) {
 		$this->level ++;
 		foreach ( $this->category as $value ) {
-			
+				
 			if ($value ['parent_id'] == $owner_id) {
 				$value ['lvl'] = $this->level;
-				
+
 				$value ['subCategory'] = $this->renderCategory ( $value ['id'] );
 				$categoryTree [] = $value;
 			}
 		}
 		$this->level --;
-		
+
 		return $categoryTree;
 	}
-	
+
 	/**
 	 *
 	 * @return Product category.
@@ -325,16 +325,16 @@ class RenderMenu extends \CI_Model {
 	 */
 	private function productActive() {
 		$productId = $this->core->core_data;
-		
+
 		if ($productId ['data_type'] !== 'product')
 			return false;
-		
+
 		$this->db->select ( 'full_path' );
 		$this->db->from ( 'shop_products' );
 		$this->db->where ( 'shop_products.id', $productId ['id'] );
 		$this->db->join ( 'shop_category', 'shop_category.id = shop_products.category_id' );
 		$query = $this->db->get ()->result_array ();
-		
+
 		$explode = explode ( '/', $query [0] ['full_path'] );
 		return $explode;
 	}

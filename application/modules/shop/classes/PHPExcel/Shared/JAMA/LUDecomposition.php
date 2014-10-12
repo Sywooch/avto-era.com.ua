@@ -21,42 +21,42 @@
 class PHPExcel_Shared_JAMA_LUDecomposition {
 	const MatrixSingularException = "Can only perform operation on singular matrix.";
 	const MatrixSquareException = "Mismatched Row dimension";
-	
+
 	/**
 	 * Decomposition storage
-	 * 
+	 *
 	 * @var array
 	 */
 	private $LU = array ();
-	
+
 	/**
 	 * Row dimension.
-	 * 
+	 *
 	 * @var int
 	 */
 	private $m;
-	
+
 	/**
 	 * Column dimension.
-	 * 
+	 *
 	 * @var int
 	 */
 	private $n;
-	
+
 	/**
 	 * Pivot sign.
-	 * 
+	 *
 	 * @var int
 	 */
 	private $pivsign;
-	
+
 	/**
 	 * Internal storage of pivot vector.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $piv = array ();
-	
+
 	/**
 	 * LU Decomposition constructor.
 	 *
@@ -75,7 +75,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 			}
 			$this->pivsign = 1;
 			$LUrowi = $LUcolj = array ();
-			
+				
 			// Outer loop.
 			for($j = 0; $j < $this->n; ++ $j) {
 				// Make a copy of the j-th column to localize references.
@@ -122,7 +122,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 			throw new PHPExcel_Calculation_Exception ( PHPExcel_Shared_JAMA_Matrix::ArgumentTypeException );
 		}
 	} // function __construct()
-	
+
 	/**
 	 * Get lower triangular factor.
 	 *
@@ -142,7 +142,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 		}
 		return new PHPExcel_Shared_JAMA_Matrix ( $L );
 	} // function getL()
-	
+
 	/**
 	 * Get upper triangular factor.
 	 *
@@ -160,7 +160,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 		}
 		return new PHPExcel_Shared_JAMA_Matrix ( $U );
 	} // function getU()
-	
+
 	/**
 	 * Return pivot permutation vector.
 	 *
@@ -169,7 +169,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 	public function getPivot() {
 		return $this->piv;
 	} // function getPivot()
-	
+
 	/**
 	 * Alias for getPivot
 	 *
@@ -178,7 +178,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 	public function getDoublePivot() {
 		return $this->getPivot ();
 	} // function getDoublePivot()
-	
+
 	/**
 	 * Is the matrix nonsingular?
 	 *
@@ -192,7 +192,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 		}
 		return true;
 	} // function isNonsingular()
-	
+
 	/**
 	 * Count determinants
 	 *
@@ -209,7 +209,7 @@ class PHPExcel_Shared_JAMA_LUDecomposition {
 			throw new PHPExcel_Calculation_Exception ( PHPExcel_Shared_JAMA_Matrix::MatrixDimensionException );
 		}
 	} // function det()
-	
+
 	/**
 	 * Solve A*X = B
 	 *

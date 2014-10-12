@@ -12,7 +12,7 @@ if (! function_exists ( 'href_nofollow' )) {
 if (! function_exists ( 'seo_nofollow_replace' )) {
 	function seo_nofollow_replace($match) {
 		list ( $original, $tag ) = $match;
-		
+
 		if (strpos ( $tag, "nofollow" )) {
 			return $original; // уже есть
 		} elseif (strpos ( $tag, $_SERVER ['SERVER_NAME'] ) || strpos ( $tag, 'href="/' ) || strpos ( $tag, "href='/" )) {

@@ -18,10 +18,10 @@ class ImportBootstrap extends Factor {
 	}
 	private function __clone() {
 	}
-	
+
 	/**
 	 * Returns a new ImportBootstrap object.
-	 * 
+	 *
 	 * @return ImportBootstrap
 	 * @access public static
 	 * @author Kaero
@@ -31,10 +31,10 @@ class ImportBootstrap extends Factor {
 		(null !== self::$_instance) or self::$_instance = new self ();
 		return self::$_instance;
 	}
-	
+
 	/**
 	 * Start products import
-	 * 
+	 *
 	 * @author Kaero
 	 * @return ImportBootstrapА
 	 * @copyright ImageCMS (c) 2012, Kaero <dev@imagecms.net>
@@ -53,7 +53,7 @@ class ImportBootstrap extends Factor {
 		self::create ()->messages [$type] [] = $msg;
 		return ($type == Factor::MessageTypeError) ? FALSE : TRUE;
 	}
-	
+
 	/**
 	 *
 	 * @return array
@@ -64,10 +64,10 @@ class ImportBootstrap extends Factor {
 	public function resultAsArray() {
 		return $this->messages;
 	}
-	
+
 	/**
 	 * Implode result in a string with separator
-	 * 
+	 *
 	 * @param string $separateBy
 	 *        	String separator
 	 * @return array
@@ -86,15 +86,15 @@ class ImportBootstrap extends Factor {
 			$result [message] = @implode ( $separateBy, $this->messages [Factor::MessageTypeSuccess] );
 		}
 		$result ['report'] = $this->messages ['report'];
-		
+
 		$result [content] = $this->messages [content];
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get file name from Post
-	 * 
+	 *
 	 * @return string
 	 * @param bool $fullPath
 	 *        	Add full path
@@ -109,17 +109,17 @@ class ImportBootstrap extends Factor {
 		$posibleValues = array (
 				1,
 				2,
-				3 
+				3
 		);
 		$uploadDir = ($fullPath) ? $this->uploadDir : '';
-		
+
 		$fileNumber = (in_array ( $_POST [$target], $posibleValues )) ? intval ( $_POST [$target] ) : 1;
 		return sprintf ( '%s%s_%d.%s', $uploadDir, $prefix, $fileNumber, $extension );
 	}
-	
+
 	/**
 	 * Get file name from Post
-	 * 
+	 *
 	 * @return array()
 	 * @access public
 	 * @author Kaero
@@ -133,17 +133,17 @@ class ImportBootstrap extends Factor {
 				'enclosure' => trim ( $_POST ['enclosure'] ),
 				'encoding' => trim ( $_POST ['encoding'] ),
 				'currency' => trim ( $_POST ['currency'] ),
-				'languages' => trim ( $_POST ['language'] ) 
+				'languages' => trim ( $_POST ['language'] )
 		);
 	}
 	public static function getUploadDir() {
 		return self::create ()->uploadDir;
 	}
-	
+
 	/**
 	 * Make DB Backup file before start Import.
 	 * Destination folder is "./application/backups"
-	 * 
+	 *
 	 * @todo Remove first row in method before public to production
 	 * @return bool
 	 * @author Kaero

@@ -55,35 +55,35 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	const FILL_PATTERN_LIGHTUP = 'lightUp';
 	const FILL_PATTERN_LIGHTVERTICAL = 'lightVertical';
 	const FILL_PATTERN_MEDIUMGRAY = 'mediumGray';
-	
+
 	/**
 	 * Fill type
 	 *
 	 * @var string
 	 */
 	protected $_fillType = PHPExcel_Style_Fill::FILL_NONE;
-	
+
 	/**
 	 * Rotation
 	 *
 	 * @var double
 	 */
 	protected $_rotation = 0;
-	
+
 	/**
 	 * Start color
 	 *
 	 * @var PHPExcel_Style_Color
 	 */
 	protected $_startColor;
-	
+
 	/**
 	 * End color
 	 *
 	 * @var PHPExcel_Style_Color
 	 */
 	protected $_endColor;
-	
+
 	/**
 	 * Create a new PHPExcel_Style_Fill
 	 *
@@ -99,21 +99,21 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function __construct($isSupervisor = FALSE, $isConditional = FALSE) {
 		// Supervisor?
 		parent::__construct ( $isSupervisor );
-		
+
 		// Initialise values
 		if ($isConditional) {
 			$this->_fillType = NULL;
 		}
 		$this->_startColor = new PHPExcel_Style_Color ( PHPExcel_Style_Color::COLOR_WHITE, $isSupervisor, $isConditional );
 		$this->_endColor = new PHPExcel_Style_Color ( PHPExcel_Style_Color::COLOR_BLACK, $isSupervisor, $isConditional );
-		
+
 		// bind parent if we are a supervisor
 		if ($isSupervisor) {
 			$this->_startColor->bindParent ( $this, '_startColor' );
 			$this->_endColor->bindParent ( $this, '_endColor' );
 		}
 	}
-	
+
 	/**
 	 * Get the shared style component for the currently active cell in currently active sheet.
 	 * Only used for style supervisor
@@ -123,19 +123,19 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function getSharedComponent() {
 		return $this->_parent->getSharedComponent ()->getFill ();
 	}
-	
+
 	/**
 	 * Build style array from subcomponents
 	 *
-	 * @param array $array        	
+	 * @param array $array
 	 * @return array
 	 */
 	public function getStyleArray($array) {
 		return array (
-				'fill' => $array 
+				'fill' => $array
 		);
 	}
-	
+
 	/**
 	 * Apply styles from array
 	 *
@@ -185,7 +185,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get Fill Type
 	 *
@@ -197,7 +197,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this->_fillType;
 	}
-	
+
 	/**
 	 * Set Fill Type
 	 *
@@ -208,7 +208,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function setFillType($pValue = PHPExcel_Style_Fill::FILL_NONE) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray ( array (
-					'type' => $pValue 
+					'type' => $pValue
 			) );
 			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
@@ -216,7 +216,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get Rotation
 	 *
@@ -228,17 +228,17 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this->_rotation;
 	}
-	
+
 	/**
 	 * Set Rotation
 	 *
-	 * @param double $pValue        	
+	 * @param double $pValue
 	 * @return PHPExcel_Style_Fill
 	 */
 	public function setRotation($pValue = 0) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray ( array (
-					'rotation' => $pValue 
+					'rotation' => $pValue
 			) );
 			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
@@ -246,7 +246,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get Start Color
 	 *
@@ -255,21 +255,21 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function getStartColor() {
 		return $this->_startColor;
 	}
-	
+
 	/**
 	 * Set Start Color
 	 *
-	 * @param PHPExcel_Style_Color $pValue        	
+	 * @param PHPExcel_Style_Color $pValue
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Style_Fill
 	 */
 	public function setStartColor(PHPExcel_Style_Color $pValue = null) {
 		// make sure parameter is a real color and not a supervisor
 		$color = $pValue->getIsSupervisor () ? $pValue->getSharedComponent () : $pValue;
-		
+
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStartColor ()->getStyleArray ( array (
-					'argb' => $color->getARGB () 
+					'argb' => $color->getARGB ()
 			) );
 			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
@@ -277,7 +277,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get End Color
 	 *
@@ -286,21 +286,21 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function getEndColor() {
 		return $this->_endColor;
 	}
-	
+
 	/**
 	 * Set End Color
 	 *
-	 * @param PHPExcel_Style_Color $pValue        	
+	 * @param PHPExcel_Style_Color $pValue
 	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Style_Fill
 	 */
 	public function setEndColor(PHPExcel_Style_Color $pValue = null) {
 		// make sure parameter is a real color and not a supervisor
 		$color = $pValue->getIsSupervisor () ? $pValue->getSharedComponent () : $pValue;
-		
+
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getEndColor ()->getStyleArray ( array (
-					'argb' => $color->getARGB () 
+					'argb' => $color->getARGB ()
 			) );
 			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
@@ -308,7 +308,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Get hash code
 	 *

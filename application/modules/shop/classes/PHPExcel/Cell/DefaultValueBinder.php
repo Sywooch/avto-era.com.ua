@@ -60,18 +60,18 @@ class PHPExcel_Cell_DefaultValueBinder implements PHPExcel_Cell_IValueBinder {
 		if (is_string ( $value )) {
 			$value = PHPExcel_Shared_String::SanitizeUTF8 ( $value );
 		}
-		
+
 		// Set value explicit
 		$cell->setValueExplicit ( $value, self::dataTypeForValue ( $value ) );
-		
+
 		// Done!
 		return TRUE;
 	}
-	
+
 	/**
 	 * DataType for value
 	 *
-	 * @param mixed $pValue        	
+	 * @param mixed $pValue
 	 * @return string
 	 */
 	public static function dataTypeForValue($pValue = null) {

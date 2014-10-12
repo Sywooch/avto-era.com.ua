@@ -36,7 +36,7 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 	/**
 	 * Write relationships to XML format
 	 *
-	 * @param PHPExcel $pPHPExcel        	
+	 * @param PHPExcel $pPHPExcel
 	 * @return string XML Output
 	 * @throws PHPExcel_Writer_Exception
 	 */
@@ -48,39 +48,39 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		} else {
 			$objWriter = new PHPExcel_Shared_XMLWriter ( PHPExcel_Shared_XMLWriter::STORAGE_MEMORY );
 		}
-		
+
 		// XML header
 		$objWriter->startDocument ( '1.0', 'UTF-8', 'yes' );
-		
+
 		// Relationships
 		$objWriter->startElement ( 'Relationships' );
 		$objWriter->writeAttribute ( 'xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships' );
-		
+
 		$customPropertyList = $pPHPExcel->getProperties ()->getCustomProperties ();
 		if (! empty ( $customPropertyList )) {
 			// Relationship docProps/app.xml
 			$this->_writeRelationship ( $objWriter, 4, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties', 'docProps/custom.xml' );
 		}
-		
+
 		// Relationship docProps/app.xml
 		$this->_writeRelationship ( $objWriter, 3, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties', 'docProps/app.xml' );
-		
+
 		// Relationship docProps/core.xml
 		$this->_writeRelationship ( $objWriter, 2, 'http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties', 'docProps/core.xml' );
-		
+
 		// Relationship xl/workbook.xml
 		$this->_writeRelationship ( $objWriter, 1, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument', 'xl/workbook.xml' );
-		
+
 		$objWriter->endElement ();
-		
+
 		// Return
 		return $objWriter->getData ();
 	}
-	
+
 	/**
 	 * Write workbook relationships to XML format
 	 *
-	 * @param PHPExcel $pPHPExcel        	
+	 * @param PHPExcel $pPHPExcel
 	 * @return string XML Output
 	 * @throws PHPExcel_Writer_Exception
 	 */
@@ -92,35 +92,35 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		} else {
 			$objWriter = new PHPExcel_Shared_XMLWriter ( PHPExcel_Shared_XMLWriter::STORAGE_MEMORY );
 		}
-		
+
 		// XML header
 		$objWriter->startDocument ( '1.0', 'UTF-8', 'yes' );
-		
+
 		// Relationships
 		$objWriter->startElement ( 'Relationships' );
 		$objWriter->writeAttribute ( 'xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships' );
-		
+
 		// Relationship styles.xml
 		$this->_writeRelationship ( $objWriter, 1, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles', 'styles.xml' );
-		
+
 		// Relationship theme/theme1.xml
 		$this->_writeRelationship ( $objWriter, 2, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme', 'theme/theme1.xml' );
-		
+
 		// Relationship sharedStrings.xml
 		$this->_writeRelationship ( $objWriter, 3, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings', 'sharedStrings.xml' );
-		
+
 		// Relationships with sheets
 		$sheetCount = $pPHPExcel->getSheetCount ();
 		for($i = 0; $i < $sheetCount; ++ $i) {
 			$this->_writeRelationship ( $objWriter, ($i + 1 + 3), 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet', 'worksheets/sheet' . ($i + 1) . '.xml' );
 		}
-		
+
 		$objWriter->endElement ();
-		
+
 		// Return
 		return $objWriter->getData ();
 	}
-	
+
 	/**
 	 * Write worksheet relationships to XML format
 	 *
@@ -128,8 +128,8 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 	 * rId1 - Drawings
 	 * rId_hyperlink_x - Hyperlinks
 	 *
-	 * @param PHPExcel_Worksheet $pWorksheet        	
-	 * @param int $pWorksheetId        	
+	 * @param PHPExcel_Worksheet $pWorksheet
+	 * @param int $pWorksheetId
 	 * @param boolean $includeCharts
 	 *        	if we should write charts
 	 * @return string XML Output
@@ -143,14 +143,14 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		} else {
 			$objWriter = new PHPExcel_Shared_XMLWriter ( PHPExcel_Shared_XMLWriter::STORAGE_MEMORY );
 		}
-		
+
 		// XML header
 		$objWriter->startDocument ( '1.0', 'UTF-8', 'yes' );
-		
+
 		// Relationships
 		$objWriter->startElement ( 'Relationships' );
 		$objWriter->writeAttribute ( 'xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships' );
-		
+
 		// Write drawing relationships?
 		$d = 0;
 		if ($includeCharts) {
@@ -161,7 +161,7 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		if (($pWorksheet->getDrawingCollection ()->count () > 0) || (count ( $charts ) > 0)) {
 			$this->_writeRelationship ( $objWriter, ++ $d, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing', '../drawings/drawing' . $pWorksheetId . '.xml' );
 		}
-		
+
 		// Write chart relationships?
 		// $chartCount = 0;
 		// $charts = $pWorksheet->getChartCollection();
@@ -182,35 +182,35 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		foreach ( $pWorksheet->getHyperlinkCollection () as $hyperlink ) {
 			if (! $hyperlink->isInternal ()) {
 				$this->_writeRelationship ( $objWriter, '_hyperlink_' . $i, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink', $hyperlink->getUrl (), 'External' );
-				
+
 				++ $i;
 			}
 		}
-		
+
 		// Write comments relationship?
 		$i = 1;
 		if (count ( $pWorksheet->getComments () ) > 0) {
 			$this->_writeRelationship ( $objWriter, '_comments_vml' . $i, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing', '../drawings/vmlDrawing' . $pWorksheetId . '.vml' );
-			
+				
 			$this->_writeRelationship ( $objWriter, '_comments' . $i, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments', '../comments' . $pWorksheetId . '.xml' );
 		}
-		
+
 		// Write header/footer relationship?
 		$i = 1;
 		if (count ( $pWorksheet->getHeaderFooter ()->getImages () ) > 0) {
 			$this->_writeRelationship ( $objWriter, '_headerfooter_vml' . $i, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing', '../drawings/vmlDrawingHF' . $pWorksheetId . '.vml' );
 		}
-		
+
 		$objWriter->endElement ();
-		
+
 		// Return
 		return $objWriter->getData ();
 	}
-	
+
 	/**
 	 * Write drawing relationships to XML format
 	 *
-	 * @param PHPExcel_Worksheet $pWorksheet        	
+	 * @param PHPExcel_Worksheet $pWorksheet
 	 * @param
 	 *        	int					&$chartRef		Chart ID
 	 * @param boolean $includeCharts
@@ -226,14 +226,14 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		} else {
 			$objWriter = new PHPExcel_Shared_XMLWriter ( PHPExcel_Shared_XMLWriter::STORAGE_MEMORY );
 		}
-		
+
 		// XML header
 		$objWriter->startDocument ( '1.0', 'UTF-8', 'yes' );
-		
+
 		// Relationships
 		$objWriter->startElement ( 'Relationships' );
 		$objWriter->writeAttribute ( 'xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships' );
-		
+
 		// Loop through images and write relationships
 		$i = 1;
 		$iterator = $pWorksheet->getDrawingCollection ()->getIterator ();
@@ -242,11 +242,11 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 				// Write relationship for image drawing
 				$this->_writeRelationship ( $objWriter, $i, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image', '../media/' . str_replace ( ' ', '', $iterator->current ()->getIndexedFilename () ) );
 			}
-			
+				
 			$iterator->next ();
 			++ $i;
 		}
-		
+
 		if ($includeCharts) {
 			// Loop through charts and write relationships
 			$chartCount = $pWorksheet->getChartCount ();
@@ -256,17 +256,17 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 				}
 			}
 		}
-		
+
 		$objWriter->endElement ();
-		
+
 		// Return
 		return $objWriter->getData ();
 	}
-	
+
 	/**
 	 * Write header/footer drawing relationships to XML format
 	 *
-	 * @param PHPExcel_Worksheet $pWorksheet        	
+	 * @param PHPExcel_Worksheet $pWorksheet
 	 * @return string XML Output
 	 * @throws PHPExcel_Writer_Exception
 	 */
@@ -278,26 +278,26 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 		} else {
 			$objWriter = new PHPExcel_Shared_XMLWriter ( PHPExcel_Shared_XMLWriter::STORAGE_MEMORY );
 		}
-		
+
 		// XML header
 		$objWriter->startDocument ( '1.0', 'UTF-8', 'yes' );
-		
+
 		// Relationships
 		$objWriter->startElement ( 'Relationships' );
 		$objWriter->writeAttribute ( 'xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships' );
-		
+
 		// Loop through images and write relationships
 		foreach ( $pWorksheet->getHeaderFooter ()->getImages () as $key => $value ) {
 			// Write relationship for image drawing
 			$this->_writeRelationship ( $objWriter, $key, 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image', '../media/' . $value->getIndexedFilename () );
 		}
-		
+
 		$objWriter->endElement ();
-		
+
 		// Return
 		return $objWriter->getData ();
 	}
-	
+
 	/**
 	 * Write Override content type
 	 *
@@ -305,7 +305,7 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 	 *        	XML Writer
 	 * @param int $pId
 	 *        	rId will be prepended!
-	 * @param string $pType        	
+	 * @param string $pType
 	 * @param string $pTarget
 	 *        	target
 	 * @param string $pTargetMode
@@ -319,11 +319,11 @@ class PHPExcel_Writer_Excel2007_Rels extends PHPExcel_Writer_Excel2007_WriterPar
 			$objWriter->writeAttribute ( 'Id', 'rId' . $pId );
 			$objWriter->writeAttribute ( 'Type', $pType );
 			$objWriter->writeAttribute ( 'Target', $pTarget );
-			
+				
 			if ($pTargetMode != '') {
 				$objWriter->writeAttribute ( 'TargetMode', $pTargetMode );
 			}
-			
+				
 			$objWriter->endElement ();
 		} else {
 			throw new PHPExcel_Writer_Exception ( "Invalid parameters passed." );

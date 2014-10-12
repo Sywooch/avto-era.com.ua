@@ -9,7 +9,7 @@ class Account {
 	 */
 	function getUserBalance($currency = null) {
 		return $this->gateway->execCommad ( 'getUserBalance', array (
-				'currency' => $currency 
+				'currency' => $currency
 		) );
 	}
 	/**
@@ -22,10 +22,10 @@ class Account {
 	function registerSender($name, $country) {
 		return $this->gateway->execCommad ( 'registerSender', array (
 				'name' => $name,
-				'country' => $country 
+				'country' => $country
 		) );
 	}
-	
+
 	/**
 	 * Get Sender object by id.
 	 * Return status:
@@ -35,10 +35,10 @@ class Account {
 	 */
 	function getSenderStatusById($id) {
 		return $this->gateway->execCommad ( 'getSenderStatus', array (
-				'idName' => $id 
+				'idName' => $id
 		) );
 	}
-	
+
 	/**
 	 * Get Sender object by name and country.
 	 * Return status:
@@ -49,10 +49,10 @@ class Account {
 	function getSenderStatusByNameCountry($name, $country) {
 		return $this->gateway->execCommad ( 'getSenderStatus', array (
 				'name' => $name,
-				'country' => $country 
+				'country' => $country
 		) );
 	}
-	
+
 	/**
 	 * Get Sender objects.
 	 * Return status:
@@ -63,7 +63,7 @@ class Account {
 	function getSenderStatusAll($from = NULL, $offset = NULL) {
 		return $this->gateway->execCommad ( 'getSenderStatus', array (
 				'from' => $from,
-				'offset' => $offset 
+				'offset' => $offset
 		) );
 	}
 }

@@ -20,10 +20,10 @@ class Mobile_product extends \Products\BaseProducts {
 	public function index() {
 		$this->data ['delivery_methods'] = \SDeliveryMethodsQuery::create ()->find ();
 		$this->data ['payments_methods'] = \SPaymentMethodsQuery::create ()->find ();
-		
+
 		$this->render ( $this->templateFile, $this->data );
 	}
-	
+
 	/**
 	 *
 	 * @return bool

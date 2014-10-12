@@ -13,12 +13,12 @@ class Group_Mailer extends MY_Controller {
 		$lang = new MY_Lang ();
 		$lang->load ( 'group_mailer' );
 	}
-	
+
 	// Index function
 	function index() {
 		// code
 	}
-	
+
 	// Autoload default function
 	function autoload() {
 		// code
@@ -29,7 +29,7 @@ class Group_Mailer extends MY_Controller {
 	function _deinstall() {
 		return;
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -37,7 +37,7 @@ class Group_Mailer extends MY_Controller {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

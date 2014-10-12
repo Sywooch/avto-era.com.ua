@@ -6,48 +6,48 @@ namespace MediaManager;
  * Class for searching images at google
  *
  * @author nikolia27 (15-08-2013)
- *        
- *        
- *        
+ *
+ *
+ *
  */
 class GetImages {
-	
+
 	/**
 	 * Saves what types of images you can download
-	 * 
+	 *
 	 * @var array
 	 */
 	private $allowedMimeTypes = array (
 			'image/jpeg',
-			'image/png' 
+			'image/png'
 	);
-	
+
 	/**
 	 *
 	 * @var GetImages
 	 */
 	private static $instance = NULL;
-	
+
 	/**
 	 * Unchanged part of url
-	 * 
+	 *
 	 * @var string
 	 */
 	private $baseUrl = "http://ajax.googleapis.com/ajax/services/search/images?v=1.0&as_filetype=jpg";
-	
+
 	/**
 	 * Param that can be
-	 * 
+	 *
 	 * @var array
 	 */
 	private $params = array (
 			'upload_dir' => './uploads/shop/products/origin/',
-			'imgsz' => 'large' 
+			'imgsz' => 'large'
 	);
-	
+
 	/**
 	 *
-	 * @param array $params        	
+	 * @param array $params
 	 */
 	private function __construct($params) {
 		if (is_array ( $params )) {
@@ -59,10 +59,10 @@ class GetImages {
 	}
 	private function __clone() {
 	}
-	
+
 	/**
 	 * Creating an instance
-	 * 
+	 *
 	 * @param array $params
 	 *        	(optional)
 	 * @return GetImages
@@ -106,11 +106,11 @@ class GetImages {
 		// unlink($this->getProgressFileName());
 		return $imagesUrlArray;
 	}
-	
+
 	/**
 	 * Збереження прогресу перевірки зображень в файлі
-	 * 
-	 * @param int $count        	
+	 *
+	 * @param int $count
 	 * @return boolean
 	 */
 	private function offsetProgress() {
@@ -118,24 +118,24 @@ class GetImages {
 		$currentProgress = $this->getProgress ();
 		return write_file ( $fileName, ++ $currentProgress );
 	}
-	
+
 	/**
 	 */
 	public function getProgress() {
 		$fileName = $this->getProgressFileName ();
-		
+
 		if (! file_exists ( $fileName ))
 			return 0;
-		
+
 		if (FALSE === $progressData = file_get_contents ( $fileName ))
 			return 0;
-		
+
 		if (! is_numeric ( $progressData ))
 			return 0;
-		
+
 		return ( int ) $progressData;
 	}
-	
+
 	/**
 	 *
 	 * @return type
@@ -145,11 +145,11 @@ class GetImages {
 		$userId = $ci->dx_auth->get_user_id ();
 		return "uploads/g_img_pr_{$userId}.txt";
 	}
-	
+
 	/**
 	 * Saves the image from url to specified folder (uploads/shop/products/origin/ by default)
-	 * 
-	 * @param string $url        	
+	 *
+	 * @param string $url
 	 * @return string|bool filename on success or FALSE
 	 */
 	public function saveImage($url) {
@@ -163,11 +163,11 @@ class GetImages {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Returns the image contents or FALSE
-	 * 
-	 * @param string $url        	
+	 *
+	 * @param string $url
 	 * @return boolean|string
 	 */
 	public function getImage($url, $nobody = 0) {
@@ -181,21 +181,21 @@ class GetImages {
 		curl_setopt ( $curl, CURLOPT_TIMEOUT, 2 );
 		$res = curl_exec ( $curl );
 		$mimeType = curl_getinfo ( $curl, CURLINFO_CONTENT_TYPE );
-		
+
 		curl_close ( $curl );
 		foreach ( $this->allowedMimeTypes as $mimeType_ ) {
 			if ($mimeType == $mimeType_) {
-				
+
 				return $res;
 			}
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * Getting data form google api
-	 * 
+	 *
 	 * @return type
 	 */
 	public function getData($url) {

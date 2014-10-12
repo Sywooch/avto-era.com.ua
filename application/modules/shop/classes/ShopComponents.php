@@ -1,17 +1,17 @@
 <?php
 /**
- * ShopComponents 
- * 
+ * ShopComponents
+ *
  * @version $id$
- * @author <dev@imagecms.net> 
+ * @author <dev@imagecms.net>
  */
 class ShopComponents {
 	protected static $_components = array ();
-	
+
 	/**
 	 * Load and return class
 	 *
-	 * @param string $className        	
+	 * @param string $className
 	 * @access public
 	 * @return object
 	 */

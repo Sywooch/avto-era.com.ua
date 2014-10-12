@@ -52,35 +52,35 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 	 * @var string
 	 */
 	private $_inputEncoding = 'ANSI';
-	
+
 	/**
 	 * Sheet index to read
 	 *
 	 * @var int
 	 */
 	private $_sheetIndex = 0;
-	
+
 	/**
 	 * Formats
 	 *
 	 * @var array
 	 */
 	private $_formats = array ();
-	
+
 	/**
 	 * Format Count
 	 *
 	 * @var int
 	 */
 	private $_format = 0;
-	
+
 	/**
 	 * Create a new PHPExcel_Reader_SYLK
 	 */
 	public function __construct() {
 		$this->_readFilter = new PHPExcel_Reader_DefaultReadFilter ();
 	}
-	
+
 	/**
 	 * Validate that the current file is a SYLK file
 	 *
@@ -89,22 +89,22 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 	protected function _isValidFormat() {
 		// Read sample data (first 2 KB will do)
 		$data = fread ( $this->_fileHandle, 2048 );
-		
+
 		// Count delimiters in file
 		$delimiterCount = substr_count ( $data, ';' );
 		if ($delimiterCount < 1) {
 			return FALSE;
 		}
-		
+
 		// Analyze first line looking for ID; signature
 		$lines = explode ( "\n", $data );
 		if (substr ( $lines [0], 0, 4 ) != 'ID;P') {
 			return FALSE;
 		}
-		
+
 		return TRUE;
 	}
-	
+
 	/**
 	 * Set input encoding
 	 *
@@ -115,7 +115,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 		$this->_inputEncoding = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get input encoding
 	 *
@@ -124,11 +124,11 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 	public function getInputEncoding() {
 		return $this->_inputEncoding;
 	}
-	
+
 	/**
 	 * Return worksheet info (Name, Last Column Letter, Last Column Index, Total Rows, Total Columns)
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function listWorksheetInfo($pFilename) {
@@ -140,29 +140,29 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 		}
 		$fileHandle = $this->_fileHandle;
 		rewind ( $fileHandle );
-		
+
 		$worksheetInfo = array ();
 		$worksheetInfo [0] ['worksheetName'] = 'Worksheet';
 		$worksheetInfo [0] ['lastColumnLetter'] = 'A';
 		$worksheetInfo [0] ['lastColumnIndex'] = 0;
 		$worksheetInfo [0] ['totalRows'] = 0;
 		$worksheetInfo [0] ['totalColumns'] = 0;
-		
+
 		// Loop through file
 		$rowData = array ();
-		
+
 		// loop through one row (line) at a time in the file
 		$rowIndex = 0;
 		while ( ($rowData = fgets ( $fileHandle )) !== FALSE ) {
 			$columnIndex = 0;
-			
+				
 			// convert SYLK encoded $rowData to UTF-8
 			$rowData = PHPExcel_Shared_String::SYLKtoUTF8 ( $rowData );
-			
+				
 			// explode each row at semicolons while taking into account that literal semicolon (;)
 			// is escaped like this (;;)
 			$rowData = explode ( "\t", str_replace ( '¤', ';', str_replace ( ';', "\t", str_replace ( ';;', '¤', rtrim ( $rowData ) ) ) ) );
-			
+				
 			$dataType = array_shift ( $rowData );
 			if ($dataType == 'C') {
 				// Read cell value data
@@ -177,42 +177,42 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 							$rowIndex = substr ( $rowDatum, 1 );
 							break;
 					}
-					
+						
 					$worksheetInfo [0] ['totalRows'] = max ( $worksheetInfo [0] ['totalRows'], $rowIndex );
 					$worksheetInfo [0] ['lastColumnIndex'] = max ( $worksheetInfo [0] ['lastColumnIndex'], $columnIndex );
 				}
 			}
 		}
-		
+
 		$worksheetInfo [0] ['lastColumnLetter'] = PHPExcel_Cell::stringFromColumnIndex ( $worksheetInfo [0] ['lastColumnIndex'] );
 		$worksheetInfo [0] ['totalColumns'] = $worksheetInfo [0] ['lastColumnIndex'] + 1;
-		
+
 		// Close file
 		fclose ( $fileHandle );
-		
+
 		return $worksheetInfo;
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file
 	 *
-	 * @param string $pFilename        	
+	 * @param string $pFilename
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
 	public function load($pFilename) {
 		// Create new PHPExcel
 		$objPHPExcel = new PHPExcel ();
-		
+
 		// Load into this instance
 		return $this->loadIntoExisting ( $pFilename, $objPHPExcel );
 	}
-	
+
 	/**
 	 * Loads PHPExcel from file into PHPExcel instance
 	 *
-	 * @param string $pFilename        	
-	 * @param PHPExcel $objPHPExcel        	
+	 * @param string $pFilename
+	 * @param PHPExcel $objPHPExcel
 	 * @return PHPExcel
 	 * @throws PHPExcel_Reader_Exception
 	 */
@@ -225,36 +225,36 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 		}
 		$fileHandle = $this->_fileHandle;
 		rewind ( $fileHandle );
-		
+
 		// Create new PHPExcel
 		while ( $objPHPExcel->getSheetCount () <= $this->_sheetIndex ) {
 			$objPHPExcel->createSheet ();
 		}
 		$objPHPExcel->setActiveSheetIndex ( $this->_sheetIndex );
-		
+
 		$fromFormats = array (
 				'\-',
-				'\ ' 
+				'\ '
 		);
 		$toFormats = array (
 				'-',
-				' ' 
+				' '
 		);
-		
+
 		// Loop through file
 		$rowData = array ();
 		$column = $row = '';
-		
+
 		// loop through one row (line) at a time in the file
 		while ( ($rowData = fgets ( $fileHandle )) !== FALSE ) {
-			
+				
 			// convert SYLK encoded $rowData to UTF-8
 			$rowData = PHPExcel_Shared_String::SYLKtoUTF8 ( $rowData );
-			
+				
 			// explode each row at semicolons while taking into account that literal semicolon (;)
 			// is escaped like this (;;)
 			$rowData = explode ( "\t", str_replace ( '¤', ';', str_replace ( ';', "\t", str_replace ( ';;', '¤', rtrim ( $rowData ) ) ) ) );
-			
+				
 			$dataType = array_shift ( $rowData );
 			// Read shared styles
 			if ($dataType == 'P') {
@@ -336,18 +336,18 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 										// Empty R reference is the current row
 										if ($rowReference == '')
 											$rowReference = $row;
-											// Bracketed R references are relative to the current row
+										// Bracketed R references are relative to the current row
 										if ($rowReference {0} == '[')
 											$rowReference = $row + trim ( $rowReference, '[]' );
 										$columnReference = $cellReference [4] [0];
 										// Empty C reference is the current column
 										if ($columnReference == '')
 											$columnReference = $column;
-											// Bracketed C references are relative to the current column
+										// Bracketed C references are relative to the current column
 										if ($columnReference {0} == '[')
 											$columnReference = $column + trim ( $columnReference, '[]' );
 										$A1CellReference = PHPExcel_Cell::stringFromColumnIndex ( $columnReference - 1 ) . $rowReference;
-										
+
 										$value = substr_replace ( $value, $A1CellReference, $cellReference [0] [1], strlen ( $cellReference [0] [0] ) );
 									}
 								}
@@ -361,7 +361,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				}
 				$columnLetter = PHPExcel_Cell::stringFromColumnIndex ( $column - 1 );
 				$cellData = PHPExcel_Calculation::_unwrapResult ( $cellData );
-				
+
 				// Set cell value
 				$objPHPExcel->getActiveSheet ()->getCell ( $columnLetter . $row )->setValue ( ($hasCalculatedValue) ? $cellDataFormula : $cellData );
 				if ($hasCalculatedValue) {
@@ -453,14 +453,14 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				}
 			}
 		}
-		
+
 		// Close file
 		fclose ( $fileHandle );
-		
+
 		// Return
 		return $objPHPExcel;
 	}
-	
+
 	/**
 	 * Get sheet index
 	 *
@@ -469,11 +469,11 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 	public function getSheetIndex() {
 		return $this->_sheetIndex;
 	}
-	
+
 	/**
 	 * Set sheet index
 	 *
-	 * @param int $pValue        	
+	 * @param int $pValue
 	 * @return PHPExcel_Reader_SYLK
 	 */
 	public function setSheetIndex($pValue = 0) {

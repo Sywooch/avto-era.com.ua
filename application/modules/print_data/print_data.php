@@ -21,22 +21,22 @@ class Print_data extends MY_Controller {
 		$lang->load ( 'print_data' );
 		if (count ( $this->db->where ( 'name', 'print_data' )->get ( 'components' )->result_array () ) == 0)
 			$this->no_install = false;
-		
+
 		$this->load->module ( 'core' );
 	}
-	
+
 	/**
 	 * Render Print Button
-	 * 
-	 * @param array $data        	
+	 *
+	 * @param array $data
 	 */
 	public function render_button($data) {
 		/*
 		 * $data - масив даних для друку (для товару id, var) (для сторінок id)
-		 * $type - тип сторінки для друку
-		 */
+		* $type - тип сторінки для друку
+		*/
 		$type = $this->core->core_data ['data_type'];
-		
+
 		if (! $this->no_install)
 			return false;
 		\CMSFactory\assetManager::create ()->registerScript ( 'script' );
@@ -48,20 +48,20 @@ class Print_data extends MY_Controller {
 			case 'page' :
 				$href = "/" . $this->get_main_lang ( 'identif' ) . "/print_data/print_" . $type . "/" . $data ['id'];
 				break;
-			
+					
 			default :
 				break;
 		}
 		\CMSFactory\assetManager::create ()->setData ( array (
-				'href' => $href 
+				'href' => $href
 		) )->render ( 'button', TRUE );
 	}
-	
+
 	/**
 	 * Print Product
-	 * 
-	 * @param int $id        	
-	 * @param int $var        	
+	 *
+	 * @param int $id
+	 * @param int $var
 	 */
 	public function print_product($id, $var) {
 		if (! $this->no_install)
@@ -71,14 +71,14 @@ class Print_data extends MY_Controller {
 		\CMSFactory\assetManager::create ()->registerStyleWithoutTemplate ( 'style' );
 		\CMSFactory\assetManager::create ()->setData ( array (
 				'product' => $product,
-				'variant' => $variant 
+				'variant' => $variant
 		) )->render ( 'print_product', TRUE );
 	}
-	
+
 	/**
 	 * Print Page
-	 * 
-	 * @param int $id        	
+	 *
+	 * @param int $id
 	 */
 	public function print_page($id) {
 		if (! $this->no_install)
@@ -86,20 +86,20 @@ class Print_data extends MY_Controller {
 		$page = get_page ( $id );
 		\CMSFactory\assetManager::create ()->registerStyleWithoutTemplate ( 'style' );
 		\CMSFactory\assetManager::create ()->setData ( array (
-				'page' => $page 
+				'page' => $page
 		) )->render ( 'print_page', TRUE );
 	}
-	
+
 	/**
 	 * Install module
 	 */
 	public function _install() {
 		$this->db->where ( 'name', 'print_data' );
 		$this->db->update ( 'components', array (
-				'enabled' => 1 
+				'enabled' => 1
 		) );
 	}
-	
+
 	/**
 	 * Deinstall module
 	 */
@@ -114,7 +114,7 @@ class Print_data extends MY_Controller {
 			$lan_array [$l ['identif']] = $l ['id'];
 			$lan_array_rev [$l ['id']] = $l ['identif'];
 		}
-		
+
 		$lang_uri = $this->uri->segment ( 1 );
 		if (in_array ( $lang_uri, $lan_array_rev )) {
 			$lang_id = $lan_array [$lang_uri];
@@ -131,7 +131,7 @@ class Print_data extends MY_Controller {
 		if ($flag == null)
 			return array (
 					'id' => $lang_id,
-					'identif' => $lang_ident 
+					'identif' => $lang_ident
 			);
 	}
 }

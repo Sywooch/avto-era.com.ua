@@ -6,10 +6,10 @@ class CForm_Radiogroup {
 	public function __construct($name, $field = array()) {
 		$this->form = & get_instance ();
 		$this->form = $this->form->load->module ( 'forms' );
-		
+
 		$this->name = $name;
 		$this->field = ( object ) $field;
-		
+
 		return $this;
 	}
 	public function render() {
@@ -38,32 +38,32 @@ class CForm_Radiogroup {
 	public function renderHtml() {
 		$result = '';
 		$name .= $this->name . '[]';
-		
+
 		if (is_string ( $this->field->initial ))
 			$this->field->initial = explode ( "\n", $this->field->initial );
-		
+
 		if (is_string ( $this->field->selected ))
 			$this->field->selected = explode ( "\n", $this->field->selected );
-		
+
 		if (count ( $this->field->initial ) == 0) {
 			return;
 		}
-		
+
 		foreach ( $this->field->initial as $key => $val ) {
 			$checked = '';
 			$val = trim ( $val );
-			
+				
 			if ($this->field->selected != NULL)
 				foreach ( $this->field->selected as $s_key => $s_val ) {
-					if (trim ( $s_val ) == $key) {
-						$checked = 'checked="checked"';
-					}
+				if (trim ( $s_val ) == $key) {
+					$checked = 'checked="checked"';
 				}
-			
+			}
+				
 			$result .= '<label><input type="radio" ' . $this->form->_check_attr ( $name, $this->field ) . ' value="' . $key . '" ' . $checked . ' /> ' . $val . '</label> ';
 			$result .= $this->form->_config ['radiogroup_delimiter'];
 		}
-		
+
 		return $result;
 	}
 }

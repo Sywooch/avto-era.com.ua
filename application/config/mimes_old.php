@@ -2,14 +2,14 @@
 
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	/*
+/*
  * | -------------------------------------------------------------------
- * | MIME TYPES
- * | -------------------------------------------------------------------
- * | This file contains an array of mime types. It is used by the
- * | Upload class to help identify allowed file types.
- * |
- */
+* | MIME TYPES
+* | -------------------------------------------------------------------
+* | This file contains an array of mime types. It is used by the
+* | Upload class to help identify allowed file types.
+* |
+*/
 
 $mimes = array (
 		'hqx' => 'application/mac-binhex40',
@@ -22,7 +22,7 @@ $mimes = array (
 				'text/csv',
 				'application/csv',
 				'application/excel',
-				'application/vnd.msexcel' 
+				'application/vnd.msexcel'
 		),
 		'bin' => 'application/macbinary',
 		'dms' => 'application/octet-stream',
@@ -37,7 +37,7 @@ $mimes = array (
 		'oda' => 'application/oda',
 		'pdf' => array (
 				'application/pdf',
-				'application/x-download' 
+				'application/x-download'
 		),
 		'ai' => 'application/postscript',
 		'eps' => 'application/postscript',
@@ -58,11 +58,11 @@ $mimes = array (
 				'application/excel',
 				'application/download',
 				'application/vnd.ms-office',
-				'application/msword' 
+				'application/msword'
 		),
 		'ppt' => array (
 				'application/powerpoint',
-				'application/vnd.ms-powerpoint' 
+				'application/vnd.ms-powerpoint'
 		),
 		'wbxml' => 'application/wbxml',
 		'wmlc' => 'application/wmlc',
@@ -88,7 +88,7 @@ $mimes = array (
 				'application/x-zip',
 				'application/zip',
 				'application/x-zip-compressed',
-				'application/octet-stream' 
+				'application/octet-stream'
 		),
 		'mid' => 'audio/midi',
 		'midi' => 'audio/midi',
@@ -96,7 +96,7 @@ $mimes = array (
 		'mp2' => 'audio/mpeg',
 		'mp3' => array (
 				'audio/mpeg',
-				'audio/mpg' 
+				'audio/mpg'
 		),
 		'aif' => 'audio/x-aiff',
 		'aiff' => 'audio/x-aiff',
@@ -111,19 +111,19 @@ $mimes = array (
 		'gif' => 'image/gif',
 		'jpeg' => array (
 				'image/jpeg',
-				'image/pjpeg' 
+				'image/pjpeg'
 		),
 		'jpg' => array (
 				'image/jpeg',
-				'image/pjpeg' 
+				'image/pjpeg'
 		),
 		'jpe' => array (
 				'image/jpeg',
-				'image/pjpeg' 
+				'image/pjpeg'
 		),
 		'png' => array (
 				'image/png',
-				'image/x-png' 
+				'image/x-png'
 		),
 		'tiff' => 'image/tiff',
 		'tif' => 'image/tiff',
@@ -136,7 +136,7 @@ $mimes = array (
 		'text' => 'text/plain',
 		'log' => array (
 				'text/plain',
-				'text/x-log' 
+				'text/x-log'
 		),
 		'rtx' => 'text/richtext',
 		'rtf' => 'text/rtf',
@@ -154,10 +154,10 @@ $mimes = array (
 		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 		'word' => array (
 				'application/msword',
-				'application/octet-stream' 
+				'application/octet-stream'
 		),
 		'xl' => 'application/excel',
-		'eml' => 'message/rfc822' 
+		'eml' => 'message/rfc822'
 );
 
 

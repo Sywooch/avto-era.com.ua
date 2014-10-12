@@ -15,27 +15,27 @@ class Mabilis_Config {
 	public $function_ext = '.php';
 	public $use_filemtime = TRUE; // Recompile if tpl file modification time changed
 	public $compiled_ttl = 30; // Time to live compiled files
-	                           // Delimiters will be rewrited as php open/close tags
+	// Delimiters will be rewrited as php open/close tags
 	public $l_delim = '{'; // Left delimiter
 	public $r_delim = '}'; // Right delimiter
 	public $force_compile = TRUE;
 	public $compiled_ext = '.php';
 	public $delimiters = array (
 			'{',
-			'}' 
+			'}'
 	);
 	public $php_delimiters = array (
 			'<?php ',
-			' ?>' 
+			' ?>'
 	);
 	function __construct($config = array()) {
 		$this->function_path = realpath ( dirname ( __FILE__ ) ) . '/functions/';
-		
+
 		if (count ( $config ) > 0) {
 			$this->initialize ( $config );
 		}
 	}
-	
+
 	/**
 	 * Initialize config params
 	 *

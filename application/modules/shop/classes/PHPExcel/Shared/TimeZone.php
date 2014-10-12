@@ -36,12 +36,12 @@
 class PHPExcel_Shared_TimeZone {
 	/*
 	 * Default Timezone used for date/time conversions
-	 *
-	 * @private
-	 * @var	string
-	 */
+	*
+	* @private
+	* @var	string
+	*/
 	protected static $_timezone = 'UTC';
-	
+
 	/**
 	 * Validate a Timezone name
 	 *
@@ -55,7 +55,7 @@ class PHPExcel_Shared_TimeZone {
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Set the Default Timezone used for date/time conversions
 	 *
@@ -70,7 +70,7 @@ class PHPExcel_Shared_TimeZone {
 		}
 		return FALSE;
 	} // function setTimezone()
-	
+
 	/**
 	 * Return the Default Timezone used for date/time conversions
 	 *
@@ -79,7 +79,7 @@ class PHPExcel_Shared_TimeZone {
 	public static function getTimeZone() {
 		return self::$_timezone;
 	} // function getTimezone()
-	
+
 	/**
 	 * Return the Timezone transition for the specified timezone and timestamp
 	 *
@@ -101,10 +101,10 @@ class PHPExcel_Shared_TimeZone {
 				$transitions [] = end ( $allTransitions );
 			}
 		}
-		
+
 		return $transitions;
 	}
-	
+
 	/**
 	 * Return the Timezone offset used for date/time conversions to/from UST
 	 * This requires both the timezone and the calculated date/time to allow for local DST
@@ -124,18 +124,18 @@ class PHPExcel_Shared_TimeZone {
 		} else {
 			$timezone = self::$_timezone;
 		}
-		
+
 		if ($timezone == 'UST') {
 			return 0;
 		}
-		
+
 		$objTimezone = new DateTimeZone ( $timezone );
 		if (version_compare ( PHP_VERSION, '5.3.0' ) >= 0) {
 			$transitions = $objTimezone->getTransitions ( $timestamp, $timestamp );
 		} else {
 			$transitions = self::_getTimezoneTransitions ( $objTimezone, $timestamp );
 		}
-		
+
 		return (count ( $transitions ) > 0) ? $transitions [0] ['offset'] : 0;
 	}
 }

@@ -2,281 +2,281 @@
 
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
-	/*
+/*
  * | -------------------------------------------------------------------
- * | SMILEYS
- * | -------------------------------------------------------------------
- * | This file contains an array of smileys for use with the emoticon helper.
- * | Individual images can be used to replace multiple simileys. For example:
- * | :-) and :) use the same image replacement.
- * |
- * | Please see user guide for more info:
- * | http://codeigniter.com/user_guide/helpers/smiley_helper.html
- * |
- */
+* | SMILEYS
+* | -------------------------------------------------------------------
+* | This file contains an array of smileys for use with the emoticon helper.
+* | Individual images can be used to replace multiple simileys. For example:
+* | :-) and :) use the same image replacement.
+* |
+* | Please see user guide for more info:
+* | http://codeigniter.com/user_guide/helpers/smiley_helper.html
+* |
+*/
 
 $smileys = array (
-		
+
 		// smiley image name width height alt
-		
+
 		':-)' => array (
 				'grin.gif',
 				'19',
 				'19',
-				'grin' 
+				'grin'
 		),
 		':lol:' => array (
 				'lol.gif',
 				'19',
 				'19',
-				'LOL' 
+				'LOL'
 		),
 		':cheese:' => array (
 				'cheese.gif',
 				'19',
 				'19',
-				'cheese' 
+				'cheese'
 		),
 		':)' => array (
 				'smile.gif',
 				'19',
 				'19',
-				'smile' 
+				'smile'
 		),
 		';-)' => array (
 				'wink.gif',
 				'19',
 				'19',
-				'wink' 
+				'wink'
 		),
 		';)' => array (
 				'wink.gif',
 				'19',
 				'19',
-				'wink' 
+				'wink'
 		),
 		':smirk:' => array (
 				'smirk.gif',
 				'19',
 				'19',
-				'smirk' 
+				'smirk'
 		),
 		':roll:' => array (
 				'rolleyes.gif',
 				'19',
 				'19',
-				'rolleyes' 
+				'rolleyes'
 		),
 		':-S' => array (
 				'confused.gif',
 				'19',
 				'19',
-				'confused' 
+				'confused'
 		),
 		':wow:' => array (
 				'surprise.gif',
 				'19',
 				'19',
-				'surprised' 
+				'surprised'
 		),
 		':bug:' => array (
 				'bigsurprise.gif',
 				'19',
 				'19',
-				'big surprise' 
+				'big surprise'
 		),
 		':-P' => array (
 				'tongue_laugh.gif',
 				'19',
 				'19',
-				'tongue laugh' 
+				'tongue laugh'
 		),
 		'%-P' => array (
 				'tongue_rolleye.gif',
 				'19',
 				'19',
-				'tongue rolleye' 
+				'tongue rolleye'
 		),
 		';-P' => array (
 				'tongue_wink.gif',
 				'19',
 				'19',
-				'tongue wink' 
+				'tongue wink'
 		),
 		':P' => array (
 				'raspberry.gif',
 				'19',
 				'19',
-				'raspberry' 
+				'raspberry'
 		),
 		':blank:' => array (
 				'blank.gif',
 				'19',
 				'19',
-				'blank stare' 
+				'blank stare'
 		),
 		':long:' => array (
 				'longface.gif',
 				'19',
 				'19',
-				'long face' 
+				'long face'
 		),
 		':ohh:' => array (
 				'ohh.gif',
 				'19',
 				'19',
-				'ohh' 
+				'ohh'
 		),
 		':grrr:' => array (
 				'grrr.gif',
 				'19',
 				'19',
-				'grrr' 
+				'grrr'
 		),
 		':gulp:' => array (
 				'gulp.gif',
 				'19',
 				'19',
-				'gulp' 
+				'gulp'
 		),
 		'8-/' => array (
 				'ohoh.gif',
 				'19',
 				'19',
-				'oh oh' 
+				'oh oh'
 		),
 		':down:' => array (
 				'downer.gif',
 				'19',
 				'19',
-				'downer' 
+				'downer'
 		),
 		':red:' => array (
 				'embarrassed.gif',
 				'19',
 				'19',
-				'red face' 
+				'red face'
 		),
 		':sick:' => array (
 				'sick.gif',
 				'19',
 				'19',
-				'sick' 
+				'sick'
 		),
 		':shut:' => array (
 				'shuteye.gif',
 				'19',
 				'19',
-				'shut eye' 
+				'shut eye'
 		),
 		':-/' => array (
 				'hmm.gif',
 				'19',
 				'19',
-				'hmmm' 
+				'hmmm'
 		),
 		'>:(' => array (
 				'mad.gif',
 				'19',
 				'19',
-				'mad' 
+				'mad'
 		),
 		':mad:' => array (
 				'mad.gif',
 				'19',
 				'19',
-				'mad' 
+				'mad'
 		),
 		'>:-(' => array (
 				'angry.gif',
 				'19',
 				'19',
-				'angry' 
+				'angry'
 		),
 		':angry:' => array (
 				'angry.gif',
 				'19',
 				'19',
-				'angry' 
+				'angry'
 		),
 		':zip:' => array (
 				'zip.gif',
 				'19',
 				'19',
-				'zipper' 
+				'zipper'
 		),
 		':kiss:' => array (
 				'kiss.gif',
 				'19',
 				'19',
-				'kiss' 
+				'kiss'
 		),
 		':ahhh:' => array (
 				'shock.gif',
 				'19',
 				'19',
-				'shock' 
+				'shock'
 		),
 		':coolsmile:' => array (
 				'shade_smile.gif',
 				'19',
 				'19',
-				'cool smile' 
+				'cool smile'
 		),
 		':coolsmirk:' => array (
 				'shade_smirk.gif',
 				'19',
 				'19',
-				'cool smirk' 
+				'cool smirk'
 		),
 		':coolgrin:' => array (
 				'shade_grin.gif',
 				'19',
 				'19',
-				'cool grin' 
+				'cool grin'
 		),
 		':coolhmm:' => array (
 				'shade_hmm.gif',
 				'19',
 				'19',
-				'cool hmm' 
+				'cool hmm'
 		),
 		':coolmad:' => array (
 				'shade_mad.gif',
 				'19',
 				'19',
-				'cool mad' 
+				'cool mad'
 		),
 		':coolcheese:' => array (
 				'shade_cheese.gif',
 				'19',
 				'19',
-				'cool cheese' 
+				'cool cheese'
 		),
 		':vampire:' => array (
 				'vampire.gif',
 				'19',
 				'19',
-				'vampire' 
+				'vampire'
 		),
 		':snake:' => array (
 				'snake.gif',
 				'19',
 				'19',
-				'snake' 
+				'snake'
 		),
 		':exclaim:' => array (
 				'exclaim.gif',
 				'19',
 				'19',
-				'excaim' 
+				'excaim'
 		),
 		':question:' => array (
 				'question.gif',
 				'19',
 				'19',
-				'question' 
-		) 
+				'question'
+		)
 ) // no comma after last item
 
 ;

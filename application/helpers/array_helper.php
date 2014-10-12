@@ -14,7 +14,7 @@ if (! function_exists ( 'is_true_array' )) {
 	function is_true_array($array) {
 		if ($array == false)
 			return false;
-		
+
 		if (sizeof ( $array ) > 0) {
 			return TRUE;
 		} else {
@@ -24,12 +24,12 @@ if (! function_exists ( 'is_true_array' )) {
 }
 
 if (! function_exists ( 'array_key_exists_recursive' )) {
-	
+
 	/**
 	 * Recursive search key in associative array (depth does not matter)
-	 * 
-	 * @param string $key        	
-	 * @param array $array        	
+	 *
+	 * @param string $key
+	 * @param array $array
 	 * @param boolean $return
 	 *        	(optional) if true then result will be returned (false default)
 	 * @return boolean|mixed

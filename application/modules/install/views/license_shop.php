@@ -1,13 +1,13 @@
-<h2><?php echo lang('License Agreement', 'install')?></h2>
+<h2>
+	<?php echo lang('License Agreement', 'install')?>
+</h2>
 <p>
-<style>
-    
-    textarea{
-        background-color: #fff !important;
-    }
-    
+	<style>
+textarea {
+	background-color: #fff !important;
+}
 </style>
-<textarea style="width:100%;height:550px;" readonly >
+	<textarea style="width: 100%; height: 550px;" readonly>
 ЛИЦЕНЗИОННОЕ СОГЛАШЕНИЕ НА ИСПОЛЬЗОВАНИЕ ЭКЗЕМПЛЯРА ПРОГРАММНОГО ПРОДУКТА “ImageCMS SHOP”
 
 Настоящее лицензионное соглашение заключается между пользователем программного продукта “ImageCMS Shop” (далее «Пользователь») и группой разработчиков ООО “Сайт Имидж” (далее «Автор» или «Лицензиар»).
@@ -82,9 +82,9 @@
 7.3. В случае если суд признает какие-либо положения настоящего договора недействительными, настоящий договор продолжает действовать в остальной части. 
 </textarea>
 
-<br />
-<br />
-<a href="<?php echo $next_link ?>" class="btn btn-primary"><i class="icon-ok icon-white"></i><?php echo lang('Accept license', 'install')?>
-</a>
-<a href="http://www.imagecms.net/" class="btn btn-danger"><i class="icon-ban-circle icon-white"></i><?php echo lang('Cancel', 'install')?></a>
+	<br /> <br /> <a href="<?php echo $next_link ?>"
+		class="btn btn-primary"><i class="icon-ok icon-white"></i> <?php echo lang('Accept license', 'install')?>
+	</a> <a href="http://www.imagecms.net/" class="btn btn-danger"><i
+		class="icon-ban-circle icon-white"></i> <?php echo lang('Cancel', 'install')?>
+	</a>
 </p>

@@ -30,10 +30,13 @@ h1 {
 </head>
 <body>
 	<div id="content">
-		<h1><?php echo $heading; ?></h1>
-		<div id="error_text"><?php echo $message; ?></div>
-		<a href="mailto:username@domain">Сообщить
-			администратору</a>
+		<h1>
+			<?php echo $heading; ?>
+		</h1>
+		<div id="error_text">
+			<?php echo $message; ?>
+		</div>
+		<a href="mailto:username@domain">Сообщить администратору</a>
 	</div>
 </body>
 </html>

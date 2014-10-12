@@ -12,7 +12,7 @@ $com_info = array (
 		'h' => 550, // Window height
 		'version' => '1.1', // Module version
 		'author' => 'l.andriy@siteimage.com.ua', // Author info Andriy Leshko
-		'type' => 'shop' 
+		'type' => 'shop'
 ) // CMS version
 ;
 

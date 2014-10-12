@@ -37,7 +37,7 @@ if (! function_exists ( 'load_main_curr' )) {
 			$mainCurrencyId = $mainCurrencyId ['id'];
 		else
 			$mainCurrencyId = 1;
-		
+
 		return $mainCurrencyId;
 	}
 }
@@ -75,10 +75,10 @@ if (! function_exists ( 'load_prop_data' )) {
 	}
 }
 if (! function_exists ( 'load_multiple_prop' )) {
-	
+
 	/**
 	 * Load multiple prop
-	 * 
+	 *
 	 * @return type
 	 */
 	function load_multiple_prop() {
@@ -87,8 +87,8 @@ if (! function_exists ( 'load_multiple_prop' )) {
 		$result = $ci->db->get ( 'mod_exchange' );
 		if ($result)
 			foreach ( $result->result_array () as $val ) {
-				$arr [$val ['external_id']] = $val ['value'];
-			}
+			$arr [$val ['external_id']] = $val ['value'];
+		}
 		return $arr;
 	}
 }
@@ -99,7 +99,7 @@ if (! function_exists ( 'is_cat' )) {
 			if ($val ['external_id'] == $cat_ex_id)
 				return $val;
 		}
-		
+
 		return false;
 	}
 }
@@ -108,7 +108,7 @@ if (! function_exists ( 'is_prod' )) {
 	function is_prod($prod_ex_id, $prods) {
 		if (in_array ( $prod_ex_id, $prods ))
 			return array (
-					'id' => array_search ( $prod_ex_id, $prods ) 
+					'id' => array_search ( $prod_ex_id, $prods )
 			);
 		else
 			return false;
@@ -121,7 +121,7 @@ if (! function_exists ( 'is_brand' )) {
 			if ($val ['name'] == $brand_name)
 				return $val ['id'];
 		}
-		
+
 		return false;
 	}
 }
@@ -131,16 +131,16 @@ if (! function_exists ( 'is_prop' )) {
 			if ($val ['external_id'] == $prop_id)
 				return $val;
 		}
-		
+
 		return false;
 	}
 }
 
 if (! function_exists ( 'is_prop_multiple' )) {
-	
+
 	/**
 	 *
-	 * @param type $prop_id        	
+	 * @param type $prop_id
 	 * @param type $props
 	 *        	all properties
 	 * @return boolean

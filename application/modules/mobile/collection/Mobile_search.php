@@ -13,7 +13,7 @@ namespace mobile\collection;
  */
 class Mobile_search extends \Search\BaseSearch {
 	protected static $_instance;
-	
+
 	/**
 	 *
 	 * @return view
@@ -24,7 +24,7 @@ class Mobile_search extends \Search\BaseSearch {
 	public function __construct() {
 		parent::__construct ();
 	}
-	
+
 	/**
 	 *
 	 * @return view
@@ -33,7 +33,7 @@ class Mobile_search extends \Search\BaseSearch {
 	 * @copyright ImageCMS (c) 2013, Kaero <dev@imagecms.net>
 	 */
 	public function index() {
-		
+
 		/**
 		 * Build pagination
 		 */
@@ -47,29 +47,29 @@ class Mobile_search extends \Search\BaseSearch {
 		$config ['page_query_string'] = true;
 		$this->pagination->num_links = 6;
 		$this->pagination->initialize ( $config );
-		
+
 		/**
 		 * Register cannonical link if we are in search
 		 */
 		if (! empty ( $_GET ) || strstr ( $_SERVER ['REQUEST_URI'], '?' ))
 			$this->template->registerCanonical ( site_url ( $this->uri->uri_string () ) );
-		
+
 		/**
 		 * And say to robot: don't index search pages
 		 */
 		$this->template->registerMeta ( 'ROBOTS', "NOINDEX, NOFOLLOW" );
-		
+
 		/**
 		 * Set view data
 		 */
 		$this->data [pagination] = $this->pagination->create_links ();
-		
+
 		/**
 		 * Render view for user
 		 */
 		$this->render ( 'search', $this->data );
 	}
-	
+
 	/**
 	 *
 	 * @return bool

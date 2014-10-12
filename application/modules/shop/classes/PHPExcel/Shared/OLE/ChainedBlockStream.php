@@ -38,32 +38,32 @@
 class PHPExcel_Shared_OLE_ChainedBlockStream {
 	/**
 	 * The OLE container of the file that is being read.
-	 * 
+	 *
 	 * @var OLE
 	 */
 	public $ole;
-	
+
 	/**
 	 * Parameters specified by fopen().
-	 * 
+	 *
 	 * @var array
 	 */
 	public $params;
-	
+
 	/**
 	 * The binary data of the file.
-	 * 
+	 *
 	 * @var string
 	 */
 	public $data;
-	
+
 	/**
 	 * The file pointer.
-	 * 
+	 *
 	 * @var int byte offset
 	 */
 	public $pos;
-	
+
 	/**
 	 * Implements support for fopen().
 	 * For creating streams using this wrapper, use OLE_PPS_File::getStream().
@@ -86,22 +86,22 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 			}
 			return false;
 		}
-		
+
 		// 25 is length of "ole-chainedblockstream://"
 		parse_str ( substr ( $path, 25 ), $this->params );
 		if (! isset ( $this->params ['oleInstanceId'], $this->params ['blockId'], $GLOBALS ['_OLE_INSTANCES'] [$this->params ['oleInstanceId']] )) {
-			
+				
 			if ($options & STREAM_REPORT_ERRORS) {
 				trigger_error ( 'OLE stream not found', E_USER_WARNING );
 			}
 			return false;
 		}
 		$this->ole = $GLOBALS ['_OLE_INSTANCES'] [$this->params ['oleInstanceId']];
-		
+
 		$blockId = $this->params ['blockId'];
 		$this->data = '';
 		if (isset ( $this->params ['size'] ) && $this->params ['size'] < $this->ole->bigBlockThreshold && $blockId != $this->ole->root->_StartBlock) {
-			
+				
 			// Block id refers to small blocks
 			$rootPos = $this->ole->_getBlockOffset ( $this->ole->root->_StartBlock );
 			while ( $blockId != - 2 ) {
@@ -122,14 +122,14 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 		if (isset ( $this->params ['size'] )) {
 			$this->data = substr ( $this->data, 0, $this->params ['size'] );
 		}
-		
+
 		if ($options & STREAM_USE_PATH) {
 			$openedPath = $path;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Implements support for fclose().
 	 */
@@ -137,7 +137,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 		$this->ole = null;
 		unset ( $GLOBALS ['_OLE_INSTANCES'] );
 	}
-	
+
 	/**
 	 * Implements support for fread(), fgets() etc.
 	 *
@@ -153,7 +153,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 		$this->pos += $count;
 		return $s;
 	}
-	
+
 	/**
 	 * Implements support for feof().
 	 *
@@ -163,12 +163,12 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 		$eof = $this->pos >= strlen ( $this->data );
 		// Workaround for bug in PHP 5.0.x: http://bugs.php.net/27508
 		if (version_compare ( PHP_VERSION, '5.0', '>=' ) && version_compare ( PHP_VERSION, '5.1', '<' )) {
-			
+				
 			$eof = ! $eof;
 		}
 		return $eof;
 	}
-	
+
 	/**
 	 * Returns the position of the file pointer, i.e.
 	 * its offset into the file
@@ -179,11 +179,11 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 	public function stream_tell() {
 		return $this->pos;
 	}
-	
+
 	/**
 	 * Implements support for fseek().
 	 *
-	 * @param int $offset        	
+	 * @param int $offset
 	 * @param int $whence
 	 *        	or SEEK_END
 	 * @return bool
@@ -200,20 +200,20 @@ class PHPExcel_Shared_OLE_ChainedBlockStream {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Implements support for fstat().
 	 * Currently the only supported field is
 	 * "size".
-	 * 
+	 *
 	 * @return array
 	 */
 	public function stream_stat() {
 		return array (
-				'size' => strlen ( $this->data ) 
+				'size' => strlen ( $this->data )
 		);
 	}
-	
+
 	// Methods used by stream_wrapper_register() that are not implemented:
 	// bool stream_flush ( void )
 	// int stream_write ( string data )

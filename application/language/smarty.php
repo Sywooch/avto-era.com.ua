@@ -2,7 +2,7 @@
 $gettext_pattern = array (
 		"~\{\"([^\"]+)\"\|_([^\}]*)\}~", // search for smarty modifier: {"Text to be localized"|_}
 		"~lang\(\'(.*?)\'~",
-		"~lang\(\"(.*?)\"~" 
+		"~lang\(\"(.*?)\"~"
 );
 
 define ( '_DAT', '/var/www/image.loc/_tempLangs.php' );
@@ -37,7 +37,7 @@ if ($mod) {
 	}
 	$result = "<?php\n/*\n" . implode ( "\n", $found_in ) . "*/\n\n" . $result . "\n?>";
 	_log ( $result );
-	
+
 	exec ( 'xgettext --force-po -o "' . $p [1] . '" ' . $p [2] . ' ' . $p [3] . ' ' . _DAT );
 	// unlink(_DAT);
 }

@@ -42,91 +42,91 @@ class PHPExcel_DocumentProperties {
 	const PROPERTY_TYPE_DATE = 'd';
 	const PROPERTY_TYPE_STRING = 's';
 	const PROPERTY_TYPE_UNKNOWN = 'u';
-	
+
 	/**
 	 * Creator
 	 *
 	 * @var string
 	 */
 	private $_creator = 'Unknown Creator';
-	
+
 	/**
 	 * LastModifiedBy
 	 *
 	 * @var string
 	 */
 	private $_lastModifiedBy;
-	
+
 	/**
 	 * Created
 	 *
 	 * @var datetime
 	 */
 	private $_created;
-	
+
 	/**
 	 * Modified
 	 *
 	 * @var datetime
 	 */
 	private $_modified;
-	
+
 	/**
 	 * Title
 	 *
 	 * @var string
 	 */
 	private $_title = 'Untitled Spreadsheet';
-	
+
 	/**
 	 * Description
 	 *
 	 * @var string
 	 */
 	private $_description = '';
-	
+
 	/**
 	 * Subject
 	 *
 	 * @var string
 	 */
 	private $_subject = '';
-	
+
 	/**
 	 * Keywords
 	 *
 	 * @var string
 	 */
 	private $_keywords = '';
-	
+
 	/**
 	 * Category
 	 *
 	 * @var string
 	 */
 	private $_category = '';
-	
+
 	/**
 	 * Manager
 	 *
 	 * @var string
 	 */
 	private $_manager = '';
-	
+
 	/**
 	 * Company
 	 *
 	 * @var string
 	 */
 	private $_company = 'Microsoft Corporation';
-	
+
 	/**
 	 * Custom Properties
 	 *
 	 * @var string
 	 */
 	private $_customProperties = array ();
-	
+
 	/**
 	 * Create a new PHPExcel_DocumentProperties
 	 */
@@ -136,7 +136,7 @@ class PHPExcel_DocumentProperties {
 		$this->_created = time ();
 		$this->_modified = time ();
 	}
-	
+
 	/**
 	 * Get Creator
 	 *
@@ -145,18 +145,18 @@ class PHPExcel_DocumentProperties {
 	public function getCreator() {
 		return $this->_creator;
 	}
-	
+
 	/**
 	 * Set Creator
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setCreator($pValue = '') {
 		$this->_creator = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Last Modified By
 	 *
@@ -165,18 +165,18 @@ class PHPExcel_DocumentProperties {
 	public function getLastModifiedBy() {
 		return $this->_lastModifiedBy;
 	}
-	
+
 	/**
 	 * Set Last Modified By
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setLastModifiedBy($pValue = '') {
 		$this->_lastModifiedBy = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Created
 	 *
@@ -185,11 +185,11 @@ class PHPExcel_DocumentProperties {
 	public function getCreated() {
 		return $this->_created;
 	}
-	
+
 	/**
 	 * Set Created
 	 *
-	 * @param datetime $pValue        	
+	 * @param datetime $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setCreated($pValue = null) {
@@ -202,11 +202,11 @@ class PHPExcel_DocumentProperties {
 				$pValue = strtotime ( $pValue );
 			}
 		}
-		
+
 		$this->_created = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Modified
 	 *
@@ -215,11 +215,11 @@ class PHPExcel_DocumentProperties {
 	public function getModified() {
 		return $this->_modified;
 	}
-	
+
 	/**
 	 * Set Modified
 	 *
-	 * @param datetime $pValue        	
+	 * @param datetime $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setModified($pValue = null) {
@@ -232,11 +232,11 @@ class PHPExcel_DocumentProperties {
 				$pValue = strtotime ( $pValue );
 			}
 		}
-		
+
 		$this->_modified = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Title
 	 *
@@ -245,18 +245,18 @@ class PHPExcel_DocumentProperties {
 	public function getTitle() {
 		return $this->_title;
 	}
-	
+
 	/**
 	 * Set Title
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setTitle($pValue = '') {
 		$this->_title = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Description
 	 *
@@ -265,18 +265,18 @@ class PHPExcel_DocumentProperties {
 	public function getDescription() {
 		return $this->_description;
 	}
-	
+
 	/**
 	 * Set Description
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setDescription($pValue = '') {
 		$this->_description = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Subject
 	 *
@@ -285,18 +285,18 @@ class PHPExcel_DocumentProperties {
 	public function getSubject() {
 		return $this->_subject;
 	}
-	
+
 	/**
 	 * Set Subject
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setSubject($pValue = '') {
 		$this->_subject = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Keywords
 	 *
@@ -305,18 +305,18 @@ class PHPExcel_DocumentProperties {
 	public function getKeywords() {
 		return $this->_keywords;
 	}
-	
+
 	/**
 	 * Set Keywords
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setKeywords($pValue = '') {
 		$this->_keywords = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Category
 	 *
@@ -325,18 +325,18 @@ class PHPExcel_DocumentProperties {
 	public function getCategory() {
 		return $this->_category;
 	}
-	
+
 	/**
 	 * Set Category
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setCategory($pValue = '') {
 		$this->_category = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Company
 	 *
@@ -345,18 +345,18 @@ class PHPExcel_DocumentProperties {
 	public function getCompany() {
 		return $this->_company;
 	}
-	
+
 	/**
 	 * Set Company
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setCompany($pValue = '') {
 		$this->_company = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get Manager
 	 *
@@ -365,18 +365,18 @@ class PHPExcel_DocumentProperties {
 	public function getManager() {
 		return $this->_manager;
 	}
-	
+
 	/**
 	 * Set Manager
 	 *
-	 * @param string $pValue        	
+	 * @param string $pValue
 	 * @return PHPExcel_DocumentProperties
 	 */
 	public function setManager($pValue = '') {
 		$this->_manager = $pValue;
 		return $this;
 	}
-	
+
 	/**
 	 * Get a List of Custom Property Names
 	 *
@@ -385,21 +385,21 @@ class PHPExcel_DocumentProperties {
 	public function getCustomProperties() {
 		return array_keys ( $this->_customProperties );
 	}
-	
+
 	/**
 	 * Check if a Custom Property is defined
 	 *
-	 * @param string $propertyName        	
+	 * @param string $propertyName
 	 * @return boolean
 	 */
 	public function isCustomPropertySet($propertyName) {
 		return isset ( $this->_customProperties [$propertyName] );
 	}
-	
+
 	/**
 	 * Get a Custom Property Value
 	 *
-	 * @param string $propertyName        	
+	 * @param string $propertyName
 	 * @return string
 	 */
 	public function getCustomPropertyValue($propertyName) {
@@ -407,11 +407,11 @@ class PHPExcel_DocumentProperties {
 			return $this->_customProperties [$propertyName] ['value'];
 		}
 	}
-	
+
 	/**
 	 * Get a Custom Property Type
 	 *
-	 * @param string $propertyName        	
+	 * @param string $propertyName
 	 * @return string
 	 */
 	public function getCustomPropertyType($propertyName) {
@@ -419,12 +419,12 @@ class PHPExcel_DocumentProperties {
 			return $this->_customProperties [$propertyName] ['type'];
 		}
 	}
-	
+
 	/**
 	 * Set a Custom Property
 	 *
-	 * @param string $propertyName        	
-	 * @param mixed $propertyValue        	
+	 * @param string $propertyName
+	 * @param mixed $propertyValue
 	 * @param string $propertyType
 	 *        	'i' : Integer
 	 *        	'f' : Floating Point
@@ -439,7 +439,7 @@ class PHPExcel_DocumentProperties {
 				self::PROPERTY_TYPE_FLOAT,
 				self::PROPERTY_TYPE_STRING,
 				self::PROPERTY_TYPE_DATE,
-				self::PROPERTY_TYPE_BOOLEAN 
+				self::PROPERTY_TYPE_BOOLEAN
 		) ))) {
 			if ($propertyValue === NULL) {
 				$propertyType = self::PROPERTY_TYPE_STRING;
@@ -453,14 +453,14 @@ class PHPExcel_DocumentProperties {
 				$propertyType = self::PROPERTY_TYPE_STRING;
 			}
 		}
-		
+
 		$this->_customProperties [$propertyName] = array (
 				'value' => $propertyValue,
-				'type' => $propertyType 
+				'type' => $propertyType
 		);
 		return $this;
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */

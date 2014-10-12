@@ -6,7 +6,7 @@ namespace CMSFactory;
  * Events Class
  * <p>Сlass that implements the events in system.
  * Is a Singleton class.</p>
- * 
+ *
  * @package CMSFactory
  * @copyright ImageCMS (c) 2013, <dev@imagecms.net>
  */

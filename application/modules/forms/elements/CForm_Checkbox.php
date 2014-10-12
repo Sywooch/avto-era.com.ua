@@ -6,10 +6,10 @@ class CForm_Checkbox {
 	public function __construct($name, $field = array()) {
 		$this->form = & get_instance ();
 		$this->form = $this->form->load->module ( 'forms' );
-		
+
 		$this->name = $name;
 		$this->field = ( object ) $field;
-		
+
 		return $this;
 	}
 	public function render() {
@@ -44,12 +44,12 @@ class CForm_Checkbox {
 			$value = $this->field->initial;
 		else
 			$value = '';
-		
+
 		if ($this->field->checked == TRUE)
 			$checked = 'checked="checked"';
 		else
 			$checked = '';
-		
+
 		return '<label><input type="checkbox" ' . $this->form->_check_attr ( $this->name, $this->field ) . ' value="' . $value . '" ' . $checked . ' /> ' . $this->field->label . '</label>';
 	}
 }

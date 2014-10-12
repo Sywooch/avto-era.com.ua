@@ -53,10 +53,10 @@ class PHPExcel_Autoloader {
 		// Register ourselves with SPL
 		return spl_autoload_register ( array (
 				'PHPExcel_Autoloader',
-				'Load' 
+				'Load'
 		) );
 	} // function Register()
-	
+
 	/**
 	 * Autoload a class identified by name
 	 *
@@ -68,14 +68,14 @@ class PHPExcel_Autoloader {
 			// Either already loaded, or not a PHPExcel class request
 			return FALSE;
 		}
-		
+
 		$pClassFilePath = PHPEXCEL_ROOT . str_replace ( '_', DIRECTORY_SEPARATOR, $pClassName ) . '.php';
-		
+
 		if ((file_exists ( $pClassFilePath ) === FALSE) || (is_readable ( $pClassFilePath ) === FALSE)) {
 			// Can't load
 			return FALSE;
 		}
-		
+
 		require ($pClassFilePath);
 	} // function Load()
 }

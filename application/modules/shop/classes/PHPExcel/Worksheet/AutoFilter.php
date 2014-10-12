@@ -39,33 +39,33 @@ class PHPExcel_Worksheet_AutoFilter {
 	 * @var PHPExcel_Worksheet
 	 */
 	private $_workSheet = NULL;
-	
+
 	/**
 	 * Autofilter Range
 	 *
 	 * @var string
 	 */
 	private $_range = '';
-	
+
 	/**
 	 * Autofilter Column Ruleset
 	 *
 	 * @var array of PHPExcel_Worksheet_AutoFilter_Column
 	 */
 	private $_columns = array ();
-	
+
 	/**
 	 * Create a new PHPExcel_Worksheet_AutoFilter
 	 *
 	 * @param string $pRange
 	 *        	(i.e. A1:E10)
-	 * @param PHPExcel_Worksheet $pSheet        	
+	 * @param PHPExcel_Worksheet $pSheet
 	 */
 	public function __construct($pRange = '', PHPExcel_Worksheet $pSheet = NULL) {
 		$this->_range = $pRange;
 		$this->_workSheet = $pSheet;
 	}
-	
+
 	/**
 	 * Get AutoFilter Parent Worksheet
 	 *
@@ -74,19 +74,19 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function getParent() {
 		return $this->_workSheet;
 	}
-	
+
 	/**
 	 * Set AutoFilter Parent Worksheet
 	 *
-	 * @param PHPExcel_Worksheet $pSheet        	
+	 * @param PHPExcel_Worksheet $pSheet
 	 * @return PHPExcel_Worksheet_AutoFilter
 	 */
 	public function setParent(PHPExcel_Worksheet $pSheet = NULL) {
 		$this->_workSheet = $pSheet;
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Get AutoFilter Range
 	 *
@@ -95,7 +95,7 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function getRange() {
 		return $this->_range;
 	}
-	
+
 	/**
 	 * Set AutoFilter Range
 	 *
@@ -110,7 +110,7 @@ class PHPExcel_Worksheet_AutoFilter {
 		if (count ( $cellAddress ) > 1) {
 			list ( $worksheet, $pRange ) = $cellAddress;
 		}
-		
+
 		if (strpos ( $pRange, ':' ) !== FALSE) {
 			$this->_range = $pRange;
 		} elseif (empty ( $pRange )) {
@@ -118,7 +118,7 @@ class PHPExcel_Worksheet_AutoFilter {
 		} else {
 			throw new PHPExcel_Exception ( 'Autofilter must be set on a range of cells.' );
 		}
-		
+
 		if (empty ( $pRange )) {
 			// Discard all column rules
 			$this->_columns = array ();
@@ -132,10 +132,10 @@ class PHPExcel_Worksheet_AutoFilter {
 				}
 			}
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Get all AutoFilter Columns
 	 *
@@ -145,7 +145,7 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function getColumns() {
 		return $this->_columns;
 	}
-	
+
 	/**
 	 * Validate that the specified column is in the AutoFilter range
 	 *
@@ -158,16 +158,16 @@ class PHPExcel_Worksheet_AutoFilter {
 		if (empty ( $this->_range )) {
 			throw new PHPExcel_Exception ( "No autofilter range is defined." );
 		}
-		
+
 		$columnIndex = PHPExcel_Cell::columnIndexFromString ( $column );
 		list ( $rangeStart, $rangeEnd ) = PHPExcel_Cell::rangeBoundaries ( $this->_range );
 		if (($rangeStart [0] > $columnIndex) || ($rangeEnd [0] < $columnIndex)) {
 			throw new PHPExcel_Exception ( "Column is outside of current autofilter range." );
 		}
-		
+
 		return $columnIndex - $rangeStart [0];
 	}
-	
+
 	/**
 	 * Get a specified AutoFilter Column Offset within the defined AutoFilter range
 	 *
@@ -179,7 +179,7 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function getColumnOffset($pColumn) {
 		return $this->testColumnInRange ( $pColumn );
 	}
-	
+
 	/**
 	 * Get a specified AutoFilter Column
 	 *
@@ -190,14 +190,14 @@ class PHPExcel_Worksheet_AutoFilter {
 	 */
 	public function getColumn($pColumn) {
 		$this->testColumnInRange ( $pColumn );
-		
+
 		if (! isset ( $this->_columns [$pColumn] )) {
 			$this->_columns [$pColumn] = new PHPExcel_Worksheet_AutoFilter_Column ( $pColumn, $this );
 		}
-		
+
 		return $this->_columns [$pColumn];
 	}
-	
+
 	/**
 	 * Get a specified AutoFilter Column by it's offset
 	 *
@@ -209,10 +209,10 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function getColumnByOffset($pColumnOffset = 0) {
 		list ( $rangeStart, $rangeEnd ) = PHPExcel_Cell::rangeBoundaries ( $this->_range );
 		$pColumn = PHPExcel_Cell::stringFromColumnIndex ( $rangeStart [0] + $pColumnOffset - 1 );
-		
+
 		return $this->getColumn ( $pColumn );
 	}
-	
+
 	/**
 	 * Set AutoFilter
 	 *
@@ -230,7 +230,7 @@ class PHPExcel_Worksheet_AutoFilter {
 			throw new PHPExcel_Exception ( "Column is not within the autofilter range." );
 		}
 		$this->testColumnInRange ( $column );
-		
+
 		if (is_string ( $pColumn )) {
 			$this->_columns [$pColumn] = new PHPExcel_Worksheet_AutoFilter_Column ( $pColumn, $this );
 		} elseif (is_object ( $pColumn ) && ($pColumn instanceof PHPExcel_Worksheet_AutoFilter_Column)) {
@@ -238,10 +238,10 @@ class PHPExcel_Worksheet_AutoFilter {
 			$this->_columns [$column] = $pColumn;
 		}
 		ksort ( $this->_columns );
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Clear a specified AutoFilter Column
 	 *
@@ -252,14 +252,14 @@ class PHPExcel_Worksheet_AutoFilter {
 	 */
 	public function clearColumn($pColumn) {
 		$this->testColumnInRange ( $pColumn );
-		
+
 		if (isset ( $this->_columns [$pColumn] )) {
 			unset ( $this->_columns [$pColumn] );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Shift an AutoFilter Column Rule to a different column
 	 *
@@ -276,25 +276,25 @@ class PHPExcel_Worksheet_AutoFilter {
 	public function shiftColumn($fromColumn = NULL, $toColumn = NULL) {
 		$fromColumn = strtoupper ( $fromColumn );
 		$toColumn = strtoupper ( $toColumn );
-		
+
 		if (($fromColumn !== NULL) && (isset ( $this->_columns [$fromColumn] )) && ($toColumn !== NULL)) {
 			$this->_columns [$fromColumn]->setParent ();
 			$this->_columns [$fromColumn]->setColumnIndex ( $toColumn );
 			$this->_columns [$toColumn] = $this->_columns [$fromColumn];
 			$this->_columns [$toColumn]->setParent ( $this );
 			unset ( $this->_columns [$fromColumn] );
-			
+				
 			ksort ( $this->_columns );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Test if cell value is in the defined set of values
 	 *
-	 * @param mixed $cellValue        	
-	 * @param mixed[] $dataSet        	
+	 * @param mixed $cellValue
+	 * @param mixed[] $dataSet
 	 * @return boolean
 	 */
 	private static function _filterTestInSimpleDataSet($cellValue, $dataSet) {
@@ -305,12 +305,12 @@ class PHPExcel_Worksheet_AutoFilter {
 		}
 		return in_array ( $cellValue, $dataSetValues );
 	}
-	
+
 	/**
 	 * Test if cell value is in the defined set of Excel date values
 	 *
-	 * @param mixed $cellValue        	
-	 * @param mixed[] $dataSet        	
+	 * @param mixed $cellValue
+	 * @param mixed[] $dataSet
 	 * @return boolean
 	 */
 	private static function _filterTestInDateGroupSet($cellValue, $dataSet) {
@@ -319,7 +319,7 @@ class PHPExcel_Worksheet_AutoFilter {
 		if (($cellValue == '') || ($cellValue === NULL)) {
 			return $blanks;
 		}
-		
+
 		if (is_numeric ( $cellValue )) {
 			$dateValue = PHPExcel_Shared_Date::ExcelToPHP ( $cellValue );
 			if ($cellValue < 1) {
@@ -341,22 +341,22 @@ class PHPExcel_Worksheet_AutoFilter {
 					return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * Test if cell value is within a set of values defined by a ruleset
 	 *
-	 * @param mixed $cellValue        	
-	 * @param mixed[] $ruleSet        	
+	 * @param mixed $cellValue
+	 * @param mixed[] $ruleSet
 	 * @return boolean
 	 */
 	private static function _filterTestInCustomDataSet($cellValue, $ruleSet) {
 		$dataSet = $ruleSet ['filterRules'];
 		$join = $ruleSet ['join'];
 		$customRuleForBlanks = isset ( $ruleSet ['customRuleForBlanks'] ) ? $ruleSet ['customRuleForBlanks'] : FALSE;
-		
+
 		if (! $customRuleForBlanks) {
 			// Blank cells are always ignored, so return a FALSE
 			if (($cellValue == '') || ($cellValue === NULL)) {
@@ -417,15 +417,15 @@ class PHPExcel_Worksheet_AutoFilter {
 					break;
 			}
 		}
-		
+
 		return $returnVal;
 	}
-	
+
 	/**
 	 * Test if cell date value is matches a set of values defined by a set of months
 	 *
-	 * @param mixed $cellValue        	
-	 * @param mixed[] $monthSet        	
+	 * @param mixed $cellValue
+	 * @param mixed[] $monthSet
 	 * @return boolean
 	 */
 	private static function _filterTestInPeriodDateSet($cellValue, $monthSet) {
@@ -433,17 +433,17 @@ class PHPExcel_Worksheet_AutoFilter {
 		if (($cellValue == '') || ($cellValue === NULL)) {
 			return FALSE;
 		}
-		
+
 		if (is_numeric ( $cellValue )) {
 			$dateValue = date ( 'm', PHPExcel_Shared_Date::ExcelToPHP ( $cellValue ) );
 			if (in_array ( $dateValue, $monthSet )) {
 				return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * Search/Replace arrays to convert Excel wildcard syntax to a regexp syntax for preg_matching
 	 *
@@ -454,20 +454,20 @@ class PHPExcel_Worksheet_AutoFilter {
 			'\?',
 			'~~',
 			'~.*',
-			'~.?' 
+			'~.?'
 	);
 	private static $_toReplace = array (
 			'.*',
 			'.',
 			'~',
 			'\*',
-			'\?' 
+			'\?'
 	);
-	
+
 	/**
 	 * Convert a dynamic rule daterange to a custom filter range expression for ease of calculation
 	 *
-	 * @param string $dynamicRuleType        	
+	 * @param string $dynamicRuleType
 	 * @param
 	 *        	PHPExcel_Worksheet_AutoFilter_Column		&$filterColumn
 	 * @return mixed[]
@@ -476,7 +476,7 @@ class PHPExcel_Worksheet_AutoFilter {
 		$rDateType = PHPExcel_Calculation_Functions::getReturnDateType ();
 		PHPExcel_Calculation_Functions::setReturnDateType ( PHPExcel_Calculation_Functions::RETURNDATE_PHP_NUMERIC );
 		$val = $maxVal = NULL;
-		
+
 		$ruleValues = array ();
 		$baseDate = PHPExcel_Calculation_DateTime::DATENOW ();
 		// Calculate start/end dates for the required date range based on current date
@@ -506,7 +506,7 @@ class PHPExcel_Worksheet_AutoFilter {
 				$baseDate = strtotime ( '+1 year', gmmktime ( 0, 0, 0, 1, date ( 'm', $baseDate ), date ( 'Y', $baseDate ) ) );
 				break;
 		}
-		
+
 		switch ($dynamicRuleType) {
 			case PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DYNAMIC_TODAY :
 			case PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DYNAMIC_YESTERDAY :
@@ -549,7 +549,7 @@ class PHPExcel_Worksheet_AutoFilter {
 				$maxVal = $val + 7;
 				break;
 		}
-		
+
 		switch ($dynamicRuleType) {
 			// Adjust Today dates for Yesterday and Tomorrow
 			case PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DYNAMIC_YESTERDAY :
@@ -561,46 +561,46 @@ class PHPExcel_Worksheet_AutoFilter {
 				++ $val;
 				break;
 		}
-		
+
 		// Set the filter column rule attributes ready for writing
 		$filterColumn->setAttributes ( array (
 				'val' => $val,
-				'maxVal' => $maxVal 
+				'maxVal' => $maxVal
 		) );
-		
+
 		// Set the rules for identifying rows for hide/show
 		$ruleValues [] = array (
 				'operator' => PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_GREATERTHANOREQUAL,
-				'value' => $val 
+				'value' => $val
 		);
 		$ruleValues [] = array (
 				'operator' => PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_LESSTHAN,
-				'value' => $maxVal 
+				'value' => $maxVal
 		);
 		PHPExcel_Calculation_Functions::setReturnDateType ( $rDateType );
-		
+
 		return array (
 				'method' => '_filterTestInCustomDataSet',
 				'arguments' => array (
 						'filterRules' => $ruleValues,
-						'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_AND 
-				) 
+						'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_AND
+				)
 		);
 	}
 	private function _calculateTopTenValue($columnID, $startRow, $endRow, $ruleType, $ruleValue) {
 		$range = $columnID . $startRow . ':' . $columnID . $endRow;
 		$dataValues = PHPExcel_Calculation_Functions::flattenArray ( $this->_workSheet->rangeToArray ( $range, NULL, TRUE, FALSE ) );
-		
+
 		$dataValues = array_filter ( $dataValues );
 		if ($ruleType == PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_TOPTEN_TOP) {
 			rsort ( $dataValues );
 		} else {
 			sort ( $dataValues );
 		}
-		
+
 		return array_pop ( array_slice ( $dataValues, 0, $ruleValue ) );
 	}
-	
+
 	/**
 	 * Apply the AutoFilter rules to the AutoFilter Range
 	 *
@@ -609,11 +609,11 @@ class PHPExcel_Worksheet_AutoFilter {
 	 */
 	public function showHideRows() {
 		list ( $rangeStart, $rangeEnd ) = PHPExcel_Cell::rangeBoundaries ( $this->_range );
-		
+
 		// The heading row should always be visible
 		// echo 'AutoFilter Heading Row ',$rangeStart[1],' is always SHOWN',PHP_EOL;
 		$this->_workSheet->getRowDimension ( $rangeStart [1] )->setVisible ( TRUE );
-		
+
 		$columnFilterTests = array ();
 		foreach ( $this->_columns as $columnID => $filterColumn ) {
 			$rules = $filterColumn->getRules ();
@@ -636,8 +636,8 @@ class PHPExcel_Worksheet_AutoFilter {
 								'method' => '_filterTestInSimpleDataSet',
 								'arguments' => array (
 										'filterValues' => $ruleDataSet,
-										'blanks' => $blanks 
-								) 
+										'blanks' => $blanks
+								)
 						);
 					} else {
 						// Filter on date group values
@@ -669,8 +669,8 @@ class PHPExcel_Worksheet_AutoFilter {
 								'method' => '_filterTestInDateGroupSet',
 								'arguments' => array (
 										'filterValues' => $arguments,
-										'blanks' => $blanks 
-								) 
+										'blanks' => $blanks
+								)
 						);
 					}
 					break;
@@ -692,7 +692,7 @@ class PHPExcel_Worksheet_AutoFilter {
 						}
 						$ruleValues [] = array (
 								'operator' => $rule->getOperator (),
-								'value' => $ruleValue 
+								'value' => $ruleValue
 						);
 					}
 					$join = $filterColumn->getJoin ();
@@ -701,8 +701,8 @@ class PHPExcel_Worksheet_AutoFilter {
 							'arguments' => array (
 									'filterRules' => $ruleValues,
 									'join' => $join,
-									'customRuleForBlanks' => $customRuleForBlanks 
-							) 
+									'customRuleForBlanks' => $customRuleForBlanks
+							)
 					);
 					break;
 				case PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_FILTERTYPE_DYNAMICFILTER :
@@ -719,14 +719,14 @@ class PHPExcel_Worksheet_AutoFilter {
 							$operator = ($dynamicRuleType === PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_RULETYPE_DYNAMIC_ABOVEAVERAGE) ? PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_GREATERTHAN : PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_LESSTHAN;
 							$ruleValues [] = array (
 									'operator' => $operator,
-									'value' => $average 
+									'value' => $average
 							);
 							$columnFilterTests [$columnID] = array (
 									'method' => '_filterTestInCustomDataSet',
 									'arguments' => array (
 											'filterRules' => $ruleValues,
-											'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_OR 
-									) 
+											'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_OR
+									)
 							);
 						} else {
 							// Date based
@@ -735,7 +735,7 @@ class PHPExcel_Worksheet_AutoFilter {
 								sscanf ( $dynamicRuleType, '%[A-Z]%d', $periodType, $period );
 								if ($periodType == 'M') {
 									$ruleValues = array (
-											$period 
+											$period
 									);
 								} else {
 									-- $period;
@@ -745,7 +745,7 @@ class PHPExcel_Worksheet_AutoFilter {
 								}
 								$columnFilterTests [$columnID] = array (
 										'method' => '_filterTestInPeriodDateSet',
-										'arguments' => $ruleValues 
+										'arguments' => $ruleValues
 								);
 								$filterColumn->setAttributes ( array () );
 							} else {
@@ -772,28 +772,28 @@ class PHPExcel_Worksheet_AutoFilter {
 						$ruleValue = 1;
 					if ($ruleValue > 500)
 						$ruleValue = 500;
-					
+						
 					$maxVal = $this->_calculateTopTenValue ( $columnID, $rangeStart [1] + 1, $rangeEnd [1], $toptenRuleType, $ruleValue );
-					
+						
 					$operator = ($toptenRuleType == PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_TOPTEN_TOP) ? PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_GREATERTHANOREQUAL : PHPExcel_Worksheet_AutoFilter_Column_Rule::AUTOFILTER_COLUMN_RULE_LESSTHANOREQUAL;
 					$ruleValues [] = array (
 							'operator' => $operator,
-							'value' => $maxVal 
+							'value' => $maxVal
 					);
 					$columnFilterTests [$columnID] = array (
 							'method' => '_filterTestInCustomDataSet',
 							'arguments' => array (
 									'filterRules' => $ruleValues,
-									'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_OR 
-							) 
+									'join' => PHPExcel_Worksheet_AutoFilter_Column::AUTOFILTER_COLUMN_JOIN_OR
+							)
 					);
 					$filterColumn->setAttributes ( array (
-							'maxVal' => $maxVal 
+							'maxVal' => $maxVal
 					) );
 					break;
 			}
 		}
-		
+
 		// echo 'Column Filter Test CRITERIA',PHP_EOL;
 		// var_dump($columnFilterTests);
 		//
@@ -808,10 +808,10 @@ class PHPExcel_Worksheet_AutoFilter {
 				// Execute the filter test
 				$result = $result && call_user_func_array ( array (
 						'PHPExcel_Worksheet_AutoFilter',
-						$columnFilterTest ['method'] 
+						$columnFilterTest ['method']
 				), array (
 						$cellValue,
-						$columnFilterTest ['arguments'] 
+						$columnFilterTest ['arguments']
 				) );
 				// echo (($result) ? 'VALID' : 'INVALID'),PHP_EOL;
 				// If filter test has resulted in FALSE, exit the loop straightaway rather than running any more tests
@@ -822,10 +822,10 @@ class PHPExcel_Worksheet_AutoFilter {
 			// echo (($result) ? 'SHOW' : 'HIDE'),PHP_EOL;
 			$this->_workSheet->getRowDimension ( $row )->setVisible ( $result );
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Implement PHP __clone to create a deep clone, not just a shallow copy.
 	 */
@@ -852,7 +852,7 @@ class PHPExcel_Worksheet_AutoFilter {
 			}
 		}
 	}
-	
+
 	/**
 	 * toString method replicates previous behavior by returning the range if object is
 	 * referenced as a property of its parent.

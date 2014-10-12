@@ -51,7 +51,7 @@
 	outline: none;
 }
 
-#prevLink, #nextLink {
+#prevLink,#nextLink {
 	width: 49%;
 	height: 100%;
 	background: transparent url(../images/blank.gif) no-repeat;
@@ -69,11 +69,11 @@
 	float: right;
 }
 
-#prevLink:hover, #prevLink:visited:hover {
+#prevLink:hover,#prevLink:visited:hover {
 	background: url(../images/prevlabel.gif) left 15% no-repeat;
 }
 
-#nextLink:hover, #nextLink:visited:hover {
+#nextLink:hover,#nextLink:visited:hover {
 	background: url(../images/nextlabel.gif) right 15% no-repeat;
 }
 

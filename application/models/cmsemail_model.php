@@ -10,7 +10,7 @@ class Cms_base extends CI_Model {
 	public function __construct() {
 		parent::__construct ();
 	}
-	
+
 	/**
 	 * Select main settings
 	 *
@@ -21,7 +21,7 @@ class Cms_base extends CI_Model {
 		$this->db->cache_on ();
 		$this->db->where ( 's_name', 'main' );
 		$query = $this->db->get ( 'settings', 1 );
-		
+
 		if ($query->num_rows () == 1) {
 			$arr = $query->row_array ();
 			$lang_arr = get_main_lang ();
@@ -31,14 +31,14 @@ class Cms_base extends CI_Model {
 			$arr ['site_description'] = $meta [0] ['description'];
 			$arr ['site_keywords'] = $meta [0] ['keywords'];
 			$this->db->cache_off ();
-			
+				
 			return $arr;
 		}
 		$this->db->cache_off ();
-		
+
 		return FALSE;
 	}
-	
+
 	/**
 	 * Select site languages
 	 *
@@ -49,10 +49,10 @@ class Cms_base extends CI_Model {
 		$this->db->cache_on ();
 		$query = $this->db->get ( 'languages' )->result_array ();
 		$this->db->cache_off ();
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 * Load modules
 	 */
@@ -60,7 +60,7 @@ class Cms_base extends CI_Model {
 		$this->db->cache_on ();
 		$query = $this->db->select ( 'id, name, identif, autoload, enabled' )->get ( 'components' );
 		$this->db->cache_off ();
-		
+
 		return $query;
 	}
 	public function get_category_pages($cat_id) {
@@ -72,7 +72,7 @@ class Cms_base extends CI_Model {
 		$this->db->where ( 'lang', $this->config->item ( 'cur_lang' ) );
 		$this->db->order_by ( 'created', 'desc' );
 		$query = $this->db->get ( 'content' );
-		
+
 		if ($query->num_rows () > 0) {
 			$query = $query->result_array ();
 			$this->db->cache_off ();
@@ -88,9 +88,9 @@ class Cms_base extends CI_Model {
 			$this->db->where ( 'post_status', 'publish' );
 			$this->db->where ( 'publish_date <=', time () );
 			$this->db->where ( 'id', $page_id );
-			
+				
 			$query = $this->db->get ( 'content', 1 );
-			
+				
 			if ($query->num_rows () == 1) {
 				$query = $query->row_array ();
 				$this->db->cache_off ();
@@ -98,13 +98,13 @@ class Cms_base extends CI_Model {
 			}
 			$this->db->cache_off ();
 		}
-		
+
 		return FALSE;
 	}
 	public function get_page($page_id = FALSE) {
 		return $this->get_page_by_id ( $page_id );
 	}
-	
+
 	/**
 	 * Select all categories
 	 *
@@ -115,15 +115,15 @@ class Cms_base extends CI_Model {
 		$this->db->cache_on ();
 		$this->db->order_by ( 'position', 'ASC' );
 		$query = $this->db->get ( 'category' );
-		
+
 		if ($query->num_rows () > 0) {
 			$categories = $query->result_array ();
-			
+				
 			($hook = get_hook ( 'cmsbase_return_categories' )) ? eval ( $hook ) : NULL;
-			
+				
 			return $categories;
 		}
-		
+
 		$this->db->cache_on ();
 		return FALSE;
 	}

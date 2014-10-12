@@ -13,7 +13,7 @@ class Admin extends MY_Controller {
 		parent::__construct ();
 		$lang = new MY_Lang ();
 		$lang->load ( 'language_switch' );
-		
+
 		// Only admin access
 		// Do not delete this code !
 		// cp_check_perm('module_admin');
@@ -21,7 +21,7 @@ class Admin extends MY_Controller {
 	public function index() {
 		$this->display_tpl ( 'admin' );
 	}
-	
+
 	/**
 	 * Display template file
 	 */
@@ -29,7 +29,7 @@ class Admin extends MY_Controller {
 		$file = realpath ( dirname ( __FILE__ ) ) . '/templates/' . $file . '.tpl';
 		$this->template->display ( 'file:' . $file );
 	}
-	
+
 	/**
 	 * Fetch template file
 	 */

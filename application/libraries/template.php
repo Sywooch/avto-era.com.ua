@@ -24,12 +24,12 @@ class Template extends Mabilis {
 				'force_compile' => $this->CI->config->item ( 'tpl_force_compile' ),
 				'compiled_ttl' => $this->CI->config->item ( 'tpl_compiled_ttl' ),
 				'compress_output' => $this->CI->config->item ( 'tpl_compress_output' ),
-				'use_filemtime' => $this->CI->config->item ( 'tpl_use_filemtime' ) 
+				'use_filemtime' => $this->CI->config->item ( 'tpl_use_filemtime' )
 		);
 		$this->load_config ( $config );
-		
+
 		$this->template_dir = $config ['tpl_path'];
-		
+
 		/**
 		 * URL to JS folder
 		 */
@@ -43,23 +43,23 @@ class Template extends Mabilis {
 	public function assign($key, $value) {
 		$this->template_vars [$key] = $value;
 	}
-	
+
 	/**
 	 * Add array to template data
 	 *
 	 * @arr array
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function add_array($arr) {
 		if (count ( $arr ) > 0) {
 			$this->template_vars = array_merge ( $this->template_vars, $arr );
-			
+				
 			return TRUE;
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 * Display template file included in main.tpl if $load_main is TRUE
 	 *
@@ -71,23 +71,23 @@ class Template extends Mabilis {
 		if ($CI->uri->segment ( 1 ) == 'admin') {
 			$load_main = (! $CI->input->is_ajax_request ()) ? TRUE : FALSE;
 		}
-		
+
 		$this->assign ( 'BASE_URL', site_url () ); // Base URL
-		
+
 		if (sizeof ( $data ) > 0)
 			$this->add_array ( $data );
-		
+
 		if ($file != FALSE) {
 			$this->add_array ( array (
-					'content' => $this->fetch ( $file . '.tpl' ) 
+					'content' => $this->fetch ( $file . '.tpl' )
 			) );
 		}
-		
+
 		ob_start ();
 		$load_main == TRUE ? $this->view ( 'main.tpl', $this->template_vars ) : $this->view ( $file . '.tpl', $this->template_vars );
 		$result = ob_get_contents ();
 		ob_end_clean ();
-		
+
 		$result = $this->splitTplFiles ( $result );
 		echo $result;
 	}
@@ -110,7 +110,7 @@ class Template extends Mabilis {
 		// echo ' -->';
 		/* * ********************* */
 	}
-	
+
 	/**
 	 * Fetch file
 	 *
@@ -120,7 +120,7 @@ class Template extends Mabilis {
 		if (count ( $data ) > 0) {
 			$this->add_array ( $data );
 		}
-		
+
 		$this->assign ( 'BASE_URL', site_url () ); // Base URL
 		return $this->view ( $file . '.tpl', $this->template_vars, TRUE );
 	}
@@ -131,7 +131,7 @@ class Template extends Mabilis {
 		if (sizeof ( $data ) > 0) {
 			$this->add_array ( $data );
 		}
-		
+
 		$this->assign ( 'BASE_URL', site_url () ); // Base URL
 		$result = $this->view ( $file . '.tpl', $this->template_vars, true );
 		if ($processOutput === true)
@@ -141,7 +141,7 @@ class Template extends Mabilis {
 	}
 	public function view($file, $data = array(), $return = FALSE) {
 		$file = preg_replace ( '/.tpl.tpl/', '.tpl', $file );
-		
+
 		return $this->splitTplFiles ( parent::view ( $file, $data, $return ) );
 	}
 	public function include_tpl($name, $path) {
@@ -150,7 +150,7 @@ class Template extends Mabilis {
 	public function include_shop_tpl($name, $path) {
 		$this->display ( 'file:' . $path . '/shop/' . $name );
 	}
-	
+
 	// ///////////////////////////////////////////////////////////////////////////////////////
 	private $_css_files = array ();
 	private $_js_files = array ();
@@ -164,14 +164,14 @@ class Template extends Mabilis {
 	private static $arr = array ();
 	private static $result_before = '';
 	private static $result_after = '';
-	
+
 	/**
 	 * is tpl trimed
-	 * 
+	 *
 	 * @var bool
 	 */
 	public $trimed = false;
-	
+
 	// public function registerCssCode($name, $code, $position = 'before') {
 	// $position = $this->_check_postion($position);
 	// $this->_css_code[$name] = $code;
@@ -200,10 +200,10 @@ class Template extends Mabilis {
 		$position = $this->_check_postion ( $position );
 		$this->_js_script_files [$script] = $position;
 	}
-	
+
 	/**
 	 * Place meta code before /head
-	 * 
+	 *
 	 * @param type $name
 	 *        	meta name
 	 * @param type $content
@@ -212,20 +212,20 @@ class Template extends Mabilis {
 	public function registerMeta($name, $content) {
 		$this->_metas [] = '<META NAME="' . $name . '" CONTENT="' . $content . '">';
 	}
-	
+
 	/**
 	 * Place canonical code before /head
-	 * 
+	 *
 	 * @param type $url
 	 *        	canonical url
 	 */
 	public function registerCanonical($url) {
 		$this->_canonicals [] = "<link href='" . $url . "' rel='canonical'>";
 	}
-	
+
 	/**
 	 *
-	 * @param string $position        	
+	 * @param string $position
 	 * @return string
 	 */
 	private function _check_postion($position) {
@@ -246,7 +246,7 @@ class Template extends Mabilis {
 			$tpl = trim ( $tpl );
 			$this->trimed = TRUE;
 		}
-		
+
 		if (sizeof ( $this->_css_files ) > 0) {
 			foreach ( $this->_css_files as $url => $pos ) {
 				if (! in_array ( $url, self::$arr )) {
@@ -262,7 +262,7 @@ class Template extends Mabilis {
 				}
 			}
 		}
-		
+
 		// split js files
 		if (sizeof ( $this->_js_files ) > 0) {
 			foreach ( $this->_js_files as $url => $pos ) {
@@ -279,7 +279,7 @@ class Template extends Mabilis {
 				}
 			}
 		}
-		
+
 		if (sizeof ( $this->_js_script_files ) > 0) {
 			foreach ( $this->_js_script_files as $script => $pos ) {
 				if (! in_array ( $script, self::$arr )) {
@@ -298,7 +298,7 @@ class Template extends Mabilis {
 				}
 			}
 		}
-		
+
 		if (sizeof ( $this->_css_str ) > 0) {
 			foreach ( $this->_css_str as $css => $pos ) {
 				if (! in_array ( $css, self::$arr )) {
@@ -317,7 +317,7 @@ class Template extends Mabilis {
 				}
 			}
 		}
-		
+
 		// // split css code
 		// if (sizeof($this->_css_code) > 0) {
 		// foreach ($this->_css_code as $key => $code) {
@@ -359,43 +359,43 @@ class Template extends Mabilis {
 				}
 			}
 		}
-		
+
 		// $js_tpl_begin = "window.addEvent('domready', function() { ";
 		// $js_tpl_end = " });";
-		
+
 		if (self::$result_before)
 			if ($this->CI->input->is_ajax_request ())
-				$tpl = self::$result_before . $tpl;
-			else if (! strstr ( $tpl, self::$result_before ))
-				$tpl = preg_replace ( '/\<\/head\>/', self::$result_before . '</head>' . "\n", $tpl, 1 );
-		
+			$tpl = self::$result_before . $tpl;
+		else if (! strstr ( $tpl, self::$result_before ))
+			$tpl = preg_replace ( '/\<\/head\>/', self::$result_before . '</head>' . "\n", $tpl, 1 );
+
 		if (self::$result_after)
 			if ($this->CI->input->is_ajax_request ())
-				$tpl .= self::$result_after;
-			else if (! strstr ( $tpl, self::$result_after ))
-				$tpl = preg_replace ( '/(\<\/body>(\s*|\n)<\/html>)(\s*|\n)$/', self::$result_after . "</body></html>", $tpl, 1 );
+			$tpl .= self::$result_after;
+		else if (! strstr ( $tpl, self::$result_after ))
+			$tpl = preg_replace ( '/(\<\/body>(\s*|\n)<\/html>)(\s*|\n)$/', self::$result_after . "</body></html>", $tpl, 1 );
 			
-			//
-			// if ($result_js_before) {
-			// $result_js_before = "<script type=\"text/javascript\">$js_tpl_begin\n$result_js_before\n$js_tpl_end</script>\n";
-			// $tpl = preg_replace('/\<\/head\>/', $result_js_before . "</head>\n", $tpl, 1);
-			// }
-			//
-			// if ($result_js_after) {
-			// $result_js_after = "<script type=\"text/javascript\">$js_tpl_begin\n$result_js_after\n$js_tpl_end</script>\n";
-			// $tpl = preg_replace('/\<\/html\>/', "</html>\n" . $result_js_after, $tpl, 1);
-			// }
-			//
-			// if ($result_css_before) {
-			// $result_css_before = "<style type=\"text/css\">\n$result_css_before\n</style>\n";
-			// $tpl = preg_replace('/\<\/head\>/', $result_css_before . "</head>\n", $tpl, 1);
-			// }
-			//
-			// if ($result_css_after) {
-			// $result_css_after = "<style type=\"text/css\">\n$result_css_after\n</style>\n";
-			// $tpl = preg_replace('/\<\/html\>/', "</html>\n" . $result_css_after, $tpl, 1);
-			// }
-		
+		//
+		// if ($result_js_before) {
+		// $result_js_before = "<script type=\"text/javascript\">$js_tpl_begin\n$result_js_before\n$js_tpl_end</script>\n";
+		// $tpl = preg_replace('/\<\/head\>/', $result_js_before . "</head>\n", $tpl, 1);
+		// }
+		//
+		// if ($result_js_after) {
+		// $result_js_after = "<script type=\"text/javascript\">$js_tpl_begin\n$result_js_after\n$js_tpl_end</script>\n";
+		// $tpl = preg_replace('/\<\/html\>/', "</html>\n" . $result_js_after, $tpl, 1);
+		// }
+		//
+		// if ($result_css_before) {
+		// $result_css_before = "<style type=\"text/css\">\n$result_css_before\n</style>\n";
+		// $tpl = preg_replace('/\<\/head\>/', $result_css_before . "</head>\n", $tpl, 1);
+		// }
+		//
+		// if ($result_css_after) {
+		// $result_css_after = "<style type=\"text/css\">\n$result_css_after\n</style>\n";
+		// $tpl = preg_replace('/\<\/html\>/', "</html>\n" . $result_css_after, $tpl, 1);
+		// }
+
 		return $tpl;
 	}
 }

@@ -42,7 +42,7 @@ class PHPExcel_Cell_DataType {
 	const TYPE_NULL = 'null';
 	const TYPE_INLINE = 'inlineStr';
 	const TYPE_ERROR = 'e';
-	
+
 	/**
 	 * List of error codes
 	 *
@@ -55,9 +55,9 @@ class PHPExcel_Cell_DataType {
 			'#REF!' => 3,
 			'#NAME?' => 4,
 			'#NUM!' => 5,
-			'#N/A' => 6 
+			'#N/A' => 6
 	);
-	
+
 	/**
 	 * Get list of error codes
 	 *
@@ -66,18 +66,18 @@ class PHPExcel_Cell_DataType {
 	public static function getErrorCodes() {
 		return self::$_errorCodes;
 	}
-	
+
 	/**
 	 * DataType for value
 	 *
 	 * @deprecated Replaced by PHPExcel_Cell_IValueBinder infrastructure, will be removed in version 1.8.0
-	 * @param mixed $pValue        	
+	 * @param mixed $pValue
 	 * @return string
 	 */
 	public static function dataTypeForValue($pValue = null) {
 		return PHPExcel_Cell_DefaultValueBinder::dataTypeForValue ( $pValue );
 	}
-	
+
 	/**
 	 * Check a string that it satisfies Excel requirements
 	 *
@@ -90,19 +90,19 @@ class PHPExcel_Cell_DataType {
 			// TODO: Sanitize Rich-Text string (max. character count is 32,767)
 			return $pValue;
 		}
-		
+
 		// string must never be longer than 32,767 characters, truncate if necessary
 		$pValue = PHPExcel_Shared_String::Substring ( $pValue, 0, 32767 );
-		
+
 		// we require that newline is represented as "\n" in core, not as "\r\n" or "\r"
 		$pValue = str_replace ( array (
 				"\r\n",
-				"\r" 
+				"\r"
 		), "\n", $pValue );
-		
+
 		return $pValue;
 	}
-	
+
 	/**
 	 * Check a value that it is a valid error code
 	 *
@@ -112,11 +112,11 @@ class PHPExcel_Cell_DataType {
 	 */
 	public static function checkErrorCode($pValue = null) {
 		$pValue = ( string ) $pValue;
-		
+
 		if (! array_key_exists ( $pValue, self::$_errorCodes )) {
 			$pValue = '#NULL!';
 		}
-		
+
 		return $pValue;
 	}
 }

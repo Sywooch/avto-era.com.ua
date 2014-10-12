@@ -7,7 +7,7 @@ if (! defined ( 'BASEPATH' ))
 
 /**
  * Class BaseStats for mod_stats module
- * 
+ *
  * @uses \MY_Controller
  * @author DevImageCms
  * @copyright (c) 2013, ImageCMS
@@ -15,10 +15,10 @@ if (! defined ( 'BASEPATH' ))
  */
 class AdminHelper extends \MY_Controller {
 	protected static $_instance;
-	
+
 	/**
 	 * __construct base object loaded
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -35,7 +35,7 @@ class AdminHelper extends \MY_Controller {
 		$lang = new \MY_Lang ();
 		$lang->load ( 'mod_stats' );
 	}
-	
+
 	/**
 	 *
 	 * @return AdminHelper
@@ -44,7 +44,7 @@ class AdminHelper extends \MY_Controller {
 		(null !== self::$_instance) or self::$_instance = new self ();
 		return self::$_instance;
 	}
-	
+
 	/**
 	 * Ajax update setting by value and setting name
 	 */
@@ -54,12 +54,12 @@ class AdminHelper extends \MY_Controller {
 		 */
 		$settingName = $this->input->get ( 'setting' );
 		$settingValue = $this->input->get ( 'value' );
-		
+
 		/**
 		 * Set setting value *
 		 */
 		$result = $this->stats_model->updateSettingByNameAndValue ( $settingName, $settingValue );
-		
+
 		/**
 		 * Return result *
 		 */
@@ -69,23 +69,23 @@ class AdminHelper extends \MY_Controller {
 			echo 'false';
 		}
 	}
-	
+
 	/**
 	 * Autocomlete products
-	 * 
+	 *
 	 * @return jsone
 	 */
 	public function autoCompliteProducts() {
 		$sCoef = $this->input->get ( 'term' );
 		$sLimit = $this->input->get ( 'limit' );
-		
+
 		$products = $this->stats_model->getProductsByIdNameNumber ( $sCoef, $sLimit );
-		
+
 		if ($products != false) {
 			foreach ( $products as $product ) {
 				$response [] = array (
 						'value' => $product ['name'],
-						'id' => $product ['id'] 
+						'id' => $product ['id']
 				);
 			}
 			echo json_encode ( $response );

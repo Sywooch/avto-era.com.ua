@@ -30,7 +30,7 @@
 	width: 450px
 }
 
-#data option:selected, #data ::-moz-selection {
+#data option:selected,#data ::-moz-selection {
 	background: red;
 }
 

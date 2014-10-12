@@ -20,7 +20,7 @@ class APISMS {
 			$params ['test'] = true;
 		$controlSUM = $this->calcControlSum ( $params, $command );
 		$params ['sum'] = $controlSUM;
-		
+
 		$ch = curl_init ();
 		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt ( $ch, CURLOPT_POST, 1 );
@@ -32,12 +32,12 @@ class APISMS {
 			return array (
 					'success' => false,
 					'code' => curl_errno ( $ch ),
-					'error' => curl_error ( $ch ) 
+					'error' => curl_error ( $ch )
 			);
 		elseif ($this->formatResponse == 'json')
-			return $this->processResponseJSON ( $result, $simple );
+		return $this->processResponseJSON ( $result, $simple );
 		elseif ($this->formatResponse == 'xml')
-			return $this->processResponseXML ( $result );
+		return $this->processResponseXML ( $result );
 		else
 			return $this->processResponseJSON ( $result );
 	}
@@ -49,13 +49,13 @@ class APISMS {
 			if (null === $jsonObj) {
 				return array (
 						'success' => false,
-						'result' => NULL 
+						'result' => NULL
 				);
 			} elseif (! empty ( $jsonObj->error )) {
 				return array (
 						'success' => false,
 						'error' => $jsonObj->error,
-						'code' => $jsonObj->code 
+						'code' => $jsonObj->code
 				);
 			} else {
 				return $jsonObj;
@@ -63,7 +63,7 @@ class APISMS {
 		} else {
 			return array (
 					'success' => false,
-					'result' => NULL 
+					'result' => NULL
 			);
 		}
 	}

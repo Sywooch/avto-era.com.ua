@@ -2,10 +2,10 @@
 if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 class Sys_update extends BaseAdminController {
-	
+
 	/**
 	 * instance of Update library
-	 * 
+	 *
 	 * @var Update
 	 */
 	private $update;
@@ -14,10 +14,10 @@ class Sys_update extends BaseAdminController {
 			showMessage ( lang ( 'PHP SOAP extension is not installed' ), '', 'r' );
 			pjax ( '/admin' );
 		}
-		
+
 		parent::__construct ();
 		$this->update = new Update ();
-		
+
 		$this->load->library ( 'lib_admin' );
 		$this->lib_admin->init_settings ();
 		ini_set ( "soap.wsdl_cache_enabled", "0" );
@@ -25,27 +25,27 @@ class Sys_update extends BaseAdminController {
 	public function index() {
 		if (! file_exists ( 'md5.txt' ))
 			write_file ( 'md5.txt', json_encode ( $this->update->parse_md5 () ) );
-		
+
 		if (extension_loaded ( 'soap' )) {
 			$array = $this->update->getStatus ();
 		}
-		
+
 		if ($array) {
 			$data = array (
 					'build' => $array ['build_id'],
 					'date' => date ( "Y-m-d", $array ['time'] ),
 					'size' => number_format ( $array ['size'] / 1024 / 1024, 3 ),
-					'newRelise' => TRUE 
+					'newRelise' => TRUE
 			);
 		} else {
 			$data = array (
-					'newRelise' => FALSE 
+					'newRelise' => FALSE
 			);
 		}
-		
+
 		$this->template->show ( 'sys_update_info', FALSE, $data );
 	}
-	
+
 	/**
 	 * initiate update process
 	 */
@@ -60,7 +60,7 @@ class Sys_update extends BaseAdminController {
 		// Show upgrade window;
 		$status = $this->update->getStatus ();
 		$result = $this->update->getHashSum ();
-		
+
 		if (! $result ['error'])
 			$data = array (
 					'filesCount' => count ( $result ),
@@ -69,12 +69,12 @@ class Sys_update extends BaseAdminController {
 					'diff_files_dates' => $this->update->get_files_dates (),
 					'diff_files' => $result,
 					'restore_files' => $this->sort ( $this->update->restore_files_list (), $sort_by, $order ),
-					'new_version' => $status ? TRUE : FALSE 
+					'new_version' => $status ? TRUE : FALSE
 			);
 		else {
 			$data = array (
 					'restore_files' => $this->sort ( $this->update->restore_files_list (), $sort_by, $order ),
-					'error' => $result ['error'] 
+					'error' => $result ['error']
 			);
 			// showMessage($result['error'], 'Ошибка', 'r');
 		}
@@ -93,14 +93,14 @@ class Sys_update extends BaseAdminController {
 	public function properties() {
 		if ($this->input->post ( "careKey" )) {
 			if ($this->update->setSettings ( array (
-					"careKey" => trim ( $this->input->post ( "careKey" ) ) 
+					"careKey" => trim ( $this->input->post ( "careKey" ) )
 			) ))
 				showMessage ( lang ( 'Changes saved', 'admin' ) );
 			else
 				showMessage ( lang ( 'Changes not saved', 'admin' ), lang ( 'Error', 'admin' ), 'r' );
 		} else {
 			$data = array (
-					'careKey' => $this->update->getSettings ( 'careKey' ) 
+					'careKey' => $this->update->getSettings ( 'careKey' )
 			);
 			$this->template->show ( 'sys_update_properties', FALSE, $data );
 		}
@@ -139,10 +139,10 @@ class Sys_update extends BaseAdminController {
 	}
 	public function getQuerys($file = 'backup.sql') {
 		$restore = file_get_contents ( $file );
-		
+
 		$string_query = rtrim ( $restore, "\n;" );
 		$array_query = explode ( ";\n", $string_query );
-		
+
 		echo json_encode ( $array_query );
 	}
 	public function Querys() {

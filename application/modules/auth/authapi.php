@@ -7,7 +7,7 @@
  *
  * @author Avgustus
  * @copyright ImageCMS (c) 2013, Avgustus <avgustus@yandex.ru>
- *           
+ *
  */
 class Authapi extends MY_Controller {
 	private $min_username = null;
@@ -18,33 +18,33 @@ class Authapi extends MY_Controller {
 		parent::__construct ();
 		$lang = new MY_Lang ();
 		$lang->load ( 'auth' );
-		
+
 		$this->initialize ();
 	}
-	
+
 	/**
 	 * Provides user login
-	 * 
+	 *
 	 * @return json
 	 * @access public
 	 * @copyright ImageCMS (c) 2013
 	 */
 	public function login() {
 		if (! $this->dx_auth->is_logged_in ()) {
-			
+				
 			/**
 			 * Set form validation rules
 			 */
 			$this->form_validation->set_rules ( 'email', lang ( 'Email', 'auth' ), 'trim|required|min_length[3]|xss_clean|valid_email|callback_email_check_for_login' );
 			$this->form_validation->set_rules ( 'password', lang ( 'Password', 'auth' ), 'trim|required|min_length[3]|max_length[30]|xss_clean' );
 			$this->form_validation->set_rules ( 'remember', lang ( 'Remeber me', 'auth' ), 'integer' );
-			
+				
 			/**
 			 * Validate rules and change password
 			 */
 			$validationResult = $this->form_validation->run ();
 			$doLoginResult = $this->dx_auth->login ( $this->input->post ( 'email' ), $this->input->post ( 'password' ), $this->input->post ( 'remember' ) );
-			
+				
 			/**
 			 * Prepare response
 			 */
@@ -56,7 +56,7 @@ class Authapi extends MY_Controller {
 				$jsonResponse ['refresh'] = true;
 				$jsonResponse ['redirect'] = FAlSE;
 			} else {
-				
+
 				/**
 				 * Check if the user is failed logged in because user is banned user or not
 				 */
@@ -65,22 +65,22 @@ class Authapi extends MY_Controller {
 					$this->banned ();
 					exit ();
 				} else {
-					
+						
 					$validationResult = validation_errors ();
 					if (empty ( $validationResult )) {
 						$jsonResponse ['msg'] = lang ( 'User with this name and password is not found', 'auth' );
 						$jsonResponse ['validations'] = array (
-								'email' => lang ( 'User with this name and password is not found', 'auth' ) 
+								'email' => lang ( 'User with this name and password is not found', 'auth' )
 						);
 					} else {
 						$jsonResponse ['msg'] = $validationResult;
 						$jsonResponse ['validations'] = array (
 								'email' => form_error ( 'email' ),
 								'password' => form_error ( 'password' ),
-								'remember' => form_error ( 'remember' ) 
+								'remember' => form_error ( 'remember' )
 						);
 					}
-					
+						
 					/**
 					 * Return json data for render login form
 					 */
@@ -95,17 +95,17 @@ class Authapi extends MY_Controller {
 			$jsonResponse ['status'] = false;
 			$jsonResponse ['msg'] = 'User is already logged in';
 		}
-		
+
 		/**
 		 * return JSON Data
 		 */
 		echo json_encode ( $jsonResponse );
 	}
-	
+
 	/**
 	 * Provides user logout
 	 * To make logout user has to be loggen in
-	 * 
+	 *
 	 * @return json
 	 * @access public
 	 * @copyright ImageCMS (c) 2013
@@ -115,13 +115,13 @@ class Authapi extends MY_Controller {
 		 * Preprate Variables
 		 */
 		$jsonResponse = array ();
-		
+
 		if ($this->dx_auth->is_logged_in ()) {
 			/**
 			 * Do logout
 			 */
 			$this->dx_auth->logout ();
-			
+				
 			/**
 			 * Preprate response
 			 */
@@ -136,13 +136,13 @@ class Authapi extends MY_Controller {
 			$jsonResponse ['msg'] = 'You are not loggin to make loggout';
 			$jsonResponse ['status'] = false;
 		}
-		
+
 		/**
 		 * return JSON Data
 		 */
 		return json_encode ( $jsonResponse );
 	}
-	
+
 	/**
 	 * Provides user register
 	 *
@@ -159,7 +159,7 @@ class Authapi extends MY_Controller {
 			$val->set_rules ( 'username', lang ( "Name" ), 'trim|xss_clean' );
 			$val->set_rules ( 'password', lang ( "Password" ), 'trim|required|xss_clean|min_length[' . $this->min_password . ']|max_length[' . $this->max_password . ']|matches[confirm_password]' );
 			$val->set_rules ( 'confirm_password', lang ( "Repeat Password" ), 'trim|required|xss_clean' );
-			
+				
 			if ($this->dx_auth->captcha_registration) {
 				if ($this->dx_auth->use_recaptcha)
 					$val->set_rules ( 'recaptcha_response_field', lang ( "Code protection" ), 'trim|xss_clean|required|callback_captcha_check' );
@@ -169,7 +169,7 @@ class Authapi extends MY_Controller {
 			// Run form validation and register user if it's pass the validation
 			$this->load->helper ( 'string' );
 			$key = random_string ( 'alnum', 5 );
-			
+				
 			if ($val->run ( $this ) and $last_user = $this->dx_auth->register ( $val->set_value ( 'username' ), $val->set_value ( 'password' ), $val->set_value ( 'email' ), '', $key, '' )) {
 				// Set success message accordingly
 				if ($this->dx_auth->email_activation) {
@@ -183,10 +183,10 @@ class Authapi extends MY_Controller {
 				$json ['msg'] = lang ( 'Register success', 'auth' );
 				$json ['refresh'] = $this->input->post ( 'refresh' ) ? $this->input->post ( 'refresh' ) : false;
 				$json ['redirect'] = $this->input->post ( 'redirect' ) ? $this->input->post ( 'redirect' ) : false;
-				
+
 				$user_Prof = SUserProfileQuery::create ()->findPk ( $last_user ['id_user'] );
 				$user_Prof->save ();
-				
+
 				echo json_encode ( $json );
 			} else {
 				// Is registration using captcha
@@ -209,7 +209,7 @@ class Authapi extends MY_Controller {
 						'password' => form_error ( 'password' ),
 						'confirm_password' => form_error ( 'confirm_password' ),
 						'captcha' => form_error ( 'captcha' ),
-						'recaptcha_response_field' => form_error ( 'recaptcha_response_field' ) 
+						'recaptcha_response_field' => form_error ( 'recaptcha_response_field' )
 				);
 				$json ['status'] = false;
 				$json ['anotherone'] = false;
@@ -228,7 +228,7 @@ class Authapi extends MY_Controller {
 			echo json_encode ( $json );
 		}
 	}
-	
+
 	/**
 	 * Provides sending forgotten password to user email
 	 *
@@ -243,7 +243,7 @@ class Authapi extends MY_Controller {
 		if ($val->run ( $this ) and $this->dx_auth->forgot_password ( $val->set_value ( 'email' ) )) {
 			echo json_encode ( array (
 					'msg' => lang ( 'Email with new password send to you email', 'auth' ),
-					'status' => true 
+					'status' => true
 			) );
 		} else {
 			if ($this->dx_auth->_auth_error) {
@@ -254,13 +254,13 @@ class Authapi extends MY_Controller {
 			echo json_encode ( array (
 					'msg' => validation_errors (),
 					'validations' => array (
-							'email' => $error 
+							'email' => $error
 					),
-					'status' => false 
+					'status' => false
 			) );
 		}
 	}
-	
+
 	/**
 	 * Provides password reset
 	 *
@@ -276,25 +276,25 @@ class Authapi extends MY_Controller {
 			if ($this->dx_auth->reset_password ( $email, $key )) {
 				echo json_encode ( array (
 						'msg' => lang ( "You have successfully zeroed my password. " ) . anchor ( site_url ( $this->dx_auth->login_uri ), lang ( "Login Here" ) ),
-						'status' => true 
+						'status' => true
 				) );
 			} else {
 				echo json_encode ( array (
 						'msg' => 'Reset password failed',
-						'status' => false 
+						'status' => false
 				) );
 			}
 		} else {
 			echo json_encode ( array (
 					'msg' => 'You have to be logged in to reset password',
-					'status' => false 
+					'status' => false
 			) );
 		}
 	}
-	
+
 	/**
 	 * Provides password change
-	 * 
+	 *
 	 * @return json
 	 * @access public
 	 * @copyright ImageCMS (c) 2013
@@ -304,25 +304,25 @@ class Authapi extends MY_Controller {
 		 * Preprate Variables
 		 */
 		$jsonResponse = array ();
-		
+
 		/**
 		 * Check if user logged in or not
 		 */
 		if ($this->dx_auth->is_logged_in ()) {
-			
+				
 			/**
 			 * Set form validation
 			 */
 			$this->form_validation->set_rules ( 'old_password', lang ( 'Old password', 'auth' ), 'trim|required|xss_clean|min_length[' . $this->min_password . ']|max_length[' . $this->max_password . ']' );
 			$this->form_validation->set_rules ( 'new_password', lang ( 'New password', 'auth' ), 'trim|required|xss_clean|min_length[' . $this->min_password . ']|max_length[' . $this->max_password . ']|matches[confirm_new_password]' );
 			$this->form_validation->set_rules ( 'confirm_new_password', lang ( 'Repeat new password', 'auth' ), 'trim|required|xss_clean' );
-			
+				
 			/**
 			 * Validate rules and change password
 			 */
 			$validationResult = $this->form_validation->run ();
 			$changePasswordResult = $this->dx_auth->change_password ( $this->input->post ( 'old_password' ), $this->input->post ( 'new_password' ) );
-			
+				
 			/**
 			 * Prepare response
 			 */
@@ -336,12 +336,12 @@ class Authapi extends MY_Controller {
 					$jsonResponse ['validations'] = array (
 							'old_password' => form_error ( 'old_password' ),
 							'new_password' => form_error ( 'new_password' ),
-							'confirm_new_password' => form_error ( 'confirm_new_password' ) 
+							'confirm_new_password' => form_error ( 'confirm_new_password' )
 					);
 					$jsonResponse ['status'] = false;
 				} else {
 					$jsonResponse ['validations'] = array (
-							'old_password' => lang ( 'Field Old password is not correct', 'auth' ) 
+							'old_password' => lang ( 'Field Old password is not correct', 'auth' )
 					);
 					$jsonResponse ['status'] = FALSE;
 				}
@@ -352,7 +352,7 @@ class Authapi extends MY_Controller {
 		}
 		$jsonResponse ['refresh'] = false;
 		$jsonResponse ['redirect'] = false;
-		
+
 		/**
 		 * return JSON Data
 		 */
@@ -363,10 +363,10 @@ class Authapi extends MY_Controller {
 		if (! $result) {
 			$this->form_validation->set_message ( 'email_check', lang ( 'A user with this email is already registered.', 'auth' ) );
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Provides cancelling account if user is logged in
 	 */
@@ -380,35 +380,35 @@ class Authapi extends MY_Controller {
 			if ($val->run ( $this ) and $this->dx_auth->cancel_account ( $val->set_value ( 'password' ) )) {
 				echo json_encode ( array (
 						'msg' => lang ( 'Deleting account completed', 'auth' ),
-						'status' => true 
+						'status' => true
 				) );
 			} else {
 				echo json_encode ( array (
 						'msg' => validation_errors (),
 						'validations' => array (
-								'password' => form_error ( 'password' ) 
+								'password' => form_error ( 'password' )
 						),
-						'status' => false 
+						'status' => false
 				) );
 			}
 		} else {
 			echo json_encode ( array (
 					'msg' => lang ( 'You are not logged in, you dont have any account to delete', 'auth' ),
-					'status' => false 
+					'status' => false
 			) );
 		}
 	}
-	
+
 	/**
 	 * Returns ban reason if user is banned
 	 */
 	public function banned() {
 		echo json_encode ( array (
 				'msg' => lang ( 'Your account has been blocked.', 'auth' ) . $this->ban_reason,
-				'status' => true 
+				'status' => true
 		) );
 	}
-	
+
 	/**
 	 * Check if user logined
 	 */
@@ -416,19 +416,19 @@ class Authapi extends MY_Controller {
 		if ($this->dx_auth->is_logged_in ()) {
 			echo json_encode ( array (
 					'msg' => lang ( 'User is already login in', 'auth' ),
-					'status' => true 
+					'status' => true
 			) );
 		} else {
 			echo json_encode ( array (
 					'msg' => lang ( 'User not logined', 'auth' ),
-					'status' => false 
+					'status' => false
 			) );
 		}
 	}
-	
+
 	/**
 	 * Callback for Form Validation Class
-	 * 
+	 *
 	 * @return bool
 	 * @access public
 	 * @copyright ImageCMS (c) 2013
@@ -442,7 +442,7 @@ class Authapi extends MY_Controller {
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Class init Method
 	 */

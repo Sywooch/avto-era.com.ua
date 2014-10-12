@@ -6,7 +6,7 @@ if (! defined ( 'BASEPATH' ))
 	exit ( 'No direct script access allowed' );
 /**
  * Class Discount_product for Mod_Discount module
- * 
+ *
  * @uses \mod_discount\classes\BaseDiscount
  * @author DevImageCms
  * @copyright (c) 2013, ImageCMS
@@ -17,7 +17,7 @@ if (! defined ( 'BASEPATH' ))
 class Discount_order extends classes\BaseDiscount {
 	/**
 	 * __construct base object loaded
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -32,7 +32,7 @@ class Discount_order extends classes\BaseDiscount {
 	}
 	/**
 	 * update order table
-	 * 
+	 *
 	 * @access public
 	 * @author DevImageCms
 	 * @param
@@ -44,14 +44,14 @@ class Discount_order extends classes\BaseDiscount {
 		if ($this->check_module_install ()) {
 			$discobj = new \mod_discount\discount ();
 			$discount = $discobj->init ()->get_result_discount ( 1 );
-			
+				
 			require_once 'gift.php';
 			$obkGift = new \Gift ();
-			
-			$gift = json_decode ( $obkGift->get_gift_certificate ( $data ['key'] ) );
-			
-			if (! $gift->error) {
 				
+			$gift = json_decode ( $obkGift->get_gift_certificate ( $data ['key'] ) );
+				
+			if (! $gift->error) {
+
 				$pricetotal_gift = ( float ) $data ['price'] - ( float ) $gift->val_orig;
 				if ($pricetotal_gift < 0)
 					$pricetotal_gift = 0;
@@ -62,7 +62,7 @@ class Discount_order extends classes\BaseDiscount {
 				$data ['order']->save ();
 				$obkGift->updatediskapply ( $data ['key'], 'gift' ); // TODO
 			}
-			
+				
 			if ($discount ['result_sum_discount']) {
 				$pricetotal_gift_disc = ( float ) $data ['price'] - ( float ) $gift->val_orig - ( float ) $discount ['result_sum_discount'];
 				if ($pricetotal_gift_disc < 0)

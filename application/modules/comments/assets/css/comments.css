@@ -137,13 +137,13 @@
 	word-break: break-word;
 }
 
-#comment__icsi-css input[type="submit"]::-moz-focus-inner,
-	#comment__icsi-css button::-moz-focus-inner {
+#comment__icsi-css input[type="submit"]::-moz-focus-inner,#comment__icsi-css button::-moz-focus-inner
+	{
 	padding: 0;
 	border: 0;
 } /* Firefox button bug */
-#comment__icsi-css button, #comment__icsi-css input[type="button"],
-	#comment__icsi-css input[type="submit"] {
+#comment__icsi-css button,#comment__icsi-css input[type="button"],#comment__icsi-css input[type="submit"]
+	{
 	cursor: pointer;
 	-webkit-appearance: button;
 	border: none;
@@ -151,7 +151,7 @@
 	padding: 0;
 }
 
-#comment__icsi-css input[type="text"], #comment__icsi-css textarea {
+#comment__icsi-css input[type="text"],#comment__icsi-css textarea {
 	width: 100%;
 	max-width: 100%;
 	padding: 0 5px;
@@ -196,7 +196,7 @@
 		rgba(228, 228, 228, 1) 100%); /* W3C */
 }
 
-#comment__icsi-css .btn__icsi-css>*, #comment__icsi-css input.btn__icsi-css
+#comment__icsi-css .btn__icsi-css>*,#comment__icsi-css input.btn__icsi-css
 	{
 	padding: 5px 15px 5px;
 }
@@ -231,7 +231,7 @@
 		endColorstr='#f7f7f7', GradientType=0); /* IE6-8 */
 }
 
-#comment__icsi-css .like__icsi-css, #comment__icsi-css .dis-like__icsi-css
+#comment__icsi-css .like__icsi-css,#comment__icsi-css .dis-like__icsi-css
 	{
 	background-image: none !important;
 	border: none !important;
@@ -247,12 +247,12 @@
 	color: #f03f3f;
 }
 
-#comment__icsi-css .like__icsi-css>*, #comment__icsi-css .dis-like__icsi-css>*
+#comment__icsi-css .like__icsi-css>*,#comment__icsi-css .dis-like__icsi-css>*
 	{
 	padding: 0;
 }
 
-.form__icsi-css label, .form__icsi-css .frameLabel__icsi-css {
+.form__icsi-css label,.form__icsi-css .frameLabel__icsi-css {
 	margin-bottom: 12px;
 }
 
@@ -273,13 +273,13 @@
 	margin-left: 138px;
 }
 
-.like__icsi-css textarea, .like__icsi-css input {
+.like__icsi-css textarea,.like__icsi-css input {
 	font-style: normal;
 	font-size: 12px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.like__icsi-css textarea, .like__icsi-css input[type="text"] {
+.like__icsi-css textarea,.like__icsi-css input[type="text"] {
 	height: 30px;
 	border-color: #ababab;
 	-moz-border-radius: 3px;
@@ -290,14 +290,14 @@
 	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-#comment__icsi-css textarea, #comment__icsi-css input {
+#comment__icsi-css textarea,#comment__icsi-css input {
 	font-style: normal;
 	font-size: 12px;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	background-color: #fff;
 }
 
-#comment__icsi-css textarea, #comment__icsi-css input[type="text"] {
+#comment__icsi-css textarea,#comment__icsi-css input[type="text"] {
 	height: 30px;
 	border-color: #ababab;
 	-moz-border-radius: 3px;
@@ -313,8 +313,8 @@
 	padding-top: 5px
 }
 
-#comment__icsi-css a:focus, #comment__icsi-css input:focus,
-	#comment__icsi-css button:focus, #comment__icsi-css textarea:focus {
+#comment__icsi-css a:focus,#comment__icsi-css input:focus,#comment__icsi-css button:focus,#comment__icsi-css textarea:focus
+	{
 	border-color: #75d9ff;
 	outline: none;
 	-moz-box-shadow: 0 0 5px rgba(177, 229, 255, 0.75), inset 0 3px 3px
@@ -325,7 +325,7 @@
 		rgba(0, 0, 0, 0.06);
 }
 
-#comment__icsi-css .msg .success, #comment__icsi-css .msg .error {
+#comment__icsi-css .msg .success,#comment__icsi-css .msg .error {
 	border-radius: 5px 5px 5px 5px;
 	margin-bottom: 15px;
 	padding: 8px;
@@ -341,20 +341,20 @@
 	border: 1px solid #80C232;
 }
 
-#comment__icsi-css .error, #comment__icsi-css .success {
+#comment__icsi-css .error,#comment__icsi-css .success {
 	border-radius: 3px 3px 3px 3px;
 }
 
-#comment__icsi-css .msg .success *, #comment__icsi-css .msg .notice {
+#comment__icsi-css .msg .success *,#comment__icsi-css .msg .notice {
 	font-size: 13px;
 }
 
-#comment__icsi-css .msg .error *, #comment__icsi-css .msg .error {
+#comment__icsi-css .msg .error *,#comment__icsi-css .msg .error {
 	font-size: 13px;
 }
 
-#comment__icsi-css .msg h1, #comment__icsi-css .msg h2,
-	#comment__icsi-css .msg h3 {
+#comment__icsi-css .msg h1,#comment__icsi-css .msg h2,#comment__icsi-css .msg h3
+	{
 	font-size: 16px !important;
 	font-weight: bold;
 	margin-top: 5px !important;
@@ -372,7 +372,7 @@
 	margin-bottom: 5px !important;
 }
 
-#comment__icsi-css .success, #comment__icsi-css .success * {
+#comment__icsi-css .success,#comment__icsi-css .success * {
 	color: #5FA335;
 }
 
@@ -386,7 +386,7 @@
 	padding: 2px 11px;
 }
 
-#comment__icsi-css .error, #comment__icsi-css .error * {
+#comment__icsi-css .error,#comment__icsi-css .error * {
 	color: #E42E2E;
 }
 
@@ -399,13 +399,13 @@
 	}
 }
 
-#comment__icsi-css .star-small, #comment__icsi-css .star-small div,
-	#comment__icsi-css .star-small span {
+#comment__icsi-css .star-small,#comment__icsi-css .star-small div,#comment__icsi-css .star-small span
+	{
 	background: url('/application/modules/comments/assets/images/stars.png');
 }
 
-#comment__icsi-css .star-big, #comment__icsi-css .star-big div,
-	#comment__icsi-css .star-big span {
+#comment__icsi-css .star-big,#comment__icsi-css .star-big div,#comment__icsi-css .star-big span
+	{
 	background:
 		url('/application/modules/comments/assets/images/star-comment.png');
 }
@@ -447,7 +447,7 @@
 	cursor: pointer;
 }
 
-#comment__icsi-css .productRate.disabled, #comment__icsi-css .productRate.disabled div
+#comment__icsi-css .productRate.disabled,#comment__icsi-css .productRate.disabled div
 	{
 	cursor: default;
 }
