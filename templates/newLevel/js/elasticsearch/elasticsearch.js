@@ -6,12 +6,11 @@
     	var self = this;    	
     	// This is the easiest way to have default options.
         var settings = $.extend({
-            mainContainer: "#tiresElasticSearchContainer",
+            mainContainer: "#tiresElasticSContainer",
         	formID: "mainFilterForm1",
             formClass: "class",
             backgroundColor: "white",
-            optionDefValue: "",
-            
+            optionDefValue: "",            
             entitySelects: [
                            {	
                         	   id: 		"e_s_brand_id",

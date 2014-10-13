@@ -7,7 +7,9 @@
 		    <li><a href="#esearchtabs-3">{lang('ПОДБОР ПО МАРКЕ','newLevel')}</a></li>
 		  </ul>
 		  <div id="esearchtabs-1" class="elasticContainer">
-		    <p>{include_tpl('elasticsearch/tires.tpl')}</p> 
+		    <p>
+		    	{include_tpl('elasticsearch/tires.tpl')}				
+			</p> 
 		  </div>
 		  <div id="esearchtabs-2" class="elasticContainer">
 		    <p>{include_tpl('elasticsearch/disk.tpl')}</p> 
