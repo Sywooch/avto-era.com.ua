@@ -1,3 +1,8 @@
+<div id="discElasticSContainer"></div>
+<script type="text/javascript" src="{$THEME}js/elasticsearch/discload.js?_={echo rand(5, 1000000);}">
+</script>
+
+<!-- 
 <div>
 	<form class="d_i-b diskform formadisk" action="/shop/category/diski"
 		method="get">
@@ -77,3 +82,4 @@
 	</form>
 
 </div>
+ -->

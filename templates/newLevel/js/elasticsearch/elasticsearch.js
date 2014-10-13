@@ -6,11 +6,11 @@
     	var self = this;    	
     	// This is the easiest way to have default options.
         var settings = $.extend({
-            mainContainer: "#tiresElasticSContainer",
-        	formID: "mainFilterForm1",
+            //mainContainer: "#tiresElasticSContainer",
+        	formID: "mainFilterFormElasticS",
             formClass: "class",
             backgroundColor: "white",
-            optionDefValue: "",            
+            optionDefValue: ""/*,            
             entitySelects: [
                            {	
                         	   id: 		"e_s_brand_id",
@@ -49,7 +49,7 @@
                         	   url:		"/shop/elastic_search/getDiameter",
                         	   isset:	false
                            }
-            ]
+            ]*/
         }, options );
         
         selectProducer(self, settings);        
