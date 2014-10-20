@@ -96,4 +96,19 @@ class Elasticsearch extends MY_Controller {
 	
 		return $diameters;
 	}
+	
+	public function getAllTogether(){
+		$sql = "SELECT * FROM `shop_products` shop_products 
+JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+JOIN `shop_category` ON shop_category.id = shop_products.category_id
+JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
+JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id";
+		$query = $this->db->query($sql);
+		$all = $query->result_array ();
+		
+		return $all;
+		
+	}
 }

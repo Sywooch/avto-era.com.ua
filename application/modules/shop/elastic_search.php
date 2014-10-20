@@ -96,4 +96,12 @@ class Elastic_search extends ShopController {
 		echo $this->elasticsearch->response($diameter_retrieved);
 	
 	}
+	
+	/**
+	 * Retrieve Diameter
+	 */
+	public function all(){
+		$all = $this->elasticsearch->getAllTogether();
+		var_dump($all);		
+	}
 }

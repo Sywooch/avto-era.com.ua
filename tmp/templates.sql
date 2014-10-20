@@ -13,4 +13,25 @@ SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM 
 		$("tiresElasticSearchContainer").elasticSearch();
 	});
 </script>
-	
+
+
+
+SELECT * FROM `shop_product_properties_data` JOIN `shop_product_properties` ON shop_product_properties_data.property_id=shop_product_properties.id JOIN `shop_product_properties_i18n` ON shop_product_properties_data.property_id=shop_product_properties_i18n.id WHERE shop_product_properties_data.locale='" . $locale . "' AND shop_product_properties_i18n.locale='" . $locale . "' AND shop_product_properties.show_on_site AND shop_product_properties_data.product_id=" . $this->productId . " GROUP BY shop_product_properties_data.property_id ORDER BY shop_product_properties.position
+//======================
+SELECT * FROM `shop_product_properties_data` JOIN `shop_product_properties` ON shop_product_properties_data.property_id=shop_product_properties.id JOIN `shop_product_properties_i18n` ON shop_product_properties_data.property_id=shop_product_properties_i18n.id WHERE shop_product_properties_data.locale='ru' AND shop_product_properties_i18n.locale='ru' AND shop_product_properties.show_on_site AND shop_product_properties_data.product_id='29756' GROUP BY shop_product_properties_data.property_id ORDER BY shop_product_properties.position
+
+################################################################################
+################################################################################
+################################################################################
+
+SELECT * FROM `shop_products` shop_products 
+JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+JOIN `shop_category` ON shop_category.id = shop_products.category_id
+JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
+JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+
+################################################################################
+################################################################################
+################################################################################
