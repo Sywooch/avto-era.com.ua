@@ -45,8 +45,7 @@ class Elasticsearch extends MY_Controller {
 	 * @param unknown_type $nin
 	 * @return boolean|unknown
 	 */
-	public function getAllBrand() {
-		//$sql = "SELECT * FROM `shop_brands_i18n` shop_brands_i18n WHERE shop_brands_i18n.id IN (SELECT DISTINCT shop_brands.id FROM `shop_brands` shop_brands INNER JOIN `shop_products` shop_products ON shop_brands.id = shop_products.brand_id) AND shop_brands_i18n.locale = 'ru' ORDER BY shop_brands_i18n.name";
+	public function getBrands() {
 		$whereStr = $this->makeWhereSQL();
 		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products 
 			JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
@@ -70,7 +69,22 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve type of tires
 	 */
 	public function getTypeTires() {
-		$sql = "SELECT * FROM `shop_category_i18n` shop_category_i18n WHERE shop_category_i18n.id IN (SELECT DISTINCT shop_category.id FROM `shop_category` shop_category INNER JOIN `shop_products` shop_products ON shop_category.id = shop_products.brand_id) AND shop_category_i18n.locale = 'ru' AND shop_category_i18n.id <> '102' GROUP BY(shop_category_i18n.name) ORDER BY shop_category_i18n.name";
+		//$sql = "SELECT * FROM `shop_category_i18n` shop_category_i18n WHERE shop_category_i18n.id IN (SELECT DISTINCT shop_category.id FROM `shop_category` shop_category INNER JOIN `shop_products` shop_products ON shop_category.id = shop_products.brand_id) AND shop_category_i18n.locale = 'ru' AND shop_category_i18n.id <> '102' GROUP BY(shop_category_i18n.name) ORDER BY shop_category_i18n.name";
+		$whereStr = $this->makeWhereSQL();
+		
+		$sql = "SELECT shop_category_i18n.id AS id, shop_category_i18n.name AS name FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_category_i18n.name
+		ORDER BY shop_category_i18n.name";
+		
+		
 		$query = $this->db->query($sql);
 		$types = $query->result_array ();
 		

@@ -47,7 +47,7 @@
     		
     		$( "#" + elem.id ).change(function(event){
     			var selectID =  $( this ).attr("id");
-    			onChangeAjaxSelect(thisObj, settings, selectID, 0);
+    			onChangeAjaxSelect(thisObj, settings, 0);
     		});
     	});
     }
@@ -60,11 +60,11 @@
      * @param settingsIndex
      * @returns
      */
-    function onChangeAjaxSelect(thisObj, settings, selectID, settingsIndex){
+    function onChangeAjaxSelect(thisObj, settings, settingsIndex){
     	if(settingsIndex < settings.entitySelects.length ){
     		// AJAX
     		selectElemDesc = settings.entitySelects[settingsIndex];
-    		if(selectElemDesc.id != selectID){
+    		if($( "#" + selectElemDesc.id ).val() == ""){
     			// =================== event ===============
     			var requestParam = generateRequestParam(thisObj, settings);
     			selectElemDesc.isset = true;
@@ -79,31 +79,40 @@
     	    			// before send
     	    		}
     			}).done(function( data ) {
-    				$("#" + selectElemDesc.id).empty();			
-    				for (prop in data) {
-    					if (!data.hasOwnProperty(prop)) {
-    				        continue;
-    				    }
-    					$($("#" + selectElemDesc.id))
-    			         	.append($("<option></option>")
-    			         	.attr("value", prop)
-    			         	.text(data[prop])); 				
-    				}
+    				generateSelectOptions(data, $("#" + selectElemDesc.id));
     			}).fail(function() {
     				// Error
     			}).always(function() {
     				$("#" + selectElemDesc.id).prop('disabled', false);
     				settingsIndex++;
-        			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
+        			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, settingsIndex);
     			});
     	    	// =================== event ===============
-    			
     		}else{
     			settingsIndex++;
-    			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
-    			
+    			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, settingsIndex);
     		}
     	}
+    }
+    
+    function generateSelectOptions(data, selectObj){
+    	$(selectObj).empty();
+    	
+    	// Common ALL value
+    	$(selectObj)
+     	.append( $("<option></option>") 
+     	.attr("value", "")
+     	.text("Все") ); 
+    	
+		for (prop in data) {
+			if (!data.hasOwnProperty(prop)) {
+		        continue;
+		    }
+			$(selectObj)
+	         	.append($("<option></option>")
+	         	.attr("value", prop)
+	         	.text(data[prop]) ); 				
+		}
     }
     
     /**
@@ -139,16 +148,7 @@
     			// before send
     		}
 		}).done(function( data ) {
-			$(thisObj).empty();			
-			for (prop in data) {
-				if (!data.hasOwnProperty(prop)) {
-			        continue;
-			    }
-				$(thisObj)
-		         	.append($("<option></option>")
-		         	.attr("value", prop)
-		         	.text(data[prop])); 				
-			}
+			generateSelectOptions( data, $(thisObj) );			
 		}).fail(function() {
 			// Error
 		}).always(function() {

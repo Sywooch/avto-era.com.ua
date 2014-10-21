@@ -23,7 +23,7 @@ class Elastic_search extends ShopController {
 	 */
 	public function getBrands() {
 		$brand_retrieved = array();
-		$brands = $this->elasticsearch->getAllBrand();
+		$brands = $this->elasticsearch->getBrands();
 
 		foreach($brands as $b){
 			$brand_retrieved[ $b['id'] ] = $b['name'];
