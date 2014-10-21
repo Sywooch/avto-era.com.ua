@@ -6,50 +6,10 @@
     	var self = this;    	
     	// This is the easiest way to have default options.
         var settings = $.extend({
-            //mainContainer: "#tiresElasticSContainer",
         	formID: "mainFilterFormElasticS",
             formClass: "class",
             backgroundColor: "white",
-            optionDefValue: ""/*,            
-            entitySelects: [
-                           {	
-                        	   id: 		"e_s_brand_id",
-                        	   name: 	"brand",
-                        	   label: 	"Производитель",
-                        	   url:		"/shop/elastic_search/getBrands",
-                        	   isset:	false
-                           },{
-                        	   id: 		"e_s_typetr_id",
-                        	   name: 	"typetr",
-                        	   label: 	"Тип",
-                        	   url:		"/shop/elastic_search/getTypeOfTires",
-                        	   isset:	false
-                           },{
-                        	   id: 		"e_s_sezon_id",
-                        	   name: 	"sezon",
-                        	   label: 	"Сезонность",
-                        	   url:		"/shop/elastic_search/seasons",
-                        	   isset:	false
-                           },{
-                        	   id: 		"e_s_width_id",
-                        	   name: 	"width",
-                        	   label: 	"Ширина",
-                        	   url:		"/shop/elastic_search/getWidth",
-                        	   isset:	false
-                           },{
-                        	   id: 		"e_s_height_id",
-                        	   name: 	"height",
-                        	   label: 	"Высота",
-                        	   url:		"/shop/elastic_search/getHeight",
-                        	   isset:	false
-                           },{
-                        	   id: 		"e_s_diameter_id",
-                        	   name: 	"diameter",
-                        	   label: 	"Диаметр",
-                        	   url:		"/shop/elastic_search/getDiameter",
-                        	   isset:	false
-                           }
-            ]*/
+            optionDefValue: ""
         }, options );
         
         selectProducer(self, settings);        
@@ -62,7 +22,6 @@
     	 */
 //    	return this.each(function() {
 //    		alert(1);
-//    		console.log(this);
 //    		// Bulting selectors
 //            selectProducer(this, settings, self);
 //        	
@@ -82,10 +41,83 @@
 			$( "#" + elem.id ).click(function() {
 				if(elem.url != "" && !elem.isset){
 					elem.isset = true;
-					primaryLoadData(this, elem);
+					primaryLoadData(this, elem, settings);
 				}
 			});
+    		
+    		$( "#" + elem.id ).change(function(event){
+    			var selectID =  $( this ).attr("id");
+    			onChangeAjaxSelect(thisObj, settings, selectID, 0);
+    		});
     	});
+    }
+    
+    /**
+     * update all selectors
+     * @param thisObj
+     * @param settings
+     * @param selectID
+     * @param settingsIndex
+     * @returns
+     */
+    function onChangeAjaxSelect(thisObj, settings, selectID, settingsIndex){
+    	if(settingsIndex < settings.entitySelects.length ){
+    		// AJAX
+    		selectElemDesc = settings.entitySelects[settingsIndex];
+    		if(selectElemDesc.id != selectID){
+    			// =================== event ===============
+    			var requestParam = generateRequestParam(thisObj, settings);
+    			selectElemDesc.isset = true;
+    	    	$("#" + selectElemDesc.id).empty().append('<option value="">Загрузка...</option>')
+    	    	.prop('disabled', true);
+    	    	
+    	    	
+    	    	$.ajax({
+    	    		url: selectElemDesc.url,
+    	    		data: requestParam,
+    	    		beforeSend: function( xhr ) {
+    	    			// before send
+    	    		}
+    			}).done(function( data ) {
+    				$("#" + selectElemDesc.id).empty();			
+    				for (prop in data) {
+    					if (!data.hasOwnProperty(prop)) {
+    				        continue;
+    				    }
+    					$($("#" + selectElemDesc.id))
+    			         	.append($("<option></option>")
+    			         	.attr("value", prop)
+    			         	.text(data[prop])); 				
+    				}
+    			}).fail(function() {
+    				// Error
+    			}).always(function() {
+    				$("#" + selectElemDesc.id).prop('disabled', false);
+    				settingsIndex++;
+        			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
+    			});
+    	    	// =================== event ===============
+    			
+    		}else{
+    			settingsIndex++;
+    			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
+    			
+    		}
+    	}
+    }
+    
+    /**
+     * Generate AJAX request params link 
+     * @returns
+     */
+    function generateRequestParam(thisObj, settings){
+    	var reqParamArray = {};
+    	settings.entitySelects.forEach(function(elem, index, array){
+    		if ( $( "#" + elem.id ).val() && ( $( "#" + elem.id ).val().trim() ) ) {
+    			reqParamArray[elem.name] = $( "#" + elem.id ).val();
+    		}
+    	});
+    	return reqParamArray;
     }
     
     /**
@@ -94,12 +126,15 @@
      * @param settings
      * @returns
      */
-    function primaryLoadData(thisObj, settings){
+    function primaryLoadData(thisObj, settingsElem, settings){
+    	var requestParam = generateRequestParam(thisObj, settings);
     	$(thisObj).empty().append('<option value="">Загрузка...</option>')
     	.prop('disabled', true);
     	
+    	
     	$.ajax({
-    		url: settings.url,
+    		url: settingsElem.url,
+    		data: requestParam,
     		beforeSend: function( xhr ) {
     			// before send
     		}
@@ -138,7 +173,6 @@
     	form.append(divInnerContainer);
     	
     	settings.entitySelects.forEach(function(elem, index, array){
-    		//console.log(elem);
     		//<div class="check-appointment p_r  v-a_m e_s_column">
     		var divSelectWrapper = $("<div>", {class: "check-appointment p_r  v-a_m e_s_column"});
     		divInnerContainer.append(divSelectWrapper);

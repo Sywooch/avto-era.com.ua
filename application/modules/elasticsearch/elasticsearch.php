@@ -46,7 +46,20 @@ class Elasticsearch extends MY_Controller {
 	 * @return boolean|unknown
 	 */
 	public function getAllBrand() {
-		$sql = "SELECT * FROM `shop_brands_i18n` shop_brands_i18n WHERE shop_brands_i18n.id IN (SELECT DISTINCT shop_brands.id FROM `shop_brands` shop_brands INNER JOIN `shop_products` shop_products ON shop_brands.id = shop_products.brand_id) AND shop_brands_i18n.locale = 'ru' ORDER BY shop_brands_i18n.name";
+		//$sql = "SELECT * FROM `shop_brands_i18n` shop_brands_i18n WHERE shop_brands_i18n.id IN (SELECT DISTINCT shop_brands.id FROM `shop_brands` shop_brands INNER JOIN `shop_products` shop_products ON shop_brands.id = shop_products.brand_id) AND shop_brands_i18n.locale = 'ru' ORDER BY shop_brands_i18n.name";
+		$whereStr = $this->makeWhereSQL();
+		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products 
+			JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+			JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+			JOIN `shop_category` ON shop_category.id = shop_products.category_id
+			JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
+			JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+			JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+			JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id 
+			$whereStr
+			GROUP BY shop_brands_i18n.name
+			ORDER BY shop_brands_i18n.name";
+		
 		$query = $this->db->query($sql);
 		$brands = $query->result_array ();
 		
@@ -68,6 +81,9 @@ class Elasticsearch extends MY_Controller {
 	 * Return width of tires
 	 */
 	public function getWidth() {
+		$whereStr = $this->makeWhereSQL();
+		var_dump($whereStr);
+		
 		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = '42' AND shop_product_properties_data.value > 100 GROUP BY (shop_product_properties_data.value)";
 		$query = $this->db->query($sql);
 		$widths = $query->result_array ();
@@ -98,17 +114,40 @@ class Elasticsearch extends MY_Controller {
 	}
 	
 	public function getAllTogether(){
-		$sql = "SELECT * FROM `shop_products` shop_products 
+		$sql = "SELECT DISTINCT shop_brands_i18n.name FROM `shop_products` shop_products 
 JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 JOIN `shop_category` ON shop_category.id = shop_products.category_id
 JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
 JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id";
+JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id 
+where shop_category_i18n.name='Всесезонные легковые шины'
+GROUP BY shop_brands_i18n.name";
 		$query = $this->db->query($sql);
 		$all = $query->result_array ();
 		
 		return $all;
+	}
+	
+	/**
+	 * Produce where selectors of SQL
+	 */
+	private function makeWhereSQL(){
+		$whereStr = "";
+		foreach(array_keys($_GET) as $index => $keyValue){
+			if($keyValue != "_"){
+				$keyValueUpdated = str_replace("__",".",$keyValue);
+				
+				$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
+			}
+		}
+		
+		if( strlen($whereStr) ){
+			$whereStr = "where " . substr($whereStr, 0, strlen($whereStr) - 4);
+		}
+		
+		return  $whereStr;
 		
 	}
 }
