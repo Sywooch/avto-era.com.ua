@@ -150,4 +150,30 @@ class Elastic_search extends ShopController {
 		
 	}
 	
+	/**
+	 * Get JSON wheel PCD
+	 */
+	public function getWheelPCD(){
+		$wheel_pcd_retrieved = array();
+		$wheel_pcd = $this->elasticsearch->getWheelPCDOne();
+
+		foreach($wheel_pcd as $p){
+			$wheel_pcd_retrieved[ $p['id'] ] = $p['value'];
+		}
+		echo $this->elasticsearch->response($wheel_pcd_retrieved);
+	}
+	
+	/**
+	 * Get JSON wheel SubHub
+	 */
+	public function getWheelVyletet(){
+		$wheel_vyletet_retrieved = array();
+		$wheel_vyletet = $this->elasticsearch->getWheelVyletet();
+	
+		foreach($wheel_vyletet as $v){
+			$wheel_vyletet_retrieved[ $v['id'] ] = $v['value'];
+		}
+		echo $this->elasticsearch->response($wheel_vyletet_retrieved);
+	}
+	
 }

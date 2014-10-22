@@ -25,21 +25,21 @@ $( document ).ready(function(){
              	   optVal:	null
                 },{
              	   id: 		"e_s_pcd_disc_id",
-             	   name: 	"pcd_disc",
+             	   name: 	"shop_product_properties_data__value3",
              	   label: 	"Выберите PCD",
-             	   url:		"/shop/elastic_search/getWheelBrands",
+             	   url:		"/shop/elastic_search/getWheelPCD",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_et_disc_id",
-             	   name: 	"et_disc",
+             	   name: 	"shop_product_properties_data__value4",
              	   label: 	"Выберите ET",
-             	   url:		"/shop/elastic_search/getWheelBrands",
+             	   url:		"/shop/elastic_search/getWheelVyletet",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_hub_disc_id",
-             	   name: 	"hub_disc",
+             	   name: 	"shop_product_properties_data__value5",
              	   label: 	"Ступицу",
              	   url:		"/shop/elastic_search/getWheelBrands",
              	   isset:	false,
