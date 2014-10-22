@@ -32,14 +32,14 @@ $( document ).ready(function(){
              	   optVal:	null
                 },{
              	   id: 		"e_s_height_id",
-             	   name: 	"shop_product_properties_data__name",
+             	   name: 	"shop_product_properties_data__value",
              	   label: 	"Высота",
              	   url:		"/shop/elastic_search/getHeight",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_diameter_id",
-             	   name: 	"shop_product_properties_data__name",
+             	   name: 	"shop_product_properties_data__value",
              	   label: 	"Диаметр",
              	   url:		"/shop/elastic_search/getDiameter",
              	   isset:	false,

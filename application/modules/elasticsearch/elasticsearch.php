@@ -143,7 +143,18 @@ class Elasticsearch extends MY_Controller {
 	 * Return height of tires
 	 */
 	public function getHeight() {
-		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = 43 GROUP BY (shop_product_properties_data.value)";
+		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Профиль' AND ");
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
 		$query = $this->db->query($sql);
 		$heights = $query->result_array ();
 	
@@ -154,7 +165,20 @@ class Elasticsearch extends MY_Controller {
 	 * Return height of tires
 	 */
 	public function getDiameter() {
-		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = 44 GROUP BY (shop_product_properties_data.value)";
+		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Диаметр' AND ");
+		
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
+		
 		$query = $this->db->query($sql);
 		$diameters = $query->result_array ();
 	
