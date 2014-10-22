@@ -314,6 +314,30 @@ class Elasticsearch extends MY_Controller {
 		
 		return $wheelVyletet;
 	}
+	
+	/**
+	 * Get Wheel hub
+	 */
+	public function getWheelHub(){
+		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Диаметр ступицы (DIA)' AND ");
+		
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
+		
+		$query = $this->db->query($sql);
+		$wheelHub = $query->result_array ();
+		
+		return $wheelHub;
+	}
 	 
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";

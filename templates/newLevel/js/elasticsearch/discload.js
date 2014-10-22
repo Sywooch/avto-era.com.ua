@@ -41,7 +41,7 @@ $( document ).ready(function(){
              	   id: 		"e_s_hub_disc_id",
              	   name: 	"shop_product_properties_data__value5",
              	   label: 	"Ступицу",
-             	   url:		"/shop/elastic_search/getWheelBrands",
+             	   url:		"/shop/elastic_search/getWheelHub",
              	   isset:	false,
              	   optVal:	null
                 }

@@ -176,4 +176,17 @@ class Elastic_search extends ShopController {
 		echo $this->elasticsearch->response($wheel_vyletet_retrieved);
 	}
 	
+	/**
+	 * Get JSON wheel Hub
+	 */
+	public function getWheelHub(){
+		$wheel_hub_retrieved = array();
+		$wheel_hub = $this->elasticsearch->getWheelHub();
+	
+		foreach($wheel_hub as $h){
+			$wheel_hub_retrieved[ $h['id'] ] = $h['value'];
+		}
+		echo $this->elasticsearch->response($wheel_hub_retrieved);
+	}
+	
 }
