@@ -273,6 +273,10 @@ class Elasticsearch extends MY_Controller {
 		foreach(array_keys($_GET) as $index => $keyValue){
 			if($keyValue != "_"){
 				$keyValueUpdated = str_replace("__",".",$keyValue);
+				// If numeric
+				if( is_numeric(substr($keyValueUpdated, -1)) ){
+					$keyValueUpdated = substr($keyValueUpdated, 0, strlen($keyValueUpdated) - 1);
+				}
 				
 				$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
 			}

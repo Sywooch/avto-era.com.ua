@@ -136,4 +136,18 @@ class Elastic_search extends ShopController {
 		echo $this->elasticsearch->response($wheel_type_retrieved);
 	}
 	
+	/**
+	 * Get JSON of wheel diameter
+	 */
+	public function getWheelDiameter(){
+		$wheel_diameter_retrieved = array();
+		$wheel_diameter = $this->elasticsearch->getWheelDiameter();
+		
+		foreach($wheel_diameter as $d){
+			$wheel_diameter_retrieved[ $d['id'] ] = $d['value'];
+		}
+		echo $this->elasticsearch->response($wheel_diameter_retrieved);
+		
+	}
+	
 }
