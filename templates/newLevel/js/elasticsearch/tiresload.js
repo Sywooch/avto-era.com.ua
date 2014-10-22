@@ -18,14 +18,14 @@ $( document ).ready(function(){
              	   optVal:	null
                 },{
              	   id: 		"e_s_sezon_id",
-             	   name: 	"shop_product_properties_data__id",
+             	   name: 	"shop_product_properties_data__value",
              	   label: 	"Сезонность",
              	   url:		"/shop/elastic_search/seasons",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_width_id",
-             	   name: 	"shop_product_properties_data__name",
+             	   name: 	"shop_product_properties_data__value",
              	   label: 	"Ширина",
              	   url:		"/shop/elastic_search/getWidth",
              	   isset:	false,

@@ -97,7 +97,7 @@ class Elasticsearch extends MY_Controller {
 	public function getSeasons() {
 		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Сезонность' AND ");
 	
-		$sql = "SELECT shop_product_properties_data.id AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
@@ -120,9 +120,19 @@ class Elasticsearch extends MY_Controller {
 	 * Return width of tires
 	 */
 	public function getWidth() {
-		$whereStr = $this->makeWhereSQL("");
+		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Ширина шины' AND ");
 		
-		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = '42' AND shop_product_properties_data.value > 100 GROUP BY (shop_product_properties_data.value)";
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
 		$query = $this->db->query($sql);
 		$widths = $query->result_array ();
 		

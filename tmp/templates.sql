@@ -63,3 +63,12 @@ SELECT shop_product_properties_data.id AS id, shop_product_properties_data.value
 		where shop_product_properties_i18n.name='Сезонность'
 		GROUP BY shop_product_properties_data.value
 		ORDER BY shop_product_properties_data.value
+		
+		
+		
+UPDATE `shop_product_properties_data` SET shop_product_properties_data.value='летняя' where shop_product_properties_data.value='летние'	
+UPDATE `shop_product_properties_data` SET `value` = REPLACE(`value`, 'летние', 'летняя')
+========================================================================================
+UPDATE `shop_product_properties_data` SET `value` = REPLACE(`value`, 'зимние', 'зимняя')
+========================================================================================
+UPDATE `shop_product_properties_data` SET `value` = REPLACE(`value`, 'всесезонные', 'всесезонная')
