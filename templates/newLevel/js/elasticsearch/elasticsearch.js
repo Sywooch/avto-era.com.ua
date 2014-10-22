@@ -40,17 +40,20 @@
     		// event handler
 			$( "#" + elem.id ).click(function() {
 				if(elem.url != "" && !elem.isset){
+					var selectID =  $( this ).attr("id");
 					elem.isset = true;
-					primaryLoadData(this, elem, settings);
+					primaryLoadData(this, elem, settings, selectID);
 				}
 			});
     		
     		$( "#" + elem.id ).change(function(event){
     			var selectID =  $( this ).attr("id");
-    			onChangeAjaxSelect(thisObj, settings, 0);
+    			var conf = getConfigByID(settings, selectID);
+    			conf.optVal = $( this ).val();
+    			onChangeAjaxSelect(thisObj, settings, selectID, 0);
     		});
     	});
-    }
+    };
     
     /**
      * update all selectors
@@ -60,13 +63,14 @@
      * @param settingsIndex
      * @returns
      */
-    function onChangeAjaxSelect(thisObj, settings, settingsIndex){
+    function onChangeAjaxSelect(thisObj, settings, selectID, settingsIndex){
     	if(settingsIndex < settings.entitySelects.length ){
     		// AJAX
     		selectElemDesc = settings.entitySelects[settingsIndex];
-    		if($( "#" + selectElemDesc.id ).val() == ""){
+
+    		if( selectID != selectElemDesc.id || $("#" + selectElemDesc.id ).val() == ""){
     			// =================== event ===============
-    			var requestParam = generateRequestParam(thisObj, settings);
+    			var requestParam = generateRequestParam(thisObj, settings, selectID);
     			selectElemDesc.isset = true;
     	    	$("#" + selectElemDesc.id).empty().append('<option value="">Загрузка...</option>')
     	    	.prop('disabled', true);
@@ -79,23 +83,31 @@
     	    			// before send
     	    		}
     			}).done(function( data ) {
-    				generateSelectOptions(data, $("#" + selectElemDesc.id));
+    				generateSelectOptions(data, $("#" + selectElemDesc.id), settings);
     			}).fail(function() {
     				// Error
     			}).always(function() {
     				$("#" + selectElemDesc.id).prop('disabled', false);
     				settingsIndex++;
-        			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, settingsIndex);
+        			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
     			});
     	    	// =================== event ===============
     		}else{
     			settingsIndex++;
-    			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, settingsIndex);
+    			onChangeAjaxSelect($("#" + selectElemDesc.id), settings, selectID, settingsIndex);
     		}
     	}
-    }
+    };
     
-    function generateSelectOptions(data, selectObj){
+    /**
+     * Generate options for Selectors
+     * If previous data was similar revalue it
+     * @param data
+     * @param selectObj
+     * @returns
+     */
+    function generateSelectOptions(data, selectObj, settings){
+    	var confs = getConfigByID(settings, $(selectObj).attr("id"));
     	$(selectObj).empty();
     	
     	// Common ALL value
@@ -113,21 +125,29 @@
 	         	.attr("value", prop)
 	         	.text(data[prop]) ); 				
 		}
-    }
+		// Re-select
+		if ( $("#" + $(selectObj).attr("id") + " option[value='" + confs.optVal + "']").length > 0 ){
+			$( selectObj ).val(confs.optVal);
+		}else{
+			confs.optVal = null;
+		}
+    };
     
     /**
      * Generate AJAX request params link 
      * @returns
      */
-    function generateRequestParam(thisObj, settings){
+    function generateRequestParam(thisObj, settings, selectID){
     	var reqParamArray = {};
     	settings.entitySelects.forEach(function(elem, index, array){
-    		if ( $( "#" + elem.id ).val() && ( $( "#" + elem.id ).val().trim() ) ) {
-    			reqParamArray[elem.name] = $( "#" + elem.id ).val();
-    		}
+    		//if(elem.id != selectID){
+    			if ( $( "#" + elem.id ).val() && $( "#" + elem.id ).val() != "" && ( $( "#" + elem.id ).val().trim() ) ) {
+        			reqParamArray[elem.name] = $( "#" + elem.id ).val();
+        		}
+    		//}
     	});
     	return reqParamArray;
-    }
+    };
     
     /**
      * Primary load data when select is empty
@@ -135,8 +155,8 @@
      * @param settings
      * @returns
      */
-    function primaryLoadData(thisObj, settingsElem, settings){
-    	var requestParam = generateRequestParam(thisObj, settings);
+    function primaryLoadData(thisObj, settingsElem, settings, selectID){
+    	var requestParam = generateRequestParam(thisObj, settings, selectID);
     	$(thisObj).empty().append('<option value="">Загрузка...</option>')
     	.prop('disabled', true);
     	
@@ -148,13 +168,13 @@
     			// before send
     		}
 		}).done(function( data ) {
-			generateSelectOptions( data, $(thisObj) );			
+			generateSelectOptions( data, $(thisObj), settings );			
 		}).fail(function() {
 			// Error
 		}).always(function() {
 			$(thisObj).prop('disabled', false);
 		});
-    }
+    };
     
     /**
      * Private function of producer all tire`s selects
@@ -219,4 +239,22 @@
     	var clearBoth = $("<div>", {style: "clear: both;"});
     	form.append(clearBoth);
     };
+    
+    /**
+     * Retrive entry select by ID
+     * @param settings
+     * @param id
+     * @returns
+     */
+    function getConfigByID(settings, id){
+    	config = {};
+
+    	for (ind in settings.entitySelects){
+    		var entitySelectsVal = settings.entitySelects[ind];
+    		if(entitySelectsVal.id == id){
+    			config = entitySelectsVal;
+    		}
+    	}
+    	return config;
+    }
  })( jQuery );

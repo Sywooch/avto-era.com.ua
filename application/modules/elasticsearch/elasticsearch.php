@@ -46,7 +46,7 @@ class Elasticsearch extends MY_Controller {
 	 * @return boolean|unknown
 	 */
 	public function getBrands() {
-		$whereStr = $this->makeWhereSQL();
+		$whereStr = $this->makeWhereSQL("");
 		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products 
 			JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 			JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
@@ -70,7 +70,7 @@ class Elasticsearch extends MY_Controller {
 	 */
 	public function getTypeTires() {
 		//$sql = "SELECT * FROM `shop_category_i18n` shop_category_i18n WHERE shop_category_i18n.id IN (SELECT DISTINCT shop_category.id FROM `shop_category` shop_category INNER JOIN `shop_products` shop_products ON shop_category.id = shop_products.brand_id) AND shop_category_i18n.locale = 'ru' AND shop_category_i18n.id <> '102' GROUP BY(shop_category_i18n.name) ORDER BY shop_category_i18n.name";
-		$whereStr = $this->makeWhereSQL();
+		$whereStr = $this->makeWhereSQL("");
 		
 		$sql = "SELECT shop_category_i18n.id AS id, shop_category_i18n.name AS name FROM `shop_products` shop_products
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
@@ -92,10 +92,35 @@ class Elasticsearch extends MY_Controller {
 	}
 	
 	/**
+	 * Retrieve type of tires
+	 */
+	public function getSeasons() {
+		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Сезонность' AND ");
+	
+		$sql = "SELECT shop_product_properties_data.id AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
+	
+	
+		$query = $this->db->query($sql);
+		$types = $query->result_array ();
+	
+		return $types;
+	}
+	
+	/**
 	 * Return width of tires
 	 */
 	public function getWidth() {
-		$whereStr = $this->makeWhereSQL();
+		$whereStr = $this->makeWhereSQL("");
 		
 		$sql = "SELECT shop_product_properties_data.id, shop_product_properties_data.value FROM `shop_product_properties_data` shop_product_properties_data INNER JOIN `shop_products` shop_products ON shop_products.id = shop_product_properties_data.product_id WHERE shop_product_properties_data.property_id = '42' AND shop_product_properties_data.value > 100 GROUP BY (shop_product_properties_data.value)";
 		$query = $this->db->query($sql);
@@ -146,7 +171,7 @@ GROUP BY shop_brands_i18n.name";
 	/**
 	 * Produce where selectors of SQL
 	 */
-	private function makeWhereSQL(){
+	private function makeWhereSQL($advWhere){
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
 			if($keyValue != "_"){
@@ -157,7 +182,15 @@ GROUP BY shop_brands_i18n.name";
 		}
 		
 		if( strlen($whereStr) ){
-			$whereStr = "where " . substr($whereStr, 0, strlen($whereStr) - 4);
+			if(strlen($advWhere)){
+				$whereStr = "where " . $advWhere . substr($whereStr, 0, strlen($whereStr) - 4);
+			}else{
+				$whereStr = "where " . substr($whereStr, 0, strlen($whereStr) - 4);
+			}
+		}else{
+			if(strlen($advWhere)){
+				$whereStr = "where " . substr($advWhere, 0, strlen($whereStr) - 4);
+			}	
 		}
 		
 		return  $whereStr;

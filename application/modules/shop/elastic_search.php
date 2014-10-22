@@ -48,8 +48,14 @@ class Elastic_search extends ShopController {
 	}
 	
 	public function seasons(){
-		$seasons = array('zimn' => 'Зимние', 'letn' => 'Летние', 'vsesez' => 'Всесезонные');
-		echo $this->elasticsearch->response($seasons);
+		$season_retrieved = array();
+		$seasons =  $this->elasticsearch->getSeasons();
+		
+		foreach($seasons as $s){
+			$season_retrieved[ $s['id'] ] = $s['value'];
+		}
+		
+		echo $this->elasticsearch->response($season_retrieved);
 	}
 	
 	/**
