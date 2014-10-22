@@ -39,6 +39,10 @@ class Elasticsearch extends MY_Controller {
 		return ($status[$code])?$status[$code]:$status[500];
 	}
 	
+	// #############################################################################################
+	// ######################################TIRES#################################################
+	// #############################################################################################
+	
 	/**
 	 * Filter by brand
 	 * @param unknown_type $cid
@@ -185,21 +189,80 @@ class Elasticsearch extends MY_Controller {
 		return $diameters;
 	}
 	
-	public function getAllTogether(){
-		$sql = "SELECT DISTINCT shop_brands_i18n.name FROM `shop_products` shop_products 
-JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-JOIN `shop_category` ON shop_category.id = shop_products.category_id
-JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
-JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id 
-where shop_category_i18n.name='Всесезонные легковые шины'
-GROUP BY shop_brands_i18n.name";
-		$query = $this->db->query($sql);
-		$all = $query->result_array ();
+	// #############################################################################################
+	// ######################################wheels#################################################
+	// #############################################################################################
+	
+	/**
+	 * Return wheel brands
+	 */
+	public function getWheelBrands(){
+		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND ");
 		
-		return $all;
+		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_brands_i18n.name
+		ORDER BY shop_brands_i18n.name";
+		
+		$query = $this->db->query($sql);
+		$wheelBrands = $query->result_array ();
+		
+		return $wheelBrands;
+	}
+	
+	/**
+	 * Get Wheel types
+	 */
+	public function getWheelType(){
+		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Тип диска' AND ");
+		
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
+		
+		$query = $this->db->query($sql);
+		$wheelType = $query->result_array ();
+		
+		return $wheelType;
+	}
+	
+	/**
+	 * Get Wheel diameter
+	 */
+	public function getWheelDiameter(){
+		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Диаметр диска' AND ");
+		
+		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_product_properties_data.value
+		ORDER BY shop_product_properties_data.value";
+		
+		$query = $this->db->query($sql);
+		$wheelDiameter = $query->result_array ();
+		
+		return $wheelDiameter;
 	}
 	
 	/**
@@ -228,6 +291,5 @@ GROUP BY shop_brands_i18n.name";
 		}
 		
 		return  $whereStr;
-		
 	}
 }

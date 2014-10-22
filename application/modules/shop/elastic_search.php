@@ -18,6 +18,10 @@ class Elastic_search extends ShopController {
 	
 	}
 	
+	// #############################################################################################
+	// ######################################TIRES#################################################
+	// #############################################################################################
+	
 	/**
 	 * Retrieve brands
 	 */
@@ -100,14 +104,36 @@ class Elastic_search extends ShopController {
 		}
 	
 		echo $this->elasticsearch->response($diameter_retrieved);
+	}
 	
+	// #############################################################################################
+	// ######################################wheels#################################################
+	// #############################################################################################
+	
+	/**
+	 * Get JSON of wheel brands
+	 */
+	function getWheelBrands(){
+		$wheel_brand_retrieved = array();
+		$wheel_brands = $this->elasticsearch->getWheelBrands();
+		
+		foreach($wheel_brands as $b){
+			$wheel_brand_retrieved[ $b['id'] ] = $b['name'];
+		}
+		echo $this->elasticsearch->response($wheel_brand_retrieved);
 	}
 	
 	/**
-	 * Retrieve Diameter
+	 * Get JSON of wheel type
 	 */
-	public function all(){
-		$all = $this->elasticsearch->getAllTogether();
-		var_dump($all);		
+	public function getWheelType(){
+		$wheel_type_retrieved = array();
+		$wheel_type = $this->elasticsearch->getWheelType();
+		
+		foreach($wheel_type as $t){
+			$wheel_type_retrieved[ $t['id'] ] = $t['value'];
+		}
+		echo $this->elasticsearch->response($wheel_type_retrieved);
 	}
+	
 }
