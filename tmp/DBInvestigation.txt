@@ -1,0 +1,18 @@
+======================================[]===========================================
+http://tyretrader.com.ua/download_price.php?code=dedd873d6d6d3838bea17f57cc0088032&type=xls
+shop/wheels.php
+shop/tires.php
+
+copy ( 'http://tyretrader.ua/download_price.php?code=11c6e640c2c4c1adff96cf6944ea260c2&type=csv', __DIR__ . '/temp/passenger.csv' );
+copy ( 'http://tyretrader.ua/download_price.php?code=dedd873d6d6d3838bea17f57cc0088032&type=csv', __DIR__ . '/temp/freight.csv' );
+
+Импорт-Экспорт CSV/XLS = widget
+
+===================================================================================
+ Выберите файл
+<input id="importcsvfile" class="btn-small btn" type="file" name="userfile">
+
+importcsvfile  
+
+===============
+<form id="makeImportForm" enctype="multipart/form-data" method="post" action="/admin/components/run/shop/system/import">
