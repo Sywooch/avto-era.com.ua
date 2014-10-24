@@ -12,41 +12,43 @@
  * A validator for unique column names.
  *
  * <code>
- *   <column name="username" type="VARCHAR" size="25" required="true" />
+ * <column name="username" type="VARCHAR" size="25" required="true" />
  *
- *   <validator column="username">
- *     <rule name="unique" message="Username already exists !" />
- *   </validator>
+ * <validator column="username">
+ * <rule name="unique" message="Username already exists !" />
+ * </validator>
  * </code>
  *
- * @author     Michael Aichler <aichler@mediacluster.de>
- * @version    $Revision$
- * @package    propel.runtime.validator
+ * @author Michael Aichler <aichler@mediacluster.de>
+ * @version $Revision$
+ * @package propel.runtime.validator
  */
-class UniqueValidator implements BasicValidator
-{
+class UniqueValidator implements BasicValidator {
 	/**
-	 * @see       BasicValidator::isValid()
 	 *
-	 * @param     ValidatorMap  $map
-	 * @param     string        $str
+	 * @see BasicValidator::isValid()
 	 *
-	 * @return    boolean
+	 * @param ValidatorMap $map        	
+	 * @param string $str        	
+	 *
+	 * @return boolean
 	 */
-	public function isValid(ValidatorMap $map, $str)
-	{
-		$column = $map->getColumn();
-
-		$c = new Criteria();
-		$c->add($column->getFullyQualifiedName(), $str, Criteria::EQUAL);
-
-		$table = $column->getTable()->getClassName();
-
+	public function isValid(ValidatorMap $map, $str) {
+		$column = $map->getColumn ();
+		
+		$c = new Criteria ();
+		$c->add ( $column->getFullyQualifiedName (), $str, Criteria::EQUAL );
+		
+		$table = $column->getTable ()->getClassName ();
+		
 		$clazz = $table . 'Peer';
-		$count = call_user_func(array($clazz, 'doCount'), $c);
-
+		$count = call_user_func ( array (
+				$clazz,
+				'doCount' 
+		), $c );
+		
 		$isValid = ($count === 0);
-
+		
 		return $isValid;
 	}
 }

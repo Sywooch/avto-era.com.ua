@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_order_statuses' table.
  *
@@ -14,45 +12,39 @@
  * @package    propel.generator.Shop
  */
 class SOrderStatuses extends BaseSOrderStatuses {
-    public function attributeLabels()
-	{
-		return array(
-			'Name'=>ShopCore::t('Название'),
-			'Position'=>ShopCore::t('Позиция'),
+	public function attributeLabels() {
+		return array (
+				'Name' => ShopCore::t ( 'Название' ),
+				'Position' => ShopCore::t ( 'Позиция' ) 
 		);
 	}
-
-    public function rules()
-    {
-        return array(
-           array(
-                 'field'=>'Name',
-                 'label'=>$this->getLabel('Name'),
-                 'rules'=>'required',
-              ),
-        );
-    }
-	
-	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME) 
-	{
-		$peerName = get_class($this).I18nPeer;
-		$keys = $peerName::getFieldNames($keyType);
-
-		if (array_key_exists('Locale', $arr)){
-			$this->setLocale($arr['Locale']);
-			unset($arr['Locale']);
+	public function rules() {
+		return array (
+				array (
+						'field' => 'Name',
+						'label' => $this->getLabel ( 'Name' ),
+						'rules' => 'required' 
+				) 
+		);
+	}
+	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME) {
+		$peerName = get_class ( $this ) . I18nPeer;
+		$keys = $peerName::getFieldNames ( $keyType );
+		
+		if (array_key_exists ( 'Locale', $arr )) {
+			$this->setLocale ( $arr ['Locale'] );
+			unset ( $arr ['Locale'] );
 		} else {
-            $defaultLanguage = getDefaultLanguage();
-            $this->setLocale($defaultLanguage['identif']);
-        }
-
-		foreach($keys as $key)
-			if (array_key_exists($key, $arr)){
-				$methodName = set.$key;
-				$this->$methodName($arr[$key]);
+			$defaultLanguage = getDefaultLanguage ();
+			$this->setLocale ( $defaultLanguage ['identif'] );
+		}
+		
+		foreach ( $keys as $key )
+			if (array_key_exists ( $key, $arr )) {
+				$methodName = set . $key;
+				$this->$methodName ( $arr [$key] );
 			}
 		
-		parent::fromArray($arr, $keyType);
+		parent::fromArray ( $arr, $keyType );
 	}
-
 } // SOrderStatuses

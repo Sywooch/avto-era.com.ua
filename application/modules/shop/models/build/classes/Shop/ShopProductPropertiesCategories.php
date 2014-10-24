@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_product_properties_categories' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class ShopProductPropertiesCategories extends BaseShopProductPropertiesCategories {
-
 } // ShopProductPropertiesCategories

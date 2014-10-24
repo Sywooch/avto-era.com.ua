@@ -18,28 +18,27 @@
  * this is done automatically.
  *
  * <code>
- *   <column name="username" type="VARCHAR" size="25" required="true" />
+ * <column name="username" type="VARCHAR" size="25" required="true" />
  *
- *   <validator column="username">
- *     <rule name="maxLength" message="Passwort must be at least ${value} characters !" />
- *   </validator>
+ * <validator column="username">
+ * <rule name="maxLength" message="Passwort must be at least ${value} characters !" />
+ * </validator>
  * </code>
  *
- * @author     Michael Aichler <aichler@mediacluster.de>
- * @version    $Revision$
- * @package    propel.runtime.validator
+ * @author Michael Aichler <aichler@mediacluster.de>
+ * @version $Revision$
+ * @package propel.runtime.validator
  */
-class MaxLengthValidator implements BasicValidator
-{
+class MaxLengthValidator implements BasicValidator {
 	/**
-	 * @param     ValidatorMap  $map
-	 * @param     string        $str
 	 *
-	 * @return    boolean
+	 * @param ValidatorMap $map        	
+	 * @param string $str        	
+	 *
+	 * @return boolean
 	 */
-	public function isValid(ValidatorMap $map, $str)
-	{
-		$len = function_exists('mb_strlen') ? mb_strlen($str) : strlen($str);
-		return $len <= intval($map->getValue());
+	public function isValid(ValidatorMap $map, $str) {
+		$len = function_exists ( 'mb_strlen' ) ? mb_strlen ( $str ) : strlen ( $str );
+		return $len <= intval ( $map->getValue () );
 	}
 }

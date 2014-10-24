@@ -25,13 +25,12 @@
  * @version	1.7.9, 2013-06-02
  */
 
-
 /**
  * PHPExcel_Reader_Exception
  *
- * @category   PHPExcel
- * @package    PHPExcel_Reader
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Reader
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Reader_Exception extends PHPExcel_Exception {
 	/**
@@ -44,7 +43,7 @@ class PHPExcel_Reader_Exception extends PHPExcel_Exception {
 	 * @param mixed $context
 	 */
 	public static function errorHandlerCallback($code, $string, $file, $line, $context) {
-		$e = new self($string, $code);
+		$e = new self ( $string, $code );
 		$e->line = $line;
 		$e->file = $file;
 		throw $e;

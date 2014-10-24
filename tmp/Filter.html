@@ -1,0 +1,339 @@
+
+<ul class="tabFilter">
+	<li class="tab1"><a href="/" class="activ">����<span></span></a></li>
+	<li class="tab2"><a href="/disks/popular/" class="">�����<span></span></a></li>
+	<li class="tab3"><a href="/selection" class="">������ �� �����<span></span></a></li>
+</ul>
+<div class="cart">
+	<div class="total">������� �����</div>
+</div>
+<div class="clear"></div>
+<script type="text/javascript">
+    function set_selects (text) {
+		if(typeof(text)==='undefined') {
+			$('div.textSel').each(function() {
+				$(this).html($(this).next('select').find(':selected').text());
+			});
+		} else {
+			$('div.textSel').each(function() {
+				if (!$(this).next('select').hasClass('changed')) {
+					$(this).html(text);
+				}
+			});
+		}
+		var action = $('#ProductIndexForm').attr('action');
+		var top_filter = '';
+		$.each($('#filterForm').serializeArray(), function(i, l) {
+			if (l.value != 0 && l.value != ''){
+				top_filter += l.name + '=' + l.value + '&';
+			}
+		});
+		action += '?' + top_filter;
+		$('#ProductIndexForm').attr('action', action);
+    }
+	<!--
+	$(function(){
+		$('.boxParam select').change(function() {
+			$(this).prev('div.textSel').html($(this).find(':selected').text());
+		});
+        set_selects();
+        $('.prodImg2 a.lightbox, .prodImg a.lightbox').click(function() {
+			var id = parseInt($(this).attr('id'));
+			$.post('/models/set_model',
+				{id: id},
+				"json"
+			);
+		});
+	});
+	//-->
+</script>
+<div class="boxFilter" id="filter">
+	<form action="/tyres" id="filterForm" method="get"
+		accept-charset="utf-8">
+		<input name="stud" id="ProductStud" type="hidden"><input
+			name="in_stock" id="ProductInStock" type="hidden"><input
+			name="in_stock4" id="ProductInStock4" type="hidden">
+		<div class="boxParam">
+			<label for="ProductBrandId">�������������</label>
+			<div class="select1">
+				<div class="textSel">���</div>
+				<select name="brand_id" id="ProductBrandId">
+					<option value="">���</option>
+					<option value="141">Accelera</option>
+					<option value="142">Achilles</option>
+					<option value="156">Amtel</option>
+					<option value="168">Barum</option>
+					<option value="171">Bfgoodrich</option>
+					<option value="173">Bridgestone</option>
+					<option value="181">Continental</option>
+					<option value="183">Cooper</option>
+					<option value="185">Cordiant</option>
+					<option value="187">Daewoo</option>
+					<option value="189">Dayton</option>
+					<option value="191">Debica</option>
+					<option value="202">Dunlop</option>
+					<option value="213">Falken</option>
+					<option value="216">Federal</option>
+					<option value="219">Firestone</option>
+					<option value="226">Fulda</option>
+					<option value="232">General</option>
+					<option value="237">Gislaved</option>
+					<option value="243">Goodyear</option>
+					<option value="249">Hankook</option>
+					<option value="658">Headway</option>
+					<option value="266">Kleber</option>
+					<option value="269">Kormoran</option>
+					<option value="273">Kumho</option>
+					<option value="276">Lassa</option>
+					<option value="286">Marshal</option>
+					<option value="288">Matador</option>
+					<option value="601">Mentor</option>
+					<option value="295">Michelin</option>
+					<option value="297">Minerva</option>
+					<option value="303">Nexen</option>
+					<option value="304">Nitto</option>
+					<option value="305">Nokian</option>
+					<option value="316">Pirelli</option>
+					<option value="319">Point s</option>
+					<option value="334">Roadstone</option>
+					<option value="339">Sailun</option>
+					<option value="340">Sava</option>
+					<option value="359">Sunny</option>
+					<option value="365">Tigar</option>
+					<option value="366">Toyo</option>
+					<option value="373">Tunga</option>
+					<option value="379">Viking</option>
+					<option value="381">Vredestein</option>
+					<option value="394">Yokohama</option>
+					<option value="395">Zeetex</option>
+					<option value="400">�������</option>
+					<option value="406">����</option>
+					<option value="408">�����</option>
+					<option value="414">������</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">������</label>
+			<div class="select2">
+				<div class="textSel">���</div>
+				<select name="size1" id="ProductSize1">
+					<option value="">���</option>
+					<option value="155">155</option>
+					<option value="165">165</option>
+					<option value="175">175</option>
+					<option value="185">185</option>
+					<option value="195">195</option>
+					<option value="205">205</option>
+					<option value="215">215</option>
+					<option value="225">225</option>
+					<option value="235">235</option>
+					<option value="245">245</option>
+					<option value="255">255</option>
+					<option value="265">265</option>
+					<option value="275">275</option>
+					<option value="285">285</option>
+					<option value="295">295</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">������</label>
+			<div class="select2">
+				<div class="textSel">���</div>
+				<select name="size2" id="ProductSize2">
+					<option value="">���</option>
+					<option value="35">35</option>
+					<option value="40">40</option>
+					<option value="45">45</option>
+					<option value="50">50</option>
+					<option value="55">55</option>
+					<option value="60">60</option>
+					<option value="65">65</option>
+					<option value="70">70</option>
+					<option value="75">75</option>
+					<option value="80">80</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">�������</label>
+			<div class="select2">
+				<div class="textSel">���</div>
+				<select name="size3" id="ProductSize3">
+					<option value="">���</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="14C">14C</option>
+					<option value="15">15</option>
+					<option value="15C">15C</option>
+					<option value="16">16</option>
+					<option value="16C">16C</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="55">55</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">����������</label>
+			<div class="select3">
+				<div class="textSel">���</div>
+				<select name="season" id="ProductSeason">
+					<option value="">���</option>
+					<option value="winter">����</option>
+					<option value="summer">����</option>
+					<option value="all">�����������</option>
+				</select>
+			</div>
+		</div>
+		<div class="boxParam">
+			<label for="ProductBrandId">��� ����������</label>
+			<div class="select3">
+				<div class="textSel">���</div>
+				<select name="auto" id="ProductAuto">
+					<option value="">���</option>
+					<option value="cars">��������</option>
+					<option value="light_trucks">�������������</option>
+				</select>
+			</div>
+		</div>
+		<div style="display: none;" class="boxParam axis-select">
+			<label for="ProductAxis">���</label>
+			<div class="select3">
+				<div class="textSel">���</div>
+				<select name="axis" id="ProductAxis">
+					<option value="">���</option>
+				</select>
+			</div>
+		</div>
+		<div class="btBoxFilter">
+			<button class="btVer1">���������</button>
+		</div>
+		<div class="clear"></div>
+	</form>
+</div>
+
+<script type="text/javascript">
+<!--
+function auto_handler() {
+	var auto = $('#ProductAuto').val();
+	if (auto == 'trucks') {
+		$('.axis-select').show();
+	}
+	else {
+		$('.axis-select').hide();
+	}
+}
+var current_values;
+function afterUpdate(data, status)  {
+		$.each( data, function( field_key, field_value ) {
+			var options = '<option value="0">���</option>';
+			if (field_value.length == 0) {options = '<option value="0">---</option>';}
+			var curr_select = $('select[name="' + field_key + '"]');
+			var curr_value = curr_select.find(':selected').val();
+			$.each( field_value, function( key, value ) {
+				var selected = '';
+				if (curr_value == key) {selected = 'selected';}
+				options += '<option ' + selected + ' value="' + key + '">' + value + '</option>';
+			});
+			if (!curr_select.hasClass('changed')) {
+				curr_select.html(options);
+			}
+		});
+		set_selects();
+	}
+$(function(){
+	$('#ProductAuto').change(auto_handler);
+	auto_handler();
+	$('#filter .boxParam select').change(function() {
+		current_values = $('#filterForm').serializeArray();
+		$('.boxParam select').removeClass('changed');
+		$(this).addClass('changed');
+		set_selects('��������...');
+		$.get('/tyres/set_filter',
+			$('#filterForm').serializeArray(),
+			afterUpdate,
+			"json");
+	});
+});
+//-->
+</script>
+
+
+
+
+<!-- 
+<div>
+	<form class="d_i-b1 diskform1 shinaform1" action="" method="get"
+		id="mainFilterForm1">
+		<div class="e_s_container">
+			<div class="check-appointment p_r  v-a_m e_s_column">
+				<div class="lineForm">
+					<select class="color" id="brand2" name="brand[]">
+						<option value="0" selected="selected">выберите бренд</option>
+						{foreach getBrand(102, true) as $b}
+						<option value="{echo $b->getId()}">{echo $b->getName()}</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
+	
+			<div class="check-appointment p_r  v-a_m m-t_10 e_s_column">
+				<div class="lineForm seltypetr">
+					<select class="color" id="typetr" name="typetr">
+						<option value="0" selected="selected">выберите тип</option>
+	
+					</select>
+				</div>
+			</div>
+			<div class="check-appointment p_r  v-a_m m-t_10 e_s_column">
+				<div class="lineForm selsezon">
+					<select class="color" id="sezon" name="sezon">
+						<option value="0" selected="selected">выберите сезон</option>
+	
+					</select>
+				</div>
+			</div>
+	
+			<div class="check-appointment p_r  v-a_m m-t_10 e_s_column">
+				<div class="lineForm selshirina">
+					<select class="color" id="shirina" name="shirina">
+						<option value="0" selected="selected">выберите ширину</option>
+	
+					</select>
+				</div>
+			</div>
+	
+			<div class="check-appointment p_r  v-a_m m-t_10 e_s_column">
+				<div class="lineForm selvysota">
+					<select class="color" id="vysota" name="vysota">
+						<option value="0" selected="selected">выберите высоту</option>
+	
+					</select>
+				</div>
+			</div>
+	
+			<div class="check-appointment p_r  v-a_m m-t_10 e_s_column">
+				<div class="lineForm selshnydimatr">
+					<select class="color" id="shnydimatr" name="shnydimatr">
+						<option value="0" selected="selected">выберите диаметр</option>
+	
+					</select>
+				</div>
+			</div>
+			<div class="btn-filter-bus v-a_m m-t_10 e_s_column">
+				<button type="submit" class="submitshyny">
+					<span class="text-el">выбрать</span>
+				</button>
+			</div>
+	
+	
+			<span class="datas f-s_0"></span>
+		</div>
+	</form>
+</div>
+
+-->

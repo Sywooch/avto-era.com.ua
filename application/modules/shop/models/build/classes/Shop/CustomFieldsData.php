@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'custom_fields_data' table.
  *
@@ -14,20 +12,15 @@
  * @package    propel.generator.Shop
  */
 class CustomFieldsData extends BaseCustomFieldsData {
-    
-    public function renderPartOfFormWithCustomFields($entityId)
-    {
-        $customFields = CustomFieldsQuery::create()->find();
-        
-        $customFieldsHtml = '';
-        $widgetHelper = new CustomFieldsWidgetHelper();
-        foreach ($customFields as $field)
-        {
-            $customFieldsHtml .= $widgetHelper->renderWidget($entityId, $field->getId());
-        }
-        
-        return $customFieldsHtml;
-    }
-
-
+	public function renderPartOfFormWithCustomFields($entityId) {
+		$customFields = CustomFieldsQuery::create ()->find ();
+		
+		$customFieldsHtml = '';
+		$widgetHelper = new CustomFieldsWidgetHelper ();
+		foreach ( $customFields as $field ) {
+			$customFieldsHtml .= $widgetHelper->renderWidget ( $entityId, $field->getId () );
+		}
+		
+		return $customFieldsHtml;
+	}
 } // CustomFieldsData

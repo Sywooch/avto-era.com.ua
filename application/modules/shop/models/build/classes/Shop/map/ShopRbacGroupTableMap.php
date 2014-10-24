@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * This class defines the structure of the 'shop_rbac_group' table.
  *
@@ -14,42 +12,40 @@
  *
  * @package    propel.generator.Shop.map
  */
-class ShopRbacGroupTableMap extends TableMap
-{
-
+class ShopRbacGroupTableMap extends TableMap {
+	
 	/**
 	 * The (dot-path) name of this class
 	 */
 	const CLASS_NAME = 'Shop.map.ShopRbacGroupTableMap';
-
+	
 	/**
 	 * Initialize the table attributes, columns and validators
 	 * Relations are not initialized by this method since they are lazy loaded
 	 *
-	 * @return     void
-	 * @throws     PropelException
+	 * @return void
+	 * @throws PropelException
 	 */
-	public function initialize()
-	{
+	public function initialize() {
 		// attributes
-		$this->setName('shop_rbac_group');
-		$this->setPhpName('ShopRbacGroup');
-		$this->setClassname('ShopRbacGroup');
-		$this->setPackage('Shop');
-		$this->setUseIdGenerator(true);
+		$this->setName ( 'shop_rbac_group' );
+		$this->setPhpName ( 'ShopRbacGroup' );
+		$this->setClassname ( 'ShopRbacGroup' );
+		$this->setPackage ( 'Shop' );
+		$this->setUseIdGenerator ( true );
 		// columns
-		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, null);
-		$this->addColumn('DESCRIPTION', 'Description', 'VARCHAR', false, 255, null);
+		$this->addPrimaryKey ( 'ID', 'Id', 'INTEGER', true, null, null );
+		$this->addColumn ( 'NAME', 'Name', 'VARCHAR', true, 255, null );
+		$this->addColumn ( 'DESCRIPTION', 'Description', 'VARCHAR', false, 255, null );
 		// validators
 	} // initialize()
-
+	
 	/**
 	 * Build the RelationMap objects for this table relationships
 	 */
-	public function buildRelations()
-	{
-		$this->addRelation('ShopRbacPrivileges', 'ShopRbacPrivileges', RelationMap::ONE_TO_MANY, array('id' => 'group_id', ), 'CASCADE', 'CASCADE', 'ShopRbacPrivilegess');
+	public function buildRelations() {
+		$this->addRelation ( 'ShopRbacPrivileges', 'ShopRbacPrivileges', RelationMap::ONE_TO_MANY, array (
+				'id' => 'group_id' 
+		), 'CASCADE', 'CASCADE', 'ShopRbacPrivilegess' );
 	} // buildRelations()
-
 } // ShopRbacGroupTableMap

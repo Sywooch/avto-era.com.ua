@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'custom_fields_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class CustomFieldsI18nQuery extends BaseCustomFieldsI18nQuery {
-
 } // CustomFieldsI18nQuery

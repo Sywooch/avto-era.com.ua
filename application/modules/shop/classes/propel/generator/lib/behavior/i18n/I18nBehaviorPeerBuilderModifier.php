@@ -12,21 +12,16 @@
  * Allows translation of text columns through transparent one-to-many relationship.
  * Modifier for the peer builder.
  *
- * @author     François Zaninotto
- * @version    $Revision$
- * @package    propel.generator.behavior.i18n
+ * @author François Zaninotto
+ * @version $Revision$
+ * @package propel.generator.behavior.i18n
  */
-class I18nBehaviorPeerBuilderModifier
-{
+class I18nBehaviorPeerBuilderModifier {
 	protected $behavior;
-
-	public function __construct($behavior)
-	{
+	public function __construct($behavior) {
 		$this->behavior = $behavior;
 	}
-
-	public function staticConstants()
-	{
+	public function staticConstants() {
 		return "
 /**
  * The default locale to use for translations

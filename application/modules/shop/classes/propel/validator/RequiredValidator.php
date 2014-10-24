@@ -14,29 +14,28 @@
  * Below is an example usage for your Propel xml schema file.
  *
  * <code>
- *   <column name="username" type="VARCHAR" size="25" required="true" />
+ * <column name="username" type="VARCHAR" size="25" required="true" />
  *
- *   <validator column="username">
- *     <rule name="required" message="Username is required." />
- *   </validator>
+ * <validator column="username">
+ * <rule name="required" message="Username is required." />
+ * </validator>
  * </code>
  *
- * @author     Michael Aichler <aichler@mediacluster.de>
- * @version    $Revision$
- * @package    propel.runtime.validator
+ * @author Michael Aichler <aichler@mediacluster.de>
+ * @version $Revision$
+ * @package propel.runtime.validator
  */
-class RequiredValidator implements BasicValidator
-{
+class RequiredValidator implements BasicValidator {
 	/**
-	 * @see       BasicValidator::isValid()
 	 *
-	 * @param     ValidatorMap  $map
-	 * @param     string        $str
+	 * @see BasicValidator::isValid()
 	 *
-	 * @return    boolean
+	 * @param ValidatorMap $map        	
+	 * @param string $str        	
+	 *
+	 * @return boolean
 	 */
-	public function isValid (ValidatorMap $map, $str)
-	{
+	public function isValid(ValidatorMap $map, $str) {
 		return ($str !== null && $str !== "");
 	}
 }

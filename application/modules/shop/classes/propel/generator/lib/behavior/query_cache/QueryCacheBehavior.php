@@ -11,57 +11,50 @@
 /**
  * Speeds up queries on a model by caching the query
  *
- * @author     François Zaninotto
- * @version    $Revision$
- * @package    propel.generator.behavior.cacheable
+ * @author François Zaninotto
+ * @version $Revision$
+ * @package propel.generator.behavior.cacheable
  */
-class QueryCacheBehavior extends Behavior
-{
+class QueryCacheBehavior extends Behavior {
 	// default parameters value
-	protected $parameters = array(
-		'backend'     => 'apc',
-		'lifetime'    => 3600,
+	protected $parameters = array (
+			'backend' => 'apc',
+			'lifetime' => 3600 
 	);
-
-	public function queryAttributes($builder)
-	{
+	public function queryAttributes($builder) {
 		$script = "protected \$queryKey = '';
 ";
-		switch ($this->getParameter('backend')) {
-			case 'backend':
+		switch ($this->getParameter ( 'backend' )) {
+			case 'backend' :
 				$script .= "protected static \$cacheBackend = array();
 			";
 				break;
-			case 'apc':
+			case 'apc' :
 				break;
-			case 'custom':
-			default:
+			case 'custom' :
+			default :
 				$script .= "protected static \$cacheBackend;
 			";
 				break;
 		}
-
+		
 		return $script;
 	}
-
-	public function queryMethods($builder)
-	{
-		$builder->declareClasses('BasePeer');
-		$this->peerClassname = $builder->getStubPeerBuilder()->getClassname();
+	public function queryMethods($builder) {
+		$builder->declareClasses ( 'BasePeer' );
+		$this->peerClassname = $builder->getStubPeerBuilder ()->getClassname ();
 		$script = '';
-		$this->addSetQueryKey($script);
-		$this->addGetQueryKey($script);
-		$this->addCacheContains($script);
-		$this->addCacheFetch($script);
-		$this->addCacheStore($script);
-		$this->addDoSelect($script);
-		$this->addDoCount($script);
-
+		$this->addSetQueryKey ( $script );
+		$this->addGetQueryKey ( $script );
+		$this->addCacheContains ( $script );
+		$this->addCacheFetch ( $script );
+		$this->addCacheStore ( $script );
+		$this->addDoSelect ( $script );
+		$this->addDoCount ( $script );
+		
 		return $script;
 	}
-
-	protected function addSetQueryKey(&$script)
-	{
+	protected function addSetQueryKey(&$script) {
 		$script .= "
 public function setQueryKey(\$key)
 {
@@ -70,9 +63,7 @@ public function setQueryKey(\$key)
 }
 ";
 	}
-
-	protected function addGetQueryKey(&$script)
-	{
+	protected function addGetQueryKey(&$script) {
 		$script .= "
 public function getQueryKey()
 {
@@ -80,49 +71,44 @@ public function getQueryKey()
 }
 ";
 	}
-
-	protected function addCacheContains(&$script)
-	{
+	protected function addCacheContains(&$script) {
 		$script .= "
 public function cacheContains(\$key)
 {";
-		switch ($this->getParameter('backend')) {
-			case 'apc':
+		switch ($this->getParameter ( 'backend' )) {
+			case 'apc' :
 				$script .= "
 	return apc_fetch(\$key);";
 				break;
-			case 'array':
+			case 'array' :
 				$script .= "
 	return isset(self::\$cacheBackend[\$key]);";
 				break;
-			case 'custom':
-			default:
+			case 'custom' :
+			default :
 				$script .= "
 	throw new PropelException('You must override the cacheContains(), cacheStore(), and cacheFetch() methods to enable query cache');";
 				break;
-
 		}
 		$script .= "
 }
 ";
 	}
-
-	protected function addCacheStore(&$script)
-	{
+	protected function addCacheStore(&$script) {
 		$script .= "
-public function cacheStore(\$key, \$value, \$lifetime = " .$this->getParameter('lifetime') . ")
+public function cacheStore(\$key, \$value, \$lifetime = " . $this->getParameter ( 'lifetime' ) . ")
 {";
-		switch ($this->getParameter('backend')) {
-			case 'apc':
+		switch ($this->getParameter ( 'backend' )) {
+			case 'apc' :
 				$script .= "
 	apc_store(\$key, \$value, \$lifetime);";
 				break;
-			case 'array':
+			case 'array' :
 				$script .= "
 	self::\$cacheBackend[\$key] = \$value;";
 				break;
-			case 'custom':
-			default:
+			case 'custom' :
+			default :
 				$script .= "
 	throw new PropelException('You must override the cacheContains(), cacheStore(), and cacheFetch() methods to enable query cache');";
 				break;
@@ -131,23 +117,21 @@ public function cacheStore(\$key, \$value, \$lifetime = " .$this->getParameter('
 }
 ";
 	}
-
-	protected function addCacheFetch(&$script)
-	{
+	protected function addCacheFetch(&$script) {
 		$script .= "
 public function cacheFetch(\$key)
 {";
-		switch ($this->getParameter('backend')) {
-			case 'apc':
+		switch ($this->getParameter ( 'backend' )) {
+			case 'apc' :
 				$script .= "
 	return apc_fetch(\$key);";
 				break;
-			case 'array':
+			case 'array' :
 				$script .= "
 	return isset(self::\$cacheBackend[\$key]) ? self::\$cacheBackend[\$key] : null;";
 				break;
-			case 'custom':
-			default:
+			case 'custom' :
+			default :
 				$script .= "
 	throw new PropelException('You must override the cacheContains(), cacheStore(), and cacheFetch() methods to enable query cache');";
 				break;
@@ -156,9 +140,7 @@ public function cacheFetch(\$key)
 }
 ";
 	}
-
-	protected function addDoSelect(&$script)
-	{
+	protected function addDoSelect(&$script) {
 		$script .= "
 protected function doSelect(\$con)
 {
@@ -168,8 +150,8 @@ protected function doSelect(\$con)
 	}
 	\$this->configureSelectColumns();
 
-	\$dbMap = Propel::getDatabaseMap(" . $this->peerClassname ."::DATABASE_NAME);
-	\$db = Propel::getDB(" . $this->peerClassname ."::DATABASE_NAME);
+	\$dbMap = Propel::getDatabaseMap(" . $this->peerClassname . "::DATABASE_NAME);
+	\$db = Propel::getDB(" . $this->peerClassname . "::DATABASE_NAME);
 
 	\$key = \$this->getQueryKey();
 	if (\$key && \$this->cacheContains(\$key)) {
@@ -196,9 +178,7 @@ protected function doSelect(\$con)
 }
 ";
 	}
-
-	protected function addDoCount(&$script)
-	{
+	protected function addDoCount(&$script) {
 		$script .= "
 protected function doCount(\$con)
 {
@@ -257,5 +237,4 @@ protected function doCount(\$con)
 }
 ";
 	}
-
 }

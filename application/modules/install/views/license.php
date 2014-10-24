@@ -1,13 +1,13 @@
-<h2><?php echo lang('License Agreement', 'install')?></h2>
+<h2>
+	<?php echo lang('License Agreement', 'install')?>
+</h2>
 <p>
-<style>
-    
-    textarea{
-        background-color: #fff !important;
-    }
-    
+	<style>
+textarea {
+	background-color: #fff !important;
+}
 </style>
-<textarea style="width:100%;height:550px;" readonly >
+	<textarea style="width: 100%; height: 550px;" readonly>
 Программа Система Управления Сайтом ImageCMS распространяется под генеральной общественной лицензией GNU. Перевод текста лицензии изложен ниже.
 
 ГЕНЕРАЛЬНАЯ ОБЩЕСТВЕННАЯ ЛИЦЕНЗИЯ GNU
@@ -122,9 +122,9 @@
 12. НИ ПРИ КАКИХ ОБСТОЯТЕЛЬСТВАХ, КРОМЕ ТРЕБУЕМЫХ ПО СООТВЕТСВУЮЩЕМУ ЗАКОНУ ИЛИ ОГОВОРЕННЫХ В ПИСЬМЕННОЙ ФОРМЕ, НИ ОДИН ИЗ ОБЛАДАТЕЛЕЙ АВТОРСКИХ ПРАВ И НИ ОДНА ДРУГАЯ СТОРОНА, ИМЕЮЩАЯ ПРАВО ИЗМЕНЯТЬ И/ИЛИ РАСПРОСТРАНЯТЬ ПРОГРАММУ, КАК ЭТО РАЗРЕШЕНО ВЫШЕ, НЕ НЕСЕТ ОТВЕТСТВЕННОСТИ ПЕРЕД ВАМИ ЗА УЩЕРБ, ВКЛЮЧАЯ ЛЮБОЙ ОБЩИЙ, СПЕЦИФИЧЕСКИЙ, СЛУЧАЙНЫЙ ИЛИ ЛОГИЧЕСКИ ВЫТЕКАЮЩИЙ УЩЕРБ, ПОНЕСЕННЫЙ В РЕЗУЛЬТАТЕ ИСПОЛЬЗОВАНИЯ ИЛИ НЕВОЗМОЖНОСТИ ИСПОЛЬЗОВАНИЯ ПРОГРАММЫ (ВКЛЮЧАЯ, НО НЕ ОГРАНИЧИВАЯСЬ ТОЛЬКО ИМИ, ПОТЕРЮ ДАННЫХ ИЛИ НЕТОЧНОСТЬ ОБРАБОТКИ ДАННЫХ ИЛИ ПОТЕРИ, ПОНЕСЕННЫЕ ВАМИ ИЛИ ТРЕТЬИМИ ЛИЦАМИ, ИЛИ НЕСПОСОБНОСТЬ ПРОГРАММЫ РАБОТАТЬ С ЛЮБЫМИ ДРУГИМИ ПРОГРАММАМИ), ДАЖЕ ЕСЛИ ЭТОТ ОБЛАДАТЕЛЬ АВТОРСКИХ ПРАВ БЫЛ ИНФОРМИРОВАН О ВОЗМОЖНОСТИ НАНЕСЕНИЯ ТАКОГО УЩЕРБА.
 </textarea>
 
-<br />
-<br />
-<a href="<?php echo $next_link ?>" class="btn btn-primary"><i class="icon-ok icon-white"></i><?php echo lang('Accept license', 'install')?>
-</a>
-<a href="http://www.imagecms.net/" class="btn btn-danger"><i class="icon-ban-circle icon-white"></i><?php echo lang('Cancel', 'install')?></a>
+	<br /> <br /> <a href="<?php echo $next_link ?>"
+		class="btn btn-primary"><i class="icon-ok icon-white"></i> <?php echo lang('Accept license', 'install')?>
+	</a> <a href="http://www.imagecms.net/" class="btn btn-danger"><i
+		class="icon-ban-circle icon-white"></i> <?php echo lang('Cancel', 'install')?>
+	</a>
 </p>

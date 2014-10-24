@@ -11,41 +11,32 @@
 /**
  * Keeps tracks of an ActiveRecord object, even after deletion
  *
- * @author     François Zaninotto
- * @package    propel.generator.behavior.archivable
+ * @author François Zaninotto
+ * @package propel.generator.behavior.archivable
  */
-class ArchivableBehaviorQueryBuilderModifier
-{
+class ArchivableBehaviorQueryBuilderModifier {
 	protected $behavior, $table;
-
-	public function __construct($behavior)
-	{
+	public function __construct($behavior) {
 		$this->behavior = $behavior;
-		$this->table = $behavior->getTable();
+		$this->table = $behavior->getTable ();
 	}
-
-	protected function getParameter($key)
-	{
-		return $this->behavior->getParameter($key);
+	protected function getParameter($key) {
+		return $this->behavior->getParameter ( $key );
 	}
-
-	public function queryAttributes($builder)
-	{
+	public function queryAttributes($builder) {
 		$script = '';
-		if ($this->behavior->isArchiveOnUpdate()) {
+		if ($this->behavior->isArchiveOnUpdate ()) {
 			$script .= "protected \$archiveOnUpdate = true;
 ";
 		}
-		if ($this->behavior->isArchiveOnDelete()) {
+		if ($this->behavior->isArchiveOnDelete ()) {
 			$script .= "protected \$archiveOnDelete = true;
 ";
 		}
 		return $script;
 	}
-
-	public function preDeleteQuery($builder)
-	{
-		if ($this->behavior->isArchiveOnDelete()) {
+	public function preDeleteQuery($builder) {
+		if ($this->behavior->isArchiveOnDelete ()) {
 			return "
 if (\$this->archiveOnDelete) {
 	\$this->archive(\$con);
@@ -55,10 +46,8 @@ if (\$this->archiveOnDelete) {
 ";
 		}
 	}
-
-	public function postUpdateQuery($builder)
-	{
-		if ($this->behavior->isArchiveOnUpdate()) {
+	public function postUpdateQuery($builder) {
+		if ($this->behavior->isArchiveOnUpdate ()) {
 			return "
 if (\$this->archiveOnUpdate) {
 	\$this->archive(\$con);
@@ -68,65 +57,65 @@ if (\$this->archiveOnUpdate) {
 ";
 		}
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	public function queryMethods($builder)
-	{
+	public function queryMethods($builder) {
 		$script = '';
-		$script .= $this->addArchive($builder);
-		if ($this->behavior->isArchiveOnUpdate()) {
-			$script .= $this->addSetArchiveOnUpdate($builder);
-			$script .= $this->addUpdateWithoutArchive($builder);
+		$script .= $this->addArchive ( $builder );
+		if ($this->behavior->isArchiveOnUpdate ()) {
+			$script .= $this->addSetArchiveOnUpdate ( $builder );
+			$script .= $this->addUpdateWithoutArchive ( $builder );
 		}
-		if ($this->behavior->isArchiveOnDelete()) {
-			$script .= $this->addSetArchiveOnDelete($builder);
-			$script .= $this->addDeleteWithoutArchive($builder);
+		if ($this->behavior->isArchiveOnDelete ()) {
+			$script .= $this->addSetArchiveOnDelete ( $builder );
+			$script .= $this->addDeleteWithoutArchive ( $builder );
 		}
 		return $script;
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	protected function addArchive($builder)
-	{
-		return $this->behavior->renderTemplate('queryArchive', array(
-			'archiveTablePhpName' => $this->behavior->getArchiveTablePhpName($builder),
-			'modelPeerName'       => $builder->getPeerClassname(),
-		));
+	protected function addArchive($builder) {
+		return $this->behavior->renderTemplate ( 'queryArchive', array (
+				'archiveTablePhpName' => $this->behavior->getArchiveTablePhpName ( $builder ),
+				'modelPeerName' => $builder->getPeerClassname () 
+		) );
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	public function addSetArchiveOnUpdate($builder)
-	{
-		return $this->behavior->renderTemplate('querySetArchiveOnUpdate');
+	public function addSetArchiveOnUpdate($builder) {
+		return $this->behavior->renderTemplate ( 'querySetArchiveOnUpdate' );
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	public function addUpdateWithoutArchive($builder)
-	{
-		return $this->behavior->renderTemplate('queryUpdateWithoutArchive');
+	public function addUpdateWithoutArchive($builder) {
+		return $this->behavior->renderTemplate ( 'queryUpdateWithoutArchive' );
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	public function addSetArchiveOnDelete($builder)
-	{
-		return $this->behavior->renderTemplate('querySetArchiveOnDelete');
+	public function addSetArchiveOnDelete($builder) {
+		return $this->behavior->renderTemplate ( 'querySetArchiveOnDelete' );
 	}
-
+	
 	/**
+	 *
 	 * @return string the PHP code to be added to the builder
 	 */
-	public function addDeleteWithoutArchive($builder)
-	{
-		return $this->behavior->renderTemplate('queryDeleteWithoutArchive');
+	public function addDeleteWithoutArchive($builder) {
+		return $this->behavior->renderTemplate ( 'queryDeleteWithoutArchive' );
 	}
 }

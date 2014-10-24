@@ -1,10 +1,9 @@
 <?php
-if($_SERVER["HTTP_HOST"] == 'www.avto-era.com.ua' || $_SERVER["HTTP_HOST"]  == '31.131.19.185'){
-    $refer = $_SERVER['REQUEST_URI'];
-    header('HTTP/1.1 301 Moved Permanently');
-    header('Location: http://avto-era.com.ua'.$refer);
+if ($_SERVER ["HTTP_HOST"] == 'www.avto-era.com.ua' || $_SERVER ["HTTP_HOST"] == '31.131.19.185') {
+	$refer = $_SERVER ['REQUEST_URI'];
+	header ( 'HTTP/1.1 301 Moved Permanently' );
+	header ( 'Location: http://avto-era.com.ua' . $refer );
 }
-
 
 /*
  * ---------------------------------------------------------------
@@ -17,9 +16,9 @@ if($_SERVER["HTTP_HOST"] == 'www.avto-era.com.ua' || $_SERVER["HTTP_HOST"]  == '
  *
  * This can be set to anything, but default usage is:
  *
- *     development
- *     testing
- *     production
+ * development
+ * testing
+ * production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  *
@@ -30,11 +29,12 @@ if($_SERVER["HTTP_HOST"] == 'www.avto-era.com.ua' || $_SERVER["HTTP_HOST"]  == '
  *
  * (!strpos($_SERVER['REQUEST_URI'], 'index.php')) OR header("Location:http://" . $_SERVER['SERVER_NAME'] . "/page_not_found");
  */
-if (strpos($_SERVER['REQUEST_URI'], 'index.php') !== false) {
-    header("Location:http://" . $_SERVER['SERVER_NAME'] . "/page_not_found");
-    exit;
+if (strpos ( $_SERVER ['REQUEST_URI'], 'index.php' ) !== false) {
+	header ( "Location:http://" . $_SERVER ['SERVER_NAME'] . "/page_not_found" );
+	exit ();
 }
-define('ENVIRONMENT', 'production');
+// define ( 'ENVIRONMENT', 'production' );
+define ( 'ENVIRONMENT', 'development' );
 /*
  * ---------------------------------------------------------------
  * ERROR REPORTING
@@ -45,20 +45,20 @@ define('ENVIRONMENT', 'production');
  */
 
 switch (ENVIRONMENT) {
-    case 'development':
-        error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
-        ini_set('display_errors', 'on');
-        break;
-
-    case 'testing':
-    case 'production':
-        error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT ^ E_WARNING);
-        ini_set('display_errors', 'off');
-        break;
-
-    default:
-        header('HTTP/1.1 503 Service Unavailable.', TRUE, 503);
-        exit('The application environment is not set correctly.');
+	case 'development' :
+		error_reporting ( E_ALL ^ E_NOTICE ^ E_WARNING );
+		ini_set ( 'display_errors', 'on' );
+		break;
+	
+	case 'testing' :
+	case 'production' :
+		error_reporting ( E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT ^ E_WARNING );
+		ini_set ( 'display_errors', 'off' );
+		break;
+	
+	default :
+		header ( 'HTTP/1.1 503 Service Unavailable.', TRUE, 503 );
+		exit ( 'The application environment is not set correctly.' );
 }
 /*
  * ---------------------------------------------------------------
@@ -66,7 +66,7 @@ switch (ENVIRONMENT) {
  * ---------------------------------------------------------------
  *
  * This variable must contain the name of your "system" folder.
- * Include the path if the folder is not in the same  directory
+ * Include the path if the folder is not in the same directory
  * as this file.
  *
  */
@@ -79,7 +79,7 @@ $system_path = 'system';
  *
  * If you want this front controller to use a different "application"
  * folder then the default one you can set its name here. The folder
- * can also be renamed or relocated anywhere on your server.  If
+ * can also be renamed or relocated anywhere on your server. If
  * you do, use a full server path. For more info please see the user guide:
  * http://codeigniter.com/user_guide/general/managing_apps.html
  *
@@ -95,31 +95,30 @@ $application_folder = 'application';
  *
  * Normally you will set your default controller in the routes.php file.
  * You can, however, force a custom routing by hard-coding a
- * specific controller class/function here.  For most applications, you
+ * specific controller class/function here. For most applications, you
  * WILL NOT set your routing here, but it's an option for those
  * special instances where you might want to override the standard
  * routing in a specific front controller that shares a common CI installation.
  *
- * IMPORTANT:  If you set the routing here, NO OTHER controller will be
+ * IMPORTANT: If you set the routing here, NO OTHER controller will be
  * callable. In essence, this preference limits your application to ONE
- * specific controller.  Leave the function name blank if you need
+ * specific controller. Leave the function name blank if you need
  * to call functions dynamically via the URI.
  *
  * Un-comment the $routing array below to use this feature
  *
  */
-// The directory name, relative to the "controllers" folder.  Leave blank
+// The directory name, relative to the "controllers" folder. Leave blank
 // if your controller is not in a sub-folder within the "controllers" folder
 // $routing['directory'] = '';
-// The controller class file name.  Example:  Mycontroller.php
+// The controller class file name. Example: Mycontroller.php
 // $routing['controller'] = '';
 // The controller function you wish to be called.
-// $routing['function']	= '';
-
+// $routing['function'] = '';
 
 /*
  * -------------------------------------------------------------------
- *  CUSTOM CONFIG VALUES
+ * CUSTOM CONFIG VALUES
  * -------------------------------------------------------------------
  *
  * The $assign_to_config array below will be passed dynamically to the
@@ -134,81 +133,76 @@ $application_folder = 'application';
  */
 // $assign_to_config['name_of_config_item'] = 'value of config item';
 // --------------------------------------------------------------------
-// END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
+// END OF USER CONFIGURABLE SETTINGS. DO NOT EDIT BELOW THIS LINE
 // --------------------------------------------------------------------
 
 /*
  * ---------------------------------------------------------------
- *  Resolve the system path for increased reliability
+ * Resolve the system path for increased reliability
  * ---------------------------------------------------------------
  */
 
 // Set the current directory correctly for CLI requests
 
-
-
-if (defined('STDIN')) {
-    chdir(dirname(__FILE__));
+if (defined ( 'STDIN' )) {
+	chdir ( dirname ( __FILE__ ) );
 }
 
-if (realpath($system_path) !== FALSE) {
-    $system_path = realpath($system_path) . '/';
+if (realpath ( $system_path ) !== FALSE) {
+	$system_path = realpath ( $system_path ) . '/';
 }
 
 // ensure there's a trailing slash
-$system_path = rtrim($system_path, '/') . '/';
+$system_path = rtrim ( $system_path, '/' ) . '/';
 
 // Is the system path correct?
-if (!is_dir($system_path)) {
-    exit("Your system folder path does not appear to be set correctly. Please open the following file and correct this: " . pathinfo(__FILE__, PATHINFO_BASENAME));
+if (! is_dir ( $system_path )) {
+	exit ( "Your system folder path does not appear to be set correctly. Please open the following file and correct this: " . pathinfo ( __FILE__, PATHINFO_BASENAME ) );
 }
-
 
 /*
  * -------------------------------------------------------------------
- *  Now that we know the path, set the main path constants
+ * Now that we know the path, set the main path constants
  * -------------------------------------------------------------------
  */
 // The name of THIS file
-define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
+define ( 'SELF', pathinfo ( __FILE__, PATHINFO_BASENAME ) );
 
 // The PHP file extension
-define('EXT', '.php');
+define ( 'EXT', '.php' );
 
 // Path to the system folder
-define('BASEPATH', str_replace("\\", "/", $system_path));
+define ( 'BASEPATH', str_replace ( "\\", "/", $system_path ) );
 
 // Path to the front controller (this file)
-define('FCPATH', str_replace(SELF, '', __FILE__));
+define ( 'FCPATH', str_replace ( SELF, '', __FILE__ ) );
 
-define('PUBPATH', FCPATH);
-define('TEMPLATES_PATH', PUBPATH . 'templates/');
+define ( 'PUBPATH', FCPATH );
+define ( 'TEMPLATES_PATH', PUBPATH . 'templates/' );
 
 // Name of the "system folder"
-define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
-
+define ( 'SYSDIR', trim ( strrchr ( trim ( BASEPATH, '/' ), '/' ), '/' ) );
 
 // The path to the "application" folder
-if (is_dir($application_folder)) {
-    define('APPPATH', $application_folder . '/');
+if (is_dir ( $application_folder )) {
+	define ( 'APPPATH', $application_folder . '/' );
 } else {
-    if (!is_dir(BASEPATH . $application_folder . '/')) {
-        exit("Your application folder path does not appear to be set correctly. Please open the following file and correct this: " . SELF);
-    }
-
-    define('APPPATH', BASEPATH . $application_folder . '/');
+	if (! is_dir ( BASEPATH . $application_folder . '/' )) {
+		exit ( "Your application folder path does not appear to be set correctly. Please open the following file and correct this: " . SELF );
+	}
+	
+	define ( 'APPPATH', BASEPATH . $application_folder . '/' );
 }
 
+define ( 'IMAGECMS_NUMBER', '4.5.1 Premium' );
 
-define('IMAGECMS_NUMBER', '4.5.1 Premium');
+define ( 'IMAGECMS_VERSION', '20131018' );
 
-define('IMAGECMS_VERSION', '20131018');
+define ( 'IMAGECMS_BUILD_ID', '' );
 
-define('IMAGECMS_BUILD_ID', '');
+define ( 'BUILD_ID', '451.564' );
 
-define('BUILD_ID', '451.564');
-
-define('IMAGECMS_PUBLIC_ID', '51035d2a96a227c54d0dea3ff415ced6d39266c3');
+define ( 'IMAGECMS_PUBLIC_ID', '51035d2a96a227c54d0dea3ff415ced6d39266c3' );
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

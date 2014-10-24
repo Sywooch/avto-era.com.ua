@@ -1,10 +1,10 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
 
 /**
  * Class for Banners module
+ *
  * @uses MY_Controller
  * @author L.Andriy <l.andriy@siteimage.com.ua>
  * @copyright (c) 2013, ImageCMS
@@ -12,166 +12,159 @@ if (!defined('BASEPATH'))
  * @property Banner_model $banner_model
  */
 class Banners extends MY_Controller {
+	public $no_install = true;
+	public function __construct() {
+		parent::__construct ();
+		if (count ( $this->db->where ( 'name', 'banners' )->get ( 'components' )->result_array () ) == 0)
+			$this->no_install = false;
+		$this->load->module ( 'core' );
+		$this->load->model ( 'banner_model' );
+		$lang = new MY_Lang ();
+		$lang->load ( 'banners' );
+	}
+	public function index() {
+		if ($this->no_install === false)
+			return false;
+	}
 
-    public $no_install = true;
+	/**
+	 * Render banner into template
+	 *
+	 * @access public
+	 * @author L.Andriy <l.andriy@siteimage.com.ua>
+	 * @copyright (c) 2013, ImageCMS
+	 */
+	public function render($id = 0) {
 
-    public function __construct() {
-        parent::__construct();
-        if (count($this->db->where('name', 'banners')->get('components')->result_array()) == 0)
-            $this->no_install = false;
-        $this->load->module('core');
-        $this->load->model('banner_model');
-        $lang = new MY_Lang();
-        $lang->load('banners');
-    }
+		/* $id - is id entity (brand, category, product, page) .... for main id = 0 */
+		if ($this->no_install === false)
+			return false;
 
-    public function index() {
-        if ($this->no_install === false)
-            return false;
-    }
+		$type = $this->core->core_data ['data_type'];
+		$lang = $this->get_main_lang ( 'identif' );
+		$painting = $type . '_' . ( int ) $id;
 
-    /**
-     * Render banner into template
-     * @access public
-     * @author L.Andriy <l.andriy@siteimage.com.ua>
-     * @copyright (c) 2013, ImageCMS
-     */
-    public function render($id = 0) {
+		$hash = 'baners' . $type . $id . \CI_Controller::get_instance ()->config->item ( 'template' );
+		if ($cahe = Cache_html::get_html ( $hash )) {
+			\CMSFactory\assetManager::create ()->registerScript ( 'jquery.cycle.all.min', TRUE );
+			echo $cahe;
+		} else {
+				
+			$banners = $this->banner_model->get_all_banner ( $lang );
+				
+			foreach ( $banners as $banner ) {
+				$data = unserialize ( $banner ['where_show'] );
 
+				if (in_array ( $painting, $data ) && $banner ['active'] && time () < $banner ['active_to'])
+					$ban [] = $banner;
+			}
+				
+			if (count ( $ban ) > 0) {
 
-        /* $id - is id entity (brand, category, product, page) .... for main id = 0 */
-        if ($this->no_install === false)
-            return false;
+				$tpl = $this->banner_model->get_settings_tpl () ? $type . '_slider' : 'slider';
 
+				ob_start ();
+				\CMSFactory\assetManager::create ()->registerStyle ( 'style' )->registerScript ( 'jquery.cycle.all.min', TRUE )->registerScript ( 'main' )->setData ( array (
+						'banners' => $ban
+				) )->render ( $tpl, TRUE );
 
-        $type = $this->core->core_data['data_type'];
-        $lang = $this->get_main_lang('identif');
-        $painting = $type . '_' . (int) $id;
+				$baners_view = ob_get_clean ();
 
-        $hash = 'baners' . $type . $id . \CI_Controller::get_instance()->config->item('template');
-        if ($cahe = Cache_html::get_html($hash)) {
-            \CMSFactory\assetManager::create()
-                    ->registerScript('jquery.cycle.all.min', TRUE);
-            echo $cahe;
-        } else {
+				Cache_html::set_html ( $baners_view, $hash );
 
-            $banners = $this->banner_model->get_all_banner($lang);
+				echo $baners_view;
+			} else
+				return FALSE;
+		}
+	}
 
-            foreach ($banners as $banner) {
-                $data = unserialize($banner['where_show']);
+	/**
+	 * install module and create table
+	 *
+	 * @access public
+	 * @author L.Andriy <l.andriy@siteimage.com.ua>
+	 * @copyright (c) 2013, ImageCMS
+	 */
+	public function _install() {
+		$sql = "CREATE TABLE IF NOT EXISTS `mod_banner` (
+		`id` int(11) NOT NULL AUTO_INCREMENT,
+		`active` tinyint(4) NOT NULL,
+		`active_to` int(11) DEFAULT NULL,
+		`where_show` text CHARACTER SET utf8,
+		`position` int(11) DEFAULT NULL,
+		PRIMARY KEY (`id`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
-                if (in_array($painting, $data) && $banner['active'] && time() < $banner['active_to'])
-                    $ban[] = $banner;
-            }
+		$this->db->query ( $sql );
 
-            if (count($ban) > 0) {
+		$sql = "CREATE TABLE IF NOT EXISTS `mod_banner_i18n` (
+		`id` int(11) NOT NULL,
+		`url` text CHARACTER SET utf8,
+		`locale` varchar(5) CHARACTER SET utf8 NOT NULL,
+		`name` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
+		`description` text CHARACTER SET utf8,
+		`photo` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+		KEY `id` (`id`,`locale`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 
-                $tpl = $this->banner_model->get_settings_tpl() ? $type . '_slider' : 'slider';
+		$this->db->query ( $sql );
 
-                ob_start();
-                \CMSFactory\assetManager::create()
-                        ->registerStyle('style')
-                        ->registerScript('jquery.cycle.all.min', TRUE)
-                        ->registerScript('main')
-                        ->setData(array('banners' => $ban))
-                        ->render($tpl, TRUE);
+		$this->db->where ( 'name', 'banners' );
+		$this->db->update ( 'components', array (
+				'enabled' => 1
+		) );
+	}
 
-                $baners_view = ob_get_clean();
+	/**
+	 * deinstall module and drop tables
+	 *
+	 * @access public
+	 * @author L.Andriy <l.andriy@siteimage.com.ua>
+	 * @copyright (c) 2013, ImageCMS
+	 */
+	public function _deinstall() {
+		if ($this->dx_auth->is_admin () == FALSE)
+			exit ();
 
-                Cache_html::set_html($baners_view, $hash);
+		$this->load->dbforge ();
+		$this->dbforge->drop_table ( 'mod_banner' );
+		$this->dbforge->drop_table ( 'mod_banner_i18n' );
+	}
 
-                echo $baners_view;
-            }
-            else
-                return FALSE;
-        }
-    }
+	/**
+	 * check current language
+	 *
+	 * @access public
+	 * @author L.Andriy <l.andriy@siteimage.com.ua>
+	 * @copyright (c) 2013, ImageCMS
+	 */
+	public function get_main_lang($flag = null) {
+		$lang = $this->db->get ( 'languages' )->result_array ();
+		$lan_array = array ();
+		foreach ( $lang as $l ) {
+			$lan_array [$l ['identif']] = $l ['id'];
+			$lan_array_rev [$l ['id']] = $l ['identif'];
+		}
 
-    /**
-     * install module and create table
-     * @access public
-     * @author L.Andriy <l.andriy@siteimage.com.ua>
-     * @copyright (c) 2013, ImageCMS
-     */
-    public function _install() {
-
-
-        $sql = "CREATE TABLE IF NOT EXISTS `mod_banner` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `active` tinyint(4) NOT NULL,
-          `active_to` int(11) DEFAULT NULL,
-          `where_show` text CHARACTER SET utf8,
-          `position` int(11) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
-
-        $this->db->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS `mod_banner_i18n` (
-          `id` int(11) NOT NULL,
-          `url` text CHARACTER SET utf8,
-          `locale` varchar(5) CHARACTER SET utf8 NOT NULL,
-          `name` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-          `description` text CHARACTER SET utf8,
-          `photo` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
-          KEY `id` (`id`,`locale`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-
-        $this->db->query($sql);
-
-
-        $this->db->where('name', 'banners');
-        $this->db->update('components', array('enabled' => 1));
-    }
-
-    /**
-     * deinstall module and drop tables
-     * @access public
-     * @author L.Andriy <l.andriy@siteimage.com.ua>
-     * @copyright (c) 2013, ImageCMS
-     */
-    public function _deinstall() {
-
-        if ($this->dx_auth->is_admin() == FALSE)
-            exit;
-
-        $this->load->dbforge();
-        $this->dbforge->drop_table('mod_banner');
-        $this->dbforge->drop_table('mod_banner_i18n');
-    }
-
-    /**
-     * check current language
-     * @access public
-     * @author L.Andriy <l.andriy@siteimage.com.ua>
-     * @copyright (c) 2013, ImageCMS
-     */
-    public function get_main_lang($flag = null) {
-
-        $lang = $this->db->get('languages')->result_array();
-        $lan_array = array();
-        foreach ($lang as $l) {
-            $lan_array[$l['identif']] = $l['id'];
-            $lan_array_rev[$l['id']] = $l['identif'];
-        }
-
-        $lang_uri = $this->uri->segment(1);
-        if (in_array($lang_uri, $lan_array_rev)) {
-            $lang_id = $lan_array[$lang_uri];
-            $lang_ident = $lang_uri;
-        } else {
-            $lang = $this->db->where('default', 1)->get('languages')->result_array();
-            $lang_id = $lang[0]['id'];
-            $lang_ident = $lang[0]['identif'];
-        }
-        if ($flag == 'id')
-            return $lang_id;
-        if ($flag == 'identif')
-            return $lang_ident;
-        if ($flag == null)
-            return array('id' => $lang_id, 'identif' => $lang_ident);
-    }
-
+		$lang_uri = $this->uri->segment ( 1 );
+		if (in_array ( $lang_uri, $lan_array_rev )) {
+			$lang_id = $lan_array [$lang_uri];
+			$lang_ident = $lang_uri;
+		} else {
+			$lang = $this->db->where ( 'default', 1 )->get ( 'languages' )->result_array ();
+			$lang_id = $lang [0] ['id'];
+			$lang_ident = $lang [0] ['identif'];
+		}
+		if ($flag == 'id')
+			return $lang_id;
+		if ($flag == 'identif')
+			return $lang_ident;
+		if ($flag == null)
+			return array (
+					'id' => $lang_id,
+					'identif' => $lang_ident
+			);
+	}
 }
 
 /* End of file banners.php */

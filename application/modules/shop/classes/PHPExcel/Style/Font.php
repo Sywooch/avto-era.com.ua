@@ -25,78 +25,76 @@
  * @version	1.7.9, 2013-06-02
  */
 
-
 /**
  * PHPExcel_Style_Font
  *
- * @category   PHPExcel
- * @package	PHPExcel_Style
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Style
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_IComparable
-{
+class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_IComparable {
 	/* Underline types */
-	const UNDERLINE_NONE					= 'none';
-	const UNDERLINE_DOUBLE					= 'double';
-	const UNDERLINE_DOUBLEACCOUNTING		= 'doubleAccounting';
-	const UNDERLINE_SINGLE					= 'single';
-	const UNDERLINE_SINGLEACCOUNTING		= 'singleAccounting';
+	const UNDERLINE_NONE = 'none';
+	const UNDERLINE_DOUBLE = 'double';
+	const UNDERLINE_DOUBLEACCOUNTING = 'doubleAccounting';
+	const UNDERLINE_SINGLE = 'single';
+	const UNDERLINE_SINGLEACCOUNTING = 'singleAccounting';
 
 	/**
 	 * Font Name
 	 *
 	 * @var string
 	 */
-	protected $_name			= 'Calibri';
+	protected $_name = 'Calibri';
 
 	/**
 	 * Font Size
 	 *
 	 * @var float
 	 */
-	protected $_size			= 11;
+	protected $_size = 11;
 
 	/**
 	 * Bold
 	 *
 	 * @var boolean
 	 */
-	protected $_bold			= FALSE;
+	protected $_bold = FALSE;
 
 	/**
 	 * Italic
 	 *
 	 * @var boolean
 	 */
-	protected $_italic		= FALSE;
+	protected $_italic = FALSE;
 
 	/**
 	 * Superscript
 	 *
 	 * @var boolean
 	 */
-	protected $_superScript	= FALSE;
+	protected $_superScript = FALSE;
 
 	/**
 	 * Subscript
 	 *
 	 * @var boolean
 	 */
-	protected $_subScript		= FALSE;
+	protected $_subScript = FALSE;
 
 	/**
 	 * Underline
 	 *
 	 * @var string
 	 */
-	protected $_underline		= self::UNDERLINE_NONE;
+	protected $_underline = self::UNDERLINE_NONE;
 
 	/**
 	 * Strikethrough
 	 *
 	 * @var boolean
 	 */
-	protected $_strikethrough	= FALSE;
+	protected $_strikethrough = FALSE;
 
 	/**
 	 * Foreground color
@@ -108,35 +106,36 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	/**
 	 * Create a new PHPExcel_Style_Font
 	 *
-	 * @param	boolean	$isSupervisor	Flag indicating if this is a supervisor or not
-	 *									Leave this value at default unless you understand exactly what
-	 *										its ramifications are
-	 * @param	boolean	$isConditional	Flag indicating if this is a conditional style or not
-	 *									Leave this value at default unless you understand exactly what
-	 *										its ramifications are
+	 * @param boolean $isSupervisor
+	 *        	if this is a supervisor or not
+	 *        	Leave this value at default unless you understand exactly what
+	 *        	its ramifications are
+	 * @param boolean $isConditional
+	 *        	if this is a conditional style or not
+	 *        	Leave this value at default unless you understand exactly what
+	 *        	its ramifications are
 	 */
-	public function __construct($isSupervisor = FALSE, $isConditional = FALSE)
-	{
+	public function __construct($isSupervisor = FALSE, $isConditional = FALSE) {
 		// Supervisor?
-		parent::__construct($isSupervisor);
+		parent::__construct ( $isSupervisor );
 
 		// Initialise values
 		if ($isConditional) {
-			$this->_name			= NULL;
-			$this->_size			= NULL;
-			$this->_bold			= NULL;
-			$this->_italic			= NULL;
-			$this->_superScript		= NULL;
-			$this->_subScript		= NULL;
-			$this->_underline		= NULL;
-			$this->_strikethrough	= NULL;
-			$this->_color			= new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK, $isSupervisor, $isConditional);
+			$this->_name = NULL;
+			$this->_size = NULL;
+			$this->_bold = NULL;
+			$this->_italic = NULL;
+			$this->_superScript = NULL;
+			$this->_subScript = NULL;
+			$this->_underline = NULL;
+			$this->_strikethrough = NULL;
+			$this->_color = new PHPExcel_Style_Color ( PHPExcel_Style_Color::COLOR_BLACK, $isSupervisor, $isConditional );
 		} else {
-			$this->_color	= new PHPExcel_Style_Color(PHPExcel_Style_Color::COLOR_BLACK, $isSupervisor);
+			$this->_color = new PHPExcel_Style_Color ( PHPExcel_Style_Color::COLOR_BLACK, $isSupervisor );
 		}
 		// bind parent if we are a supervisor
 		if ($isSupervisor) {
-			$this->_color->bindParent($this, '_color');
+			$this->_color->bindParent ( $this, '_color' );
 		}
 	}
 
@@ -146,9 +145,8 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 *
 	 * @return PHPExcel_Style_Font
 	 */
-	public function getSharedComponent()
-	{
-		return $this->_parent->getSharedComponent()->getFont();
+	public function getSharedComponent() {
+		return $this->_parent->getSharedComponent ()->getFont ();
 	}
 
 	/**
@@ -157,9 +155,10 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 * @param array $array
 	 * @return array
 	 */
-	public function getStyleArray($array)
-	{
-		return array('font' => $array);
+	public function getStyleArray($array) {
+		return array (
+				'font' => $array
+		);
 	}
 
 	/**
@@ -167,58 +166,59 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 *
 	 * <code>
 	 * $objPHPExcel->getActiveSheet()->getStyle('B2')->getFont()->applyFromArray(
-	 *		array(
-	 *			'name'		=> 'Arial',
-	 *			'bold'		=> TRUE,
-	 *			'italic'	=> FALSE,
-	 *			'underline' => PHPExcel_Style_Font::UNDERLINE_DOUBLE,
-	 *			'strike'	=> FALSE,
-	 *			'color'		=> array(
-	 *				'rgb' => '808080'
-	 *			)
-	 *		)
+	 * array(
+	 * 'name'		=> 'Arial',
+	 * 'bold'		=> TRUE,
+	 * 'italic'	=> FALSE,
+	 * 'underline' => PHPExcel_Style_Font::UNDERLINE_DOUBLE,
+	 * 'strike'	=> FALSE,
+	 * 'color'		=> array(
+	 * 'rgb' => '808080'
+	 * )
+	 * )
 	 * );
 	 * </code>
 	 *
-	 * @param	array	$pStyles	Array containing style information
-	 * @throws	PHPExcel_Exception
+	 * @param array $pStyles
+	 *        	style information
+	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Style_Font
 	 */
 	public function applyFromArray($pStyles = null) {
-		if (is_array($pStyles)) {
+		if (is_array ( $pStyles )) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $this->getStyleArray ( $pStyles ) );
 			} else {
-				if (array_key_exists('name', $pStyles)) {
-					$this->setName($pStyles['name']);
+				if (array_key_exists ( 'name', $pStyles )) {
+					$this->setName ( $pStyles ['name'] );
 				}
-				if (array_key_exists('bold', $pStyles)) {
-					$this->setBold($pStyles['bold']);
+				if (array_key_exists ( 'bold', $pStyles )) {
+					$this->setBold ( $pStyles ['bold'] );
 				}
-				if (array_key_exists('italic', $pStyles)) {
-					$this->setItalic($pStyles['italic']);
+				if (array_key_exists ( 'italic', $pStyles )) {
+					$this->setItalic ( $pStyles ['italic'] );
 				}
-				if (array_key_exists('superScript', $pStyles)) {
-					$this->setSuperScript($pStyles['superScript']);
+				if (array_key_exists ( 'superScript', $pStyles )) {
+					$this->setSuperScript ( $pStyles ['superScript'] );
 				}
-				if (array_key_exists('subScript', $pStyles)) {
-					$this->setSubScript($pStyles['subScript']);
+				if (array_key_exists ( 'subScript', $pStyles )) {
+					$this->setSubScript ( $pStyles ['subScript'] );
 				}
-				if (array_key_exists('underline', $pStyles)) {
-					$this->setUnderline($pStyles['underline']);
+				if (array_key_exists ( 'underline', $pStyles )) {
+					$this->setUnderline ( $pStyles ['underline'] );
 				}
-				if (array_key_exists('strike', $pStyles)) {
-					$this->setStrikethrough($pStyles['strike']);
+				if (array_key_exists ( 'strike', $pStyles )) {
+					$this->setStrikethrough ( $pStyles ['strike'] );
 				}
-				if (array_key_exists('color', $pStyles)) {
-					$this->getColor()->applyFromArray($pStyles['color']);
+				if (array_key_exists ( 'color', $pStyles )) {
+					$this->getColor ()->applyFromArray ( $pStyles ['color'] );
 				}
-				if (array_key_exists('size', $pStyles)) {
-					$this->setSize($pStyles['size']);
+				if (array_key_exists ( 'size', $pStyles )) {
+					$this->setSize ( $pStyles ['size'] );
 				}
 			}
 		} else {
-			throw new PHPExcel_Exception("Invalid style array passed.");
+			throw new PHPExcel_Exception ( "Invalid style array passed." );
 		}
 		return $this;
 	}
@@ -230,7 +230,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getName() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getName();
+			return $this->getSharedComponent ()->getName ();
 		}
 		return $this->_name;
 	}
@@ -242,12 +242,14 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 * @return PHPExcel_Style_Font
 	 */
 	public function setName($pValue = 'Calibri') {
-  		if ($pValue == '') {
+		if ($pValue == '') {
 			$pValue = 'Calibri';
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('name' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'name' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_name = $pValue;
 		}
@@ -261,7 +263,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getSize() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getSize();
+			return $this->getSharedComponent ()->getSize ();
 		}
 		return $this->_size;
 	}
@@ -277,8 +279,10 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = 10;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('size' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'size' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_size = $pValue;
 		}
@@ -292,7 +296,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getBold() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getBold();
+			return $this->getSharedComponent ()->getBold ();
 		}
 		return $this->_bold;
 	}
@@ -308,8 +312,10 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = false;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('bold' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'bold' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_bold = $pValue;
 		}
@@ -323,7 +329,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getItalic() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getItalic();
+			return $this->getSharedComponent ()->getItalic ();
 		}
 		return $this->_italic;
 	}
@@ -339,8 +345,10 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = false;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('italic' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'italic' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_italic = $pValue;
 		}
@@ -354,7 +362,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getSuperScript() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getSuperScript();
+			return $this->getSharedComponent ()->getSuperScript ();
 		}
 		return $this->_superScript;
 	}
@@ -370,23 +378,25 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = false;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('superScript' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'superScript' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_superScript = $pValue;
-			$this->_subScript = !$pValue;
+			$this->_subScript = ! $pValue;
 		}
 		return $this;
 	}
 
-		/**
+	/**
 	 * Get SubScript
 	 *
 	 * @return boolean
 	 */
 	public function getSubScript() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getSubScript();
+			return $this->getSharedComponent ()->getSubScript ();
 		}
 		return $this->_subScript;
 	}
@@ -402,11 +412,13 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = false;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('subScript' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'subScript' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_subScript = $pValue;
-			$this->_superScript = !$pValue;
+			$this->_superScript = ! $pValue;
 		}
 		return $this;
 	}
@@ -418,7 +430,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getUnderline() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getUnderline();
+			return $this->getSharedComponent ()->getUnderline ();
 		}
 		return $this->_underline;
 	}
@@ -426,20 +438,23 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	/**
 	 * Set Underline
 	 *
-	 * @param string|boolean $pValue	PHPExcel_Style_Font underline type
-	 *									If a boolean is passed, then TRUE equates to UNDERLINE_SINGLE,
-	 *										false equates to UNDERLINE_NONE
+	 * @param string|boolean $pValue
+	 *        	underline type
+	 *        	If a boolean is passed, then TRUE equates to UNDERLINE_SINGLE,
+	 *        	false equates to UNDERLINE_NONE
 	 * @return PHPExcel_Style_Font
 	 */
 	public function setUnderline($pValue = self::UNDERLINE_NONE) {
-		if (is_bool($pValue)) {
+		if (is_bool ( $pValue )) {
 			$pValue = ($pValue) ? self::UNDERLINE_SINGLE : self::UNDERLINE_NONE;
 		} elseif ($pValue == '') {
 			$pValue = self::UNDERLINE_NONE;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('underline' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'underline' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_underline = $pValue;
 		}
@@ -453,7 +468,7 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 */
 	public function getStrikethrough() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getStrikethrough();
+			return $this->getSharedComponent ()->getStrikethrough ();
 		}
 		return $this->_strikethrough;
 	}
@@ -469,8 +484,10 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 			$pValue = false;
 		}
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getStyleArray(array('strike' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getStyleArray ( array (
+					'strike' => $pValue
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_strikethrough = $pValue;
 		}
@@ -489,17 +506,19 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	/**
 	 * Set Color
 	 *
-	 * @param	PHPExcel_Style_Color $pValue
-	 * @throws	PHPExcel_Exception
+	 * @param PHPExcel_Style_Color $pValue
+	 * @throws PHPExcel_Exception
 	 * @return PHPExcel_Style_Font
 	 */
 	public function setColor(PHPExcel_Style_Color $pValue = null) {
 		// make sure parameter is a real color and not a supervisor
-		$color = $pValue->getIsSupervisor() ? $pValue->getSharedComponent() : $pValue;
+		$color = $pValue->getIsSupervisor () ? $pValue->getSharedComponent () : $pValue;
 
 		if ($this->_isSupervisor) {
-			$styleArray = $this->getColor()->getStyleArray(array('argb' => $color->getARGB()));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$styleArray = $this->getColor ()->getStyleArray ( array (
+					'argb' => $color->getARGB ()
+			) );
+			$this->getActiveSheet ()->getStyle ( $this->getSelectedCells () )->applyFromArray ( $styleArray );
 		} else {
 			$this->_color = $color;
 		}
@@ -509,24 +528,12 @@ class PHPExcel_Style_Font extends PHPExcel_Style_Supervisor implements PHPExcel_
 	/**
 	 * Get hash code
 	 *
-	 * @return string	Hash code
+	 * @return string code
 	 */
 	public function getHashCode() {
 		if ($this->_isSupervisor) {
-			return $this->getSharedComponent()->getHashCode();
+			return $this->getSharedComponent ()->getHashCode ();
 		}
-		return md5(
-			  $this->_name
-			. $this->_size
-			. ($this->_bold ? 't' : 'f')
-			. ($this->_italic ? 't' : 'f')
-			. ($this->_superScript ? 't' : 'f')
-			. ($this->_subScript ? 't' : 'f')
-			. $this->_underline
-			. ($this->_strikethrough ? 't' : 'f')
-			. $this->_color->getHashCode()
-			. __CLASS__
-		);
+		return md5 ( $this->_name . $this->_size . ($this->_bold ? 't' : 'f') . ($this->_italic ? 't' : 'f') . ($this->_superScript ? 't' : 'f') . ($this->_subScript ? 't' : 'f') . $this->_underline . ($this->_strikethrough ? 't' : 'f') . $this->_color->getHashCode () . __CLASS__ );
 	}
-
 }

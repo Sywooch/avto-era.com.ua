@@ -7,178 +7,177 @@
  *
  * @license    MIT License
  */
-
-require_once dirname(__FILE__) .  '/XMLElement.php';
-require_once dirname(__FILE__) . '/../exception/EngineException.php';
-require_once dirname(__FILE__) . '/PropelTypes.php';
-require_once dirname(__FILE__) . '/Rule.php';
+require_once dirname ( __FILE__ ) . '/XMLElement.php';
+require_once dirname ( __FILE__ ) . '/../exception/EngineException.php';
+require_once dirname ( __FILE__ ) . '/PropelTypes.php';
+require_once dirname ( __FILE__ ) . '/Rule.php';
 
 /**
  * Validator.
  *
- * @author     Michael Aichler <aichler@mediacluster.de> (Propel)
- * @version    $Revision$
- * @package    propel.generator.model
+ * @author Michael Aichler <aichler@mediacluster.de> (Propel)
+ * @version $Revision$
+ * @package propel.generator.model
  */
-class Validator extends XMLElement
-{
-
+class Validator extends XMLElement {
 	const TRANSLATE_NONE = "none";
 	const TRANSLATE_GETTEXT = "gettext";
-
+	
 	/**
 	 * The column this validator applies to.
 	 *
-	 * @var        Column
+	 * @var Column
 	 */
 	private $column;
-
+	
 	/**
 	 * The rules for the validation.
 	 *
-	 * @var        array Rule[]
+	 * @var array Rule[]
 	 */
-	private $ruleList = array();
-
+	private $ruleList = array ();
+	
 	/**
 	 * The translation mode.
 	 *
-	 * @var        string
+	 * @var string
 	 */
 	private $translate;
-
+	
 	/**
 	 * Parent table.
 	 *
-	 * @var        Table
+	 * @var Table
 	 */
 	private $table;
-
+	
 	/**
 	 * Sets up the Validator object based on the attributes that were passed to loadFromXML().
-	 * @see        parent::loadFromXML()
+	 * 
+	 * @see parent::loadFromXML()
 	 */
-	protected function setupObject()
-	{
-		$this->column = $this->getTable()->getColumn($this->getAttribute("column"));
-		$this->translate = $this->getAttribute("translate", $this->getTable()->getDatabase()->getDefaultTranslateMethod());;
+	protected function setupObject() {
+		$this->column = $this->getTable ()->getColumn ( $this->getAttribute ( "column" ) );
+		$this->translate = $this->getAttribute ( "translate", $this->getTable ()->getDatabase ()->getDefaultTranslateMethod () );
+		;
 	}
-
+	
 	/**
 	 * Add a Rule to this validator.
 	 * Supports two signatures:
 	 * - addRule(Rule $rule)
 	 * - addRule(array $attribs)
-	 * @param      mixed $data Rule object or XML attribs (array) from <rule/> element.
-	 * @return     Rule The added Rule.
+	 * 
+	 * @param mixed $data
+	 *        	Rule object or XML attribs (array) from <rule/> element.
+	 * @return Rule The added Rule.
 	 */
-	public function addRule($data)
-	{
+	public function addRule($data) {
 		if ($data instanceof Rule) {
 			$rule = $data; // alias
-			$rule->setValidator($this);
-			$this->ruleList[] = $rule;
+			$rule->setValidator ( $this );
+			$this->ruleList [] = $rule;
 			return $rule;
-		}
-		else {
-			$rule = new Rule();
-			$rule->setValidator($this);
-			$rule->loadFromXML($data);
-			return $this->addRule($rule); // call self w/ different param
+		} else {
+			$rule = new Rule ();
+			$rule->setValidator ( $this );
+			$rule->loadFromXML ( $data );
+			return $this->addRule ( $rule ); // call self w/ different param
 		}
 	}
-
+	
 	/**
 	 * Gets an array of all added rules for this validator.
-	 * @return     array Rule[]
+	 * 
+	 * @return array Rule[]
 	 */
-	public function getRules()
-	{
+	public function getRules() {
 		return $this->ruleList;
 	}
-
+	
 	/**
 	 * Gets the name of the column that this Validator applies to.
-	 * @return     string
+	 * 
+	 * @return string
 	 */
-	public function getColumnName()
-	{
-		return $this->column->getName();
+	public function getColumnName() {
+		return $this->column->getName ();
 	}
-
+	
 	/**
 	 * Sets the Column object that this validator applies to.
-	 * @param      Column $column
-	 * @see        Table::addValidator()
+	 * 
+	 * @param Column $column        	
+	 * @see Table::addValidator()
 	 */
-	public function setColumn(Column $column)
-	{
+	public function setColumn(Column $column) {
 		$this->column = $column;
 	}
-
+	
 	/**
 	 * Gets the Column object that this validator applies to.
-	 * @return     Column
+	 * 
+	 * @return Column
 	 */
-	public function getColumn()
-	{
+	public function getColumn() {
 		return $this->column;
 	}
-
+	
 	/**
 	 * Set the owning Table.
-	 * @param      Table $table
+	 * 
+	 * @param Table $table        	
 	 */
-	public function setTable(Table $table)
-	{
+	public function setTable(Table $table) {
 		$this->table = $table;
 	}
-
+	
 	/**
 	 * Get the owning Table.
-	 * @return     Table
+	 * 
+	 * @return Table
 	 */
-	public function getTable()
-	{
+	public function getTable() {
 		return $this->table;
 	}
-
+	
 	/**
 	 * Set the translation mode to use for the message.
-	 * Currently only "gettext" and "none" are supported.  The default is "none".
-	 * @param      string $method Translation method ("gettext", "none").
+	 * Currently only "gettext" and "none" are supported. The default is "none".
+	 * 
+	 * @param string $method
+	 *        	Translation method ("gettext", "none").
 	 */
-	public function setTranslate($method)
-	{
+	public function setTranslate($method) {
 		$this->translate = $method;
 	}
-
+	
 	/**
 	 * Get the translation mode to use for the message.
-	 * Currently only "gettext" and "none" are supported.  The default is "none".
-	 * @return     string Translation method ("gettext", "none").
+	 * Currently only "gettext" and "none" are supported. The default is "none".
+	 * 
+	 * @return string Translation method ("gettext", "none").
 	 */
-	public function getTranslate()
-	{
+	public function getTranslate() {
 		return $this->translate;
 	}
-
+	
 	/**
-	 * @see        XMLElement::appendXml(DOMNode)
+	 *
+	 * @see XMLElement::appendXml(DOMNode)
 	 */
-	public function appendXml(DOMNode $node)
-	{
+	public function appendXml(DOMNode $node) {
 		$doc = ($node instanceof DOMDocument) ? $node : $node->ownerDocument;
-
-		$valNode = $node->appendChild($doc->createElement('validator'));
-		$valNode->setAttribute('column', $this->getColumnName());
-
+		
+		$valNode = $node->appendChild ( $doc->createElement ( 'validator' ) );
+		$valNode->setAttribute ( 'column', $this->getColumnName () );
+		
 		if ($this->translate !== null) {
-			$valNode->setAttribute('translate', $this->translate);
+			$valNode->setAttribute ( 'translate', $this->translate );
 		}
-
-		foreach ($this->ruleList as $rule) {
-			$rule->appendXml($valNode);
+		
+		foreach ( $this->ruleList as $rule ) {
+			$rule->appendXml ( $valNode );
 		}
 	}
 }

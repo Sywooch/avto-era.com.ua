@@ -5,77 +5,77 @@ use ImportCSV\ProductsImport;
 
 class ShopImport {
 
-    public $delimiter = ";";
-    public $imageSizes = array();
-    public $maxRowLength = 10000;
-    public $enclosure = '"';
-    public $file = null;
-    public $currency = null;
-    public $encoding = 'utf8';
-    public $language = 'ru';
-    public $attributes = array();
-    public $errors = array();
-    public $categoryCache = array(); // Cache categories by name.
-    public $subCategoryDelimiter = '/';
-    public $subCategoryPattern = '/\\REPLACE((?:[^\\\\\REPLACE]|\\\\.)*)/';
-    public $con = null;
-    public $imageSource = null;
-    public $imageOrigin = null;
-    public $class_map = array('CategoryImport', 'ProductsImport', 'import_properties');
+	public $delimiter = ";";
+	public $imageSizes = array();
+	public $maxRowLength = 10000;
+	public $enclosure = '"';
+	public $file = null;
+	public $currency = null;
+	public $encoding = 'utf8';
+	public $language = 'ru';
+	public $attributes = array();
+	public $errors = array();
+	public $categoryCache = array(); // Cache categories by name.
+	public $subCategoryDelimiter = '/';
+	public $subCategoryPattern = '/\\REPLACE((?:[^\\\\\REPLACE]|\\\\.)*)/';
+	public $con = null;
+	public $imageSource = null;
+	public $imageOrigin = null;
+	public $class_map = array('CategoryImport', 'ProductsImport', 'import_properties');
 
-    public function __construct($file, array $settings = array()) {
+	public function __construct($file, array $settings = array()) {
 
-        if (!is_readable($file))
-            $this->showMessage('Ошибка открытия файла.');
-        if (!in_array($settings['import_type'], $this->class_map))
-            $this->showMessage('Ошибка разбора запроса.');
+		if (!is_readable($file))
+			$this->showMessage('Ошибка открытия файла.');
+		if (!in_array($settings['import_type'], $this->class_map))
+			$this->showMessage('Ошибка разбора запроса.');
 
-        switch ($settings['import_type']) {
-            case 'CategoryImport':
-                $Import = new CategoryImport($file, $settings);
-                break;
-            case 'ProductsImport':
-                $Import = new ProductsImport($file, $settings);
-                $Import->make();
-                break;
-            default:
-                $this->addError('Ошибка разбора запроса.');
-        }
-    }
+		switch ($settings['import_type']) {
+			case 'CategoryImport':
+				$Import = new CategoryImport($file, $settings);
+				break;
+			case 'ProductsImport':
+				$Import = new ProductsImport($file, $settings);
+				$Import->make();
+				break;
+			default:
+				$this->addError('Ошибка разбора запроса.');
+		}
+	}
 
-    /**
-     * addError
-     *
-     * @param mixed $msg
-     * @access protected
-     * @return void
-     */
-    public function addError($msg) {
-        $this->errors[] = $msg;
-    }
+	/**
+	 * addError
+	 *
+	 * @param mixed $msg
+	 * @access protected
+	 * @return void
+	 */
+	public function addError($msg) {
+		$this->errors[] = $msg;
+	}
 
-    /**
-     * Check for errors
-     *
-     * @access public
-     * @return boolean
-     */
-    public function hasErrors() {
-        if (sizeof($this->errors) > 0)
-            return true;
-        else
-            return false;
-    }
+	/**
+	 * Check for errors
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function hasErrors() {
+		if (sizeof($this->errors) > 0)
+			return true;
+		else
+			return false;
+	}
 
-    /**
-     * Get errors array
-     *
-     * @access public
-     * @return array
-     */
-    public function getErrors() {
-        return $this->errors;
-    }
+	/**
+	 * Get errors array
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function getErrors() {
+		return $this->errors;
+	}
 
 }
 
@@ -112,22 +112,22 @@ class ShopImport {
 //        'ShortDescription' => 'short_description',
 //        'FullDescription' => 'full_description',
 //        'MetaTitle' => 'meta_title',
-//        'MetaDescription' => 'meta_description',
-//        'MetaKeywords' => 'meta_keywords',
-//    );
+		//        'MetaDescription' => 'meta_description',
+		//        'MetaKeywords' => 'meta_keywords',
+		//    );
 //    public $sqlNamesProdVar = array(
-//        'OldPrice' => 'old_price',
-//        'Url' => 'url',
-//        'Active' => 'active',
-//        'Hit' => 'hit',
-//        'BrandId' => 'brand_id',
-//        'CategoryId' => 'category_id',
-//        'RelatedProducts' => 'related_products',
-//        'MainImage' => 'mainImage',
-//        'MainModImage' => 'mainModImage',
-//        'SmallImage' => 'smallImage',
-//        'SmallModImage' => 'smallModImage',
-//    );
+		//        'OldPrice' => 'old_price',
+		//        'Url' => 'url',
+		//        'Active' => 'active',
+		//        'Hit' => 'hit',
+		//        'BrandId' => 'brand_id',
+		//        'CategoryId' => 'category_id',
+		//        'RelatedProducts' => 'related_products',
+		//        'MainImage' => 'mainImage',
+		//        'MainModImage' => 'mainModImage',
+		//        'SmallImage' => 'smallImage',
+		//        'SmallModImage' => 'smallModImage',
+		//    );
 //    public $customFieldsIds = array(); // Store ids from field names. e.g array('field_1'=>1);
 //    public $processCustomFields = false;
 //    public $customFieldsCache = array();
@@ -153,7 +153,7 @@ class ShopImport {
 //        $this->language = $settings['languages'];
 //
 //        if (!is_readable($file))
-//            $this->addError('Ошибка открытия файла.');
+	//            $this->addError('Ошибка открытия файла.');
 //
 //        $this->subCategoryPattern = str_replace('REPLACE', $this->subCategoryDelimiter, $this->subCategoryPattern);
 //
@@ -175,37 +175,37 @@ class ShopImport {
 //        if (sizeof($settings) > 0) {
 //            foreach ($settings as $key => $value) {
 //                if (isset($this->$key))
-//                    $this->$key = $value;
+	//                    $this->$key = $value;
 //            }
 //        }
 //    }
 //
 //    public function columnsToAttributes() {
 //        $abbreviations = array(
-//            'name' => 'Name',
-//            'url' => 'Url',
-//            'oldprc' => 'OldPrice',
-//            'prc' => 'Price',
-//            'stk' => 'Stock',
-//            'num' => 'Number',
-//            'var' => 'Variant',
-//            'act' => 'Active',
-//            'hit' => 'Hit',
-//            'brd' => 'BrandId',
-//            'cat' => 'CategoryName',
-//            'relp' => 'RelatedProducts',
-//            'mimg' => 'MainImage',
-//            'simg' => 'SmallImage',
-//            'modim' => 'MainModImage',
-//            'modis' => 'SmallModImage',
-//            'imgs' => 'AdditionalImages',
-//            'shdesc' => 'ShortDescription',
-//            'desc' => 'FullDescription',
-//            'mett' => 'MetaTitle',
-//            'metd' => 'MetaDescription',
-//            'metk' => 'MetaKeywords',
-//            'skip' => 'skip',
-//        );
+		//            'name' => 'Name',
+		//            'url' => 'Url',
+		//            'oldprc' => 'OldPrice',
+		//            'prc' => 'Price',
+		//            'stk' => 'Stock',
+		//            'num' => 'Number',
+		//            'var' => 'Variant',
+		//            'act' => 'Active',
+		//            'hit' => 'Hit',
+		//            'brd' => 'BrandId',
+		//            'cat' => 'CategoryName',
+		//            'relp' => 'RelatedProducts',
+		//            'mimg' => 'MainImage',
+		//            'simg' => 'SmallImage',
+		//            'modim' => 'MainModImage',
+		//            'modis' => 'SmallModImage',
+		//            'imgs' => 'AdditionalImages',
+		//            'shdesc' => 'ShortDescription',
+		//            'desc' => 'FullDescription',
+		//            'mett' => 'MetaTitle',
+		//            'metd' => 'MetaDescription',
+		//            'metk' => 'MetaKeywords',
+		//            'skip' => 'skip',
+		//        );
 //
 //        $attributes = str_replace(array_keys($abbreviations), $abbreviations, $this->attributes);
 //        $attributes = array_map('trim', explode(',', $attributes));
@@ -217,17 +217,17 @@ class ShopImport {
 //            }
 //
 //            if (!in_array($val, $abbreviations))
-//                $this->addError('Неизвестный атрибут: ' . $val);
+	//                $this->addError('Неизвестный атрибут: ' . $val);
 //        }
 //
 //        if (sizeof($this->customFieldsIds) > 0)
-//            $this->processCustomFields = true;
+	//            $this->processCustomFields = true;
 //
 //        if (!in_array('Name', $attributes))
-//            $this->addError('Атрибут Имя обязательное поле.');
+	//            $this->addError('Атрибут Имя обязательное поле.');
 //
 //        if (!in_array('CategoryName', $attributes) && !in_array('Number', $attributes))
-//            $this->addError('Категория или Артикул - обязательные поля');
+	//            $this->addError('Категория или Артикул - обязательные поля');
 //
 //        $this->attributes = $attributes;
 //
@@ -270,7 +270,7 @@ class ShopImport {
 ////----------------------------------
 //    public function processDataRawSql(array $data) {
 //        if (empty($data['CategoryName']))
-//            return;
+	//            return;
 //
 //        $categoryModel = null;
 //        $productModel = false;
@@ -279,7 +279,7 @@ class ShopImport {
 //
 //// Prepare price
 //        if (!empty($data['Price']))
-//            $data['Price'] = preg_replace('/,/', '.', $data['Price']);
+	//            $data['Price'] = preg_replace('/,/', '.', $data['Price']);
 //
 //// First search product by Number.
 //        if (!empty($data['Number'])) {
@@ -339,7 +339,7 @@ class ShopImport {
 //
 //                $sql = 'UPDATE shop_products SET url=' . $pid . ', brand_id=:brand_id WHERE id=' . $pid;
 //                $this->runQuery($sql, array(
-//                    ':brand_id' => $brandId));
+		//                    ':brand_id' => $brandId));
 //            } else {
 //                $pid = $idNoLocale;
 //                $productModel['id'] = $idNoLocale;
@@ -349,43 +349,43 @@ class ShopImport {
 //            $sql = 'INSERT INTO shop_products_i18n (id,locale, name, short_description,full_description,meta_title,meta_description,meta_keywords)
 //                VALUES (:product_id, :locale, :name, :short_description, :full_description, :meta_title, :meta_description, :meta_keywords )';
 //            $result = $this->runQuery($sql, array(
-//                ':product_id' => $productModel['id'],
-//                ':name' => $data['Name'],
-//                ':short_description' => $data['ShortDescription'],
-//                ':full_description' => $data['FullDescription'],
-//                ':meta_title' => $data['MetaTitle'],
-//                ':meta_description' => $data['MetaDescription'],
-//                ':meta_keywords' => $data['MetaKeywords'],
-//                ':locale' => $this->language,
-//                    ));
+		//                ':product_id' => $productModel['id'],
+		//                ':name' => $data['Name'],
+		//                ':short_description' => $data['ShortDescription'],
+		//                ':full_description' => $data['FullDescription'],
+		//                ':meta_title' => $data['MetaTitle'],
+		//                ':meta_description' => $data['MetaDescription'],
+		//                ':meta_keywords' => $data['MetaKeywords'],
+		//                ':locale' => $this->language,
+		//                    ));
 //            if (!$idNoLocale) {
 //                $sql = 'INSERT INTO shop_product_categories (product_id,category_id) VALUES (:product_id,:category_id)';
 //                $result = $this->runQuery($sql, array(
-//                    ':product_id' => $pid,
-//                    ':category_id' => $catId,
-//                        ));
+		//                    ':product_id' => $pid,
+		//                    ':category_id' => $catId,
+		//                        ));
 //            }
 //
 //            $sql = 'INSERT INTO shop_product_variants (product_id,price,number,stock) VALUES (:product_id,:price,:number,:stock)';
 //            $result = $this->runQuery($sql, array(
-//                ':product_id' => $pid,
-//                ':price' => $data['Price'],
-//                ':number' => $data['Number'],
-//                ':stock' => $data['Stock'],
-//                    ));
+		//                ':product_id' => $pid,
+		//                ':price' => $data['Price'],
+		//                ':number' => $data['Number'],
+		//                ':stock' => $data['Stock'],
+		//                    ));
 //
 //            $vid = $this->con->lastInsertId(); // ProductId.
 //            if ($data['Variant'])
-//                $nameV = $data['Variant'];
+	//                $nameV = $data['Variant'];
 //            else
-//                $nameV = $data['Name'];
+	//                $nameV = $data['Name'];
 //
 //            $sql = 'INSERT INTO shop_product_variants_i18n (id, locale ,name) VALUES (:v_id, :locale, :name)';
 //            $result = $this->runQuery($sql, array(
-//                ':v_id' => $vid,
-//                ':locale' => $this->language,
-//                ':name' => $nameV,
-//                    ));
+		//                ':v_id' => $vid,
+		//                ':locale' => $this->language,
+		//                ':name' => $nameV,
+		//                    ));
 //
 //// Insert product additional images only from new products.
 //            if (isset($data['AdditionalImages']) && !empty($data['AdditionalImages'])) {
@@ -395,10 +395,10 @@ class ShopImport {
 //                foreach ($additionalImages as $image_name) {
 //                    $imgSql = 'INSERT INTO shop_product_images (product_id,image_name,position) VALUES (:product_id,:image_name,:position)';
 //                    $this->runQuery($imgSql, array(
-//                        ':product_id' => $pid,
-//                        ':image_name' => $image_name,
-//                        ':position' => $imagePos,
-//                    ));
+		//                        ':product_id' => $pid,
+		//                        ':image_name' => $image_name,
+		//                        ':position' => $imagePos,
+		//                    ));
 //                    $imagePos++;
 //                }
 //            }
@@ -421,45 +421,45 @@ class ShopImport {
 //        if (isset($data['Variant']) && !empty($data['Variant'])) {
 //            $sql = 'SELECT shop_product_variants.id, shop_product_variants.product_id FROM shop_product_variants LEFT JOIN shop_product_variants_i18n ON shop_product_variants_i18n.id = shop_product_variants.id WHERE shop_product_variants.product_id=:product_id AND shop_product_variants_i18n.name=:name LIMIT 1';
 //            $result = $this->runQuery($sql, array(
-//                ':product_id' => $productModel['id'],
-//                ':name' => $data['Variant'],
-//                    ));
+		//                ':product_id' => $productModel['id'],
+		//                ':name' => $data['Variant'],
+		//                    ));
 //
 //            $result = $result->fetch();
 //
 //            if (isset($result['id'])) {
 //                $sql = 'UPDATE shop_product_variants SET price=:price,number=:number,stock=:stock WHERE product_id=:product_id AND id=:variant_id LIMIT 1';
 //                $this->runQuery($sql, array(
-//                    ':price' => $data['Price'],
-//                    ':number' => $data['Number'],
-//                    ':stock' => $data['Stock'],
-//                    ':product_id' => $productModel['id'],
-//                    ':variant_id' => $result['id']));
+		//                    ':price' => $data['Price'],
+		//                    ':number' => $data['Number'],
+		//                    ':stock' => $data['Stock'],
+		//                    ':product_id' => $productModel['id'],
+		//                    ':variant_id' => $result['id']));
 //
 //
 //
 //                $sql = 'UPDATE shop_product_variants_i18n SET name=:name,locale=:locale WHERE id=:variant_id LIMIT 1';
 //                $this->runQuery($sql, array(
-//                    ':name' => $data['Variant'],
-//                    ':locale' => $this->language,
-//                    ':variant_id' => $result['id']
-//                ));
+		//                    ':name' => $data['Variant'],
+		//                    ':locale' => $this->language,
+		//                    ':variant_id' => $result['id']
+		//                ));
 //            } else {
 //                $sql = 'INSERT INTO shop_product_variants (product_id,price,number,stock) VALUES (:product_id,:price,:number,:stock)';
 //                $this->runQuery($sql, array(
-//                    ':product_id' => $productModel['id'],
-//                    ':price' => $data['Price'],
-//                    ':number' => $data['Number'],
-//                    ':stock' => $data['Stock'],
-//                ));
+		//                    ':product_id' => $productModel['id'],
+		//                    ':price' => $data['Price'],
+		//                    ':number' => $data['Number'],
+		//                    ':stock' => $data['Stock'],
+		//                ));
 //
 //                $vid = $this->con->lastInsertId();
 //
 //                $sql = 'INSERT INTO shop_product_variants_i18n (id, name, locale) VALUES (:id,:name,:locale)';
 //                $this->runQuery($sql, array(
-//                    ':name' => $data['Variant'],
-//                    ':locale' => $this->language,
-//                    ':id' => $vid));
+		//                    ':name' => $data['Variant'],
+		//                    ':locale' => $this->language,
+		//                    ':id' => $vid));
 //            }
 //        }
 //
@@ -497,9 +497,9 @@ class ShopImport {
 //                    if ($check === null) {
 //                        $sql = 'INSERT INTO shop_product_properties_categories (property_id,category_id) VALUES (:property_id,:category_id)';
 //                        $this->runQuery($sql, array(
-//                            ':property_id' => $this->customFieldsIds[$key],
-//                            ':category_id' => $catId,
-//                        ));
+		//                            ':property_id' => $this->customFieldsIds[$key],
+		//                            ':category_id' => $catId,
+		//                        ));
 //                    }
 //
 //// Add value to custom field.
@@ -525,9 +525,9 @@ class ShopImport {
 //        }
 //
 //        return array(
-//            'sql' => 'INSERT INTO shop_products (' . implode(',', $newNames) . ') VALUES (' . implode(',', array_keys($binds)) . ')',
-//            'binds' => $binds,
-//        );
+		//            'sql' => 'INSERT INTO shop_products (' . implode(',', $newNames) . ') VALUES (' . implode(',', array_keys($binds)) . ')',
+		//            'binds' => $binds,
+		//        );
 //    }
 //
 //    public function prepareProductUpdateQuery($data, $product_id) {
@@ -535,18 +535,18 @@ class ShopImport {
 //        $sql = 'SELECT id FROM shop_products_i18n WHERE locale=:locale AND id=:id LIMIT 1';
 //
 //        $result = $this->runQuery($sql, array(
-//            ':locale' => $this->language,
-//            ':id' => $product_id
-//                ));
+		//            ':locale' => $this->language,
+		//            ':id' => $product_id
+		//                ));
 //        $prod = $result->fetch();
 //
 //        if (!$prod['id']) {
 //            $sql = 'INSERT INTO shop_products_i18n (id, name, locale) VALUES (:id,:name,:locale)';
 //            $result = $this->runQuery($sql, array(
-//                ':id' => $product_id,
-//                ':locale' => $this->language,
-//                ':name' => $data['Name']
-//                    ));
+		//                ':id' => $product_id,
+		//                ':locale' => $this->language,
+		//                ':name' => $data['Name']
+		//                    ));
 ////            $vid = $this->con->lastInsertId(); // ProductId.
 //        }
 //
@@ -571,7 +571,7 @@ class ShopImport {
 //            }
 //        }
 //        if (isset($binds_pro[':brand_id']))
-//            $binds_pro[':brand_id'] = $this->loadBrand($data['BrandId']);
+	//            $binds_pro[':brand_id'] = $this->loadBrand($data['BrandId']);
 //
 //        if ($updateArrayPro) {
 //            $sql = 'UPDATE shop_products SET ' . implode(',', $updateArrayPro) . ' WHERE id=' . $product_id . ' LIMIT 1';
@@ -586,43 +586,43 @@ class ShopImport {
 //
 //            $sql = 'SELECT id FROM shop_product_variants_i18n WHERE name=:name AND locale=:locale AND id=:id LIMIT 1';
 //            $result = $this->runQuery($sql, array(
-//                ':id' => $vid['id'],
-//                ':name' => $data['Name'],
-//                ':locale' => $this->language));
+		//                ':id' => $vid['id'],
+		//                ':name' => $data['Name'],
+		//                ':locale' => $this->language));
 //            $v = $result->fetch();
 //
 //            $sql = 'SELECT id FROM shop_product_variants_i18n WHERE name=:name AND id=:id LIMIT 1';
 //            $result = $this->runQuery($sql, array(
-//                ':id' => $vid['id'],
-//                ':name' => $data['Name']));
+		//                ':id' => $vid['id'],
+		//                ':name' => $data['Name']));
 //            $vnn = $result->fetch();
 //
 //            if ($vnn && $v === false) {
 //                $sql = 'INSERT INTO shop_product_variants_i18n (id, name, locale) VALUES (:id,:name,:locale)';
 //                $result = $this->runQuery($sql, array(
-//                    ':id' => $vid['id'],
-//                    ':locale' => $this->language,
-//                    ':name' => $data['Name']));
+		//                    ':id' => $vid['id'],
+		//                    ':locale' => $this->language,
+		//                    ':name' => $data['Name']));
 //            }
 //
 //            $sql = 'UPDATE shop_product_variants SET price=:price,number=:number,stock=:stock WHERE product_id=' . $product_id . ' LIMIT 1';
 //            $this->runQuery($sql, array(
-//                ':number' => $data['Number'],
-//                ':price' => $data['Price'],
-//                ':stock' => $data['Stock']
-//            ));
+		//                ':number' => $data['Number'],
+		//                ':price' => $data['Price'],
+		//                ':stock' => $data['Stock']
+		//            ));
 //        }
 //
 //        return array(
-//            'sql' => 'UPDATE shop_products_i18n SET name=:name, short_description=:sdesc, full_description=:fdesc WHERE id=:id AND locale=:locale  LIMIT 1',
-//            'binds' => array(
-//                ':id' => $product_id,
-//                ':name' => $data['Name'],
-//                ':sdesc' => $data['ShortDescription'],
-//                ':fdesc' => $data['FullDescription'],
-//                ':locale' => $this->language
-//            ),
-//        );
+		//            'sql' => 'UPDATE shop_products_i18n SET name=:name, short_description=:sdesc, full_description=:fdesc WHERE id=:id AND locale=:locale  LIMIT 1',
+		//            'binds' => array(
+				//                ':id' => $product_id,
+				//                ':name' => $data['Name'],
+				//                ':sdesc' => $data['ShortDescription'],
+				//                ':fdesc' => $data['FullDescription'],
+				//                ':locale' => $this->language
+				//            ),
+		//        );
 //    }
 //
 //    public function runQuery($query, $binds = array()) {
@@ -664,7 +664,7 @@ class ShopImport {
 //            $fieldDataArray = $this->customFieldsCache[$name]->getDataArray();
 //
 //            if ($fieldDataArray === null)
-//                $fieldDataArray = array();
+	//                $fieldDataArray = array();
 //
 //            if (!in_array($value, $fieldDataArray)) {
 //                array_push($fieldDataArray, $value);
@@ -710,7 +710,7 @@ class ShopImport {
 //                        ->endUse()
 //                        ->findOne();
 //                if ($prod)
-//                    $modelNoLocale = SCategoryQuery::create()
+	//                    $modelNoLocale = SCategoryQuery::create()
 //                            ->filterById($prod->getCategoryId())
 //                            ->findOne();
 //            }
@@ -727,27 +727,27 @@ class ShopImport {
 //                    $url = translit_url($part);
 //                    $sql = "INSERT INTO shop_category (parent_id, full_path_ids, full_path, url, active) VALUES (:parentId, :pids, :fpath, :url, 1)";
 //                    $this->runQuery($sql, array(
-//                        ':parentId' => $parentId,
-//                        ':pids' => $pids,
-//                        ':fpath' => $fpath,
-//                        ':url' => $url
-//                    ));
+		//                        ':parentId' => $parentId,
+		//                        ':pids' => $pids,
+		//                        ':fpath' => $fpath,
+		//                        ':url' => $url
+		//                    ));
 //
 //                    $сId = $this->con->lastInsertId(); // СategoryId.
 //                    $pathIds[] = (int) $сId;
 //                } else {
 //                    if ($line > 0)
-//                        $сId = $modelNoLocale->getId(); // СategoryId.
+	//                        $сId = $modelNoLocale->getId(); // СategoryId.
 //                    else
-//                        $сId = $modelNoLocale->getParentId(); // СategoryId.
+	//                        $сId = $modelNoLocale->getParentId(); // СategoryId.
 //                }
 //
 //                $sql = "INSERT INTO shop_category_i18n (id, locale, name) VALUES (:id, :locale, :name)";
 //                $this->runQuery($sql, array(
-//                    ':name' => $part,
-//                    ':locale' => $this->language,
-//                    ':id' => $сId
-//                ));
+		//                    ':name' => $part,
+		//                    ':locale' => $this->language,
+		//                    ':id' => $сId
+		//                ));
 //
 //                $parentId = $сId;
 //            }
@@ -758,8 +758,8 @@ class ShopImport {
 //                $ci = & get_instance();
 //                $prodIds = $productId['id'];
 //                $ci->db->query("
-//                    UPDATE `shop_product_categories` SET `product_id` = VALUES($prodIds), `category_id` = VALUES($parentId)
-//                    WHERE product_id = $prodIds AND category_id = $parentId;");
+		//                    UPDATE `shop_product_categories` SET `product_id` = VALUES($prodIds), `category_id` = VALUES($parentId)
+		//                    WHERE product_id = $prodIds AND category_id = $parentId;");
 //            }
 //        }
 //        //exit;
@@ -775,7 +775,7 @@ class ShopImport {
 //     */
 //    public function loadBrand($name) {
 ////        if (isset($this->brandsCache[$name]))
-////            return $this->brandsCache[$name];
+	////            return $this->brandsCache[$name];
 //
 //        $model = SBrandsQuery::create()
 //                ->joinWithI18n()
@@ -824,9 +824,9 @@ class ShopImport {
 //     */
 //    public function hasErrors() {
 //        if (sizeof($this->errors) > 0)
-//            return true;
+	//            return true;
 //        else
-//            return false;
+	//            return false;
 //    }
 //
 //    /**
@@ -851,9 +851,9 @@ class ShopImport {
 //        $ext = strtolower(end($parts));
 //
 //        if (in_array($ext, $this->allowedImageExtensions))
-//            return true;
+	//            return true;
 //        else
-//            return false;
+	//            return false;
 //    }
 //
 //    /**
@@ -868,9 +868,9 @@ class ShopImport {
 //            $image = @getimagesize($file_path);
 //
 //            $size = array(
-//                'width' => $image[0],
-//                'height' => $image[1],
-//            );
+		//                'width' => $image[0],
+		//                'height' => $image[1],
+		//            );
 //
 //            return $size;
 //        }
@@ -885,7 +885,7 @@ class ShopImport {
 //        $path = $productId . $target . '.jpg';
 //        //echo '1';
 //        if (file_exists(ShopCore::$imagesUploadPath . $path))
-//            unlink(ShopCore::$imagesUploadPath . $path);
+	//            unlink(ShopCore::$imagesUploadPath . $path);
 //
 //        $imageSizes = $this->getImageSize($this->imageOrigin);
 //
@@ -893,9 +893,9 @@ class ShopImport {
 //
 //
 //            if ($imageSizes['width'] >= $imageSizes['height'])
-//                $config['master_dim'] = 'width';
+	//                $config['master_dim'] = 'width';
 //            else
-//                $config['master_dim'] = 'height';
+	//                $config['master_dim'] = 'height';
 //
 //
 //            $config['image_library'] = 'gd2';
@@ -909,10 +909,10 @@ class ShopImport {
 //            $ci->image_lib->initialize($config);
 //
 //            if ($ci->image_lib->resize())
-//                return $path;
+	//                return $path;
 //        } else {
 //            if (copy($this->imageOrigin, ShopCore::$imagesUploadPath . $path))
-//                return $path;
+	//                return $path;
 //        }
 //        return false;
 //    }
@@ -926,10 +926,10 @@ class ShopImport {
 //
 //
 //        if ($data['MainImage'] && !file_exists($this->imageSource) || !is_readable($this->imageSource))
-//            return false;
+	//            return false;
 //
 //        if (file_exists(ShopCore::$imagesUploadPath . $productId . '_origin.jpg'))
-//            return false;
+	//            return false;
 //
 //        $this->imageOrigin = ShopCore::$imagesUploadPath . $productId . '_origin.jpg';
 //
@@ -954,7 +954,7 @@ class ShopImport {
 //          move_uploaded_file($_FILES['mainPhoto']['tmp_name'], $origin);
 //
 //          if (file_exists(ShopCore::$imagesUploadPath . $model->getId() . '_main.jpg'))
-//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_main.jpg');
+	//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_main.jpg');
 //
 //          $imageSizes = $this->getImageSize($origin);
 //
@@ -983,7 +983,7 @@ class ShopImport {
 //          //make next size variant for MainImage {
 //          if ($this->imageSizes['mainModImageWidth'] && $this->imageSizes['mainModImageHeight']) {
 //          if (file_exists(ShopCore::$imagesUploadPath . $model->getId() . '_mainMod.jpg'))
-//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_mainMod.jpg');
+	//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_mainMod.jpg');
 //
 //          if ($imageSizes['width'] >= $this->imageSizes['mainModImageWidth'] || $imageSizes['height'] >= $this->imageSizes['mainModImageHeight']) {
 //
@@ -1014,15 +1014,15 @@ class ShopImport {
 //          // Image Resized.
 //          // Create small image.
 //          if (empty($_FILES['smallPhoto']['tmp_name']) && $_POST['autoCreateSmallImage'] == 1 && $mainImageResized === true)
-//          $smallImageSource = ShopCore::$imagesUploadPath . $model->getId() . '_main.jpg';
+	//          $smallImageSource = ShopCore::$imagesUploadPath . $model->getId() . '_main.jpg';
 //          elseif (!empty($_FILES['smallPhoto']['tmp_name']) && $this->_isAllowedExtension($_FILES['smallPhoto']['name']) === true)
 //          $smallImageSource = $_FILES['smallPhoto']['tmp_name'];
 //          else
-//          $smallImageSource = false;
+	//          $smallImageSource = false;
 //
 //          if ($smallImageSource != false) {
 //          if (file_exists(ShopCore::$imagesUploadPath . $model->getId() . '_small.jpg'))
-//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_small.jpg');
+	//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_small.jpg');
 //
 //          $this->image_lib->clear();
 //          $config['image_library'] = 'gd2';
@@ -1039,7 +1039,7 @@ class ShopImport {
 //          $model->setSmallImage($model->getId() . '_small.jpg');
 //
 //          if (file_exists(ShopCore::$imagesUploadPath . $model->getId() . '_smallMod.jpg'))
-//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_smallMod.jpg');
+	//          unlink(ShopCore::$imagesUploadPath . $model->getId() . '_smallMod.jpg');
 //
 //          if ($imageSizes['width'] >= $this->imageSizes['smallModImageWidth'] OR $imageSizes['height'] >= $this->imageSizes['smallModImageHeight']) {
 //          $this->image_lib->clear();

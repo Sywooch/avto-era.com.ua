@@ -7,27 +7,24 @@
  *
  * @license    MIT License
  */
-
 require_once 'util/PropelSqlManager.php';
 
 /**
  * The new task for building SQL DDL based on the XML datamodel.
  *
- * @author     William Durand <william.durand1@gmail.com>
- * @package    propel.generator.task
+ * @author William Durand <william.durand1@gmail.com>
+ * @package propel.generator.task
  */
-class PropelSqlBuildTask extends AbstractPropelDataModelTask
-{
-	public function main()
-	{
-		$this->validate();
+class PropelSqlBuildTask extends AbstractPropelDataModelTask {
+	public function main() {
+		$this->validate ();
 		$this->packageObjectModel = true;
-
-		$manager = new PropelSqlManager();
-		$manager->setGeneratorConfig($this->getGeneratorConfig());
-		$manager->setDataModels($this->getDataModels());
-		$manager->setWorkingDirectory($this->getOutputDirectory());
-
-		$manager->buildSql();
+		
+		$manager = new PropelSqlManager ();
+		$manager->setGeneratorConfig ( $this->getGeneratorConfig () );
+		$manager->setDataModels ( $this->getDataModels () );
+		$manager->setWorkingDirectory ( $this->getOutputDirectory () );
+		
+		$manager->buildSql ();
 	}
 }

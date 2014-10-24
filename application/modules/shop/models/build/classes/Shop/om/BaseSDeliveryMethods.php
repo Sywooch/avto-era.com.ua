@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a row from the 'shop_delivery_methods' table.
  *
@@ -8,987 +7,998 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persistent
-{
-
+abstract class BaseSDeliveryMethods extends ShopBaseObject implements Persistent {
+	
 	/**
 	 * Peer class name
 	 */
 	const PEER = 'SDeliveryMethodsPeer';
-
+	
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        SDeliveryMethodsPeer
+	 * 
+	 * @var SDeliveryMethodsPeer
 	 */
 	protected static $peer;
-
+	
 	/**
 	 * The flag var to prevent infinit loop in deep copy
-	 * @var       boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $startCopy = false;
-
+	
 	/**
 	 * The value for the id field.
-	 * @var        int
+	 * 
+	 * @var int
 	 */
 	protected $id;
-
+	
 	/**
 	 * The value for the price field.
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $price;
-
+	
 	/**
 	 * The value for the free_from field.
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $free_from;
-
+	
 	/**
 	 * The value for the enabled field.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $enabled;
-
+	
 	/**
 	 * The value for the is_price_in_percent field.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $is_price_in_percent;
-
+	
 	/**
 	 * The value for the position field.
-	 * @var        int
+	 * 
+	 * @var int
 	 */
 	protected $position;
-
+	
 	/**
-	 * @var        array SDeliveryMethodsI18n[] Collection to store aggregation of SDeliveryMethodsI18n objects.
+	 *
+	 * @var array SDeliveryMethodsI18n[] Collection to store aggregation of SDeliveryMethodsI18n objects.
 	 */
 	protected $collSDeliveryMethodsI18ns;
-
+	
 	/**
-	 * @var        array ShopDeliveryMethodsSystems[] Collection to store aggregation of ShopDeliveryMethodsSystems objects.
+	 *
+	 * @var array ShopDeliveryMethodsSystems[] Collection to store aggregation of ShopDeliveryMethodsSystems objects.
 	 */
 	protected $collShopDeliveryMethodsSystemss;
-
+	
 	/**
-	 * @var        array SOrders[] Collection to store aggregation of SOrders objects.
+	 *
+	 * @var array SOrders[] Collection to store aggregation of SOrders objects.
 	 */
 	protected $collSOrderss;
-
+	
 	/**
-	 * @var        array SPaymentMethods[] Collection to store aggregation of SPaymentMethods objects.
+	 *
+	 * @var array SPaymentMethods[] Collection to store aggregation of SPaymentMethods objects.
 	 */
 	protected $collPaymentMethodss;
-
+	
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $alreadyInSave = false;
-
+	
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $alreadyInValidation = false;
-
+	
 	// i18n behavior
 	
 	/**
 	 * Current locale
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $currentLocale = 'ru';
 	
 	/**
 	 * Current translation objects
-	 * @var        array[SDeliveryMethodsI18n]
+	 * 
+	 * @var array[SDeliveryMethodsI18n]
 	 */
 	protected $currentTranslations;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $paymentMethodssScheduledForDeletion = null;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $sDeliveryMethodsI18nsScheduledForDeletion = null;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $shopDeliveryMethodsSystemssScheduledForDeletion = null;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $sOrderssScheduledForDeletion = null;
-
+	
 	/**
 	 * Get the [id] column value.
-	 * 
-	 * @return     int
+	 *
+	 * @return int
 	 */
-	public function getId()
-	{
+	public function getId() {
 		return $this->id;
 	}
-
+	
 	/**
 	 * Get the [price] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getPrice()
-	{
+	public function getPrice() {
 		return $this->price;
 	}
-
+	
 	/**
 	 * Get the [free_from] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getFreeFrom()
-	{
+	public function getFreeFrom() {
 		return $this->free_from;
 	}
-
+	
 	/**
 	 * Get the [enabled] column value.
-	 * 
-	 * @return     boolean
+	 *
+	 * @return boolean
 	 */
-	public function getEnabled()
-	{
+	public function getEnabled() {
 		return $this->enabled;
 	}
-
+	
 	/**
 	 * Get the [is_price_in_percent] column value.
-	 * 
-	 * @return     boolean
+	 *
+	 * @return boolean
 	 */
-	public function getIsPriceInPercent()
-	{
+	public function getIsPriceInPercent() {
 		return $this->is_price_in_percent;
 	}
-
+	
 	/**
 	 * Get the [position] column value.
-	 * 
-	 * @return     int
+	 *
+	 * @return int
 	 */
-	public function getPosition()
-	{
+	public function getPosition() {
 		return $this->position;
 	}
-
+	
 	/**
 	 * Set the value of [id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param int $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setId($v)
-	{
+	public function setId($v) {
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = ( int ) $v;
 		}
-
+		
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::ID;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::ID;
 		}
-
+		
 		return $this;
 	} // setId()
-
+	
 	/**
 	 * Set the value of [price] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setPrice($v)
-	{
+	public function setPrice($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->price !== $v) {
 			$this->price = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::PRICE;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::PRICE;
 		}
-
+		
 		return $this;
 	} // setPrice()
-
+	
 	/**
 	 * Set the value of [free_from] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setFreeFrom($v)
-	{
+	public function setFreeFrom($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->free_from !== $v) {
 			$this->free_from = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::FREE_FROM;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::FREE_FROM;
 		}
-
+		
 		return $this;
 	} // setFreeFrom()
-
+	
 	/**
 	 * Sets the value of the [enabled] column.
 	 * Non-boolean arguments are converted using the following rules:
-	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * * 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 * * 0, '0', 'false', 'off', and 'no' are converted to boolean false
 	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * 
-	 * @param      boolean|integer|string $v The new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param boolean|integer|string $v
+	 *        	The new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setEnabled($v)
-	{
+	public function setEnabled($v) {
 		if ($v !== null) {
-			if (is_string($v)) {
-				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			if (is_string ( $v )) {
+				$v = in_array ( strtolower ( $v ), array (
+						'false',
+						'off',
+						'-',
+						'no',
+						'n',
+						'0',
+						'' 
+				) ) ? false : true;
 			} else {
-				$v = (boolean) $v;
+				$v = ( boolean ) $v;
 			}
 		}
-
+		
 		if ($this->enabled !== $v) {
 			$this->enabled = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::ENABLED;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::ENABLED;
 		}
-
+		
 		return $this;
 	} // setEnabled()
-
+	
 	/**
 	 * Sets the value of the [is_price_in_percent] column.
 	 * Non-boolean arguments are converted using the following rules:
-	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * * 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 * * 0, '0', 'false', 'off', and 'no' are converted to boolean false
 	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * 
-	 * @param      boolean|integer|string $v The new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param boolean|integer|string $v
+	 *        	The new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setIsPriceInPercent($v)
-	{
+	public function setIsPriceInPercent($v) {
 		if ($v !== null) {
-			if (is_string($v)) {
-				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			if (is_string ( $v )) {
+				$v = in_array ( strtolower ( $v ), array (
+						'false',
+						'off',
+						'-',
+						'no',
+						'n',
+						'0',
+						'' 
+				) ) ? false : true;
 			} else {
-				$v = (boolean) $v;
+				$v = ( boolean ) $v;
 			}
 		}
-
+		
 		if ($this->is_price_in_percent !== $v) {
 			$this->is_price_in_percent = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT;
 		}
-
+		
 		return $this;
 	} // setIsPriceInPercent()
-
+	
 	/**
 	 * Set the value of [position] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param int $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setPosition($v)
-	{
+	public function setPosition($v) {
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = ( int ) $v;
 		}
-
+		
 		if ($this->position !== $v) {
 			$this->position = $v;
-			$this->modifiedColumns[] = SDeliveryMethodsPeer::POSITION;
+			$this->modifiedColumns [] = SDeliveryMethodsPeer::POSITION;
 		}
-
+		
 		return $this;
 	} // setPosition()
-
+	
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
 	 * modified _and_ has some values set which are non-default.
 	 *
-	 * @return     boolean Whether the columns in this object are only been set with default values.
+	 * @return boolean Whether the columns in this object are only been set with default values.
 	 */
-	public function hasOnlyDefaultValues()
-	{
+	public function hasOnlyDefaultValues() {
 		// otherwise, everything was equal, so return TRUE
 		return true;
 	} // hasOnlyDefaultValues()
-
+	
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (0-based "start column") is specified so that objects can be hydrated
-	 * with a subset of the columns in the resultset rows.  This is needed, for example,
+	 * with a subset of the columns in the resultset rows. This is needed, for example,
 	 * for results of JOIN queries where the resultset row includes columns from two or
 	 * more tables.
 	 *
-	 * @param      array $row The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
-	 * @param      int $startcol 0-based offset column which indicates which restultset column to start with.
-	 * @param      boolean $rehydrate Whether this object is being re-hydrated from the database.
-	 * @return     int next starting column
-	 * @throws     PropelException  - Any caught Exception will be rewrapped as a PropelException.
+	 * @param array $row
+	 *        	The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
+	 * @param int $startcol
+	 *        	0-based offset column which indicates which restultset column to start with.
+	 * @param boolean $rehydrate
+	 *        	Whether this object is being re-hydrated from the database.
+	 * @return int next starting column
+	 * @throws PropelException - Any caught Exception will be rewrapped as a PropelException.
 	 */
-	public function hydrate($row, $startcol = 0, $rehydrate = false)
-	{
+	public function hydrate($row, $startcol = 0, $rehydrate = false) {
 		try {
-
-			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->price = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-			$this->free_from = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-			$this->enabled = ($row[$startcol + 3] !== null) ? (boolean) $row[$startcol + 3] : null;
-			$this->is_price_in_percent = ($row[$startcol + 4] !== null) ? (boolean) $row[$startcol + 4] : null;
-			$this->position = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
-			$this->resetModified();
-
-			$this->setNew(false);
-
+			
+			$this->id = ($row [$startcol + 0] !== null) ? ( int ) $row [$startcol + 0] : null;
+			$this->price = ($row [$startcol + 1] !== null) ? ( string ) $row [$startcol + 1] : null;
+			$this->free_from = ($row [$startcol + 2] !== null) ? ( string ) $row [$startcol + 2] : null;
+			$this->enabled = ($row [$startcol + 3] !== null) ? ( boolean ) $row [$startcol + 3] : null;
+			$this->is_price_in_percent = ($row [$startcol + 4] !== null) ? ( boolean ) $row [$startcol + 4] : null;
+			$this->position = ($row [$startcol + 5] !== null) ? ( int ) $row [$startcol + 5] : null;
+			$this->resetModified ();
+			
+			$this->setNew ( false );
+			
 			if ($rehydrate) {
-				$this->ensureConsistency();
+				$this->ensureConsistency ();
 			}
-
+			
 			return $startcol + 6; // 6 = SDeliveryMethodsPeer::NUM_HYDRATE_COLUMNS.
-
-		} catch (Exception $e) {
-			throw new PropelException("Error populating SDeliveryMethods object", $e);
+		} catch ( Exception $e ) {
+			throw new PropelException ( "Error populating SDeliveryMethods object", $e );
 		}
 	}
-
+	
 	/**
 	 * Checks and repairs the internal consistency of the object.
 	 *
 	 * This method is executed after an already-instantiated object is re-hydrated
-	 * from the database.  It exists to check any foreign keys to make sure that
+	 * from the database. It exists to check any foreign keys to make sure that
 	 * the objects related to the current object are correct based on foreign key.
 	 *
 	 * You can override this method in the stub class, but you should always invoke
 	 * the base method from the overridden method (i.e. parent::ensureConsistency()),
 	 * in case your model changes.
 	 *
-	 * @throws     PropelException
+	 * @throws PropelException
 	 */
-	public function ensureConsistency()
-	{
-
+	public function ensureConsistency() {
 	} // ensureConsistency
-
+	
 	/**
 	 * Reloads this object from datastore based on primary key and (optionally) resets all associated objects.
 	 *
 	 * This will only work if the object has been saved and has a valid primary key set.
 	 *
-	 * @param      boolean $deep (optional) Whether to also de-associated any related objects.
-	 * @param      PropelPDO $con (optional) The PropelPDO connection to use.
-	 * @return     void
-	 * @throws     PropelException - if this object is deleted, unsaved or doesn't have pk match in db
+	 * @param boolean $deep
+	 *        	(optional) Whether to also de-associated any related objects.
+	 * @param PropelPDO $con
+	 *        	(optional) The PropelPDO connection to use.
+	 * @return void
+	 * @throws PropelException - if this object is deleted, unsaved or doesn't have pk match in db
 	 */
-	public function reload($deep = false, PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("Cannot reload a deleted object.");
+	public function reload($deep = false, PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "Cannot reload a deleted object." );
 		}
-
-		if ($this->isNew()) {
-			throw new PropelException("Cannot reload an unsaved object.");
+		
+		if ($this->isNew ()) {
+			throw new PropelException ( "Cannot reload an unsaved object." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-
+		
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
-
-		$stmt = SDeliveryMethodsPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
-		$row = $stmt->fetch(PDO::FETCH_NUM);
-		$stmt->closeCursor();
-		if (!$row) {
-			throw new PropelException('Cannot find matching row in the database to reload object values.');
+		
+		$stmt = SDeliveryMethodsPeer::doSelectStmt ( $this->buildPkeyCriteria (), $con );
+		$row = $stmt->fetch ( PDO::FETCH_NUM );
+		$stmt->closeCursor ();
+		if (! $row) {
+			throw new PropelException ( 'Cannot find matching row in the database to reload object values.' );
 		}
-		$this->hydrate($row, 0, true); // rehydrate
-
-		if ($deep) {  // also de-associate any related objects?
-
+		$this->hydrate ( $row, 0, true ); // rehydrate
+		
+		if ($deep) { // also de-associate any related objects?
+			
 			$this->collSDeliveryMethodsI18ns = null;
-
+			
 			$this->collShopDeliveryMethodsSystemss = null;
-
+			
 			$this->collSOrderss = null;
-
+			
 			$this->collPaymentMethodss = null;
 		} // if (deep)
 	}
-
+	
 	/**
 	 * Removes this object from datastore and sets delete attribute.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     void
-	 * @throws     PropelException
-	 * @see        BaseObject::setDeleted()
-	 * @see        BaseObject::isDeleted()
+	 * @param PropelPDO $con        	
+	 * @return void
+	 * @throws PropelException
+	 * @see BaseObject::setDeleted()
+	 * @see BaseObject::isDeleted()
 	 */
-	public function delete(PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("This object has already been deleted.");
+	public function delete(PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "This object has already been deleted." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection ( SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE );
 		}
-
-		$con->beginTransaction();
+		
+		$con->beginTransaction ();
 		try {
-			$deleteQuery = SDeliveryMethodsQuery::create()
-				->filterByPrimaryKey($this->getPrimaryKey());
-			$ret = $this->preDelete($con);
+			$deleteQuery = SDeliveryMethodsQuery::create ()->filterByPrimaryKey ( $this->getPrimaryKey () );
+			$ret = $this->preDelete ( $con );
 			if ($ret) {
-				$deleteQuery->delete($con);
-				$this->postDelete($con);
+				$deleteQuery->delete ( $con );
+				$this->postDelete ( $con );
 				// i18n behavior
 				
 				// emulate delete cascade
-				SDeliveryMethodsI18nQuery::create()
-					->filterBySDeliveryMethods($this)
-					->delete($con);
-				$con->commit();
-				$this->setDeleted(true);
+				SDeliveryMethodsI18nQuery::create ()->filterBySDeliveryMethods ( $this )->delete ( $con );
+				$con->commit ();
+				$this->setDeleted ( true );
 			} else {
-				$con->commit();
+				$con->commit ();
 			}
-		} catch (Exception $e) {
-			$con->rollBack();
+		} catch ( Exception $e ) {
+			$con->rollBack ();
 			throw $e;
 		}
 	}
-
+	
 	/**
 	 * Persists this object to the database.
 	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All modified related objects will also be persisted in the doSave()
-	 * method.  This method wraps all precipitate database operations in a
+	 * method. This method wraps all precipitate database operations in a
 	 * single transaction.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws     PropelException
-	 * @see        doSave()
+	 * @param PropelPDO $con        	
+	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws PropelException
+	 * @see doSave()
 	 */
-	public function save(PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("You cannot save an object that has been deleted.");
+	public function save(PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "You cannot save an object that has been deleted." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection ( SDeliveryMethodsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE );
 		}
-
-		$con->beginTransaction();
-		$isInsert = $this->isNew();
+		
+		$con->beginTransaction ();
+		$isInsert = $this->isNew ();
 		try {
-			$ret = $this->preSave($con);
+			$ret = $this->preSave ( $con );
 			if ($isInsert) {
-				$ret = $ret && $this->preInsert($con);
+				$ret = $ret && $this->preInsert ( $con );
 			} else {
-				$ret = $ret && $this->preUpdate($con);
+				$ret = $ret && $this->preUpdate ( $con );
 			}
 			if ($ret) {
-				$affectedRows = $this->doSave($con);
+				$affectedRows = $this->doSave ( $con );
 				if ($isInsert) {
-					$this->postInsert($con);
+					$this->postInsert ( $con );
 				} else {
-					$this->postUpdate($con);
+					$this->postUpdate ( $con );
 				}
-				$this->postSave($con);
-				SDeliveryMethodsPeer::addInstanceToPool($this);
+				$this->postSave ( $con );
+				SDeliveryMethodsPeer::addInstanceToPool ( $this );
 			} else {
 				$affectedRows = 0;
 			}
-			$con->commit();
+			$con->commit ();
 			return $affectedRows;
-		} catch (Exception $e) {
-			$con->rollBack();
+		} catch ( Exception $e ) {
+			$con->rollBack ();
 			throw $e;
 		}
 	}
-
+	
 	/**
 	 * Performs the work of inserting or updating the row in the database.
 	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws     PropelException
-	 * @see        save()
+	 * @param PropelPDO $con        	
+	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws PropelException
+	 * @see save()
 	 */
-	protected function doSave(PropelPDO $con)
-	{
+	protected function doSave(PropelPDO $con) {
 		$affectedRows = 0; // initialize var to track total num of affected rows
-		if (!$this->alreadyInSave) {
+		if (! $this->alreadyInSave) {
 			$this->alreadyInSave = true;
-
-			if ($this->isNew() || $this->isModified()) {
+			
+			if ($this->isNew () || $this->isModified ()) {
 				// persist changes
-				if ($this->isNew()) {
-					$this->doInsert($con);
+				if ($this->isNew ()) {
+					$this->doInsert ( $con );
 				} else {
-					$this->doUpdate($con);
+					$this->doUpdate ( $con );
 				}
 				$affectedRows += 1;
-				$this->resetModified();
+				$this->resetModified ();
 			}
-
+			
 			if ($this->paymentMethodssScheduledForDeletion !== null) {
-				if (!$this->paymentMethodssScheduledForDeletion->isEmpty()) {
-					ShopDeliveryMethodsSystemsQuery::create()
-						->filterByPrimaryKeys($this->paymentMethodssScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->paymentMethodssScheduledForDeletion->isEmpty ()) {
+					ShopDeliveryMethodsSystemsQuery::create ()->filterByPrimaryKeys ( $this->paymentMethodssScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->paymentMethodssScheduledForDeletion = null;
 				}
-
-				foreach ($this->getPaymentMethodss() as $paymentMethods) {
-					if ($paymentMethods->isModified()) {
-						$paymentMethods->save($con);
+				
+				foreach ( $this->getPaymentMethodss () as $paymentMethods ) {
+					if ($paymentMethods->isModified ()) {
+						$paymentMethods->save ( $con );
 					}
 				}
 			}
-
+			
 			if ($this->sDeliveryMethodsI18nsScheduledForDeletion !== null) {
-				if (!$this->sDeliveryMethodsI18nsScheduledForDeletion->isEmpty()) {
-					SDeliveryMethodsI18nQuery::create()
-						->filterByPrimaryKeys($this->sDeliveryMethodsI18nsScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->sDeliveryMethodsI18nsScheduledForDeletion->isEmpty ()) {
+					SDeliveryMethodsI18nQuery::create ()->filterByPrimaryKeys ( $this->sDeliveryMethodsI18nsScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->sDeliveryMethodsI18nsScheduledForDeletion = null;
 				}
 			}
-
+			
 			if ($this->collSDeliveryMethodsI18ns !== null) {
-				foreach ($this->collSDeliveryMethodsI18ns as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
+				foreach ( $this->collSDeliveryMethodsI18ns as $referrerFK ) {
+					if (! $referrerFK->isDeleted ()) {
+						$affectedRows += $referrerFK->save ( $con );
 					}
 				}
 			}
-
+			
 			if ($this->shopDeliveryMethodsSystemssScheduledForDeletion !== null) {
-				if (!$this->shopDeliveryMethodsSystemssScheduledForDeletion->isEmpty()) {
-					ShopDeliveryMethodsSystemsQuery::create()
-						->filterByPrimaryKeys($this->shopDeliveryMethodsSystemssScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->shopDeliveryMethodsSystemssScheduledForDeletion->isEmpty ()) {
+					ShopDeliveryMethodsSystemsQuery::create ()->filterByPrimaryKeys ( $this->shopDeliveryMethodsSystemssScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->shopDeliveryMethodsSystemssScheduledForDeletion = null;
 				}
 			}
-
+			
 			if ($this->collShopDeliveryMethodsSystemss !== null) {
-				foreach ($this->collShopDeliveryMethodsSystemss as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
+				foreach ( $this->collShopDeliveryMethodsSystemss as $referrerFK ) {
+					if (! $referrerFK->isDeleted ()) {
+						$affectedRows += $referrerFK->save ( $con );
 					}
 				}
 			}
-
+			
 			if ($this->sOrderssScheduledForDeletion !== null) {
-				if (!$this->sOrderssScheduledForDeletion->isEmpty()) {
-					SOrdersQuery::create()
-						->filterByPrimaryKeys($this->sOrderssScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->sOrderssScheduledForDeletion->isEmpty ()) {
+					SOrdersQuery::create ()->filterByPrimaryKeys ( $this->sOrderssScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->sOrderssScheduledForDeletion = null;
 				}
 			}
-
+			
 			if ($this->collSOrderss !== null) {
-				foreach ($this->collSOrderss as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
+				foreach ( $this->collSOrderss as $referrerFK ) {
+					if (! $referrerFK->isDeleted ()) {
+						$affectedRows += $referrerFK->save ( $con );
 					}
 				}
 			}
-
+			
 			$this->alreadyInSave = false;
-
 		}
 		return $affectedRows;
 	} // doSave()
-
+	
 	/**
 	 * Insert the row in the database.
 	 *
-	 * @param      PropelPDO $con
+	 * @param PropelPDO $con        	
 	 *
-	 * @throws     PropelException
-	 * @see        doSave()
+	 * @throws PropelException
+	 * @see doSave()
 	 */
-	protected function doInsert(PropelPDO $con)
-	{
-		$modifiedColumns = array();
+	protected function doInsert(PropelPDO $con) {
+		$modifiedColumns = array ();
 		$index = 0;
-
-		$this->modifiedColumns[] = SDeliveryMethodsPeer::ID;
+		
+		$this->modifiedColumns [] = SDeliveryMethodsPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . SDeliveryMethodsPeer::ID . ')');
+			throw new PropelException ( 'Cannot insert a value for auto-increment primary key (' . SDeliveryMethodsPeer::ID . ')' );
 		}
-
-		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(SDeliveryMethodsPeer::ID)) {
-			$modifiedColumns[':p' . $index++]  = '`ID`';
+		
+		// check the columns in natural order for more readable SQL queries
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::ID )) {
+			$modifiedColumns [':p' . $index ++] = '`ID`';
 		}
-		if ($this->isColumnModified(SDeliveryMethodsPeer::PRICE)) {
-			$modifiedColumns[':p' . $index++]  = '`PRICE`';
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::PRICE )) {
+			$modifiedColumns [':p' . $index ++] = '`PRICE`';
 		}
-		if ($this->isColumnModified(SDeliveryMethodsPeer::FREE_FROM)) {
-			$modifiedColumns[':p' . $index++]  = '`FREE_FROM`';
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::FREE_FROM )) {
+			$modifiedColumns [':p' . $index ++] = '`FREE_FROM`';
 		}
-		if ($this->isColumnModified(SDeliveryMethodsPeer::ENABLED)) {
-			$modifiedColumns[':p' . $index++]  = '`ENABLED`';
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::ENABLED )) {
+			$modifiedColumns [':p' . $index ++] = '`ENABLED`';
 		}
-		if ($this->isColumnModified(SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT)) {
-			$modifiedColumns[':p' . $index++]  = '`IS_PRICE_IN_PERCENT`';
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT )) {
+			$modifiedColumns [':p' . $index ++] = '`IS_PRICE_IN_PERCENT`';
 		}
-		if ($this->isColumnModified(SDeliveryMethodsPeer::POSITION)) {
-			$modifiedColumns[':p' . $index++]  = '`POSITION`';
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::POSITION )) {
+			$modifiedColumns [':p' . $index ++] = '`POSITION`';
 		}
-
-		$sql = sprintf(
-			'INSERT INTO `shop_delivery_methods` (%s) VALUES (%s)',
-			implode(', ', $modifiedColumns),
-			implode(', ', array_keys($modifiedColumns))
-		);
-
+		
+		$sql = sprintf ( 'INSERT INTO `shop_delivery_methods` (%s) VALUES (%s)', implode ( ', ', $modifiedColumns ), implode ( ', ', array_keys ( $modifiedColumns ) ) );
+		
 		try {
-			$stmt = $con->prepare($sql);
-			foreach ($modifiedColumns as $identifier => $columnName) {
+			$stmt = $con->prepare ( $sql );
+			foreach ( $modifiedColumns as $identifier => $columnName ) {
 				switch ($columnName) {
-					case '`ID`':						
-						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+					case '`ID`' :
+						$stmt->bindValue ( $identifier, $this->id, PDO::PARAM_INT );
 						break;
-					case '`PRICE`':						
-						$stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+					case '`PRICE`' :
+						$stmt->bindValue ( $identifier, $this->price, PDO::PARAM_STR );
 						break;
-					case '`FREE_FROM`':						
-						$stmt->bindValue($identifier, $this->free_from, PDO::PARAM_STR);
+					case '`FREE_FROM`' :
+						$stmt->bindValue ( $identifier, $this->free_from, PDO::PARAM_STR );
 						break;
-					case '`ENABLED`':
-						$stmt->bindValue($identifier, (int) $this->enabled, PDO::PARAM_INT);
+					case '`ENABLED`' :
+						$stmt->bindValue ( $identifier, ( int ) $this->enabled, PDO::PARAM_INT );
 						break;
-					case '`IS_PRICE_IN_PERCENT`':
-						$stmt->bindValue($identifier, (int) $this->is_price_in_percent, PDO::PARAM_INT);
+					case '`IS_PRICE_IN_PERCENT`' :
+						$stmt->bindValue ( $identifier, ( int ) $this->is_price_in_percent, PDO::PARAM_INT );
 						break;
-					case '`POSITION`':						
-						$stmt->bindValue($identifier, $this->position, PDO::PARAM_INT);
+					case '`POSITION`' :
+						$stmt->bindValue ( $identifier, $this->position, PDO::PARAM_INT );
 						break;
 				}
 			}
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute INSERT statement [%s]', $sql ), $e );
 		}
-
+		
 		try {
-			$pk = $con->lastInsertId();
-		} catch (Exception $e) {
-			throw new PropelException('Unable to get autoincrement id.', $e);
+			$pk = $con->lastInsertId ();
+		} catch ( Exception $e ) {
+			throw new PropelException ( 'Unable to get autoincrement id.', $e );
 		}
-		$this->setId($pk);
-
-		$this->setNew(false);
+		$this->setId ( $pk );
+		
+		$this->setNew ( false );
 	}
-
+	
 	/**
 	 * Update the row in the database.
 	 *
-	 * @param      PropelPDO $con
+	 * @param PropelPDO $con        	
 	 *
-	 * @see        doSave()
+	 * @see doSave()
 	 */
-	protected function doUpdate(PropelPDO $con)
-	{
-		$selectCriteria = $this->buildPkeyCriteria();
-		$valuesCriteria = $this->buildCriteria();
-		BasePeer::doUpdate($selectCriteria, $valuesCriteria, $con);
+	protected function doUpdate(PropelPDO $con) {
+		$selectCriteria = $this->buildPkeyCriteria ();
+		$valuesCriteria = $this->buildCriteria ();
+		BasePeer::doUpdate ( $selectCriteria, $valuesCriteria, $con );
 	}
-
+	
 	/**
 	 * Array of ValidationFailed objects.
-	 * @var        array ValidationFailed[]
+	 * 
+	 * @var array ValidationFailed[]
 	 */
-	protected $validationFailures = array();
-
+	protected $validationFailures = array ();
+	
 	/**
 	 * Gets any ValidationFailed objects that resulted from last call to validate().
 	 *
 	 *
-	 * @return     array ValidationFailed[]
-	 * @see        validate()
+	 * @return array ValidationFailed[]
+	 * @see validate()
 	 */
-	public function getValidationFailures()
-	{
+	public function getValidationFailures() {
 		return $this->validationFailures;
 	}
-
+	
 	/**
 	 * Validates the objects modified field values and all objects related to this table.
 	 *
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param      mixed $columns Column name or an array of column names.
-	 * @return     boolean Whether all columns pass validation.
-	 * @see        doValidate()
-	 * @see        getValidationFailures()
+	 * @param mixed $columns
+	 *        	Column name or an array of column names.
+	 * @return boolean Whether all columns pass validation.
+	 * @see doValidate()
+	 * @see getValidationFailures()
 	 */
-	public function validate($columns = null)
-	{
-		$res = $this->doValidate($columns);
+	public function validate($columns = null) {
+		$res = $this->doValidate ( $columns );
 		if ($res === true) {
-			$this->validationFailures = array();
+			$this->validationFailures = array ();
 			return true;
 		} else {
 			$this->validationFailures = $res;
 			return false;
 		}
 	}
-
+	
 	/**
 	 * This function performs the validation work for complex object models.
 	 *
 	 * In addition to checking the current object, all related objects will
-	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
+	 * also be validated. If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param      array $columns Array of column names to validate.
-	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param array $columns
+	 *        	Array of column names to validate.
+	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
-	protected function doValidate($columns = null)
-	{
-		if (!$this->alreadyInValidation) {
+	protected function doValidate($columns = null) {
+		if (! $this->alreadyInValidation) {
 			$this->alreadyInValidation = true;
 			$retval = null;
-
-			$failureMap = array();
-
-
-			if (($retval = SDeliveryMethodsPeer::doValidate($this, $columns)) !== true) {
-				$failureMap = array_merge($failureMap, $retval);
+			
+			$failureMap = array ();
+			
+			if (($retval = SDeliveryMethodsPeer::doValidate ( $this, $columns )) !== true) {
+				$failureMap = array_merge ( $failureMap, $retval );
 			}
-
-
-				if ($this->collSDeliveryMethodsI18ns !== null) {
-					foreach ($this->collSDeliveryMethodsI18ns as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
+			
+			if ($this->collSDeliveryMethodsI18ns !== null) {
+				foreach ( $this->collSDeliveryMethodsI18ns as $referrerFK ) {
+					if (! $referrerFK->validate ( $columns )) {
+						$failureMap = array_merge ( $failureMap, $referrerFK->getValidationFailures () );
 					}
 				}
-
-				if ($this->collShopDeliveryMethodsSystemss !== null) {
-					foreach ($this->collShopDeliveryMethodsSystemss as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
+			}
+			
+			if ($this->collShopDeliveryMethodsSystemss !== null) {
+				foreach ( $this->collShopDeliveryMethodsSystemss as $referrerFK ) {
+					if (! $referrerFK->validate ( $columns )) {
+						$failureMap = array_merge ( $failureMap, $referrerFK->getValidationFailures () );
 					}
 				}
-
-				if ($this->collSOrderss !== null) {
-					foreach ($this->collSOrderss as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
+			}
+			
+			if ($this->collSOrderss !== null) {
+				foreach ( $this->collSOrderss as $referrerFK ) {
+					if (! $referrerFK->validate ( $columns )) {
+						$failureMap = array_merge ( $failureMap, $referrerFK->getValidationFailures () );
 					}
 				}
-
-
+			}
+			
 			$this->alreadyInValidation = false;
 		}
-
-		return (!empty($failureMap) ? $failureMap : true);
+		
+		return (! empty ( $failureMap ) ? $failureMap : true);
 	}
-
+	
 	/**
 	 * Retrieves a field from the object by name passed in as a string.
 	 *
-	 * @param      string $name name
-	 * @param      string $type The type of fieldname the $name is of:
-	 *                     one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
-	 *                     BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
-	 * @return     mixed Value of field.
+	 * @param string $name
+	 *        	name
+	 * @param string $type
+	 *        	The type of fieldname the $name is of:
+	 *        	one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
+	 * @return mixed Value of field.
 	 */
-	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
-	{
-		$pos = SDeliveryMethodsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
-		$field = $this->getByPosition($pos);
+	public function getByName($name, $type = BasePeer::TYPE_PHPNAME) {
+		$pos = SDeliveryMethodsPeer::translateFieldName ( $name, $type, BasePeer::TYPE_NUM );
+		$field = $this->getByPosition ( $pos );
 		return $field;
 	}
-
+	
 	/**
 	 * Retrieves a field from the object by Position as specified in the xml schema.
 	 * Zero-based.
 	 *
-	 * @param      int $pos position in xml schema
-	 * @return     mixed Value of field at $pos
+	 * @param int $pos
+	 *        	position in xml schema
+	 * @return mixed Value of field at $pos
 	 */
-	public function getByPosition($pos)
-	{
-		switch($pos) {
-			case 0:
-				return $this->getId();
+	public function getByPosition($pos) {
+		switch ($pos) {
+			case 0 :
+				return $this->getId ();
 				break;
-			case 1:
-				return $this->getPrice();
+			case 1 :
+				return $this->getPrice ();
 				break;
-			case 2:
-				return $this->getFreeFrom();
+			case 2 :
+				return $this->getFreeFrom ();
 				break;
-			case 3:
-				return $this->getEnabled();
+			case 3 :
+				return $this->getEnabled ();
 				break;
-			case 4:
-				return $this->getIsPriceInPercent();
+			case 4 :
+				return $this->getIsPriceInPercent ();
 				break;
-			case 5:
-				return $this->getPosition();
+			case 5 :
+				return $this->getPosition ();
 				break;
-			default:
+			default :
 				return null;
 				break;
 		} // switch()
 	}
-
+	
 	/**
 	 * Exports the object as an array.
 	 *
 	 * You can specify the key type of the array by passing one of the class
 	 * type constants.
 	 *
-	 * @param     string  $keyType (optional) One of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME,
-	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
-	 *                    Defaults to BasePeer::TYPE_PHPNAME.
-	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
-	 *
-	 * @return    array an associative array containing the field names (as keys) and field values
+	 * @param string $keyType
+	 *        	(optional) One of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME,
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
+	 *        	Defaults to BasePeer::TYPE_PHPNAME.
+	 * @param boolean $includeLazyLoadColumns
+	 *        	(optional) Whether to include lazy loaded columns. Defaults to TRUE.
+	 * @param array $alreadyDumpedObjects
+	 *        	List of objects to skip to avoid recursion
+	 * @param boolean $includeForeignObjects
+	 *        	(optional) Whether to include hydrated related objects. Default to FALSE.
+	 *        	
+	 * @return array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
-	{
-		if (isset($alreadyDumpedObjects['SDeliveryMethods'][$this->getPrimaryKey()])) {
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false) {
+		if (isset ( $alreadyDumpedObjects ['SDeliveryMethods'] [$this->getPrimaryKey ()] )) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['SDeliveryMethods'][$this->getPrimaryKey()] = true;
-		$keys = SDeliveryMethodsPeer::getFieldNames($keyType);
-		$result = array(
-			$keys[0] => $this->getId(),
-			$keys[1] => $this->getPrice(),
-			$keys[2] => $this->getFreeFrom(),
-			$keys[3] => $this->getEnabled(),
-			$keys[4] => $this->getIsPriceInPercent(),
-			$keys[5] => $this->getPosition(),
+		$alreadyDumpedObjects ['SDeliveryMethods'] [$this->getPrimaryKey ()] = true;
+		$keys = SDeliveryMethodsPeer::getFieldNames ( $keyType );
+		$result = array (
+				$keys [0] => $this->getId (),
+				$keys [1] => $this->getPrice (),
+				$keys [2] => $this->getFreeFrom (),
+				$keys [3] => $this->getEnabled (),
+				$keys [4] => $this->getIsPriceInPercent (),
+				$keys [5] => $this->getPosition () 
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->collSDeliveryMethodsI18ns) {
-				$result['SDeliveryMethodsI18ns'] = $this->collSDeliveryMethodsI18ns->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+				$result ['SDeliveryMethodsI18ns'] = $this->collSDeliveryMethodsI18ns->toArray ( null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects );
 			}
 			if (null !== $this->collShopDeliveryMethodsSystemss) {
-				$result['ShopDeliveryMethodsSystemss'] = $this->collShopDeliveryMethodsSystemss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+				$result ['ShopDeliveryMethodsSystemss'] = $this->collShopDeliveryMethodsSystemss->toArray ( null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects );
 			}
 			if (null !== $this->collSOrderss) {
-				$result['SOrderss'] = $this->collSOrderss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+				$result ['SOrderss'] = $this->collSOrderss->toArray ( null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects );
 			}
 		}
 		return $result;
 	}
-
+	
 	/**
 	 * Sets a field from the object by name passed in as a string.
 	 *
-	 * @param      string $name peer name
-	 * @param      mixed $value field value
-	 * @param      string $type The type of fieldname the $name is of:
-	 *                     one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
-	 *                     BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
-	 * @return     void
+	 * @param string $name
+	 *        	peer name
+	 * @param mixed $value
+	 *        	field value
+	 * @param string $type
+	 *        	The type of fieldname the $name is of:
+	 *        	one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
+	 * @return void
 	 */
-	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
-	{
-		$pos = SDeliveryMethodsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
-		return $this->setByPosition($pos, $value);
+	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME) {
+		$pos = SDeliveryMethodsPeer::translateFieldName ( $name, $type, BasePeer::TYPE_NUM );
+		return $this->setByPosition ( $pos, $value );
 	}
-
+	
 	/**
 	 * Sets a field from the object by Position as specified in the xml schema.
 	 * Zero-based.
 	 *
-	 * @param      int $pos position in xml schema
-	 * @param      mixed $value field value
-	 * @return     void
+	 * @param int $pos
+	 *        	position in xml schema
+	 * @param mixed $value
+	 *        	field value
+	 * @return void
 	 */
-	public function setByPosition($pos, $value)
-	{
-		switch($pos) {
-			case 0:
-				$this->setId($value);
+	public function setByPosition($pos, $value) {
+		switch ($pos) {
+			case 0 :
+				$this->setId ( $value );
 				break;
-			case 1:
-				$this->setPrice($value);
+			case 1 :
+				$this->setPrice ( $value );
 				break;
-			case 2:
-				$this->setFreeFrom($value);
+			case 2 :
+				$this->setFreeFrom ( $value );
 				break;
-			case 3:
-				$this->setEnabled($value);
+			case 3 :
+				$this->setEnabled ( $value );
 				break;
-			case 4:
-				$this->setIsPriceInPercent($value);
+			case 4 :
+				$this->setIsPriceInPercent ( $value );
 				break;
-			case 5:
-				$this->setPosition($value);
+			case 5 :
+				$this->setPosition ( $value );
 				break;
 		} // switch()
 	}
-
+	
 	/**
 	 * Populates the object using an array.
 	 *
 	 * This is particularly useful when populating an object from one of the
-	 * request arrays (e.g. $_POST).  This method goes through the column
+	 * request arrays (e.g. $_POST). This method goes through the column
 	 * names, checking to see whether a matching key exists in populated
 	 * array. If so the setByName() method is called for that column.
 	 *
@@ -997,140 +1007,153 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
 	 * The default key type is the column's phpname (e.g. 'AuthorId')
 	 *
-	 * @param      array  $arr     An array to populate the object from.
-	 * @param      string $keyType The type of keys the array uses.
-	 * @return     void
+	 * @param array $arr
+	 *        	An array to populate the object from.
+	 * @param string $keyType
+	 *        	The type of keys the array uses.
+	 * @return void
 	 */
-	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
-	{
-		$keys = SDeliveryMethodsPeer::getFieldNames($keyType);
-
-		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setPrice($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setFreeFrom($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setEnabled($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setIsPriceInPercent($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setPosition($arr[$keys[5]]);
+	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME) {
+		$keys = SDeliveryMethodsPeer::getFieldNames ( $keyType );
+		
+		if (array_key_exists ( $keys [0], $arr ))
+			$this->setId ( $arr [$keys [0]] );
+		if (array_key_exists ( $keys [1], $arr ))
+			$this->setPrice ( $arr [$keys [1]] );
+		if (array_key_exists ( $keys [2], $arr ))
+			$this->setFreeFrom ( $arr [$keys [2]] );
+		if (array_key_exists ( $keys [3], $arr ))
+			$this->setEnabled ( $arr [$keys [3]] );
+		if (array_key_exists ( $keys [4], $arr ))
+			$this->setIsPriceInPercent ( $arr [$keys [4]] );
+		if (array_key_exists ( $keys [5], $arr ))
+			$this->setPosition ( $arr [$keys [5]] );
 	}
-
+	
 	/**
 	 * Build a Criteria object containing the values of all modified columns in this object.
 	 *
-	 * @return     Criteria The Criteria object containing all modified values.
+	 * @return Criteria The Criteria object containing all modified values.
 	 */
-	public function buildCriteria()
-	{
-		$criteria = new Criteria(SDeliveryMethodsPeer::DATABASE_NAME);
-
-		if ($this->isColumnModified(SDeliveryMethodsPeer::ID)) $criteria->add(SDeliveryMethodsPeer::ID, $this->id);
-		if ($this->isColumnModified(SDeliveryMethodsPeer::PRICE)) $criteria->add(SDeliveryMethodsPeer::PRICE, $this->price);
-		if ($this->isColumnModified(SDeliveryMethodsPeer::FREE_FROM)) $criteria->add(SDeliveryMethodsPeer::FREE_FROM, $this->free_from);
-		if ($this->isColumnModified(SDeliveryMethodsPeer::ENABLED)) $criteria->add(SDeliveryMethodsPeer::ENABLED, $this->enabled);
-		if ($this->isColumnModified(SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT)) $criteria->add(SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT, $this->is_price_in_percent);
-		if ($this->isColumnModified(SDeliveryMethodsPeer::POSITION)) $criteria->add(SDeliveryMethodsPeer::POSITION, $this->position);
-
+	public function buildCriteria() {
+		$criteria = new Criteria ( SDeliveryMethodsPeer::DATABASE_NAME );
+		
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::ID ))
+			$criteria->add ( SDeliveryMethodsPeer::ID, $this->id );
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::PRICE ))
+			$criteria->add ( SDeliveryMethodsPeer::PRICE, $this->price );
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::FREE_FROM ))
+			$criteria->add ( SDeliveryMethodsPeer::FREE_FROM, $this->free_from );
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::ENABLED ))
+			$criteria->add ( SDeliveryMethodsPeer::ENABLED, $this->enabled );
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT ))
+			$criteria->add ( SDeliveryMethodsPeer::IS_PRICE_IN_PERCENT, $this->is_price_in_percent );
+		if ($this->isColumnModified ( SDeliveryMethodsPeer::POSITION ))
+			$criteria->add ( SDeliveryMethodsPeer::POSITION, $this->position );
+		
 		return $criteria;
 	}
-
+	
 	/**
 	 * Builds a Criteria object containing the primary key for this object.
 	 *
 	 * Unlike buildCriteria() this method includes the primary key values regardless
 	 * of whether or not they have been modified.
 	 *
-	 * @return     Criteria The Criteria object containing value(s) for primary key(s).
+	 * @return Criteria The Criteria object containing value(s) for primary key(s).
 	 */
-	public function buildPkeyCriteria()
-	{
-		$criteria = new Criteria(SDeliveryMethodsPeer::DATABASE_NAME);
-		$criteria->add(SDeliveryMethodsPeer::ID, $this->id);
-
+	public function buildPkeyCriteria() {
+		$criteria = new Criteria ( SDeliveryMethodsPeer::DATABASE_NAME );
+		$criteria->add ( SDeliveryMethodsPeer::ID, $this->id );
+		
 		return $criteria;
 	}
-
+	
 	/**
 	 * Returns the primary key for this object (row).
-	 * @return     int
+	 * 
+	 * @return int
 	 */
-	public function getPrimaryKey()
-	{
-		return $this->getId();
+	public function getPrimaryKey() {
+		return $this->getId ();
 	}
-
+	
 	/**
 	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      int $key Primary key.
-	 * @return     void
+	 * @param int $key
+	 *        	Primary key.
+	 * @return void
 	 */
-	public function setPrimaryKey($key)
-	{
-		$this->setId($key);
+	public function setPrimaryKey($key) {
+		$this->setId ( $key );
 	}
-
+	
 	/**
 	 * Returns true if the primary key for this object is null.
-	 * @return     boolean
+	 * 
+	 * @return boolean
 	 */
-	public function isPrimaryKeyNull()
-	{
-		return null === $this->getId();
+	public function isPrimaryKeyNull() {
+		return null === $this->getId ();
 	}
-
+	
 	/**
 	 * Sets contents of passed object to values from current object.
 	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of SDeliveryMethods (or compatible) type.
-	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
-	 * @throws     PropelException
+	 * @param object $copyObj
+	 *        	An object of SDeliveryMethods (or compatible) type.
+	 * @param boolean $deepCopy
+	 *        	Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @param boolean $makeNew
+	 *        	Whether to reset autoincrement PKs and make the object new.
+	 * @throws PropelException
 	 */
-	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
-	{
-		$copyObj->setPrice($this->getPrice());
-		$copyObj->setFreeFrom($this->getFreeFrom());
-		$copyObj->setEnabled($this->getEnabled());
-		$copyObj->setIsPriceInPercent($this->getIsPriceInPercent());
-		$copyObj->setPosition($this->getPosition());
-
-		if ($deepCopy && !$this->startCopy) {
+	public function copyInto($copyObj, $deepCopy = false, $makeNew = true) {
+		$copyObj->setPrice ( $this->getPrice () );
+		$copyObj->setFreeFrom ( $this->getFreeFrom () );
+		$copyObj->setEnabled ( $this->getEnabled () );
+		$copyObj->setIsPriceInPercent ( $this->getIsPriceInPercent () );
+		$copyObj->setPosition ( $this->getPosition () );
+		
+		if ($deepCopy && ! $this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
-			$copyObj->setNew(false);
+			$copyObj->setNew ( false );
 			// store object hash to prevent cycle
 			$this->startCopy = true;
-
-			foreach ($this->getSDeliveryMethodsI18ns() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addSDeliveryMethodsI18n($relObj->copy($deepCopy));
+			
+			foreach ( $this->getSDeliveryMethodsI18ns () as $relObj ) {
+				if ($relObj !== $this) { // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSDeliveryMethodsI18n ( $relObj->copy ( $deepCopy ) );
 				}
 			}
-
-			foreach ($this->getShopDeliveryMethodsSystemss() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addShopDeliveryMethodsSystems($relObj->copy($deepCopy));
+			
+			foreach ( $this->getShopDeliveryMethodsSystemss () as $relObj ) {
+				if ($relObj !== $this) { // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addShopDeliveryMethodsSystems ( $relObj->copy ( $deepCopy ) );
 				}
 			}
-
-			foreach ($this->getSOrderss() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addSOrders($relObj->copy($deepCopy));
+			
+			foreach ( $this->getSOrderss () as $relObj ) {
+				if ($relObj !== $this) { // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSOrders ( $relObj->copy ( $deepCopy ) );
 				}
 			}
-
-			//unflag object copy
+			
+			// unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
-
+		
 		if ($makeNew) {
-			$copyObj->setNew(true);
-			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+			$copyObj->setNew ( true );
+			$copyObj->setId ( NULL ); // this is a auto-increment column, so set to default value
 		}
 	}
-
+	
 	/**
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
@@ -1139,19 +1162,19 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     SDeliveryMethods Clone of current object.
-	 * @throws     PropelException
+	 * @param boolean $deepCopy
+	 *        	Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return SDeliveryMethods Clone of current object.
+	 * @throws PropelException
 	 */
-	public function copy($deepCopy = false)
-	{
+	public function copy($deepCopy = false) {
 		// we use get_class(), because this might be a subclass
-		$clazz = get_class($this);
-		$copyObj = new $clazz();
-		$this->copyInto($copyObj, $deepCopy);
+		$clazz = get_class ( $this );
+		$copyObj = new $clazz ();
+		$this->copyInto ( $copyObj, $deepCopy );
 		return $copyObj;
 	}
-
+	
 	/**
 	 * Returns a peer instance associated with this om.
 	 *
@@ -1159,52 +1182,49 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     SDeliveryMethodsPeer
+	 * @return SDeliveryMethodsPeer
 	 */
-	public function getPeer()
-	{
+	public function getPeer() {
 		if (self::$peer === null) {
-			self::$peer = new SDeliveryMethodsPeer();
+			self::$peer = new SDeliveryMethodsPeer ();
 		}
 		return self::$peer;
 	}
-
-
+	
 	/**
 	 * Initializes a collection based on the name of a relation.
 	 * Avoids crafting an 'init[$relationName]s' method name
 	 * that wouldn't work when StandardEnglishPluralizer is used.
 	 *
-	 * @param      string $relationName The name of the relation to initialize
-	 * @return     void
+	 * @param string $relationName
+	 *        	The name of the relation to initialize
+	 * @return void
 	 */
-	public function initRelation($relationName)
-	{
+	public function initRelation($relationName) {
 		if ('SDeliveryMethodsI18n' == $relationName) {
-			return $this->initSDeliveryMethodsI18ns();
+			return $this->initSDeliveryMethodsI18ns ();
 		}
 		if ('ShopDeliveryMethodsSystems' == $relationName) {
-			return $this->initShopDeliveryMethodsSystemss();
+			return $this->initShopDeliveryMethodsSystemss ();
 		}
 		if ('SOrders' == $relationName) {
-			return $this->initSOrderss();
+			return $this->initSOrderss ();
 		}
 	}
-
+	
 	/**
 	 * Clears out the collSDeliveryMethodsI18ns collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addSDeliveryMethodsI18ns()
+	 * @return void
+	 * @see addSDeliveryMethodsI18ns()
 	 */
-	public function clearSDeliveryMethodsI18ns()
-	{
+	public function clearSDeliveryMethodsI18ns() {
 		$this->collSDeliveryMethodsI18ns = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collSDeliveryMethodsI18ns collection.
 	 *
@@ -1212,20 +1232,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
-	 * @return     void
+	 * @param boolean $overrideExisting
+	 *        	If set to true, the method call initializes
+	 *        	the collection even if it is not empty
+	 *        	
+	 * @return void
 	 */
-	public function initSDeliveryMethodsI18ns($overrideExisting = true)
-	{
-		if (null !== $this->collSDeliveryMethodsI18ns && !$overrideExisting) {
+	public function initSDeliveryMethodsI18ns($overrideExisting = true) {
+		if (null !== $this->collSDeliveryMethodsI18ns && ! $overrideExisting) {
 			return;
 		}
-		$this->collSDeliveryMethodsI18ns = new PropelObjectCollection();
-		$this->collSDeliveryMethodsI18ns->setModel('SDeliveryMethodsI18n');
+		$this->collSDeliveryMethodsI18ns = new PropelObjectCollection ();
+		$this->collSDeliveryMethodsI18ns->setModel ( 'SDeliveryMethodsI18n' );
 	}
-
+	
 	/**
 	 * Gets an array of SDeliveryMethodsI18n objects which contain a foreign key that references this object.
 	 *
@@ -1235,21 +1255,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * If this SDeliveryMethods is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array SDeliveryMethodsI18n[] List of SDeliveryMethodsI18n objects
-	 * @throws     PropelException
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @return PropelCollection|array SDeliveryMethodsI18n[] List of SDeliveryMethodsI18n objects
+	 * @throws PropelException
 	 */
-	public function getSDeliveryMethodsI18ns($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collSDeliveryMethodsI18ns || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSDeliveryMethodsI18ns) {
+	public function getSDeliveryMethodsI18ns($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collSDeliveryMethodsI18ns || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSDeliveryMethodsI18ns) {
 				// return empty collection
-				$this->initSDeliveryMethodsI18ns();
+				$this->initSDeliveryMethodsI18ns ();
 			} else {
-				$collSDeliveryMethodsI18ns = SDeliveryMethodsI18nQuery::create(null, $criteria)
-					->filterBySDeliveryMethods($this)
-					->find($con);
+				$collSDeliveryMethodsI18ns = SDeliveryMethodsI18nQuery::create ( null, $criteria )->filterBySDeliveryMethods ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collSDeliveryMethodsI18ns;
 				}
@@ -1258,105 +1277,103 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 		}
 		return $this->collSDeliveryMethodsI18ns;
 	}
-
+	
 	/**
 	 * Sets a collection of SDeliveryMethodsI18n objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $sDeliveryMethodsI18ns A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $sDeliveryMethodsI18ns
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setSDeliveryMethodsI18ns(PropelCollection $sDeliveryMethodsI18ns, PropelPDO $con = null)
-	{
-		$this->sDeliveryMethodsI18nsScheduledForDeletion = $this->getSDeliveryMethodsI18ns(new Criteria(), $con)->diff($sDeliveryMethodsI18ns);
-
-		foreach ($sDeliveryMethodsI18ns as $sDeliveryMethodsI18n) {
+	public function setSDeliveryMethodsI18ns(PropelCollection $sDeliveryMethodsI18ns, PropelPDO $con = null) {
+		$this->sDeliveryMethodsI18nsScheduledForDeletion = $this->getSDeliveryMethodsI18ns ( new Criteria (), $con )->diff ( $sDeliveryMethodsI18ns );
+		
+		foreach ( $sDeliveryMethodsI18ns as $sDeliveryMethodsI18n ) {
 			// Fix issue with collection modified by reference
-			if ($sDeliveryMethodsI18n->isNew()) {
-				$sDeliveryMethodsI18n->setSDeliveryMethods($this);
+			if ($sDeliveryMethodsI18n->isNew ()) {
+				$sDeliveryMethodsI18n->setSDeliveryMethods ( $this );
 			}
-			$this->addSDeliveryMethodsI18n($sDeliveryMethodsI18n);
+			$this->addSDeliveryMethodsI18n ( $sDeliveryMethodsI18n );
 		}
-
+		
 		$this->collSDeliveryMethodsI18ns = $sDeliveryMethodsI18ns;
 	}
-
+	
 	/**
 	 * Returns the number of related SDeliveryMethodsI18n objects.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related SDeliveryMethodsI18n objects.
-	 * @throws     PropelException
+	 * @param Criteria $criteria        	
+	 * @param boolean $distinct        	
+	 * @param PropelPDO $con        	
+	 * @return int Count of related SDeliveryMethodsI18n objects.
+	 * @throws PropelException
 	 */
-	public function countSDeliveryMethodsI18ns(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collSDeliveryMethodsI18ns || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSDeliveryMethodsI18ns) {
+	public function countSDeliveryMethodsI18ns(Criteria $criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collSDeliveryMethodsI18ns || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSDeliveryMethodsI18ns) {
 				return 0;
 			} else {
-				$query = SDeliveryMethodsI18nQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = SDeliveryMethodsI18nQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterBySDeliveryMethods($this)
-					->count($con);
+				return $query->filterBySDeliveryMethods ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collSDeliveryMethodsI18ns);
+			return count ( $this->collSDeliveryMethodsI18ns );
 		}
 	}
-
+	
 	/**
 	 * Method called to associate a SDeliveryMethodsI18n object to this object
 	 * through the SDeliveryMethodsI18n foreign key attribute.
 	 *
-	 * @param      SDeliveryMethodsI18n $l SDeliveryMethodsI18n
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 * @param SDeliveryMethodsI18n $l
+	 *        	SDeliveryMethodsI18n
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function addSDeliveryMethodsI18n(SDeliveryMethodsI18n $l)
-	{
-		if ($l && $locale = $l->getLocale()) {
-			$this->setLocale($locale);
-			$this->currentTranslations[$locale] = $l;
+	public function addSDeliveryMethodsI18n(SDeliveryMethodsI18n $l) {
+		if ($l && $locale = $l->getLocale ()) {
+			$this->setLocale ( $locale );
+			$this->currentTranslations [$locale] = $l;
 		}
 		if ($this->collSDeliveryMethodsI18ns === null) {
-			$this->initSDeliveryMethodsI18ns();
+			$this->initSDeliveryMethodsI18ns ();
 		}
-		if (!$this->collSDeliveryMethodsI18ns->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddSDeliveryMethodsI18n($l);
+		if (! $this->collSDeliveryMethodsI18ns->contains ( $l )) { // only add it if the **same** object is not already associated
+			$this->doAddSDeliveryMethodsI18n ( $l );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-	 * @param	SDeliveryMethodsI18n $sDeliveryMethodsI18n The sDeliveryMethodsI18n object to add.
+	 *
+	 * @param SDeliveryMethodsI18n $sDeliveryMethodsI18n
+	 *        	The sDeliveryMethodsI18n object to add.
 	 */
-	protected function doAddSDeliveryMethodsI18n($sDeliveryMethodsI18n)
-	{
-		$this->collSDeliveryMethodsI18ns[]= $sDeliveryMethodsI18n;
-		$sDeliveryMethodsI18n->setSDeliveryMethods($this);
+	protected function doAddSDeliveryMethodsI18n($sDeliveryMethodsI18n) {
+		$this->collSDeliveryMethodsI18ns [] = $sDeliveryMethodsI18n;
+		$sDeliveryMethodsI18n->setSDeliveryMethods ( $this );
 	}
-
+	
 	/**
 	 * Clears out the collShopDeliveryMethodsSystemss collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addShopDeliveryMethodsSystemss()
+	 * @return void
+	 * @see addShopDeliveryMethodsSystemss()
 	 */
-	public function clearShopDeliveryMethodsSystemss()
-	{
+	public function clearShopDeliveryMethodsSystemss() {
 		$this->collShopDeliveryMethodsSystemss = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collShopDeliveryMethodsSystemss collection.
 	 *
@@ -1364,20 +1381,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
-	 * @return     void
+	 * @param boolean $overrideExisting
+	 *        	If set to true, the method call initializes
+	 *        	the collection even if it is not empty
+	 *        	
+	 * @return void
 	 */
-	public function initShopDeliveryMethodsSystemss($overrideExisting = true)
-	{
-		if (null !== $this->collShopDeliveryMethodsSystemss && !$overrideExisting) {
+	public function initShopDeliveryMethodsSystemss($overrideExisting = true) {
+		if (null !== $this->collShopDeliveryMethodsSystemss && ! $overrideExisting) {
 			return;
 		}
-		$this->collShopDeliveryMethodsSystemss = new PropelObjectCollection();
-		$this->collShopDeliveryMethodsSystemss->setModel('ShopDeliveryMethodsSystems');
+		$this->collShopDeliveryMethodsSystemss = new PropelObjectCollection ();
+		$this->collShopDeliveryMethodsSystemss->setModel ( 'ShopDeliveryMethodsSystems' );
 	}
-
+	
 	/**
 	 * Gets an array of ShopDeliveryMethodsSystems objects which contain a foreign key that references this object.
 	 *
@@ -1387,21 +1404,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * If this SDeliveryMethods is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array ShopDeliveryMethodsSystems[] List of ShopDeliveryMethodsSystems objects
-	 * @throws     PropelException
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @return PropelCollection|array ShopDeliveryMethodsSystems[] List of ShopDeliveryMethodsSystems objects
+	 * @throws PropelException
 	 */
-	public function getShopDeliveryMethodsSystemss($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collShopDeliveryMethodsSystemss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collShopDeliveryMethodsSystemss) {
+	public function getShopDeliveryMethodsSystemss($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collShopDeliveryMethodsSystemss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collShopDeliveryMethodsSystemss) {
 				// return empty collection
-				$this->initShopDeliveryMethodsSystemss();
+				$this->initShopDeliveryMethodsSystemss ();
 			} else {
-				$collShopDeliveryMethodsSystemss = ShopDeliveryMethodsSystemsQuery::create(null, $criteria)
-					->filterBySDeliveryMethods($this)
-					->find($con);
+				$collShopDeliveryMethodsSystemss = ShopDeliveryMethodsSystemsQuery::create ( null, $criteria )->filterBySDeliveryMethods ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collShopDeliveryMethodsSystemss;
 				}
@@ -1410,88 +1426,86 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 		}
 		return $this->collShopDeliveryMethodsSystemss;
 	}
-
+	
 	/**
 	 * Sets a collection of ShopDeliveryMethodsSystems objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $shopDeliveryMethodsSystemss A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $shopDeliveryMethodsSystemss
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setShopDeliveryMethodsSystemss(PropelCollection $shopDeliveryMethodsSystemss, PropelPDO $con = null)
-	{
-		$this->shopDeliveryMethodsSystemssScheduledForDeletion = $this->getShopDeliveryMethodsSystemss(new Criteria(), $con)->diff($shopDeliveryMethodsSystemss);
-
-		foreach ($shopDeliveryMethodsSystemss as $shopDeliveryMethodsSystems) {
+	public function setShopDeliveryMethodsSystemss(PropelCollection $shopDeliveryMethodsSystemss, PropelPDO $con = null) {
+		$this->shopDeliveryMethodsSystemssScheduledForDeletion = $this->getShopDeliveryMethodsSystemss ( new Criteria (), $con )->diff ( $shopDeliveryMethodsSystemss );
+		
+		foreach ( $shopDeliveryMethodsSystemss as $shopDeliveryMethodsSystems ) {
 			// Fix issue with collection modified by reference
-			if ($shopDeliveryMethodsSystems->isNew()) {
-				$shopDeliveryMethodsSystems->setSDeliveryMethods($this);
+			if ($shopDeliveryMethodsSystems->isNew ()) {
+				$shopDeliveryMethodsSystems->setSDeliveryMethods ( $this );
 			}
-			$this->addShopDeliveryMethodsSystems($shopDeliveryMethodsSystems);
+			$this->addShopDeliveryMethodsSystems ( $shopDeliveryMethodsSystems );
 		}
-
+		
 		$this->collShopDeliveryMethodsSystemss = $shopDeliveryMethodsSystemss;
 	}
-
+	
 	/**
 	 * Returns the number of related ShopDeliveryMethodsSystems objects.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related ShopDeliveryMethodsSystems objects.
-	 * @throws     PropelException
+	 * @param Criteria $criteria        	
+	 * @param boolean $distinct        	
+	 * @param PropelPDO $con        	
+	 * @return int Count of related ShopDeliveryMethodsSystems objects.
+	 * @throws PropelException
 	 */
-	public function countShopDeliveryMethodsSystemss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collShopDeliveryMethodsSystemss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collShopDeliveryMethodsSystemss) {
+	public function countShopDeliveryMethodsSystemss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collShopDeliveryMethodsSystemss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collShopDeliveryMethodsSystemss) {
 				return 0;
 			} else {
-				$query = ShopDeliveryMethodsSystemsQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = ShopDeliveryMethodsSystemsQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterBySDeliveryMethods($this)
-					->count($con);
+				return $query->filterBySDeliveryMethods ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collShopDeliveryMethodsSystemss);
+			return count ( $this->collShopDeliveryMethodsSystemss );
 		}
 	}
-
+	
 	/**
 	 * Method called to associate a ShopDeliveryMethodsSystems object to this object
 	 * through the ShopDeliveryMethodsSystems foreign key attribute.
 	 *
-	 * @param      ShopDeliveryMethodsSystems $l ShopDeliveryMethodsSystems
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 * @param ShopDeliveryMethodsSystems $l
+	 *        	ShopDeliveryMethodsSystems
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function addShopDeliveryMethodsSystems(ShopDeliveryMethodsSystems $l)
-	{
+	public function addShopDeliveryMethodsSystems(ShopDeliveryMethodsSystems $l) {
 		if ($this->collShopDeliveryMethodsSystemss === null) {
-			$this->initShopDeliveryMethodsSystemss();
+			$this->initShopDeliveryMethodsSystemss ();
 		}
-		if (!$this->collShopDeliveryMethodsSystemss->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddShopDeliveryMethodsSystems($l);
+		if (! $this->collShopDeliveryMethodsSystemss->contains ( $l )) { // only add it if the **same** object is not already associated
+			$this->doAddShopDeliveryMethodsSystems ( $l );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-	 * @param	ShopDeliveryMethodsSystems $shopDeliveryMethodsSystems The shopDeliveryMethodsSystems object to add.
+	 *
+	 * @param ShopDeliveryMethodsSystems $shopDeliveryMethodsSystems
+	 *        	The shopDeliveryMethodsSystems object to add.
 	 */
-	protected function doAddShopDeliveryMethodsSystems($shopDeliveryMethodsSystems)
-	{
-		$this->collShopDeliveryMethodsSystemss[]= $shopDeliveryMethodsSystems;
-		$shopDeliveryMethodsSystems->setSDeliveryMethods($this);
+	protected function doAddShopDeliveryMethodsSystems($shopDeliveryMethodsSystems) {
+		$this->collShopDeliveryMethodsSystemss [] = $shopDeliveryMethodsSystems;
+		$shopDeliveryMethodsSystems->setSDeliveryMethods ( $this );
 	}
-
-
+	
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
@@ -1500,36 +1514,37 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * been saved, it will retrieve related ShopDeliveryMethodsSystemss from storage.
 	 *
 	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
+	 * api reasonable. You can provide public methods for those you
 	 * actually need in SDeliveryMethods.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array ShopDeliveryMethodsSystems[] List of ShopDeliveryMethodsSystems objects
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @param string $join_behavior
+	 *        	optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return PropelCollection|array ShopDeliveryMethodsSystems[] List of ShopDeliveryMethodsSystems objects
 	 */
-	public function getShopDeliveryMethodsSystemssJoinPaymentMethods($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = ShopDeliveryMethodsSystemsQuery::create(null, $criteria);
-		$query->joinWith('PaymentMethods', $join_behavior);
-
-		return $this->getShopDeliveryMethodsSystemss($query, $con);
+	public function getShopDeliveryMethodsSystemssJoinPaymentMethods($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN) {
+		$query = ShopDeliveryMethodsSystemsQuery::create ( null, $criteria );
+		$query->joinWith ( 'PaymentMethods', $join_behavior );
+		
+		return $this->getShopDeliveryMethodsSystemss ( $query, $con );
 	}
-
+	
 	/**
 	 * Clears out the collSOrderss collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addSOrderss()
+	 * @return void
+	 * @see addSOrderss()
 	 */
-	public function clearSOrderss()
-	{
+	public function clearSOrderss() {
 		$this->collSOrderss = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collSOrderss collection.
 	 *
@@ -1537,20 +1552,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
-	 * @return     void
+	 * @param boolean $overrideExisting
+	 *        	If set to true, the method call initializes
+	 *        	the collection even if it is not empty
+	 *        	
+	 * @return void
 	 */
-	public function initSOrderss($overrideExisting = true)
-	{
-		if (null !== $this->collSOrderss && !$overrideExisting) {
+	public function initSOrderss($overrideExisting = true) {
+		if (null !== $this->collSOrderss && ! $overrideExisting) {
 			return;
 		}
-		$this->collSOrderss = new PropelObjectCollection();
-		$this->collSOrderss->setModel('SOrders');
+		$this->collSOrderss = new PropelObjectCollection ();
+		$this->collSOrderss->setModel ( 'SOrders' );
 	}
-
+	
 	/**
 	 * Gets an array of SOrders objects which contain a foreign key that references this object.
 	 *
@@ -1560,21 +1575,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * If this SDeliveryMethods is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array SOrders[] List of SOrders objects
-	 * @throws     PropelException
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @return PropelCollection|array SOrders[] List of SOrders objects
+	 * @throws PropelException
 	 */
-	public function getSOrderss($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collSOrderss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSOrderss) {
+	public function getSOrderss($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collSOrderss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSOrderss) {
 				// return empty collection
-				$this->initSOrderss();
+				$this->initSOrderss ();
 			} else {
-				$collSOrderss = SOrdersQuery::create(null, $criteria)
-					->filterBySDeliveryMethods($this)
-					->find($con);
+				$collSOrderss = SOrdersQuery::create ( null, $criteria )->filterBySDeliveryMethods ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collSOrderss;
 				}
@@ -1583,113 +1597,86 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 		}
 		return $this->collSOrderss;
 	}
-
+	
 	/**
 	 * Sets a collection of SOrders objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $sOrderss A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $sOrderss
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setSOrderss(PropelCollection $sOrderss, PropelPDO $con = null)
-	{
-		$this->sOrderssScheduledForDeletion = $this->getSOrderss(new Criteria(), $con)->diff($sOrderss);
-
-		foreach ($sOrderss as $sOrders) {
+	public function setSOrderss(PropelCollection $sOrderss, PropelPDO $con = null) {
+		$this->sOrderssScheduledForDeletion = $this->getSOrderss ( new Criteria (), $con )->diff ( $sOrderss );
+		
+		foreach ( $sOrderss as $sOrders ) {
 			// Fix issue with collection modified by reference
-			if ($sOrders->isNew()) {
-				$sOrders->setSDeliveryMethods($this);
+			if ($sOrders->isNew ()) {
+				$sOrders->setSDeliveryMethods ( $this );
 			}
-			$this->addSOrders($sOrders);
+			$this->addSOrders ( $sOrders );
 		}
-
+		
 		$this->collSOrderss = $sOrderss;
 	}
-
+	
 	/**
 	 * Returns the number of related SOrders objects.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related SOrders objects.
-	 * @throws     PropelException
+	 * @param Criteria $criteria        	
+	 * @param boolean $distinct        	
+	 * @param PropelPDO $con        	
+	 * @return int Count of related SOrders objects.
+	 * @throws PropelException
 	 */
-	public function countSOrderss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collSOrderss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSOrderss) {
+	public function countSOrderss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collSOrderss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSOrderss) {
 				return 0;
 			} else {
-				$query = SOrdersQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = SOrdersQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterBySDeliveryMethods($this)
-					->count($con);
+				return $query->filterBySDeliveryMethods ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collSOrderss);
+			return count ( $this->collSOrderss );
 		}
 	}
-
+	
 	/**
 	 * Method called to associate a SOrders object to this object
 	 * through the SOrders foreign key attribute.
 	 *
-	 * @param      SOrders $l SOrders
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 * @param SOrders $l
+	 *        	SOrders
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function addSOrders(SOrders $l)
-	{
+	public function addSOrders(SOrders $l) {
 		if ($this->collSOrderss === null) {
-			$this->initSOrderss();
+			$this->initSOrderss ();
 		}
-		if (!$this->collSOrderss->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddSOrders($l);
+		if (! $this->collSOrderss->contains ( $l )) { // only add it if the **same** object is not already associated
+			$this->doAddSOrders ( $l );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-	 * @param	SOrders $sOrders The sOrders object to add.
-	 */
-	protected function doAddSOrders($sOrders)
-	{
-		$this->collSOrderss[]= $sOrders;
-		$sOrders->setSDeliveryMethods($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this SDeliveryMethods is new, it will return
-	 * an empty collection; or if this SDeliveryMethods has previously
-	 * been saved, it will retrieve related SOrderss from storage.
 	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in SDeliveryMethods.
-	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array SOrders[] List of SOrders objects
+	 * @param SOrders $sOrders
+	 *        	The sOrders object to add.
 	 */
-	public function getSOrderssJoinSPaymentMethods($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = SOrdersQuery::create(null, $criteria);
-		$query->joinWith('SPaymentMethods', $join_behavior);
-
-		return $this->getSOrderss($query, $con);
+	protected function doAddSOrders($sOrders) {
+		$this->collSOrderss [] = $sOrders;
+		$sOrders->setSDeliveryMethods ( $this );
 	}
-
-
+	
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
@@ -1698,36 +1685,63 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * been saved, it will retrieve related SOrderss from storage.
 	 *
 	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
+	 * api reasonable. You can provide public methods for those you
 	 * actually need in SDeliveryMethods.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array SOrders[] List of SOrders objects
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @param string $join_behavior
+	 *        	optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return PropelCollection|array SOrders[] List of SOrders objects
 	 */
-	public function getSOrderssJoinSOrderStatuses($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = SOrdersQuery::create(null, $criteria);
-		$query->joinWith('SOrderStatuses', $join_behavior);
-
-		return $this->getSOrderss($query, $con);
+	public function getSOrderssJoinSPaymentMethods($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN) {
+		$query = SOrdersQuery::create ( null, $criteria );
+		$query->joinWith ( 'SPaymentMethods', $join_behavior );
+		
+		return $this->getSOrderss ( $query, $con );
 	}
-
+	
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SDeliveryMethods is new, it will return
+	 * an empty collection; or if this SDeliveryMethods has previously
+	 * been saved, it will retrieve related SOrderss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable. You can provide public methods for those you
+	 * actually need in SDeliveryMethods.
+	 *
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @param string $join_behavior
+	 *        	optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return PropelCollection|array SOrders[] List of SOrders objects
+	 */
+	public function getSOrderssJoinSOrderStatuses($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN) {
+		$query = SOrdersQuery::create ( null, $criteria );
+		$query->joinWith ( 'SOrderStatuses', $join_behavior );
+		
+		return $this->getSOrderss ( $query, $con );
+	}
+	
 	/**
 	 * Clears out the collPaymentMethodss collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addPaymentMethodss()
+	 * @return void
+	 * @see addPaymentMethodss()
 	 */
-	public function clearPaymentMethodss()
-	{
+	public function clearPaymentMethodss() {
 		$this->collPaymentMethodss = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collPaymentMethodss collection.
 	 *
@@ -1735,14 +1749,13 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @return     void
+	 * @return void
 	 */
-	public function initPaymentMethodss()
-	{
-		$this->collPaymentMethodss = new PropelObjectCollection();
-		$this->collPaymentMethodss->setModel('SPaymentMethods');
+	public function initPaymentMethodss() {
+		$this->collPaymentMethodss = new PropelObjectCollection ();
+		$this->collPaymentMethodss->setModel ( 'SPaymentMethods' );
 	}
-
+	
 	/**
 	 * Gets a collection of SPaymentMethods objects related by a many-to-many relationship
 	 * to the current object by way of the shop_delivery_methods_systems cross-reference table.
@@ -1753,21 +1766,20 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * If this SDeliveryMethods is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria Optional query object to filter the query
-	 * @param      PropelPDO $con Optional connection object
-	 *
-	 * @return     PropelCollection|array SPaymentMethods[] List of SPaymentMethods objects
+	 * @param Criteria $criteria
+	 *        	Optional query object to filter the query
+	 * @param PropelPDO $con
+	 *        	Optional connection object
+	 *        	
+	 * @return PropelCollection|array SPaymentMethods[] List of SPaymentMethods objects
 	 */
-	public function getPaymentMethodss($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collPaymentMethodss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collPaymentMethodss) {
+	public function getPaymentMethodss($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collPaymentMethodss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collPaymentMethodss) {
 				// return empty collection
-				$this->initPaymentMethodss();
+				$this->initPaymentMethodss ();
 			} else {
-				$collPaymentMethodss = SPaymentMethodsQuery::create(null, $criteria)
-					->filterBySDeliveryMethods($this)
-					->find($con);
+				$collPaymentMethodss = SPaymentMethodsQuery::create ( null, $criteria )->filterBySDeliveryMethods ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collPaymentMethodss;
 				}
@@ -1776,101 +1788,99 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 		}
 		return $this->collPaymentMethodss;
 	}
-
+	
 	/**
 	 * Sets a collection of SPaymentMethods objects related by a many-to-many relationship
 	 * to the current object by way of the shop_delivery_methods_systems cross-reference table.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $paymentMethodss A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $paymentMethodss
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setPaymentMethodss(PropelCollection $paymentMethodss, PropelPDO $con = null)
-	{
-		$shopDeliveryMethodsSystemss = ShopDeliveryMethodsSystemsQuery::create()
-			->filterBySPaymentMethods($paymentMethodss)
-			->filterBySDeliveryMethods($this)
-			->find($con);
-
-		$this->paymentMethodssScheduledForDeletion = $this->getShopDeliveryMethodsSystemss()->diff($shopDeliveryMethodsSystemss);
+	public function setPaymentMethodss(PropelCollection $paymentMethodss, PropelPDO $con = null) {
+		$shopDeliveryMethodsSystemss = ShopDeliveryMethodsSystemsQuery::create ()->filterBySPaymentMethods ( $paymentMethodss )->filterBySDeliveryMethods ( $this )->find ( $con );
+		
+		$this->paymentMethodssScheduledForDeletion = $this->getShopDeliveryMethodsSystemss ()->diff ( $shopDeliveryMethodsSystemss );
 		$this->collShopDeliveryMethodsSystemss = $shopDeliveryMethodsSystemss;
-
-		foreach ($paymentMethodss as $paymentMethods) {
+		
+		foreach ( $paymentMethodss as $paymentMethods ) {
 			// Fix issue with collection modified by reference
-			if ($paymentMethods->isNew()) {
-				$this->doAddSPaymentMethods($paymentMethods);
+			if ($paymentMethods->isNew ()) {
+				$this->doAddSPaymentMethods ( $paymentMethods );
 			} else {
-				$this->addSPaymentMethods($paymentMethods);
+				$this->addSPaymentMethods ( $paymentMethods );
 			}
 		}
-
+		
 		$this->collPaymentMethodss = $paymentMethodss;
 	}
-
+	
 	/**
 	 * Gets the number of SPaymentMethods objects related by a many-to-many relationship
 	 * to the current object by way of the shop_delivery_methods_systems cross-reference table.
 	 *
-	 * @param      Criteria $criteria Optional query object to filter the query
-	 * @param      boolean $distinct Set to true to force count distinct
-	 * @param      PropelPDO $con Optional connection object
-	 *
-	 * @return     int the number of related SPaymentMethods objects
+	 * @param Criteria $criteria
+	 *        	Optional query object to filter the query
+	 * @param boolean $distinct
+	 *        	Set to true to force count distinct
+	 * @param PropelPDO $con
+	 *        	Optional connection object
+	 *        	
+	 * @return int the number of related SPaymentMethods objects
 	 */
-	public function countPaymentMethodss($criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collPaymentMethodss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collPaymentMethodss) {
+	public function countPaymentMethodss($criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collPaymentMethodss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collPaymentMethodss) {
 				return 0;
 			} else {
-				$query = SPaymentMethodsQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = SPaymentMethodsQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterBySDeliveryMethods($this)
-					->count($con);
+				return $query->filterBySDeliveryMethods ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collPaymentMethodss);
+			return count ( $this->collPaymentMethodss );
 		}
 	}
-
+	
 	/**
 	 * Associate a SPaymentMethods object to this object
 	 * through the shop_delivery_methods_systems cross reference table.
 	 *
-	 * @param      SPaymentMethods $sPaymentMethods The ShopDeliveryMethodsSystems object to relate
-	 * @return     void
+	 * @param SPaymentMethods $sPaymentMethods
+	 *        	The ShopDeliveryMethodsSystems object to relate
+	 * @return void
 	 */
-	public function addPaymentMethods(SPaymentMethods $sPaymentMethods)
-	{
+	public function addPaymentMethods(SPaymentMethods $sPaymentMethods) {
 		if ($this->collPaymentMethodss === null) {
-			$this->initPaymentMethodss();
+			$this->initPaymentMethodss ();
 		}
-		if (!$this->collPaymentMethodss->contains($sPaymentMethods)) { // only add it if the **same** object is not already associated
-			$this->doAddPaymentMethods($sPaymentMethods);
-
-			$this->collPaymentMethodss[]= $sPaymentMethods;
+		if (! $this->collPaymentMethodss->contains ( $sPaymentMethods )) { // only add it if the **same** object is not already associated
+			$this->doAddPaymentMethods ( $sPaymentMethods );
+			
+			$this->collPaymentMethodss [] = $sPaymentMethods;
 		}
 	}
-
+	
 	/**
-	 * @param	PaymentMethods $paymentMethods The paymentMethods object to add.
+	 *
+	 * @param PaymentMethods $paymentMethods
+	 *        	The paymentMethods object to add.
 	 */
-	protected function doAddPaymentMethods($paymentMethods)
-	{
-		$shopDeliveryMethodsSystems = new ShopDeliveryMethodsSystems();
-		$shopDeliveryMethodsSystems->setPaymentMethods($paymentMethods);
-		$this->addShopDeliveryMethodsSystems($shopDeliveryMethodsSystems);
+	protected function doAddPaymentMethods($paymentMethods) {
+		$shopDeliveryMethodsSystems = new ShopDeliveryMethodsSystems ();
+		$shopDeliveryMethodsSystems->setPaymentMethods ( $paymentMethods );
+		$this->addShopDeliveryMethodsSystems ( $shopDeliveryMethodsSystems );
 	}
-
+	
 	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
-	public function clear()
-	{
+	public function clear() {
 		$this->id = null;
 		$this->price = null;
 		$this->free_from = null;
@@ -1879,12 +1889,12 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 		$this->position = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
-		$this->clearAllReferences();
-		$this->resetModified();
-		$this->setNew(true);
-		$this->setDeleted(false);
+		$this->clearAllReferences ();
+		$this->resetModified ();
+		$this->setNew ( true );
+		$this->setDeleted ( false );
 	}
-
+	
 	/**
 	 * Resets all references to other model objects or collections of model objects.
 	 *
@@ -1892,229 +1902,229 @@ abstract class BaseSDeliveryMethods extends ShopBaseObject  implements Persisten
 	 * objects with circular references (even in PHP 5.3). This is currently necessary
 	 * when using Propel in certain daemon or large-volumne/high-memory operations.
 	 *
-	 * @param      boolean $deep Whether to also clear the references on all referrer objects.
+	 * @param boolean $deep
+	 *        	Whether to also clear the references on all referrer objects.
 	 */
-	public function clearAllReferences($deep = false)
-	{
+	public function clearAllReferences($deep = false) {
 		if ($deep) {
 			if ($this->collSDeliveryMethodsI18ns) {
-				foreach ($this->collSDeliveryMethodsI18ns as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collSDeliveryMethodsI18ns as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 			if ($this->collShopDeliveryMethodsSystemss) {
-				foreach ($this->collShopDeliveryMethodsSystemss as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collShopDeliveryMethodsSystemss as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 			if ($this->collSOrderss) {
-				foreach ($this->collSOrderss as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collSOrderss as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 			if ($this->collPaymentMethodss) {
-				foreach ($this->collPaymentMethodss as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collPaymentMethodss as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 		} // if ($deep)
-
+		  
 		// i18n behavior
 		$this->currentLocale = 'ru';
 		$this->currentTranslations = null;
 		if ($this->collSDeliveryMethodsI18ns instanceof PropelCollection) {
-			$this->collSDeliveryMethodsI18ns->clearIterator();
+			$this->collSDeliveryMethodsI18ns->clearIterator ();
 		}
 		$this->collSDeliveryMethodsI18ns = null;
 		if ($this->collShopDeliveryMethodsSystemss instanceof PropelCollection) {
-			$this->collShopDeliveryMethodsSystemss->clearIterator();
+			$this->collShopDeliveryMethodsSystemss->clearIterator ();
 		}
 		$this->collShopDeliveryMethodsSystemss = null;
 		if ($this->collSOrderss instanceof PropelCollection) {
-			$this->collSOrderss->clearIterator();
+			$this->collSOrderss->clearIterator ();
 		}
 		$this->collSOrderss = null;
 		if ($this->collPaymentMethodss instanceof PropelCollection) {
-			$this->collPaymentMethodss->clearIterator();
+			$this->collPaymentMethodss->clearIterator ();
 		}
 		$this->collPaymentMethodss = null;
 	}
-
+	
 	/**
 	 * Return the string representation of this object
 	 *
 	 * @return string
 	 */
-	public function __toString()
-	{
-		return (string) $this->exportTo(SDeliveryMethodsPeer::DEFAULT_STRING_FORMAT);
+	public function __toString() {
+		return ( string ) $this->exportTo ( SDeliveryMethodsPeer::DEFAULT_STRING_FORMAT );
 	}
-
+	
 	// i18n behavior
 	
 	/**
 	 * Sets the locale for translations
 	 *
-	 * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
-	 *
-	 * @return    SDeliveryMethods The current object (for fluent API support)
+	 * @param string $locale
+	 *        	Locale to use for the translation, e.g. 'fr_FR'
+	 *        	
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setLocale($locale = 'ru')
-	{
+	public function setLocale($locale = 'ru') {
 		$this->currentLocale = $locale;
-	
+		
 		return $this;
 	}
 	
 	/**
 	 * Gets the locale for translations
 	 *
-	 * @return    string $locale Locale to use for the translation, e.g. 'fr_FR'
+	 * @return string $locale Locale to use for the translation, e.g. 'fr_FR'
 	 */
-	public function getLocale()
-	{
+	public function getLocale() {
 		return $this->currentLocale;
 	}
 	
 	/**
 	 * Returns the current translation for a given locale
 	 *
-	 * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return SDeliveryMethodsI18n */
-	public function getTranslation($locale = 'ru', PropelPDO $con = null)
-	{
-		if (!isset($this->currentTranslations[$locale])) {
+	 * @param string $locale
+	 *        	Locale to use for the translation, e.g. 'fr_FR'
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return SDeliveryMethodsI18n
+	 */
+	public function getTranslation($locale = 'ru', PropelPDO $con = null) {
+		if (! isset ( $this->currentTranslations [$locale] )) {
 			if (null !== $this->collSDeliveryMethodsI18ns) {
-				foreach ($this->collSDeliveryMethodsI18ns as $translation) {
-					if ($translation->getLocale() == $locale) {
-						$this->currentTranslations[$locale] = $translation;
+				foreach ( $this->collSDeliveryMethodsI18ns as $translation ) {
+					if ($translation->getLocale () == $locale) {
+						$this->currentTranslations [$locale] = $translation;
 						return $translation;
 					}
 				}
 			}
-			if ($this->isNew()) {
-				$translation = new SDeliveryMethodsI18n();
-				$translation->setLocale($locale);
+			if ($this->isNew ()) {
+				$translation = new SDeliveryMethodsI18n ();
+				$translation->setLocale ( $locale );
 			} else {
-				$translation = SDeliveryMethodsI18nQuery::create()
-					->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
-					->findOneOrCreate($con);
-				$this->currentTranslations[$locale] = $translation;
+				$translation = SDeliveryMethodsI18nQuery::create ()->filterByPrimaryKey ( array (
+						$this->getPrimaryKey (),
+						$locale 
+				) )->findOneOrCreate ( $con );
+				$this->currentTranslations [$locale] = $translation;
 			}
-			$this->addSDeliveryMethodsI18n($translation);
+			$this->addSDeliveryMethodsI18n ( $translation );
 		}
-	
-		return $this->currentTranslations[$locale];
+		
+		return $this->currentTranslations [$locale];
 	}
 	
 	/**
 	 * Remove the translation for a given locale
 	 *
-	 * @param     string $locale Locale to use for the translation, e.g. 'fr_FR'
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    SDeliveryMethods The current object (for fluent API support)
+	 * @param string $locale
+	 *        	Locale to use for the translation, e.g. 'fr_FR'
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function removeTranslation($locale = 'ru', PropelPDO $con = null)
-	{
-		if (!$this->isNew()) {
-			SDeliveryMethodsI18nQuery::create()
-				->filterByPrimaryKey(array($this->getPrimaryKey(), $locale))
-				->delete($con);
+	public function removeTranslation($locale = 'ru', PropelPDO $con = null) {
+		if (! $this->isNew ()) {
+			SDeliveryMethodsI18nQuery::create ()->filterByPrimaryKey ( array (
+					$this->getPrimaryKey (),
+					$locale 
+			) )->delete ( $con );
 		}
-		if (isset($this->currentTranslations[$locale])) {
-			unset($this->currentTranslations[$locale]);
+		if (isset ( $this->currentTranslations [$locale] )) {
+			unset ( $this->currentTranslations [$locale] );
 		}
-		foreach ($this->collSDeliveryMethodsI18ns as $key => $translation) {
-			if ($translation->getLocale() == $locale) {
-				unset($this->collSDeliveryMethodsI18ns[$key]);
+		foreach ( $this->collSDeliveryMethodsI18ns as $key => $translation ) {
+			if ($translation->getLocale () == $locale) {
+				unset ( $this->collSDeliveryMethodsI18ns [$key] );
 				break;
 			}
 		}
-	
+		
 		return $this;
 	}
 	
 	/**
 	 * Returns the current translation
 	 *
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return SDeliveryMethodsI18n */
-	public function getCurrentTranslation(PropelPDO $con = null)
-	{
-		return $this->getTranslation($this->getLocale(), $con);
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return SDeliveryMethodsI18n
+	 */
+	public function getCurrentTranslation(PropelPDO $con = null) {
+		return $this->getTranslation ( $this->getLocale (), $con );
 	}
-	
 	
 	/**
 	 * Get the [name] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getName()
-	{	return $this->getCurrentTranslation()->getName();
+	public function getName() {
+		return $this->getCurrentTranslation ()->getName ();
 	}
-	
 	
 	/**
 	 * Set the value of [name] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setName($v)
-	{	$this->getCurrentTranslation()->setName($v);
-	
+	public function setName($v) {
+		$this->getCurrentTranslation ()->setName ( $v );
+		
 		return $this;
 	}
-	
 	
 	/**
 	 * Get the [description] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getDescription()
-	{	return $this->getCurrentTranslation()->getDescription();
+	public function getDescription() {
+		return $this->getCurrentTranslation ()->getDescription ();
 	}
-	
 	
 	/**
 	 * Set the value of [description] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setDescription($v)
-	{	$this->getCurrentTranslation()->setDescription($v);
-	
+	public function setDescription($v) {
+		$this->getCurrentTranslation ()->setDescription ( $v );
+		
 		return $this;
 	}
-	
 	
 	/**
 	 * Get the [pricedescription] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getPricedescription()
-	{	return $this->getCurrentTranslation()->getPricedescription();
+	public function getPricedescription() {
+		return $this->getCurrentTranslation ()->getPricedescription ();
 	}
-	
 	
 	/**
 	 * Set the value of [pricedescription] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SDeliveryMethods The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SDeliveryMethods The current object (for fluent API support)
 	 */
-	public function setPricedescription($v)
-	{	$this->getCurrentTranslation()->setPricedescription($v);
-	
+	public function setPricedescription($v) {
+		$this->getCurrentTranslation ()->setPricedescription ( $v );
+		
 		return $this;
 	}
-
 } // BaseSDeliveryMethods

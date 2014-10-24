@@ -12,22 +12,21 @@
  * @package    propel.generator.Shop
  */
 class SProductVariantsQuery extends BaseSProductVariantsQuery {
-
-    public function joinWithI18n($locale = 'ru', $joinType = null) {
-        if ($joinType == null) {
-            switch (ShopController::getShowUntranslated()) {
-                case FALSE:
-                    $joinType = Criteria::INNER_JOIN;
-                    break;
-                default:
-                    $joinType = Criteria::LEFT_JOIN;
-                    break;
-            }
-        }
-
-        parent::joinWithI18n($locale, $joinType);
-        return $this;
-    }
+	public function joinWithI18n($locale = 'ru', $joinType = null) {
+		if ($joinType == null) {
+			switch (ShopController::getShowUntranslated ()) {
+				case FALSE :
+					$joinType = Criteria::INNER_JOIN;
+					break;
+				default :
+					$joinType = Criteria::LEFT_JOIN;
+					break;
+			}
+		}
+		
+		parent::joinWithI18n ( $locale, $joinType );
+		return $this;
+	}
 }
 
 // SProductVariantsQuery

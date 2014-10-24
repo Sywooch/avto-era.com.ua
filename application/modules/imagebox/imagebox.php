@@ -1,7 +1,6 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
 
 /**
  * Image CMS
@@ -9,33 +8,33 @@ if (!defined('BASEPATH'))
  * Module Sample
  */
 class ImageBox extends MY_Controller {
+	function __construct() {
+		parent::__construct ();
+		$this->load->module ( 'core' );
+		$lang = new MY_Lang ();
+		$lang->load ( 'imagebox' );
+	}
 
-    function __construct() {
-        parent::__construct();
-        $this->load->module('core');
-        $lang = new MY_Lang();
-        $lang->load('imagebox');
-    }
+	// Index function
+	function index() {
+		// code
+	}
 
-    // Index function
-    function index() {
-        //code
-    }
+	// Autoload default function
+	function autoload() {
+		$this->load->helper ( 'imagebox' );
+	}
 
-    // Autoload default function
-    function autoload() {
-        $this->load->helper('imagebox');
-    }
+	// Install
+	function _install() {
+		if ($this->dx_auth->is_admin () == FALSE)
+			exit ();
 
-    // Install 
-    function _install() {
-        if ($this->dx_auth->is_admin() == FALSE)
-            exit;
-
-        $this->db->where('name', 'imagebox');
-        $this->db->update('components', array('autoload' => '1'));
-    }
-
+		$this->db->where ( 'name', 'imagebox' );
+		$this->db->update ( 'components', array (
+				'autoload' => '1'
+		) );
+	}
 }
 
 /* End of file sample_module.php */

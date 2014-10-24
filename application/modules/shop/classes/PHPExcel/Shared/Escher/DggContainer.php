@@ -28,12 +28,11 @@
 /**
  * PHPExcel_Shared_Escher_DggContainer
  *
- * @category   PHPExcel
- * @package    PHPExcel_Shared_Escher
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Shared_Escher
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Shared_Escher_DggContainer
-{
+class PHPExcel_Shared_Escher_DggContainer {
 	/**
 	 * Maximum shape index of all shapes in all drawings increased by one
 	 *
@@ -67,32 +66,31 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @var array
 	 */
-	private $_OPT = array();
+	private $_OPT = array ();
 
 	/**
 	 * Array of identifier clusters containg information about the maximum shape identifiers
 	 *
 	 * @var array
 	 */
-	private $_IDCLs = array();
+	private $_IDCLs = array ();
 
 	/**
 	 * Get maximum shape index of all shapes in all drawings (plus one)
 	 *
 	 * @return int
 	 */
-	public function getSpIdMax()
-	{
+	public function getSpIdMax() {
 		return $this->_spIdMax;
 	}
 
 	/**
 	 * Set maximum shape index of all shapes in all drawings (plus one)
 	 *
-	 * @param int
+	 * @param
+	 *        	int
 	 */
-	public function setSpIdMax($value)
-	{
+	public function setSpIdMax($value) {
 		$this->_spIdMax = $value;
 	}
 
@@ -101,18 +99,17 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @return int
 	 */
-	public function getCDgSaved()
-	{
+	public function getCDgSaved() {
 		return $this->_cDgSaved;
 	}
 
 	/**
 	 * Set total number of drawings saved
 	 *
-	 * @param int
+	 * @param
+	 *        	int
 	 */
-	public function setCDgSaved($value)
-	{
+	public function setCDgSaved($value) {
 		$this->_cDgSaved = $value;
 	}
 
@@ -121,18 +118,17 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @return int
 	 */
-	public function getCSpSaved()
-	{
+	public function getCSpSaved() {
 		return $this->_cSpSaved;
 	}
 
 	/**
 	 * Set total number of shapes saved (including group shapes)
 	 *
-	 * @param int
+	 * @param
+	 *        	int
 	 */
-	public function setCSpSaved($value)
-	{
+	public function setCSpSaved($value) {
 		$this->_cSpSaved = $value;
 	}
 
@@ -141,8 +137,7 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @return PHPExcel_Shared_Escher_DggContainer_BstoreContainer
 	 */
-	public function getBstoreContainer()
-	{
+	public function getBstoreContainer() {
 		return $this->_bstoreContainer;
 	}
 
@@ -151,32 +146,31 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @param PHPExcel_Shared_Escher_DggContainer_BstoreContainer $bstoreContainer
 	 */
-	public function setBstoreContainer($bstoreContainer)
-	{
+	public function setBstoreContainer($bstoreContainer) {
 		$this->_bstoreContainer = $bstoreContainer;
 	}
 
 	/**
 	 * Set an option for the drawing group
 	 *
-	 * @param int $property The number specifies the option
+	 * @param int $property
+	 *        	The number specifies the option
 	 * @param mixed $value
 	 */
-	public function setOPT($property, $value)
-	{
-		$this->_OPT[$property] = $value;
+	public function setOPT($property, $value) {
+		$this->_OPT [$property] = $value;
 	}
 
 	/**
 	 * Get an option for the drawing group
 	 *
-	 * @param int $property The number specifies the option
+	 * @param int $property
+	 *        	The number specifies the option
 	 * @return mixed
 	 */
-	public function getOPT($property)
-	{
-		if (isset($this->_OPT[$property])) {
-			return $this->_OPT[$property];
+	public function getOPT($property) {
+		if (isset ( $this->_OPT [$property] )) {
+			return $this->_OPT [$property];
 		}
 		return null;
 	}
@@ -186,18 +180,17 @@ class PHPExcel_Shared_Escher_DggContainer
 	 *
 	 * @return array
 	 */
-	public function getIDCLs()
-	{
+	public function getIDCLs() {
 		return $this->_IDCLs;
 	}
 
 	/**
-	 * Set identifier clusters. array(<drawingId> => <max shape id>, ...)
+	 * Set identifier clusters.
+	 * array(<drawingId> => <max shape id>, ...)
 	 *
 	 * @param array $pValue
 	 */
-	public function setIDCLs($pValue)
-	{
+	public function setIDCLs($pValue) {
 		$this->_IDCLs = $pValue;
 	}
 }

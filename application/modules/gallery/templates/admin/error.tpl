@@ -1,3 +1,1 @@
-<div id="notice_error">
-    {$error}
-</div>
+<div id="notice_error">{$error}</div>

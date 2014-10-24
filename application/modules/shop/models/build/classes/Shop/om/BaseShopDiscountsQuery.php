@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a query for the 'shop_discounts' table.
  *
@@ -67,176 +66,177 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseShopDiscountsQuery extends ModelCriteria
-{
+abstract class BaseShopDiscountsQuery extends ModelCriteria {
 	
 	/**
 	 * Initializes internal state of BaseShopDiscountsQuery object.
 	 *
-	 * @param     string $dbName The dabase name
-	 * @param     string $modelName The phpName of a model, e.g. 'Book'
-	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+	 * @param string $dbName
+	 *        	The dabase name
+	 * @param string $modelName
+	 *        	The phpName of a model, e.g. 'Book'
+	 * @param string $modelAlias
+	 *        	The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'Shop', $modelName = 'ShopDiscounts', $modelAlias = null)
-	{
-		parent::__construct($dbName, $modelName, $modelAlias);
+	public function __construct($dbName = 'Shop', $modelName = 'ShopDiscounts', $modelAlias = null) {
+		parent::__construct ( $dbName, $modelName, $modelAlias );
 	}
-
+	
 	/**
 	 * Returns a new ShopDiscountsQuery object.
 	 *
-	 * @param     string $modelAlias The alias of a model in the query
-	 * @param     Criteria $criteria Optional Criteria to build the query from
-	 *
-	 * @return    ShopDiscountsQuery
+	 * @param string $modelAlias
+	 *        	The alias of a model in the query
+	 * @param Criteria $criteria
+	 *        	Optional Criteria to build the query from
+	 *        	
+	 * @return ShopDiscountsQuery
 	 */
-	public static function create($modelAlias = null, $criteria = null)
-	{
+	public static function create($modelAlias = null, $criteria = null) {
 		if ($criteria instanceof ShopDiscountsQuery) {
 			return $criteria;
 		}
-		$query = new ShopDiscountsQuery();
+		$query = new ShopDiscountsQuery ();
 		if (null !== $modelAlias) {
-			$query->setModelAlias($modelAlias);
+			$query->setModelAlias ( $modelAlias );
 		}
 		if ($criteria instanceof Criteria) {
-			$query->mergeWith($criteria);
+			$query->mergeWith ( $criteria );
 		}
 		return $query;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 * Propel uses the instance pool to skip the database if the object exists.
 	 * Go fast if the query is untouched.
 	 *
 	 * <code>
-	 * $obj  = $c->findPk(12, $con);
+	 * $obj = $c->findPk(12, $con);
 	 * </code>
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    ShopDiscounts|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return ShopDiscounts|array|mixed the result, formatted by the current formatter
 	 */
-	public function findPk($key, $con = null)
-	{
+	public function findPk($key, $con = null) {
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = ShopDiscountsPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = ShopDiscountsPeer::getInstanceFromPool ( ( string ) $key ))) && ! $this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(ShopDiscountsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( ShopDiscountsPeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		if ($this->formatter || $this->modelAlias || $this->with || $this->select
-		 || $this->selectColumns || $this->asColumns || $this->selectModifiers
-		 || $this->map || $this->having || $this->joins) {
-			return $this->findPkComplex($key, $con);
+		$this->basePreSelect ( $con );
+		if ($this->formatter || $this->modelAlias || $this->with || $this->select || $this->selectColumns || $this->asColumns || $this->selectModifiers || $this->map || $this->having || $this->joins) {
+			return $this->findPkComplex ( $key, $con );
 		} else {
-			return $this->findPkSimple($key, $con);
+			return $this->findPkSimple ( $key, $con );
 		}
 	}
-
+	
 	/**
 	 * Find object by primary key using raw SQL to go fast.
 	 * Bypass doSelect() and the object formatter by using generated code.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    ShopDiscounts A model object, or null if the key is not found
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return ShopDiscounts A model object, or null if the key is not found
 	 */
-	protected function findPkSimple($key, $con)
-	{
+	protected function findPkSimple($key, $con) {
 		$sql = 'SELECT `ID`, `NAME`, `DESCRIPTION`, `ACTIVE`, `DATE_START`, `DATE_STOP`, `DISCOUNT`, `USER_GROUP`, `MIN_PRICE`, `MAX_PRICE`, `CATEGORIES`, `PRODUCTS` FROM `shop_discounts` WHERE `ID` = :p0';
 		try {
-			$stmt = $con->prepare($sql);			
-			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), $e);
+			$stmt = $con->prepare ( $sql );
+			$stmt->bindValue ( ':p0', $key, PDO::PARAM_INT );
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute SELECT statement [%s]', $sql ), $e );
 		}
 		$obj = null;
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new ShopDiscounts();
-			$obj->hydrate($row);
-			ShopDiscountsPeer::addInstanceToPool($obj, (string) $key);
+		if ($row = $stmt->fetch ( PDO::FETCH_NUM )) {
+			$obj = new ShopDiscounts ();
+			$obj->hydrate ( $row );
+			ShopDiscountsPeer::addInstanceToPool ( $obj, ( string ) $key );
 		}
-		$stmt->closeCursor();
-
+		$stmt->closeCursor ();
+		
 		return $obj;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    ShopDiscounts|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return ShopDiscounts|array|mixed the result, formatted by the current formatter
 	 */
-	protected function findPkComplex($key, $con)
-	{
+	protected function findPkComplex($key, $con) {
 		// As the query uses a PK condition, no limit(1) is necessary.
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKey($key)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->formatOne($stmt);
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKey ( $key )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->formatOne ( $stmt );
 	}
-
+	
 	/**
 	 * Find objects by primary key
 	 * <code>
 	 * $objs = $c->findPks(array(12, 56, 832), $con);
 	 * </code>
-	 * @param     array $keys Primary keys to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
+	 * 
+	 * @param array $keys
+	 *        	Primary keys to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
 	 */
-	public function findPks($keys, $con = null)
-	{
+	public function findPks($keys, $con = null) {
 		if ($con === null) {
-			$con = Propel::getConnection($this->getDbName(), Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( $this->getDbName (), Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKeys($keys)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->format($stmt);
+		$this->basePreSelect ( $con );
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKeys ( $keys )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->format ( $stmt );
 	}
-
+	
 	/**
 	 * Filter the query by primary key
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKey($key)
-	{
-		return $this->addUsingAlias(ShopDiscountsPeer::ID, $key, Criteria::EQUAL);
+	public function filterByPrimaryKey($key) {
+		return $this->addUsingAlias ( ShopDiscountsPeer::ID, $key, Criteria::EQUAL );
 	}
-
+	
 	/**
 	 * Filter the query by a list of primary keys
 	 *
-	 * @param     array $keys The list of primary key to use for the query
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param array $keys
+	 *        	The list of primary key to use for the query
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKeys($keys)
-	{
-		return $this->addUsingAlias(ShopDiscountsPeer::ID, $keys, Criteria::IN);
+	public function filterByPrimaryKeys($keys) {
+		return $this->addUsingAlias ( ShopDiscountsPeer::ID, $keys, Criteria::IN );
 	}
-
+	
 	/**
 	 * Filter the query on the id column
 	 *
@@ -247,78 +247,81 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterById(array('min' => 12)); // WHERE id > 12
 	 * </code>
 	 *
-	 * @param     mixed $id The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $id
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterById($id = null, $comparison = null)
-	{
-		if (is_array($id) && null === $comparison) {
+	public function filterById($id = null, $comparison = null) {
+		if (is_array ( $id ) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::ID, $id, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::ID, $id, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the name column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByName('fooValue');   // WHERE name = 'fooValue'
+	 * $query->filterByName('fooValue'); // WHERE name = 'fooValue'
 	 * $query->filterByName('%fooValue%'); // WHERE name LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $name The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $name
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByName($name = null, $comparison = null)
-	{
+	public function filterByName($name = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($name)) {
+			if (is_array ( $name )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $name)) {
-				$name = str_replace('*', '%', $name);
+			} elseif (preg_match ( '/[\%\*]/', $name )) {
+				$name = str_replace ( '*', '%', $name );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::NAME, $name, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::NAME, $name, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the description column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByDescription('fooValue');   // WHERE description = 'fooValue'
+	 * $query->filterByDescription('fooValue'); // WHERE description = 'fooValue'
 	 * $query->filterByDescription('%fooValue%'); // WHERE description LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $description The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $description
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByDescription($description = null, $comparison = null)
-	{
+	public function filterByDescription($description = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($description)) {
+			if (is_array ( $description )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $description)) {
-				$description = str_replace('*', '%', $description);
+			} elseif (preg_match ( '/[\%\*]/', $description )) {
+				$description = str_replace ( '*', '%', $description );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::DESCRIPTION, $description, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::DESCRIPTION, $description, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the active column
 	 *
@@ -328,23 +331,32 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterByActive('yes'); // WHERE active = true
 	 * </code>
 	 *
-	 * @param     boolean|string $active The value to use as filter.
-	 *              Non-boolean arguments are converted using the following rules:
-	 *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-	 *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param boolean|string $active
+	 *        	The value to use as filter.
+	 *        	Non-boolean arguments are converted using the following rules:
+	 *        	* 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 *        	* 0, '0', 'false', 'off', and 'no' are converted to boolean false
+	 *        	Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByActive($active = null, $comparison = null)
-	{
-		if (is_string($active)) {
-			$active = in_array(strtolower($active), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+	public function filterByActive($active = null, $comparison = null) {
+		if (is_string ( $active )) {
+			$active = in_array ( strtolower ( $active ), array (
+					'false',
+					'off',
+					'-',
+					'no',
+					'n',
+					'0',
+					'' 
+			) ) ? false : true;
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::ACTIVE, $active, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::ACTIVE, $active, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the date_start column
 	 *
@@ -355,24 +367,25 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterByDateStart(array('min' => 12)); // WHERE date_start > 12
 	 * </code>
 	 *
-	 * @param     mixed $dateStart The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $dateStart
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByDateStart($dateStart = null, $comparison = null)
-	{
-		if (is_array($dateStart)) {
+	public function filterByDateStart($dateStart = null, $comparison = null) {
+		if (is_array ( $dateStart )) {
 			$useMinMax = false;
-			if (isset($dateStart['min'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::DATE_START, $dateStart['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $dateStart ['min'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::DATE_START, $dateStart ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($dateStart['max'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::DATE_START, $dateStart['max'], Criteria::LESS_EQUAL);
+			if (isset ( $dateStart ['max'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::DATE_START, $dateStart ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -382,9 +395,9 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::DATE_START, $dateStart, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::DATE_START, $dateStart, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the date_stop column
 	 *
@@ -395,24 +408,25 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterByDateStop(array('min' => 12)); // WHERE date_stop > 12
 	 * </code>
 	 *
-	 * @param     mixed $dateStop The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $dateStop
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByDateStop($dateStop = null, $comparison = null)
-	{
-		if (is_array($dateStop)) {
+	public function filterByDateStop($dateStop = null, $comparison = null) {
+		if (is_array ( $dateStop )) {
 			$useMinMax = false;
-			if (isset($dateStop['min'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::DATE_STOP, $dateStop['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $dateStop ['min'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::DATE_STOP, $dateStop ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($dateStop['max'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::DATE_STOP, $dateStop['max'], Criteria::LESS_EQUAL);
+			if (isset ( $dateStop ['max'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::DATE_STOP, $dateStop ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -422,65 +436,67 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::DATE_STOP, $dateStop, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::DATE_STOP, $dateStop, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the discount column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByDiscount('fooValue');   // WHERE discount = 'fooValue'
+	 * $query->filterByDiscount('fooValue'); // WHERE discount = 'fooValue'
 	 * $query->filterByDiscount('%fooValue%'); // WHERE discount LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $discount The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $discount
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByDiscount($discount = null, $comparison = null)
-	{
+	public function filterByDiscount($discount = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($discount)) {
+			if (is_array ( $discount )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $discount)) {
-				$discount = str_replace('*', '%', $discount);
+			} elseif (preg_match ( '/[\%\*]/', $discount )) {
+				$discount = str_replace ( '*', '%', $discount );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::DISCOUNT, $discount, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::DISCOUNT, $discount, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_group column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserGroup('fooValue');   // WHERE user_group = 'fooValue'
+	 * $query->filterByUserGroup('fooValue'); // WHERE user_group = 'fooValue'
 	 * $query->filterByUserGroup('%fooValue%'); // WHERE user_group LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userGroup The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $userGroup
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByUserGroup($userGroup = null, $comparison = null)
-	{
+	public function filterByUserGroup($userGroup = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userGroup)) {
+			if (is_array ( $userGroup )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userGroup)) {
-				$userGroup = str_replace('*', '%', $userGroup);
+			} elseif (preg_match ( '/[\%\*]/', $userGroup )) {
+				$userGroup = str_replace ( '*', '%', $userGroup );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::USER_GROUP, $userGroup, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::USER_GROUP, $userGroup, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the min_price column
 	 *
@@ -491,24 +507,25 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterByMinPrice(array('min' => 12)); // WHERE min_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $minPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $minPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByMinPrice($minPrice = null, $comparison = null)
-	{
-		if (is_array($minPrice)) {
+	public function filterByMinPrice($minPrice = null, $comparison = null) {
+		if (is_array ( $minPrice )) {
 			$useMinMax = false;
-			if (isset($minPrice['min'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::MIN_PRICE, $minPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $minPrice ['min'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::MIN_PRICE, $minPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($minPrice['max'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::MIN_PRICE, $minPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $minPrice ['max'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::MIN_PRICE, $minPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -518,9 +535,9 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::MIN_PRICE, $minPrice, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::MIN_PRICE, $minPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the max_price column
 	 *
@@ -531,24 +548,25 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 	 * $query->filterByMaxPrice(array('min' => 12)); // WHERE max_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $maxPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param mixed $maxPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByMaxPrice($maxPrice = null, $comparison = null)
-	{
-		if (is_array($maxPrice)) {
+	public function filterByMaxPrice($maxPrice = null, $comparison = null) {
+		if (is_array ( $maxPrice )) {
 			$useMinMax = false;
-			if (isset($maxPrice['min'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::MAX_PRICE, $maxPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $maxPrice ['min'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::MAX_PRICE, $maxPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($maxPrice['max'])) {
-				$this->addUsingAlias(ShopDiscountsPeer::MAX_PRICE, $maxPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $maxPrice ['max'] )) {
+				$this->addUsingAlias ( ShopDiscountsPeer::MAX_PRICE, $maxPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -558,79 +576,80 @@ abstract class BaseShopDiscountsQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::MAX_PRICE, $maxPrice, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::MAX_PRICE, $maxPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the categories column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByCategories('fooValue');   // WHERE categories = 'fooValue'
+	 * $query->filterByCategories('fooValue'); // WHERE categories = 'fooValue'
 	 * $query->filterByCategories('%fooValue%'); // WHERE categories LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $categories The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $categories
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByCategories($categories = null, $comparison = null)
-	{
+	public function filterByCategories($categories = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($categories)) {
+			if (is_array ( $categories )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $categories)) {
-				$categories = str_replace('*', '%', $categories);
+			} elseif (preg_match ( '/[\%\*]/', $categories )) {
+				$categories = str_replace ( '*', '%', $categories );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::CATEGORIES, $categories, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::CATEGORIES, $categories, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the products column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByProducts('fooValue');   // WHERE products = 'fooValue'
+	 * $query->filterByProducts('fooValue'); // WHERE products = 'fooValue'
 	 * $query->filterByProducts('%fooValue%'); // WHERE products LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $products The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param string $products
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function filterByProducts($products = null, $comparison = null)
-	{
+	public function filterByProducts($products = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($products)) {
+			if (is_array ( $products )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $products)) {
-				$products = str_replace('*', '%', $products);
+			} elseif (preg_match ( '/[\%\*]/', $products )) {
+				$products = str_replace ( '*', '%', $products );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(ShopDiscountsPeer::PRODUCTS, $products, $comparison);
+		return $this->addUsingAlias ( ShopDiscountsPeer::PRODUCTS, $products, $comparison );
 	}
-
+	
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     ShopDiscounts $shopDiscounts Object to remove from the list of results
-	 *
-	 * @return    ShopDiscountsQuery The current query, for fluid interface
+	 * @param ShopDiscounts $shopDiscounts
+	 *        	Object to remove from the list of results
+	 *        	
+	 * @return ShopDiscountsQuery The current query, for fluid interface
 	 */
-	public function prune($shopDiscounts = null)
-	{
+	public function prune($shopDiscounts = null) {
 		if ($shopDiscounts) {
-			$this->addUsingAlias(ShopDiscountsPeer::ID, $shopDiscounts->getId(), Criteria::NOT_EQUAL);
+			$this->addUsingAlias ( ShopDiscountsPeer::ID, $shopDiscounts->getId (), Criteria::NOT_EQUAL );
 		}
-
+		
 		return $this;
 	}
-
 } // BaseShopDiscountsQuery

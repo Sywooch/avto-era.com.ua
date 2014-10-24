@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_category_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SCategoryI18n extends BaseSCategoryI18n {
-
 } // SCategoryI18n

@@ -78,7 +78,7 @@
                     {\Category\RenderMenu::create()->setConfig(array('cache'=>TRUE))->load('category_menu')}
                 </div>
             </div>
-        </div>
+        </div>         
     </div>
 </div>
 {if strpos($CI->uri->uri_string, 'search') !== false}

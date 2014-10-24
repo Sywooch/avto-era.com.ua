@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_payment_methods_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SPaymentMethodsI18n extends BaseSPaymentMethodsI18n {
-
 } // SPaymentMethodsI18n

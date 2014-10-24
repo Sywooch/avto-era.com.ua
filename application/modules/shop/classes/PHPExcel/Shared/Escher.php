@@ -28,12 +28,11 @@
 /**
  * PHPExcel_Shared_Escher
  *
- * @category   PHPExcel
- * @package    PHPExcel_Shared_Escher
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Shared_Escher
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Shared_Escher
-{
+class PHPExcel_Shared_Escher {
 	/**
 	 * Drawing Group Container
 	 *
@@ -53,8 +52,7 @@ class PHPExcel_Shared_Escher
 	 *
 	 * @return PHPExcel_Shared_Escher_DgContainer
 	 */
-	public function getDggContainer()
-	{
+	public function getDggContainer() {
 		return $this->_dggContainer;
 	}
 
@@ -63,8 +61,7 @@ class PHPExcel_Shared_Escher
 	 *
 	 * @param PHPExcel_Shared_Escher_DggContainer $dggContainer
 	 */
-	public function setDggContainer($dggContainer)
-	{
+	public function setDggContainer($dggContainer) {
 		return $this->_dggContainer = $dggContainer;
 	}
 
@@ -73,8 +70,7 @@ class PHPExcel_Shared_Escher
 	 *
 	 * @return PHPExcel_Shared_Escher_DgContainer
 	 */
-	public function getDgContainer()
-	{
+	public function getDgContainer() {
 		return $this->_dgContainer;
 	}
 
@@ -83,9 +79,7 @@ class PHPExcel_Shared_Escher
 	 *
 	 * @param PHPExcel_Shared_Escher_DgContainer $dgContainer
 	 */
-	public function setDgContainer($dgContainer)
-	{
+	public function setDgContainer($dgContainer) {
 		return $this->_dgContainer = $dgContainer;
 	}
-
 }

@@ -12,7 +12,6 @@
  * @package    propel.generator.Shop
  */
 class SProductPropertiesDataQuery extends BaseSProductPropertiesDataQuery {
-
 }
 
 // SProductPropertiesDataQuery

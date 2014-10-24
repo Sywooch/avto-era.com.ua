@@ -9,119 +9,111 @@
  * @version 0.3 PHP5
  * ************************************************ */
 class Mabilis {
+	private $compiler = NULL;
+	private $config = NULL;
+	private $arr = NULL;
+	public function __construct(&$config = array()) {
+		$this->load_config ( $config );
+	}
 
-    private $compiler = NULL;
-    private $config = NULL;
-    private $arr = NULL;
+	/**
+	 * Display or fetch template file
+	 */
+	public function view($file, $data = array(), $return = FALSE) {
+		// Delete double .tpl.tpl
+		$file = preg_replace ( '/.tpl.tpl/', '.tpl', $file );
 
-    public function __construct(&$config = array()) {
-        $this->load_config($config);
-    }
+		if (preg_match ( '/file:/', $file, $_Matches )) {
+			$file_dir = preg_replace ( '/\/\//', '/', $file );
+			$file_dir = preg_replace ( '/file\:/', '', $file_dir );
+		} else {
+			$file_dir = $this->config->tpl_path . $file;
+		}
+		$all_tpl_path = $this->config->tpl_path . 'shop/default/';
+		// if (preg_match('/application\/modules/', $file_dir, $mm))
+		if (strpos ( $file_dir, 'application\modules' )) {
+			$newFile = explode ( 'application\modules', $file_dir );
+			$new_file_dir = $all_tpl_path . 'modules' . $newFile [1];
+				
+			if (file_exists ( $new_file_dir )) {
+				$file_dir = $new_file_dir;
+			}
+		}
 
-    /**
-     * Display or fetch template file
-     */
-    public function view($file, $data = array(), $return = FALSE) {
-        // Delete double .tpl.tpl
-        $file = preg_replace('/.tpl.tpl/', '.tpl', $file);
+		$compiled_file = $this->config->compile_path . md5 ( $file_dir ) . $this->config->compiled_ext;
 
+		if (! file_exists ( $compiled_file ) or $this->config->force_compile == TRUE) {
+			// Compile file
+			$this->load_compiler ();
+			$this->compiler->compile ( $file_dir );
+		}
 
-        if (preg_match('/file:/', $file, $_Matches)) {
-            $file_dir = preg_replace('/\/\//', '/', $file);
-            $file_dir = preg_replace('/file\:/', '', $file_dir);
-        } else {
-            $file_dir = $this->config->tpl_path . $file;
-        }
-        $all_tpl_path = $this->config->tpl_path . 'shop/default/';
-        //if (preg_match('/application\/modules/', $file_dir, $mm))
-        if (strpos($file_dir, 'application\modules')) {
-            $newFile = explode('application\modules', $file_dir);
-            $new_file_dir = $all_tpl_path . 'modules' . $newFile[1];
+		extract ( $data );
 
-            if (file_exists($new_file_dir)) {
-                $file_dir = $new_file_dir;
-            }
-        }
+		ob_start ();
 
-        $compiled_file = $this->config->compile_path . md5($file_dir) . $this->config->compiled_ext;
+		if (file_exists ( $compiled_file )) {
+			// if (!in_array($compiled_file, $this->arr)) {
+			include ($compiled_file);
+			// $this->arr[$compiled_file] = $compiled_file;
+			// }
+			// else
+			// include $this->arr[$compiled_file];
+		} else {
+			print '<p class="error">Error: ' . $compiled_file . ' does not exists!</p>';
+		}
 
-        if (!file_exists($compiled_file) OR $this->config->force_compile == TRUE) {
-            // Compile file
-            $this->load_compiler();
-            $this->compiler->compile($file_dir);
-        }
+		// Time to live expried
+		if ($mabilis_ttl <= time ()) {
+			@unlink ( $compiled_file );
+		}
 
-        extract($data);
+		if ($this->config->use_filemtime == TRUE and $mabilis_last_modified != @filemtime ( $file_dir )) {
+			@unlink ( $compiled_file );
+		}
 
-        ob_start();
+		if ($return == TRUE) {
+			$buffer = ob_get_contents ();
+			ob_end_clean ();
+			return $buffer;
+		}
 
-        if (file_exists($compiled_file)) {
-//            if (!in_array($compiled_file, $this->arr)) {
-                include($compiled_file);
-//                $this->arr[$compiled_file] = $compiled_file;
-//            }
-//            else
-//                include $this->arr[$compiled_file];
-        } else {
-            print '<p class="error">Error: ' . $compiled_file . ' does not exists!</p>';
-        }
+		ob_end_flush ();
+	}
+	public function load_config($config = array()) {
+		if (extension_loaded ( 'zlib' ) and $config ['compress_output'] == TRUE) {
+			if (isset ( $_SERVER ['HTTP_ACCEPT_ENCODING'] ) and strpos ( $_SERVER ['HTTP_ACCEPT_ENCODING'], 'gzip' ) !== FALSE) {
+				ob_start ( 'ob_gzhandler' );
+			}
+		}
 
-        // Time to live expried
-        if ($mabilis_ttl <= time()) {
-            @unlink($compiled_file);
-        }
+		if ($this->config == NULL) {
+			include 'Config.class.php';
+			$this->config = new Mabilis_Config ( $config );
+		}
 
-        if ($this->config->use_filemtime == TRUE AND $mabilis_last_modified != @filemtime($file_dir)) {
-            @unlink($compiled_file);
-        }
+		return TRUE;
+	}
+	public function set_config_value($param, $value) {
+		$this->config->$param = $value;
+	}
+	public function get_config_value($param) {
+		if (isset ( $this->config->$param )) {
+			return $this->config->$param;
+		}
+	}
 
+	/**
+	 * Load compiler class if not loaded yet
+	 */
+	public function load_compiler() {
+		if ($this->compiler == NULL) {
+			include 'Mabilis.compiler.php';
+			$this->compiler = new Mabilis_Compiler ( $this->config );
+		}
 
-        if ($return == TRUE) {
-            $buffer = ob_get_contents();
-            ob_end_clean();
-            return $buffer;
-        }
-
-        ob_end_flush();
-    }
-
-    public function load_config($config = array()) {
-        if (extension_loaded('zlib') AND $config['compress_output'] == TRUE) {
-            if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) AND strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
-                ob_start('ob_gzhandler');
-            }
-        }
-
-        if ($this->config == NULL) {
-            include 'Config.class.php';
-            $this->config = new Mabilis_Config($config);
-        }
-
-        return TRUE;
-    }
-
-    public function set_config_value($param, $value) {
-        $this->config->$param = $value;
-    }
-
-    public function get_config_value($param) {
-        if (isset($this->config->$param)) {
-            return $this->config->$param;
-        }
-    }
-
-    /**
-     * Load compiler class if not loaded yet
-     */
-    public function load_compiler() {
-        if ($this->compiler == NULL) {
-            include 'Mabilis.compiler.php';
-            $this->compiler = new Mabilis_Compiler($this->config);
-        }
-
-        return TRUE;
-    }
-
+		return TRUE;
+	}
 }
 
 /* End of Mabilis.class.php */

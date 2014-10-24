@@ -493,7 +493,7 @@ function banerResize(el) {
         }
     });
 }
-function removePreloaderBaner(el) {
+function removePreloaderBaner(el) {	
     var el = el.find('img[data-original]'),
     elL = el.length,
     i = 0;

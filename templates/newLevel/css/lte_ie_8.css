@@ -1,7 +1,27 @@
 @charset "utf-8";
-input[data-rel="plusminus"]{line-height: 34px;}
-select, input[type="text"], input[type="password"]{line-height: 35px;}
-input.input-search{line-height: 34px;}
-.items-brands > li {margin-right: 11px;}
-.items-catalog.table > li .current-prices {position: relative; top:-1px;}
-.items-catalog > .not-avail .price-new, .items-catalog.list > li .price-new {background-color: transparent !important;}
+
+input[data-rel="plusminus"] {
+	line-height: 34px;
+}
+
+select, input[type="text"], input[type="password"] {
+	line-height: 35px;
+}
+
+input.input-search {
+	line-height: 34px;
+}
+
+.items-brands>li {
+	margin-right: 11px;
+}
+
+.items-catalog.table>li .current-prices {
+	position: relative;
+	top: -1px;
+}
+
+.items-catalog>.not-avail .price-new, .items-catalog.list>li .price-new
+	{
+	background-color: transparent !important;
+}

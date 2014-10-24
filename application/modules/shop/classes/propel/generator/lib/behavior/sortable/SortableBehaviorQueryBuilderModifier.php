@@ -11,66 +11,53 @@
 /**
  * Behavior to add sortable query methods
  *
- * @author     François Zaninotto
- * @package    propel.generator.behavior.sortable
+ * @author François Zaninotto
+ * @package propel.generator.behavior.sortable
  */
-class SortableBehaviorQueryBuilderModifier
-{
+class SortableBehaviorQueryBuilderModifier {
 	protected $behavior, $table, $builder, $objectClassname, $peerClassname;
-
-	public function __construct($behavior)
-	{
+	public function __construct($behavior) {
 		$this->behavior = $behavior;
-		$this->table = $behavior->getTable();
+		$this->table = $behavior->getTable ();
 	}
-
-	protected function getParameter($key)
-	{
-		return $this->behavior->getParameter($key);
+	protected function getParameter($key) {
+		return $this->behavior->getParameter ( $key );
 	}
-
-	protected function getColumn($name)
-	{
-		return $this->behavior->getColumnForParameter($name);
+	protected function getColumn($name) {
+		return $this->behavior->getColumnForParameter ( $name );
 	}
-
-	protected function setBuilder($builder)
-	{
+	protected function setBuilder($builder) {
 		$this->builder = $builder;
-		$this->objectClassname = $builder->getStubObjectBuilder()->getClassname();
-		$this->queryClassname = $builder->getStubQueryBuilder()->getClassname();
-		$this->peerClassname = $builder->getStubPeerBuilder()->getClassname();
+		$this->objectClassname = $builder->getStubObjectBuilder ()->getClassname ();
+		$this->queryClassname = $builder->getStubQueryBuilder ()->getClassname ();
+		$this->peerClassname = $builder->getStubPeerBuilder ()->getClassname ();
 	}
-
-	public function queryMethods($builder)
-	{
-		$this->setBuilder($builder);
+	public function queryMethods($builder) {
+		$this->setBuilder ( $builder );
 		$script = '';
-
+		
 		// select filters
-		if ($this->behavior->useScope()) {
-			$this->addInList($script);
+		if ($this->behavior->useScope ()) {
+			$this->addInList ( $script );
 		}
-		if ($this->getParameter('rank_column') != 'rank') {
-			$this->addFilterByRank($script);
-			$this->addOrderByRank($script);
+		if ($this->getParameter ( 'rank_column' ) != 'rank') {
+			$this->addFilterByRank ( $script );
+			$this->addOrderByRank ( $script );
 		}
-
+		
 		// select termination methods
-		if ($this->getParameter('rank_column') != 'rank' || $this->behavior->useScope()) {
-			$this->addFindOneByRank($script);
+		if ($this->getParameter ( 'rank_column' ) != 'rank' || $this->behavior->useScope ()) {
+			$this->addFindOneByRank ( $script );
 		}
-		$this->addFindList($script);
-
+		$this->addFindList ( $script );
+		
 		// utilities
-		$this->addGetMaxRank($script);
-		$this->addReorder($script);
-
+		$this->addGetMaxRank ( $script );
+		$this->addReorder ( $script );
+		
 		return $script;
 	}
-
-	protected function addInList(&$script)
-	{
+	protected function addInList(&$script) {
 		$script .= "
 /**
  * Returns the objects in a certain list, from the list scope
@@ -85,17 +72,15 @@ public function inList(\$scope = null)
 }
 ";
 	}
-
-	protected function addFilterByRank(&$script)
-	{
-		$useScope = $this->behavior->useScope();
+	protected function addFilterByRank(&$script) {
+		$useScope = $this->behavior->useScope ();
 		$peerClassname = $this->peerClassname;
 		$script .= "
 /**
  * Filter the query based on a rank in the list
  *
  * @param     integer   \$rank rank";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
  * @param     int \$scope		Scope to determine which suite to consider";
 		}
@@ -115,9 +100,7 @@ public function filterByRank(\$rank" . ($useScope ? ", \$scope = null" : "") . "
 }
 ";
 	}
-
-	protected function addOrderByRank(&$script)
-	{
+	protected function addOrderByRank(&$script) {
 		$script .= "
 /**
  * Order the query based on the rank in the list.
@@ -143,17 +126,15 @@ public function orderByRank(\$order = Criteria::ASC)
 }
 ";
 	}
-
-	protected function addFindOneByRank(&$script)
-	{
-		$useScope = $this->behavior->useScope();
+	protected function addFindOneByRank(&$script) {
+		$useScope = $this->behavior->useScope ();
 		$peerClassname = $this->peerClassname;
 		$script .= "
 /**
  * Get an item from the list based on its rank
  *
  * @param     integer   \$rank rank";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
  * @param     int \$scope		Scope to determine which suite to consider";
 		}
@@ -170,18 +151,16 @@ public function findOneByRank(\$rank, " . ($useScope ? "\$scope = null, " : "") 
 }
 ";
 	}
-
-	protected function addFindList(&$script)
-	{
-		$useScope = $this->behavior->useScope();
+	protected function addFindList(&$script) {
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
- * Returns " . ($useScope ? 'a' : 'the') ." list of objects
+ * Returns " . ($useScope ? 'a' : 'the') . " list of objects
  *";
- 		if($useScope) {
- 			$script .= "
+		if ($useScope) {
+			$script .= "
  * @param      int \$scope		Scope to determine which list to return";
- 		}
+		}
 		$script .= "
  * @param      PropelPDO \$con	Connection to use.
  *
@@ -200,16 +179,14 @@ public function findList(" . ($useScope ? "\$scope = null, " : "") . "\$con = nu
 }
 ";
 	}
-
-	protected function addGetMaxRank(&$script)
-	{
-		$this->builder->declareClasses('Propel');
-		$useScope = $this->behavior->useScope();
+	protected function addGetMaxRank(&$script) {
+		$this->builder->declareClasses ( 'Propel' );
+		$useScope = $this->behavior->useScope ();
 		$script .= "
 /**
  * Get the highest rank
  * ";
-		if($useScope) {
+		if ($useScope) {
 			$script .= "
  * @param      int \$scope		Scope to determine which suite to consider";
 		}
@@ -226,7 +203,7 @@ public function getMaxRank(" . ($useScope ? "\$scope = null, " : "") . "PropelPD
 	// shift the objects with a position lower than the one of object
 	\$this->addSelectColumn('MAX(' . {$this->peerClassname}::RANK_COL . ')');";
 		if ($useScope) {
-		$script .= "
+			$script .= "
 	\$this->add({$this->peerClassname}::SCOPE_COL, \$scope, Criteria::EQUAL);";
 		}
 		$script .= "
@@ -236,13 +213,11 @@ public function getMaxRank(" . ($useScope ? "\$scope = null, " : "") . "PropelPD
 }
 ";
 	}
-
-	protected function addReorder(&$script)
-	{
-		$this->builder->declareClasses('Propel');
+	protected function addReorder(&$script) {
+		$this->builder->declareClasses ( 'Propel' );
 		$peerClassname = $this->peerClassname;
-		$columnGetter = 'get' . $this->behavior->getColumnForParameter('rank_column')->getPhpName();
-		$columnSetter = 'set' . $this->behavior->getColumnForParameter('rank_column')->getPhpName();
+		$columnGetter = 'get' . $this->behavior->getColumnForParameter ( 'rank_column' )->getPhpName ();
+		$columnSetter = 'set' . $this->behavior->getColumnForParameter ( 'rank_column' )->getPhpName ();
 		$script .= "
 /**
  * Reorder a set of sortable objects based on a list of id/position
@@ -281,5 +256,4 @@ public function reorder(array \$order, PropelPDO \$con = null)
 }
 ";
 	}
-
 }

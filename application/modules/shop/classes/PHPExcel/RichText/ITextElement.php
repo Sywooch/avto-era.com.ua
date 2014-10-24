@@ -23,27 +23,25 @@
  * @version    1.7.9, 2013-06-02
  */
 
-
 /**
  * PHPExcel_RichText_ITextElement
  *
- * @category   PHPExcel
- * @package    PHPExcel_RichText
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_RichText
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-interface PHPExcel_RichText_ITextElement
-{
+interface PHPExcel_RichText_ITextElement {
 	/**
 	 * Get text
 	 *
-	 * @return string	Text
+	 * @return string
 	 */
 	public function getText();
 
 	/**
 	 * Set text
 	 *
-	 * @param 	$pText string	Text
+	 * @param $pText string
 	 * @return PHPExcel_RichText_ITextElement
 	 */
 	public function setText($pText = '');
@@ -58,7 +56,7 @@ interface PHPExcel_RichText_ITextElement
 	/**
 	 * Get hash code
 	 *
-	 * @return string	Hash code
+	 * @return string code
 	 */
 	public function getHashCode();
 }

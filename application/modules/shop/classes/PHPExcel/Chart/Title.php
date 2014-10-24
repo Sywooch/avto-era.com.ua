@@ -25,16 +25,14 @@
  * @version		1.7.9, 2013-06-02
  */
 
-
 /**
  * PHPExcel_Chart_Title
  *
- * @category	PHPExcel
- * @package		PHPExcel_Chart
- * @copyright	Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Chart
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
-class PHPExcel_Chart_Title
-{
+class PHPExcel_Chart_Title {
 
 	/**
 	 * Title Caption
@@ -53,8 +51,7 @@ class PHPExcel_Chart_Title
 	/**
 	 * Create a new PHPExcel_Chart_Title
 	 */
-	public function __construct($caption = null, PHPExcel_Chart_Layout $layout = null)
-	{
+	public function __construct($caption = null, PHPExcel_Chart_Layout $layout = null) {
 		$this->_caption = $caption;
 		$this->_layout = $layout;
 	}
@@ -85,5 +82,4 @@ class PHPExcel_Chart_Title
 	public function getLayout() {
 		return $this->_layout;
 	}
-
 }

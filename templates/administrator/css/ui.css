@@ -12,45 +12,46 @@ License:
 
 /* Layout
 ---------------------------------------------------------------- */
-
 html, body {
-	overflow: hidden; min-width:1024px
+	overflow: hidden;
+	min-width: 1024px
 }
 
 body {
 	margin: 0; /* Required */
-	background: #fff; /* #6989b3 url(../images/splash.gif) center center no-repeat; */
+	background: #fff;
+	/* #6989b3 url(../images/splash.gif) center center no-repeat; */
 }
 
 .options_bar {
-    position:fixed;
-    left:149;
-    bottom:31px;
-    width:450px;
-    padding:2px;
-    background-color:#E4F5A9;
-    border:3px solid #A2C449; 
+	position: fixed;
+	left: 149;
+	bottom: 31px;
+	width: 450px;
+	padding: 2px;
+	background-color: #E4F5A9;
+	border: 3px solid #A2C449;
 }
 
 #desktop {
-	visibility: hidden; 
+	visibility: hidden;
 	position: relative;
 	min-width: 750px; /* Helps keep header content from wrapping */
 	height: 100%;
 	overflow: hidden;
-	cursor: default; /* Fix for issue in IE7. IE7 wants to use the I-bar text cursor */
+	cursor: default;
+	/* Fix for issue in IE7. IE7 wants to use the I-bar text cursor */
 }
 
 #desktopHeader {
 	background: #f1f1f1;
 	background: #fff url(../images/bgline.png);
-	height:74px;
+	height: 74px;
 }
 
 #desktopTitlebarWrapper {
-	position: relative;	
+	position: relative;
 	height: 44px;
-	
 }
 
 #desktopTitlebar {
@@ -60,20 +61,19 @@ body {
 }
 
 /* Navbar */
-
 #desktopNavbar {
-        background: url(../images/bg1_right.png) no-repeat right bottom, 
-            url(../images/bg1_left.png) no-repeat left bottom,
-            url(../images/bg1_center.png) repeat-x left bottom;
-        display:inline-block;
+	background: url(../images/bg1_right.png) no-repeat right bottom,
+		url(../images/bg1_left.png) no-repeat left bottom,
+		url(../images/bg1_center.png) repeat-x left bottom;
+	display: inline-block;
 	height: 30px;
 	margin: 0 0px;
 }
 
 #desktopNavbar ul {
-        margin: 0;
-        padding: 2px 0 0 20px;
-        margin-right:20px;
+	margin: 0;
+	padding: 2px 0 0 20px;
+	margin-right: 20px;
 	list-style: none;
 	font-size: 12px;
 }
@@ -84,26 +84,27 @@ body {
 
 #desktopNavbar a {
 	display: block;
-}	
-	
+}
+
 #desktopNavbar ul li a {
-	padding: 5px 10px 5px 10px;	
+	padding: 5px 10px 5px 10px;
 	color: #fff;
 	font-weight: normal;
-	text-shadow:-1px -1px 0 #047bb1;
+	text-shadow: -1px -1px 0 #047bb1;
 }
 
 #desktopNavbar ul li a:hover {
 	color: #fff;
-  	background-image: url(../images/menu_bg.png); 
-	text-shadow:-1px -1px 0 #666;
+	background-image: url(../images/menu_bg.png);
+	text-shadow: -1px -1px 0 #666;
 }
 
-#desktopNavbar ul li a.arrow-right, #desktopNavbar ul li a:hover.arrow-right {
+#desktopNavbar ul li a.arrow-right, #desktopNavbar ul li a:hover.arrow-right
+	{
 	background-image: url(../images/arrow-right.gif);
 	background-repeat: no-repeat;
-	background-position: right 7px;	
-} 
+	background-position: right 7px;
+}
 
 #desktopNavbar li ul {
 	padding: 0px;
@@ -115,10 +116,8 @@ body {
 	z-index: 8000;
 }
 
-#desktopNavbar li:hover ul ul,
-#desktopNavbar li.ieHover ul ul,
-#desktopNavbar li:hover ul ul ul,
-#desktopNavbar li.ieHover ul ul ul {
+#desktopNavbar li:hover ul ul, #desktopNavbar li.ieHover ul ul,
+	#desktopNavbar li:hover ul ul ul, #desktopNavbar li.ieHover ul ul ul {
 	left: -999em;
 }
 
@@ -137,40 +136,40 @@ body {
 	line-height: 1px;
 	font-size: 1px;
 }
-#desktopNavbar li ul li { background:none}
+
+#desktopNavbar li ul li {
+	background: none
+}
+
 #desktopNavbar li ul li a {
 	position: relative;
 	padding: 1px 9px 1px 10px;
 	width: 145px;
 	color: #3f3f3f;
 	font-weight: normal;
-	text-shadow:none;
+	text-shadow: none;
 }
 
 #desktopNavbar li ul li a:hover {
 	background: #0684cc;
 	color: #fff;
-	text-shadow:none;
+	text-shadow: none;
 }
 
 #desktopNavbar li ul li a:hover .check {
 	background: #fff;
 }
 
-#desktopNavbar li:hover ul,
-#desktopNavbar li.ieHover ul,
-#desktopNavbar li li.ieHover ul,
-#desktopNavbar li li li.ieHover ul,
-#desktopNavbar li li:hover ul,
-#desktopNavbar li li li:hover ul { /* lists nested under hovered list items */
+#desktopNavbar li:hover ul, #desktopNavbar li.ieHover ul, #desktopNavbar li li.ieHover ul,
+	#desktopNavbar li li li.ieHover ul, #desktopNavbar li li:hover ul,
+	#desktopNavbar li li li:hover ul {
+	/* lists nested under hovered list items */
 	left: auto;
 }
 
 #desktopNavbar li:hover { /* For IE7 */
-    position: static;
+	position: static;
 }
-
-
 
 #desktopTitlebar h1.applicationTitle {
 	display: none;
@@ -236,7 +235,6 @@ body {
 }
 
 /* Toolboxes */
-
 .toolbox {
 	float: right;
 	padding: 6px 3px 0 5px;
@@ -281,9 +279,9 @@ div.toolbox.divider2 { /* Have to specify div here for IE6's sake */
 
 li.divider {
 	margin-top: 2px;
-	padding-top: 3px;	
+	padding-top: 3px;
 	border-top: 1px solid #ebebeb;
-}	
+}
 
 #pageWrapper {
 	position: relative;
@@ -321,7 +319,6 @@ li.divider {
 }
 
 /* Dock/Taskbar */
-
 #dockWrapper {
 	display: none;
 	width: 100%;
@@ -342,23 +339,24 @@ li.divider {
 	height: auto;
 }
 
-*html #dock {
-	height: 30px; /* Used for IE 6.0 since it does not support min-height */
+* html #dock {
+	height: 30px;
+	/* Used for IE 6.0 since it does not support min-height */
 }
 
 .dockTab {
 	float: left;
-	position: relative;	
+	position: relative;
 	font-size: 11px;
 	width: 150px;
 	height: 24px;
 	margin: 0 3px 2px 0;
-	overflow: hidden;	
+	overflow: hidden;
 	cursor: pointer;
 	background: url(../images/dock-tabs.gif) left top no-repeat;
 }
 
-.dockTab.activeDockTab {	
+.dockTab.activeDockTab {
 	background-position: left -24px;
 }
 
@@ -368,7 +366,7 @@ li.divider {
 	left: 0;
 	display: block;
 	font-weight: normal;
-	color: #bbb;	
+	color: #bbb;
 	text-align: left;
 	padding: 4px 10px 2px 10px;
 	width: 130px;
@@ -398,7 +396,7 @@ li.divider {
 	width: 10px;
 	height: 9px;
 	opacity: 0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	background: #f00; /* for troubleshooting */
 	cursor: pointer;
@@ -413,7 +411,7 @@ li.divider {
 	width: 10px;
 	height: 9px;
 	opacity: 0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	background: #f00; /* for troubleshooting */
 	cursor: pointer;
@@ -424,18 +422,16 @@ li.divider {
 ---------------------------------------------------------------- */
 
 /* Columns */
-
 .column {
-	position: relative;	
+	position: relative;
 	float: left;
 	overflow: hidden;
 	background: #f1f1f1;
 }
 
 /* Panels */
-
 .panel {
-	position: relative;	
+	position: relative;
 	overflow: auto;
 	border-bottom: 1px solid #b9b9b9;
 	border-top: 0;
@@ -450,23 +446,23 @@ li.divider {
 }
 
 #mainPanel {
-	background: #fff; 	
-}	
+	background: #fff;
+}
 
 .panel-header {
-	position: relative;	
+	position: relative;
 	background: #f1f1f1 url(../images/tabs2.gif) repeat-x bottom;
 	height: 34px;
-	overflow: hidden;		
+	overflow: hidden;
 }
 
 .panel-headerContent {
 	padding-top: 2px;
-}	
+}
 
 .panel-headerContent.tabs {
 	background: url(../images/tabs.gif) repeat-x;
-	background-position: left -70px;	
+	background-position: left -70px;
 }
 
 .panel-header h2 {
@@ -511,15 +507,14 @@ li.divider {
 }
 
 .panel-footer {
-	padding: 1px 0 0 8px;	
+	padding: 1px 0 0 8px;
 }
 
 .panel-footerContent {
 	margin-top: 5px;
 }
 
-/* Handles */	
-
+/* Handles */
 .horizontalHandle {
 	height: 4px;
 	line-height: 1px;
@@ -529,20 +524,21 @@ li.divider {
 }
 
 .horizontalHandle.detached .handleIcon {
-	background: transparent;	
+	background: transparent;
 }
 
-.horizontalHandle .handleIcon {	
+.horizontalHandle .handleIcon {
 	margin: 0 auto;
 	height: 4px;
 	line-height: 1px;
 	font-size: 1px;
 	overflow: hidden;
-	background: url(../images/handle-icon-horizontal.gif) center center no-repeat;
+	background: url(../images/handle-icon-horizontal.gif) center center
+		no-repeat;
 }
 
 .columnHandle {
-	min-height: 10px;	
+	min-height: 10px;
 	float: left;
 	width: 4px;
 	overflow: hidden;
@@ -553,7 +549,6 @@ li.divider {
 
 /* Viewport overlays
 ---------------------------------------------------------------- */
-
 #modalOverlay {
 	display: none;
 	position: fixed;
@@ -562,7 +557,7 @@ li.divider {
 	width: 100%;
 	background: #000;
 	opacity: 0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	z-index: 10000;
 }
@@ -579,53 +574,52 @@ li.divider {
 	left: 0;
 	width: 100%;
 	opacity: 0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	z-index: 9999;
 }
 
 /* Underlay */
-
-#windowUnderlay { 
+#windowUnderlay {
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	background: #fff;	
+	background: #fff;
 }
 
-* html #windowUnderlay { 
+* html #windowUnderlay {
 	position: absolute;
 }
 
 /* Windows
 ---------------------------------------------------------------- */
-
 .mocha {
 	position: absolute;
 	top: 0;
 	left: 0;
 	display: none;
-	overflow: hidden;	
+	overflow: hidden;
 }
 
-.mocha.isFocused {	
-}	
+.mocha.isFocused {
+	
+}
 
 .mochaOverlay {
 	position: absolute;
 	top: 0;
-	left: 0;	
+	left: 0;
 }
-	
+
 .mochaTitlebar {
 	width: 100%;
-	overflow: hidden;	
+	overflow: hidden;
 }
 
 .mochaTitlebar h3 {
 	font-size: 12px;
-	line-height: 15px;	
+	line-height: 15px;
 	font-weight: bold;
 	margin: 5px 10px 4px 12px;
 	padding: 0;
@@ -640,7 +634,7 @@ li.divider {
 	width: 100%; /* For IE */
 	position: relative;
 	height: 29px;
-	background: #f1f1f1;	
+	background: #f1f1f1;
 	overflow: hidden;
 	border-top: 1px solid #d9d9d9;
 }
@@ -660,11 +654,12 @@ div.mochaToolbarWrapper.bottom {
 	border-bottom: 1px solid #dadada;
 }
 
-.mochaContentWrapper { /* Has a fixed height and scrollbars if required. */
+.mochaContentWrapper {
+	/* Has a fixed height and scrollbars if required. */
 	font-size: 12px;
 	overflow: auto;
 }
-	
+
 .mochaContent {
 	padding: 10px 12px;
 }
@@ -676,7 +671,7 @@ div.mochaToolbarWrapper.bottom {
 	height: 3px;
 	z-index: 2;
 	opacity: .0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: .0;
 	overflow: hidden;
 	font-size: 1px; /* For IE6 */
@@ -715,9 +710,9 @@ div.mochaToolbarWrapper.bottom {
 }
 
 .mochaCanvasControls {
-	position: absolute;	
+	position: absolute;
 	top: 8px;
-	right: 8px;	
+	right: 8px;
 	z-index: 3;
 	background: transparent;
 }
@@ -734,7 +729,7 @@ div.mochaToolbarWrapper.bottom {
 	float: right;
 	width: 14px;
 	height: 14px;
-	font-size: 1px;	
+	font-size: 1px;
 	cursor: pointer;
 	z-index: 4;
 	background: #f00;
@@ -746,13 +741,15 @@ div.mochaToolbarWrapper.bottom {
 }
 
 .mochaMaximizeButton {
+	
 }
 
 .mochaCloseButton {
+	
 }
 
-.mochaSpinner{
-	visibility: hidden;	
+.mochaSpinner {
+	visibility: hidden;
 	position: absolute;
 	bottom: 7px;
 	left: 6px;
@@ -763,8 +760,8 @@ div.mochaToolbarWrapper.bottom {
 
 .mochaIframe {
 	width: 100%;
-}  
-		
+}
+
 /* Fix for IE6 select z-index issue */
 .zIndexFix {
 	display: block;
@@ -779,24 +776,22 @@ div.mochaToolbarWrapper.bottom {
 }
 
 /* Modals */
-
 .modal2 {
-	border: 8px solid #fff;		
+	border: 8px solid #fff;
 }
 
 .modal2 .mochaContentBorder {
 	border-width: 0px;
 }
-	
-/* Window Themes */
 
+/* Window Themes */
 .mocha.no-canvas {
 	background: #f1f1f1;
-	border: 2px solid #555;	
+	border: 2px solid #555;
 }
 
 .mocha.no-canvas .mochaTitlebar {
-	background: #f1f1f1;	
+	background: #f1f1f1;
 }
 
 .mocha.transparent .mochaTitlebar h3 {
@@ -806,7 +801,7 @@ div.mochaToolbarWrapper.bottom {
 
 .mocha.notification .mochaTitlebar {
 	opacity: .0;
-	filter: alpha(opacity=0);
+	filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 }
 
@@ -824,66 +819,68 @@ div.mochaToolbarWrapper.bottom {
 ---------------------------------------------------------------- */
 
 /* Toolbar Tabs */
-
-.toolbarTabs {	
+.toolbarTabs {
 	padding: 0 5px 2px 2px;
 	background: url(../images/tabs.gif) repeat-x;
 	background-position: left -72px;
 	overflow: visible;
 }
 
-.tab-menu {	
+.tab-menu {
 	padding-top: 1px;
 	margin: 0 0 0 0px;
 	height: auto;
 	font-size: 11px;
-	background:url(../images/tabs2.gif) repeat-x scroll 0 100% #EEEEEE;
-        list-style: none outside none;
-        padding: 0 0 5px 7px;
+	background: url(../images/tabs2.gif) repeat-x scroll 0 100% #EEEEEE;
+	list-style: none outside none;
+	padding: 0 0 5px 7px;
 }
+
 .tab-menu li {
 	display: inline-block;
 	vertical-align: top;
-	height:24px;
-	margin:	7px 5px 0 0;
-	cursor: pointer;	
+	height: 24px;
+	margin: 7px 5px 0 0;
+	cursor: pointer;
 	background: url(../images/tabs.gif) left top;
 	background-position: left -24px;
 }
+
 .tab-menu li:hover {
 	background-position: left -48px;
 }
-.tab-menu li:hover a{
+
+.tab-menu li:hover a {
 	background-position: right -48px;
 }
+
 .tab-menu li.tab-selected {
 	background: url(../images/tabs.gif) repeat-x;
 	background-position: left 0;
 }
 
 .tab-menu li a {
-	font-size:12px;
+	font-size: 12px;
 	display: block;
 	margin-left: 8px;
-	height:22px;
+	height: 22px;
 	padding: 2px 11px 0px 2px;
 	text-align: center;
 	font-weight: normal;
 	color: #fff;
-	text-shadow:1px 1px 0 #aaa;
+	text-shadow: 1px 1px 0 #aaa;
 	background: url(../images/tabs.gif) repeat-x;
-	background-position: right -24px;	
+	background-position: right -24px;
 }
 
 .tab-menu li.tab-selected a {
 	color: #fff;
 	background: url(../images/tabs.gif) repeat-x;
 	background-position: right 0;
-	text-shadow:none
+	text-shadow: none
 }
 
 /* Accordian */
-
 .accordianWrapper {
 	padding: 0;
 	background: #fff;
@@ -895,7 +892,7 @@ div.mochaToolbarWrapper.bottom {
 	background: #f1f1f1 url(../images/bg-panel-header.gif) repeat-x;
 	font-size: 12px;
 	cursor: pointer;
-	border-top: 1px solid #e3e3e3;	
+	border-top: 1px solid #e3e3e3;
 }
 
 .topToggler {
@@ -903,7 +900,7 @@ div.mochaToolbarWrapper.bottom {
 }
 
 .accordianToggler.open {
-	background: #fff url(../images/bg-panel-header.gif) repeat-x;	
+	background: #fff url(../images/bg-panel-header.gif) repeat-x;
 }
 
 .accordianContent {
@@ -911,14 +908,13 @@ div.mochaToolbarWrapper.bottom {
 }
 
 /* Sliders */
-
 .slider {
 	clear: both;
 	position: relative;
 	font-size: 12px;
 	font-weight: bold;
 	width: 200px;
-	margin-bottom: 15px;	
+	margin-bottom: 15px;
 }
 
 .sliderWrapper {
@@ -945,7 +941,7 @@ div.mochaToolbarWrapper.bottom {
 	padding: 0;
 	overflow: hidden;
 }
- 
+
 .sliderknob {
 	position: absolute;
 	top: 0;
@@ -953,19 +949,18 @@ div.mochaToolbarWrapper.bottom {
 	height: 9px;
 	width: 19px;
 	font-size: 1px;
-	line-height: 1px;	
+	line-height: 1px;
 	background: url(../images/knob.gif) no-repeat;
 	cursor: pointer;
 	overflow: hidden;
 	z-index: 2;
 }
-	
+
 .update {
-	padding-bottom: 5px;	
+	padding-bottom: 5px;
 }
 
 /* Folder Tree */
-
 .tree {
 	font-size: 11px;
 	line-height: 15px;
@@ -982,8 +977,8 @@ div.mochaToolbarWrapper.bottom {
 }
 
 .tree li a {
-	color: #3f3f3f;	
-}	
+	color: #3f3f3f;
+}
 
 .tree li img {
 	vertical-align: middle;
@@ -997,7 +992,6 @@ div.mochaToolbarWrapper.bottom {
 }
 
 /* View Toggle */
-
 .viewToggle {
 	position: absolute;
 	top: 4px;
@@ -1009,7 +1003,7 @@ div.mochaToolbarWrapper.bottom {
 .viewToggle img.viewToggleList, .viewToggle img.viewToggleGrid {
 	width: 28px;
 	height: 22px;
-}	
+}
 
 .viewToggle img.viewToggleList {
 	background: url(../images/view-toggle.gif) no-repeat;
@@ -1025,7 +1019,6 @@ div.mochaToolbarWrapper.bottom {
 ---------------------------------------------------------------- */
 
 /* Window Builder Form Elements */
-	
 #newWindowForm {
 	width: 320px;
 }
@@ -1033,7 +1026,7 @@ div.mochaToolbarWrapper.bottom {
 #desktop .input {
 	width: 225px;
 	padding: 1px 0 1px 3px;
-	border: 1px solid #bbb;	
+	border: 1px solid #bbb;
 }
 
 #desktop textarea {
@@ -1045,7 +1038,7 @@ div.mochaToolbarWrapper.bottom {
 }
 
 #desktop .formLabel {
-	float: left;	
+	float: left;
 	text-align: right;
 	width: 80px;
 	margin: 0 0 5px 0;
@@ -1063,16 +1056,16 @@ div.mochaToolbarWrapper.bottom {
 }
 
 /* Menus */
-
 .menu-right li {
 	list-style-type: none;
-	display: inline;	
+	display: inline;
 	padding: 0 0 0 0px;
 }
 
 .menu-right img {
 	float: left;
 }
+
 .menu-right img.refresh {
 	padding-left: 10px;
 }
@@ -1080,25 +1073,49 @@ div.mochaToolbarWrapper.bottom {
 /* Notifications */
 
 /* Success, error & notice boxes for messages and errors. */
-.error,
-.notice, 
-.success    { padding: 8px; margin-bottom: 10px; border: 2px solid #ddd; }
-.error      { background: #FBE3E4; color: #D12F19; border-color: #FBC2C4; }
-.notice     { background: #FFF6BF; color: #817134; border-color: #FFD324; }
-.success    { background: #E6EFC2; color: #529214; border-color: #C6D880; }
-.error a    { color: #D12F19; }
-.notice a   { color: #817134; }
-.success a  { color: #529214; }
+.error, .notice, .success {
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 2px solid #ddd;
+}
 
+.error {
+	background: #FBE3E4;
+	color: #D12F19;
+	border-color: #FBC2C4;
+}
+
+.notice {
+	background: #FFF6BF;
+	color: #817134;
+	border-color: #FFD324;
+}
+
+.success {
+	background: #E6EFC2;
+	color: #529214;
+	border-color: #C6D880;
+}
+
+.error a {
+	color: #D12F19;
+}
+
+.notice a {
+	color: #817134;
+}
+
+.success a {
+	color: #529214;
+}
 
 /* Clears */
-
 .clear {
 	clear: both;
 	height: 0;
 }
 
-*html .clear {
+* html .clear {
 	height: 1%;
 	font-size: 1px;
 	line-height: 1px;
@@ -1107,90 +1124,110 @@ div.mochaToolbarWrapper.bottom {
 }
 
 #spinner2 {
-    position:relative;
-    bottom:3px;
-    left:3px;
+	position: relative;
+	bottom: 3px;
+	left: 3px;
 }
 
 .ordersTable {
-    font-size:13px;
+	font-size: 13px;
 }
+
 .ordersTable td {
-    padding-left:15px;
+	padding-left: 15px;
 }
+
 .ordersTable tr.hover:hover {
-    background-color:#E8EEF6;
+	background-color: #E8EEF6;
 }
+
 .row_lite {
-    background-color:#F5F5F5;
+	background-color: #F5F5F5;
 }
+
 .row_dark {
-    background-color:#EEEEEE;
+	background-color: #EEEEEE;
 }
+
 .summary {
-    font-size:15px;
+	font-size: 15px;
 }
+
 #totalPriceText {
-    font-weight:bold;
+	font-weight: bold;
 }
+
 #OrdersStatusHistoryTable {
-    width:100%;
-    position:relative;
-    white-space:nowrap;
+	width: 100%;
+	position: relative;
+	white-space: nowrap;
 }
-#OrdersStatusHistoryTable tr{
-    text-align: left;
-    border: 1px solid #E3E3E3;
+
+#OrdersStatusHistoryTable tr {
+	text-align: left;
+	border: 1px solid #E3E3E3;
 }
-#OrdersStatusHistoryTable td{
-    text-align: left;
-    border: 1px solid #E3E3E3;
+
+#OrdersStatusHistoryTable td {
+	text-align: left;
+	border: 1px solid #E3E3E3;
 }
-#OrdersStatusHistoryTable thead{
-    text-align: left;
-    border: 1px solid #E3E3E3;
+
+#OrdersStatusHistoryTable thead {
+	text-align: left;
+	border: 1px solid #E3E3E3;
 }
-#OrdersStatusHistoryTable th{
-    text-align: left;
-    border: 1px solid #E3E3E3;
+
+#OrdersStatusHistoryTable th {
+	text-align: left;
+	border: 1px solid #E3E3E3;
 }
-.ma-container{
-    color: #000;
-    border: 1px solid #333;
-    background-color: #fff;
-    position: absolute;
-    visibility: hidden;
-    overflow-y: auto;
-    overflow-x: hidden;
-    z-index: 12000;
+
+.ma-container {
+	color: #000;
+	border: 1px solid #333;
+	background-color: #fff;
+	position: absolute;
+	visibility: hidden;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 12000;
 }
-.ma-container ul{
-    list-style: none;
-    overflow: hidden;
-    width: 100%;
+
+.ma-container ul {
+	list-style: none;
+	overflow: hidden;
+	width: 100%;
 }
-.ma-container li{
-    padding: 2px 5px;
-    line-height: 16px;
-    cursor: pointer;
-    float: left;
-    width: 100%;
-    overflow: hidden;
+
+.ma-container li {
+	padding: 2px 5px;
+	line-height: 16px;
+	cursor: pointer;
+	float: left;
+	width: 100%;
+	overflow: hidden;
 }
-.ma-container .ma-hover{
-    color: #fff;
-    background-color: #921506 !important;
+
+.ma-container .ma-hover {
+	color: #fff;
+	background-color: #921506 !important;
 }
-.ma-container .ma-odd{
+
+.ma-container .ma-odd {
+	
 }
-.ma-container .ma-even{
-    background-color: #efefef;
+
+.ma-container .ma-even {
+	background-color: #efefef;
 }
-.ma-loading{
-    background-color: #fafba4;
-    z-index: 10001px;
+
+.ma-loading {
+	background-color: #fafba4;
+	z-index: 10001px;
 }
-.ma-selected{
-    background-color: #ccfda8;
-    z-index: 10001px;
+
+.ma-selected {
+	background-color: #ccfda8;
+	z-index: 10001px;
 }

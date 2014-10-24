@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ImageCMSBuild" basedir="." default="bootstrap">
 
-    <property name="url" value="t1.loc/"/>
-    <property name="base" value="pre"/>
+	<property name="url" value="t1.loc/" />
+	<property name="base" value="pre" />
 
-    <target name="bootstrap">
-        <echo msg="Let's start Build"/>
+	<target name="bootstrap">
+		<echo msg="Let's start Build" />
 
-<!--        <copy todir="../../application/modules/shop/cmlTemp" overwrite="true" >
-            <fileset dir="cmlTemp">
-                <include name="***" />
-            </fileset>
-        </copy>-->
+		<!-- <copy todir="../../application/modules/shop/cmlTemp" overwrite="true" 
+			> <fileset dir="cmlTemp"> <include name="***" /> </fileset> </copy> -->
 
-        <!--<chmod file="../../application/modules/shop/cmlTemp/" mode="0777" />-->
+		<!--<chmod file="../../application/modules/shop/cmlTemp/" mode="0777" /> -->
 
-        <phingcall target="bar"></phingcall>
+		<phingcall target="bar"></phingcall>
 
-        <!--<delete dir="../../application/modules/shop/cmlTemp/" />-->
+		<!--<delete dir="../../application/modules/shop/cmlTemp/" /> -->
 
-    </target>
+	</target>
 
-    <target name="bar">
-        <adhoc-task name="barClass"><![CDATA[
+	<target name="bar">
+		<adhoc-task name="barClass"><![CDATA[
           class BarTask extends Task {
             protected $url;
             protected $base;
@@ -136,7 +133,7 @@
             }
         }
         ]]></adhoc-task>
-        <barClass url="${url}" />
-    </target>
+		<barClass url="${url}" />
+	</target>
 
 </project>

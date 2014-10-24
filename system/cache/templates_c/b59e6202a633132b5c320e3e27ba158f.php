@@ -1,18 +1,19 @@
 <?php $colorScheme = 'css/color_scheme_1'?>
 <div class="frame-inside page-404">
-    <div class="container">
-        <div class="content t-a_c">
-            <img src="<?php if(isset($THEME)){ echo $THEME; } ?><?php if(isset($colorScheme)){ echo $colorScheme; } ?>/images/404.png"/>
-            <div class="description">
+	<div class="container">
+		<div class="content t-a_c">
+			<img
+				src="<?php if(isset($THEME)){ echo $THEME; } ?><?php if(isset($colorScheme)){ echo $colorScheme; } ?>/images/404.png" />
+			<div class="description">
                 <?php if(isset($error)){ echo $error; } ?>            
                 <div class="btn-buy-p">
-                    <a href="<?php echo site_url (); ?>"><span class="text-el"><?php echo lang ('Перейти на главную','newLevel'); ?></span></a>
-                </div>
-            </div>
-        </div>
-    </div>
+					<a href="<?php echo site_url (); ?>"><span class="text-el"><?php echo lang ('Перейти на главную','newLevel'); ?></span></a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-    <script>
+<script>
         $(document).on('ready', function(){
             $('footer').css({'z-index': 1, 'position': 'relative'});
         });

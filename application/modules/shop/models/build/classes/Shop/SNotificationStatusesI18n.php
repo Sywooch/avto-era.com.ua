@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_notification_statuses_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SNotificationStatusesI18n extends BaseSNotificationStatusesI18n {
-
 } // SNotificationStatusesI18n

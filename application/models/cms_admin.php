@@ -1,279 +1,289 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
-
+if (! defined ( 'BASEPATH' ))
+	exit ( 'No direct script access allowed' );
 class Cms_admin extends CI_Model {
+	function __construct() {
+		parent::__construct ();
+	}
 
-    function __construct() {
-        parent::__construct();
-    }
+	/*
+	 * ***********************************************************
+	* Pages
+	* **********************************************************
+	*/
 
-    /*     * ***********************************************************
-     * 	Pages
-     * ********************************************************** */
+	/**
+	 * Add page into content table
+	 *
+	 * @return integer
+	 */
+	function add_page($data) {
+		$this->db->limit ( 1 );
+		$this->db->insert ( 'content', $data );
 
-    /**
-     * Add page into content table
-     *
-     * @return integer
-     */
-    function add_page($data) {
-        $this->db->limit(1);
-        $this->db->insert('content', $data);
+		return $this->db->insert_id ();
+	}
 
-        return $this->db->insert_id();
-    }
+	/**
+	 * Select page by id and lang_id
+	 *
+	 * @return array
+	 */
+	function get_page_by_lang($id, $lang = 0) {
+		$this->db->where ( 'id', $id );
+		$this->db->where ( 'lang', $lang );
+		$query = $this->db->get ( 'content', 1 );
 
-    /**
-     * Select page by id and lang_id
-     *
-     * @return array
-     */
-    function get_page_by_lang($id, $lang = 0) {
-        $this->db->where('id', $id);
-        $this->db->where('lang', $lang);
-        $query = $this->db->get('content', 1);
+		if ($query->num_rows == 1) {
+			return $query->row_array ();
+		}
 
-        if ($query->num_rows == 1) {
-            return $query->row_array();
-        }
+		return FALSE;
+	}
 
-        return FALSE;
-    }
+	/**
+	 * Select page by id
+	 *
+	 * @return array
+	 */
+	function get_page($id) {
+		$this->db->where ( 'id', $id );
+		$query = $this->db->get ( 'content', 1 );
 
-    /**
-     * Select page by id
-     *
-     * @return array
-     */
-    function get_page($id) {
-        $this->db->where('id', $id);
-        $query = $this->db->get('content', 1);
+		if ($query->num_rows > 0) {
+			return $query->row_array ();
+		}
 
-        if ($query->num_rows > 0) {
-            return $query->row_array();
-        }
+		return FALSE;
+	}
+	function page_exists($id) {
+		$this->db->select ( 'id' );
+		$this->db->where ( 'id', $id );
+		$query = $this->db->get ( 'content', 1 );
 
-        return FALSE;
-    }
+		if ($query->num_rows == 1) {
+			return TRUE;
+		}
 
-    function page_exists($id) {
-        $this->db->select('id');
-        $this->db->where('id', $id);
-        $query = $this->db->get('content', 1);
+		return FALSE;
+	}
 
-        if ($query->num_rows == 1) {
-            return TRUE;
-        }
+	/**
+	 * Updating page by id
+	 *
+	 * @return integer
+	 */
+	function update_page($id, $data) {
+		$page = $this->get_page ( $id );
+		$alias = $page ['lang_alias'];
 
-        return FALSE;
-    }
+		if ($alias == 0) {
+			$this->db->where ( 'lang_alias', $page ['id'] );
+			$this->db->update ( 'content', array (
+					'post_status' => $data ['post_status'],
+					'category' => $data ['category'],
+					'cat_url' => $data ['cat_url'],
+					'url' => $data ['url']
+			) );
+		} else {
+			$page = $this->get_page ( $alias );
+			$this->db->where ( 'lang_alias', $page ['id'] );
+			$this->db->update ( 'content', array (
+					'post_status' => $data ['post_status'],
+					'category' => $data ['category'],
+					'cat_url' => $data ['cat_url']
+			) );
+				
+			$this->db->where ( 'id', $alias );
+			$this->db->update ( 'content', array (
+					'post_status' => $data ['post_status'],
+					'category' => $data ['category'],
+					'cat_url' => $data ['cat_url']
+			) );
+				
+			$data ['url'] = $page ['url'];
+		}
 
-    /**
-     * Updating page by id
-     *
-     * @return integer
-     */
-    function update_page($id, $data) {
-        $page = $this->get_page($id);
-        $alias = $page['lang_alias'];
+		// update page
+		$this->db->where ( 'id', $id );
+		$this->db->update ( 'content', $data );
+		// end update page
 
-        if ($alias == 0) {
-            $this->db->where('lang_alias', $page['id']);
-            $this->db->update('content', array('post_status' => $data['post_status'], 'category' => $data['category'], 'cat_url' => $data['cat_url'], 'url' => $data['url']));
-        } else {
-            $page = $this->get_page($alias);
-            $this->db->where('lang_alias', $page['id']);
-            $this->db->update('content', array('post_status' => $data['post_status'], 'category' => $data['category'], 'cat_url' => $data['cat_url']));
+		$affectedRows = $this->db->affected_rows ();
+		return $affectedRows;
+	}
 
-            $this->db->where('id', $alias);
-            $this->db->update('content', array('post_status' => $data['post_status'], 'category' => $data['category'], 'cat_url' => $data['cat_url']));
+	/*
+	 * ***********************************************************
+	* Categories
+	* **********************************************************
+	*/
 
-            $data['url'] = $page['url'];
-        }
+	/**
+	 * Creates new category
+	 *
+	 * @return integer
+	 */
+	function create_category($data) {
+		$this->db->insert ( 'category', $data );
 
-        // update page
-        $this->db->where('id', $id);
-        $this->db->update('content', $data);
-        // end update page
+		return $this->db->insert_id ();
+	}
 
-        $affectedRows = $this->db->affected_rows();
-        return $affectedRows;
-    }
+	/*
+	 * Update category data
+	*
+	* @access public
+	*/
+	function update_category($data, $id) {
+		$this->db->where ( 'id', $id );
+		$this->db->update ( 'category', $data );
+	}
 
-    /*     * ***********************************************************
-     * 	Categories
-     * ********************************************************** */
+	/**
+	 * Select all categories
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function get_categories() {
+		return $this->cms_base->get_categories ();
+	}
 
-    /**
-     * Creates new category
-     *
-     * @return integer
-     */
-    function create_category($data) {
-        $this->db->insert('category', $data);
+	/*
+	 * Get category by id
+	*/
+	function get_category($id) {
+		$this->db->where ( 'id', $id );
+		$query = $this->db->get ( 'category', 1 );
 
-        return $this->db->insert_id();
-    }
+		if ($query->num_rows () > 0) {
+			return $query->row_array ();
+		}
 
-    /*
-     * Update category data
-     *
-     * @access public
-     */
+		return FALSE;
+	}
 
-    function update_category($data, $id) {
-        $this->db->where('id', $id);
-        $this->db->update('category', $data);
-    }
+	/**
+	 * Check if category is created
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	function is_category($url) {
+		$this->db->where ( 'url', $url );
+		$query = $this->db->get ( 'category', 1 );
 
-    /**
-     * Select all categories
-     *
-     * @access public
-     * @return array
-     */
-    function get_categories() {
-        return $this->cms_base->get_categories();
-    }
+		if ($query->num_rows == 1) {
+			return TRUE;
+		}
 
-    /*
-     * Get category by id
-     */
+		return FALSE;
+	}
 
-    function get_category($id) {
-        $this->db->where('id', $id);
-        $query = $this->db->get('category', 1);
+	/*
+	 * ***********************************************************
+	* Settings
+	* **********************************************************
+	*/
 
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
-        }
+	/**
+	 * Save settings
+	 *
+	 * @settings array
+	 *
+	 * @access public
+	 */
+	function save_settings($settings) {
+		$this->db->where ( 's_name', 'main' );
+		$this->db->update ( 'settings', $settings );
+	}
 
-        return FALSE;
-    }
+	/**
+	 * Selecting main settings
+	 *
+	 * @access public
+	 * @return array
+	 */
+	function get_settings() {
+		return $this->cms_base->get_settings ();
+	}
 
-    /**
-     * Check if category is created
-     *
-     * @access public
-     * @return bool
-     */
-    function is_category($url) {
-        $this->db->where('url', $url);
-        $query = $this->db->get('category', 1);
+	/**
+	 * Get editor theme
+	 *
+	 * @access public
+	 * @return string
+	 */
+	function editor_theme() {
+		$this->db->select ( 'editor_theme' );
+		$this->db->where ( 's_name', 'main' );
+		$query = $this->db->get ( 'settings', 1 );
 
-        if ($query->num_rows == 1) {
-            return TRUE;
-        }
+		return $query->row_array ();
+	}
 
-        return FALSE;
-    }
+	/*
+	 * ***********************************************************
+	* Languages
+	* **********************************************************
+	*/
 
-    /*     * ***********************************************************
-     * 	Settings
-     * ********************************************************** */
+	/**
+	 * Add page into content table
+	 *
+	 * @return integer
+	 */
+	function insert_lang($data) {
+		$this->db->insert ( 'languages', $data );
 
-    /**
-     * 	Save settings
-     *
-     * @settings array
-     * @access public
-     */
-    function save_settings($settings) {
-        $this->db->where('s_name', 'main');
-        $this->db->update('settings', $settings);
-    }
+		return $this->db->insert_id ();
+	}
+	function get_langs($forShop = false) {
+		if ($forShop)
+			if (strpos ( getCMSNumber (), 'Pro' ))
+			return $this->db->where ( 'default', true )->get ( 'languages' )->result_array ();
+			
+		// $this->db->order_by('default', 'desc');
+		$query = $this->db->get ( 'languages' );
 
-    /**
-     * Selecting main settings
-     *
-     * @access public
-     * @return array
-     */
-    function get_settings() {
-        return $this->cms_base->get_settings();
-    }
+		return $query->result_array ();
+	}
+	function get_lang($id) {
+		$this->db->where ( 'id', $id );
+		$query = $this->db->get ( 'languages', 1 );
 
-    /**
-     * Get editor theme
-     *
-     * @access public
-     * @return string
-     */
-    function editor_theme() {
-        $this->db->select('editor_theme');
-        $this->db->where('s_name', 'main');
-        $query = $this->db->get('settings', 1);
+		if ($query->num_rows () == 1) {
+			return $query->row_array ();
+		}
 
-        return $query->row_array();
-    }
+		return FALSE;
+	}
+	function update_lang($data, $id) {
+		$this->db->where ( 'id', $id );
+		$this->db->update ( 'languages', $data );
+	}
+	function delete_lang($id) {
+		$this->db->where ( 'id', $id );
+		$this->db->limit ( 1 );
+		$this->db->delete ( 'languages' );
+	}
+	function set_default_lang($id) {
+		$this->db->update ( 'languages', array (
+				'default' => 0
+		) );
 
-    /*     * ***********************************************************
-     * 	Languages
-     * ********************************************************** */
-
-    /**
-     * Add page into content table
-     *
-     * @return integer
-     */
-    function insert_lang($data) {
-        $this->db->insert('languages', $data);
-
-        return $this->db->insert_id();
-    }
-
-    function get_langs($forShop = false) {
-        if ($forShop)
-            if (strpos(getCMSNumber(), 'Pro'))
-                return $this->db
-                                ->where('default', true)
-                                ->get('languages')
-                                ->result_array();
-
-//		$this->db->order_by('default', 'desc');
-        $query = $this->db->get('languages');
-
-        return $query->result_array();
-    }
-
-    function get_lang($id) {
-        $this->db->where('id', $id);
-        $query = $this->db->get('languages', 1);
-
-        if ($query->num_rows() == 1) {
-            return $query->row_array();
-        }
-
-        return FALSE;
-    }
-
-    function update_lang($data, $id) {
-        $this->db->where('id', $id);
-        $this->db->update('languages', $data);
-    }
-
-    function delete_lang($id) {
-        $this->db->where('id', $id);
-        $this->db->limit(1);
-        $this->db->delete('languages');
-    }
-
-    function set_default_lang($id) {
-        $this->db->update('languages', array('default' => 0));
-
-        $this->db->where('id', $id);
-        $this->db->limit(1);
-        $this->db->update('languages', array('default' => 1));
-    }
-
-    function get_default_lang() {
-        $this->db->where('default', 1);
-        $query = $this->db->get('languages', 1);
-        return $query->row_array();
-    }
-
+		$this->db->where ( 'id', $id );
+		$this->db->limit ( 1 );
+		$this->db->update ( 'languages', array (
+				'default' => 1
+		) );
+	}
+	function get_default_lang() {
+		$this->db->where ( 'default', 1 );
+		$query = $this->db->get ( 'languages', 1 );
+		return $query->row_array ();
+	}
 }
 
 /* End of cms_admin.php */

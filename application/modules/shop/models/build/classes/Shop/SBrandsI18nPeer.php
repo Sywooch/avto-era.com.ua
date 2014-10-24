@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_brands_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SBrandsI18nPeer extends BaseSBrandsI18nPeer {
-
 } // SBrandsI18nPeer

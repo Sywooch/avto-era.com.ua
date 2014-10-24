@@ -2,84 +2,82 @@
 
 /*
  * Image CMS
- * main_lang.php
- * Russion Language file
- *
- */
+* main_lang.php
+* Russion Language file
+*
+*/
 
 // menu
-$lang['lang_categories'] = 'Category';
-$lang['lang_categories1'] = 'Categories';
+$lang ['lang_categories'] = 'Category';
+$lang ['lang_categories1'] = 'Categories';
 
 // Auth module
-$lang['lang_register'] = 'Registration';
-$lang['lang_email_form'] = 'Enter email';
-$lang['lang_login'] = 'Login';
-$lang['lang_password'] = 'Password';
-$lang['orderind_shop_sg'] = 'Ordering';
-$lang['s_close_form_wl'] = 'Close form';
-$lang['s_form_input_wl'] = 'Friends email';
-$lang['s_remark_fron_title'] = 'Error message';
-$lang['s_remark_fron'] = 'Your remark';
-$lang['lang_confirm_password'] = 'Repeat Password';
-$lang['lang_confirm_new_pass'] = 'Repeat new password';
-$lang['lang_submit'] = 'Send';
-$lang['lang_email'] = 'Email';
-$lang['lang_captcha'] = 'Code protection';
-$lang['lang_captcha_error'] = 'Improper protection code';
-$lang['lang_login_exists'] = 'This username is already registered.';
-$lang['lang_email_exists'] = 'A user with this email is already registered.';
-$lang['lang_user_logged_in'] = 'You are already logged.';
-$lang['lang_user_logged_out'] = 'The session is completed.';
-$lang['lang_check_mail_acc'] = 'You have successfully registered. Please check your email to activate your account.';
-$lang['lang_reg_success'] = 'You have successfully registered. ';
-$lang['lang_register_off'] = 'Registration is prohibited.';
-$lang['lang_logout_to_reg'] = 'You are already registered ;)';
-$lang['lang_acc_activated'] = 'Your account has been successfully activated. ';
-$lang['lang_resend_acc_code'] = 'You have provided an incorrect activation code sent to the e-mail the new code.';
-$lang['lang_username_or_mail'] = 'Username or Email';
-$lang['lang_acc_mail_sent'] = 'Please check your email for instructions on how to activate the new password.';
-$lang['lang_pass_restored'] = 'You have successfully zeroed my password. ';
-$lang['lang_reset_failed'] = 'Reset failed. Not a valid user name and / or password. Check your email and follow the instructions.';
-$lang['lang_old_password'] = 'Old Password';
-$lang['lang_new_password'] = 'The new password';
-$lang['lang_pass_changed'] = 'Your password was successfully changed.';
-$lang['lang_access_deny'] = 'You are not allowed to view the page.';
-$lang['lang_user_banned'] = 'Your account has been blocked.';
+$lang ['lang_register'] = 'Registration';
+$lang ['lang_email_form'] = 'Enter email';
+$lang ['lang_login'] = 'Login';
+$lang ['lang_password'] = 'Password';
+$lang ['orderind_shop_sg'] = 'Ordering';
+$lang ['s_close_form_wl'] = 'Close form';
+$lang ['s_form_input_wl'] = 'Friends email';
+$lang ['s_remark_fron_title'] = 'Error message';
+$lang ['s_remark_fron'] = 'Your remark';
+$lang ['lang_confirm_password'] = 'Repeat Password';
+$lang ['lang_confirm_new_pass'] = 'Repeat new password';
+$lang ['lang_submit'] = 'Send';
+$lang ['lang_email'] = 'Email';
+$lang ['lang_captcha'] = 'Code protection';
+$lang ['lang_captcha_error'] = 'Improper protection code';
+$lang ['lang_login_exists'] = 'This username is already registered.';
+$lang ['lang_email_exists'] = 'A user with this email is already registered.';
+$lang ['lang_user_logged_in'] = 'You are already logged.';
+$lang ['lang_user_logged_out'] = 'The session is completed.';
+$lang ['lang_check_mail_acc'] = 'You have successfully registered. Please check your email to activate your account.';
+$lang ['lang_reg_success'] = 'You have successfully registered. ';
+$lang ['lang_register_off'] = 'Registration is prohibited.';
+$lang ['lang_logout_to_reg'] = 'You are already registered ;)';
+$lang ['lang_acc_activated'] = 'Your account has been successfully activated. ';
+$lang ['lang_resend_acc_code'] = 'You have provided an incorrect activation code sent to the e-mail the new code.';
+$lang ['lang_username_or_mail'] = 'Username or Email';
+$lang ['lang_acc_mail_sent'] = 'Please check your email for instructions on how to activate the new password.';
+$lang ['lang_pass_restored'] = 'You have successfully zeroed my password. ';
+$lang ['lang_reset_failed'] = 'Reset failed. Not a valid user name and / or password. Check your email and follow the instructions.';
+$lang ['lang_old_password'] = 'Old Password';
+$lang ['lang_new_password'] = 'The new password';
+$lang ['lang_pass_changed'] = 'Your password was successfully changed.';
+$lang ['lang_access_deny'] = 'You are not allowed to view the page.';
+$lang ['lang_user_banned'] = 'Your account has been blocked.';
 
-$lang['lang_forgot_password'] = 'Forgot your password?';
-$lang['lang_remember_me'] = 'Remember me';
-$lang['lang_error'] = 'Error';
-$lang['main_page_error'] = 'Home page not found.';
+$lang ['lang_forgot_password'] = 'Forgot your password?';
+$lang ['lang_remember_me'] = 'Remember me';
+$lang ['lang_error'] = 'Error';
+$lang ['main_page_error'] = 'Home page not found.';
 
-//auth
-$lang['s_sign_up'] = 'Authorization';
-$lang['lang_logout'] = 'Exit';
-$lang['lang_welcome'] = 'Welcome, ';
+// auth
+$lang ['s_sign_up'] = 'Authorization';
+$lang ['lang_logout'] = 'Exit';
+$lang ['lang_welcome'] = 'Welcome, ';
 
-//navigation
-$lang['full_article'] = 'Read more → ';
-$lang['history_back'] = '←  Back';
+// navigation
+$lang ['full_article'] = 'Read more → ';
+$lang ['history_back'] = '←  Back';
 
-//errors
-$lang['error_login'] = 'User with the username and password are not found.';
-$lang['error_category'] = 'Category was not found.';
-$lang['error_page_h'] = 'Page not found';
-$lang['error_page_404'] = 'Page not found.';
-$lang['no_pages_in_cat'] = 'In the category has no pages.';
-$lang['uri_access_deny'] = 'Access is denied.';
+// errors
+$lang ['error_login'] = 'User with the username and password are not found.';
+$lang ['error_category'] = 'Category was not found.';
+$lang ['error_page_h'] = 'Page not found';
+$lang ['error_page_404'] = 'Page not found.';
+$lang ['no_pages_in_cat'] = 'In the category has no pages.';
+$lang ['uri_access_deny'] = 'Access is denied.';
 
-
-
-$lang['lang_tags'] = 'Tags';
+$lang ['lang_tags'] = 'Tags';
 
 // Pagination
-$lang['last_link'] = 'Last';
-$lang['first_link'] = 'The first';
+$lang ['last_link'] = 'Last';
+$lang ['first_link'] = 'The first';
 
-// Search 
-$lang['no_pages_found'] = 'Nothing was found';
-$lang['search_title'] = 'Search';
+// Search
+$lang ['no_pages_found'] = 'Nothing was found';
+$lang ['search_title'] = 'Search';
 
 $lang ['s_log_out'] = 'Log in';
 $lang ['s_manufacturer'] = 'Manufacturer';
@@ -118,10 +116,10 @@ $lang ['s_formulation'] = 'Registration';
 $lang ['s_order'] = 'Order';
 $lang ['s_cart'] = 'Basket';
 $lang ['s_summ'] = 'Total';
-$lang['s_user_profile_succes'] = 'Data is saved';
+$lang ['s_user_profile_succes'] = 'Data is saved';
 $lang ['s_select'] = 'Select';
-$lang['s_user_profile_lid'] = 'Personal data';
-$lang['s_profile_confirm_pass'] = 'Confirm password';
+$lang ['s_user_profile_lid'] = 'Personal data';
+$lang ['s_profile_confirm_pass'] = 'Confirm password';
 $lang ['s_not_found'] = 'Your search did not match';
 $lang ['s_mode'] = 'method';
 $lang ['s_delivery'] = 'Delivery';
@@ -160,8 +158,8 @@ $lang ['s_cancel'] = 'Reset';
 $lang ['s_podobrat'] = 'Match';
 $lang ['s_search'] = 'Search';
 $lang ['s_found'] = 'Found';
-$lang['s_class'] = 'class';
-$lang['s_message_not_found'] = 'Announce a';
+$lang ['s_class'] = 'class';
+$lang ['s_message_not_found'] = 'Announce a';
 $lang ['s_list_wish_empty'] = 'Your Wish List is empty ';
 $lang ['s_site'] = 'site';
 $lang ['s_orderc'] = 'Book';
@@ -193,11 +191,11 @@ $lang ['s_message_o_report'] = 'Report the appearance of';
 $lang ['s_last_comment'] = 'Last comment';
 $lang ['s_leave_comment'] = 'leave a comment';
 $lang ['s_when'] = 'when';
-$lang['s_lang_logged'] = 'You are logged in as';
-$lang['s_plus'] = 'Plus';
-$lang['s_cons'] = 'Cons';
-$lang['s_review_comment'] = 'Review was helpful?';
-$lang['s_comment_answer'] = 'Answer';
+$lang ['s_lang_logged'] = 'You are logged in as';
+$lang ['s_plus'] = 'Plus';
+$lang ['s_cons'] = 'Cons';
+$lang ['s_review_comment'] = 'Review was helpful?';
+$lang ['s_comment_answer'] = 'Answer';
 $lang ['s_text_comment_one'] = 'Text comments';
 $lang ['s_you_raiting'] = 'You rating';
 $lang ['s_on_comment'] = 'On';
@@ -283,68 +281,68 @@ $lang ['s_control_site'] = 'Control of the site';
 $lang ['s_send_mail_admin'] = 'Send mail';
 $lang ['s_IMGCMS'] = 'ImageCMS actively developed in the creation of quality online stores';
 $lang ['s_site_ltd'] = 'Ltd. "Site Image"';
-$lang['lang_login_page'] = 'Authorization';
-$lang['s_nomer_telephona'] = 'Telephone number';
-$lang['s_con_password'] = 'Confirm password';
+$lang ['lang_login_page'] = 'Authorization';
+$lang ['s_nomer_telephona'] = 'Telephone number';
+$lang ['s_con_password'] = 'Confirm password';
 $lang ['s_do_you_cer_tif'] = 'Certificate';
 
-$lang['s_cart_p'] = 'Cart';
-$lang['s_in_p'] = 'In';
+$lang ['s_cart_p'] = 'Cart';
+$lang ['s_in_p'] = 'In';
 $lang ['s_product_o'] = 'product';
 $lang ['s_product_t'] = 'product';
 $lang ['s_product_tr'] = 'product';
 $lang ['s_review_on'] = 'review';
 $lang ['s_review_tw'] = 'reviews';
 $lang ['s_review_tre'] = 'review';
-$lang['s_save_W_L'] = 'Save to Wish List';
-$lang['mailer_sub'] = 'Subscribe';
-$lang['mailer_no_sub'] = 'Unsubscribe';
-$lang['mailer_already'] = 'You are already subscribed';
-$lang['mailer_unn'] = 'Unsubscribed';
-$lang['mailer_invalid_email'] = 'Invalid e-mail';
-$lang['mailer_the_sub_not_found'] = 'The subscriber is not found';
-$lang['mailer_success'] = 'You have successfully subscribed';
-$lang['s_home'] = 'Home';
-$lang['s_zaka_phone'] = 'Order by phone';
-$lang['s_delivery1'] = 'Delivery';
-$lang['s_similar_product'] = 'Similar products';
-$lang['s_c_uoy_name_u'] = 'You name';
-$lang['s_c_uoy_user_el'] = 'E-mail Address';
-$lang['s_c_of_z_'] = 'Formulation order';
-$lang['s_filter_s_foa'] = 'with filters';
-$lang['s_filter_search_f_paramet'] = 'Search with parameters';
-$lang['s_filter_all_reset'] = 'Reset all filters';
-$lang['s_sle_product'] = 'Track this Item';
-$lang['s_sle_product_alerady'] = 'Unsubscribe';
-$lang['s_all_infor_b'] = '(learn more)';
-$lang['s_no_prod_category'] = 'No products in category';
-$lang['s_profile_me'] = 'My Account';
-$lang['s_profile_me_address'] = 'Address for service';
-$lang['s_profile_me_bascket'] = 'Go to basket';
-$lang['s_profile_me_change_password'] = 'Change Password';
-$lang['s_profile_me_change_view_wishlist'] = 'View Wishlist';
-$lang['s_edit_personal_information'] = 'Edit personal information';
-$lang['s_name_and_surname'] = 'Name and surname';
-$lang['s_order_history'] = 'Order History';
-$lang['s_to_fal_do'] = 'Do you follow the following goods';
-$lang['s_to_fal_mo_ti'] = 'Goods in order to monitor';
-$lang['s_to_falitem_number'] = 'Item Number';
-$lang['s_to_falitem_difference'] = 'Difference';
-$lang['s_to_falitem_difference_perc'] = 'Differencein percents';
-$lang['s_to_unsubscribe'] = 'Unsubscribe';
-$lang['s_to_falo_product_name'] = 'Product Name';
-$lang['s_to_additional_information'] = 'Additional information';
-$lang['s_to_call_me'] = 'Call me';
-$lang['s_sea_found_in_categories'] = 'Found in categories';
-$lang['s_sea_search_for'] = 'You searched for';
-$lang['s_js_fisa'] = 'Show';
-$lang['s_spec_promotion'] = 'Special promotion';
+$lang ['s_save_W_L'] = 'Save to Wish List';
+$lang ['mailer_sub'] = 'Subscribe';
+$lang ['mailer_no_sub'] = 'Unsubscribe';
+$lang ['mailer_already'] = 'You are already subscribed';
+$lang ['mailer_unn'] = 'Unsubscribed';
+$lang ['mailer_invalid_email'] = 'Invalid e-mail';
+$lang ['mailer_the_sub_not_found'] = 'The subscriber is not found';
+$lang ['mailer_success'] = 'You have successfully subscribed';
+$lang ['s_home'] = 'Home';
+$lang ['s_zaka_phone'] = 'Order by phone';
+$lang ['s_delivery1'] = 'Delivery';
+$lang ['s_similar_product'] = 'Similar products';
+$lang ['s_c_uoy_name_u'] = 'You name';
+$lang ['s_c_uoy_user_el'] = 'E-mail Address';
+$lang ['s_c_of_z_'] = 'Formulation order';
+$lang ['s_filter_s_foa'] = 'with filters';
+$lang ['s_filter_search_f_paramet'] = 'Search with parameters';
+$lang ['s_filter_all_reset'] = 'Reset all filters';
+$lang ['s_sle_product'] = 'Track this Item';
+$lang ['s_sle_product_alerady'] = 'Unsubscribe';
+$lang ['s_all_infor_b'] = '(learn more)';
+$lang ['s_no_prod_category'] = 'No products in category';
+$lang ['s_profile_me'] = 'My Account';
+$lang ['s_profile_me_address'] = 'Address for service';
+$lang ['s_profile_me_bascket'] = 'Go to basket';
+$lang ['s_profile_me_change_password'] = 'Change Password';
+$lang ['s_profile_me_change_view_wishlist'] = 'View Wishlist';
+$lang ['s_edit_personal_information'] = 'Edit personal information';
+$lang ['s_name_and_surname'] = 'Name and surname';
+$lang ['s_order_history'] = 'Order History';
+$lang ['s_to_fal_do'] = 'Do you follow the following goods';
+$lang ['s_to_fal_mo_ti'] = 'Goods in order to monitor';
+$lang ['s_to_falitem_number'] = 'Item Number';
+$lang ['s_to_falitem_difference'] = 'Difference';
+$lang ['s_to_falitem_difference_perc'] = 'Differencein percents';
+$lang ['s_to_unsubscribe'] = 'Unsubscribe';
+$lang ['s_to_falo_product_name'] = 'Product Name';
+$lang ['s_to_additional_information'] = 'Additional information';
+$lang ['s_to_call_me'] = 'Call me';
+$lang ['s_sea_found_in_categories'] = 'Found in categories';
+$lang ['s_sea_search_for'] = 'You searched for';
+$lang ['s_js_fisa'] = 'Show';
+$lang ['s_spec_promotion'] = 'Special promotion';
 
-$lang['s_shot'] = 'New';
-$lang['s_saction'] = 'Promotion';
-$lang['s_s_hit'] = 'Hit';
+$lang ['s_shot'] = 'New';
+$lang ['s_saction'] = 'Promotion';
+$lang ['s_s_hit'] = 'Hit';
 
-$lang['s_found_in_categories'] = 'Found in categories:';
-$lang['s_not_found_in_categories'] = 'Not found in categories';
-$lang['lang_forgot_pass'] = 'Forgot password';
+$lang ['s_found_in_categories'] = 'Found in categories:';
+$lang ['s_not_found_in_categories'] = 'Not found in categories';
+$lang ['lang_forgot_pass'] = 'Forgot password';
 /* End of file main_lang.php */

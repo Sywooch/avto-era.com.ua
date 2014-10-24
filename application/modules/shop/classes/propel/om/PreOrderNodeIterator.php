@@ -11,68 +11,54 @@
 /**
  * Pre-order node iterator for Node objects.
  *
- * @author     Dave Lawson <dlawson@masterytech.com>
- * @version    $Revision$
- * @package    propel.runtime.om
+ * @author Dave Lawson <dlawson@masterytech.com>
+ * @version $Revision$
+ * @package propel.runtime.om
  */
-class PreOrderNodeIterator implements Iterator
-{
+class PreOrderNodeIterator implements Iterator {
 	private $topNode = null;
-
 	private $curNode = null;
-
 	private $querydb = false;
-
 	private $con = null;
-
 	public function __construct($node, $opts) {
 		$this->topNode = $node;
 		$this->curNode = $node;
-
-		if (isset($opts['con']))
-			$this->con = $opts['con'];
-
-		if (isset($opts['querydb']))
-			$this->querydb = $opts['querydb'];
+		
+		if (isset ( $opts ['con'] ))
+			$this->con = $opts ['con'];
+		
+		if (isset ( $opts ['querydb'] ))
+			$this->querydb = $opts ['querydb'];
 	}
-
 	public function rewind() {
 		$this->curNode = $this->topNode;
 	}
-
 	public function valid() {
 		return ($this->curNode !== null);
 	}
-
 	public function current() {
 		return $this->curNode;
 	}
-
 	public function key() {
-		return $this->curNode->getNodePath();
+		return $this->curNode->getNodePath ();
 	}
-
 	public function next() {
-
-		if ($this->valid())
-		{
-			$nextNode = $this->curNode->getFirstChildNode($this->querydb, $this->con);
-
-			while ($nextNode === null)
-			{
-				if ($this->curNode === null || $this->curNode->equals($this->topNode))
+		if ($this->valid ()) {
+			$nextNode = $this->curNode->getFirstChildNode ( $this->querydb, $this->con );
+			
+			while ( $nextNode === null ) {
+				if ($this->curNode === null || $this->curNode->equals ( $this->topNode ))
 					break;
-
-				$nextNode = $this->curNode->getSiblingNode(false, $this->querydb, $this->con);
-
+				
+				$nextNode = $this->curNode->getSiblingNode ( false, $this->querydb, $this->con );
+				
 				if ($nextNode === null)
-					$this->curNode = $this->curNode->getParentNode($this->querydb, $this->con);
+					$this->curNode = $this->curNode->getParentNode ( $this->querydb, $this->con );
 			}
-
+			
 			$this->curNode = $nextNode;
 		}
-
+		
 		return $this->curNode;
 	}
-
 }

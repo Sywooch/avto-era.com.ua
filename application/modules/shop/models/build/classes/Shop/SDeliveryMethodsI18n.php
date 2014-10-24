@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for representing a row from the 'shop_delivery_methods_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SDeliveryMethodsI18n extends BaseSDeliveryMethodsI18n {
-
 } // SDeliveryMethodsI18n

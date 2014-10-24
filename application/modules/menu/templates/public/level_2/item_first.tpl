@@ -1,4 +1,2 @@
-<li class="first">
-	<a href="{$link}" {$target}>{$title}</a>
-	{$wrapper}
-</li>
+<li class="first"><a href="{$link}"{$target}>{$title}</a>
+	{$wrapper}</li>

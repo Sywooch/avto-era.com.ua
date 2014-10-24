@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Skeleton subclass for performing query and update operations on the 'shop_callbacks_themes_i18n' table.
  *
@@ -14,5 +12,4 @@
  * @package    propel.generator.Shop
  */
 class SCallbackThemesI18nQuery extends BaseSCallbackThemesI18nQuery {
-
 } // SCallbackThemesI18nQuery

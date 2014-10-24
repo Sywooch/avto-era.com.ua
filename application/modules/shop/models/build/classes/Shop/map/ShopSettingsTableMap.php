@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * This class defines the structure of the 'shop_settings' table.
  *
@@ -14,41 +12,37 @@
  *
  * @package    propel.generator.Shop.map
  */
-class ShopSettingsTableMap extends TableMap
-{
-
+class ShopSettingsTableMap extends TableMap {
+	
 	/**
 	 * The (dot-path) name of this class
 	 */
 	const CLASS_NAME = 'Shop.map.ShopSettingsTableMap';
-
+	
 	/**
 	 * Initialize the table attributes, columns and validators
 	 * Relations are not initialized by this method since they are lazy loaded
 	 *
-	 * @return     void
-	 * @throws     PropelException
+	 * @return void
+	 * @throws PropelException
 	 */
-	public function initialize()
-	{
+	public function initialize() {
 		// attributes
-		$this->setName('shop_settings');
-		$this->setPhpName('ShopSettings');
-		$this->setClassname('ShopSettings');
-		$this->setPackage('Shop');
-		$this->setUseIdGenerator(false);
+		$this->setName ( 'shop_settings' );
+		$this->setPhpName ( 'ShopSettings' );
+		$this->setClassname ( 'ShopSettings' );
+		$this->setPackage ( 'Shop' );
+		$this->setUseIdGenerator ( false );
 		// columns
-		$this->addPrimaryKey('NAME', 'Name', 'VARCHAR', true, 255, null);
-		$this->addColumn('VALUE', 'Value', 'LONGVARCHAR', false, null, null);
-		$this->addPrimaryKey('LOCALE', 'Locale', 'VARCHAR', true, 5, null);
+		$this->addPrimaryKey ( 'NAME', 'Name', 'VARCHAR', true, 255, null );
+		$this->addColumn ( 'VALUE', 'Value', 'LONGVARCHAR', false, null, null );
+		$this->addPrimaryKey ( 'LOCALE', 'Locale', 'VARCHAR', true, 5, null );
 		// validators
 	} // initialize()
-
+	
 	/**
 	 * Build the RelationMap objects for this table relationships
 	 */
-	public function buildRelations()
-	{
+	public function buildRelations() {
 	} // buildRelations()
-
 } // ShopSettingsTableMap

@@ -7,203 +7,198 @@
  * author: dev@imagecms.net
  */
 class WebMoneySystem extends BasePaymentProcessor {
+	protected $settigns = null;
+	public $testingMode = true;
+	public function __construct() {
+		$this->order = ShopCore::app ()->SPaymentSystems->getOrder ();
+		$lang = new MY_Lang ();
+		$lang->load ( 'main' );
+	}
 
-    protected $settigns = null;
-    public $testingMode = true;
+	/**
+	 * Process payment
+	 */
+	public function processPayment() {
+		if (! $_POST)
+			return $this->returnAnswer ( ERROR_EMPTY_POST );
+			
+		// For first webmoney preRequest
+		if (! isset ( $_POST ['LMI_HASH'] ) && isset ( $_GET ['result'] ))
+			die ( 'YES' );
 
-    public function __construct() {
-        $this->order = ShopCore::app()->SPaymentSystems->getOrder();
-        $lang = new MY_Lang();
-        $lang->load('main');
-    }
+		$SECRET_KEY = $this->paymentMethod->getId () . '_LMI_SECRET_KEY';
+		$PURSE = $this->paymentMethod->getId () . '_LMI_PAYEE_PURSE';
+		$PURSE = ShopCore::app ()->SSettings->$PURSE;
 
-    /**
-     * Process payment
-     */
-    public function processPayment() {
-        if (!$_POST)
-            return $this->returnAnswer(ERROR_EMPTY_POST);
+		// Grab WM variables from post.
+		// Variables to create md5 signature.
+		$forHash = array (
+				'LMI_PAYEE_PURSE' => '',
+				'LMI_PAYMENT_AMOUNT' => '',
+				'LMI_PAYMENT_NO' => '',
+				'LMI_MODE' => '',
+				'LMI_SYS_INVS_NO' => '',
+				'LMI_SYS_TRANS_NO' => '',
+				'LMI_SYS_TRANS_DATE' => '',
+				'LMI_SECRET_KEY' => '',
+				'LMI_PAYER_PURSE' => '',
+				'LMI_PAYER_WM' => ''
+		);
 
-        // For first webmoney preRequest
-        if (!isset($_POST['LMI_HASH']) && isset($_GET['result']))
-            die('YES');
+		foreach ( $forHash as $key => $val ) {
+			if (isset ( $_REQUEST [$key] ))
+				$forHash [$key] = $_REQUEST [$key];
+		}
 
-        $SECRET_KEY = $this->paymentMethod->getId() . '_LMI_SECRET_KEY';
-        $PURSE = $this->paymentMethod->getId() . '_LMI_PAYEE_PURSE';
-        $PURSE = ShopCore::app()->SSettings->$PURSE;
+		// Set Secret key from settings.
+		$forHash ['LMI_SECRET_KEY'] = ShopCore::app ()->SSettings->$SECRET_KEY;
 
-        // Grab WM variables from post.
-        // Variables to create md5 signature.
-        $forHash = array(
-            'LMI_PAYEE_PURSE' => '',
-            'LMI_PAYMENT_AMOUNT' => '',
-            'LMI_PAYMENT_NO' => '',
-            'LMI_MODE' => '',
-            'LMI_SYS_INVS_NO' => '',
-            'LMI_SYS_TRANS_NO' => '',
-            'LMI_SYS_TRANS_DATE' => '',
-            'LMI_SECRET_KEY' => '',
-            'LMI_PAYER_PURSE' => '',
-            'LMI_PAYER_WM' => '',
-        );
+		// Check testing mode
+		if ($this->testingMode === true)
+			$forHash ['LMI_MODE'] = 1;
+		else
+			$forHash ['LMI_MODE'] = 0;
+			
+		// Check if order is paid.
+		if ($this->order->getPaid () == true)
+			return $this->returnAnswer ( ERROR_ORDER_PAID_BEFORE );
+			
+		// Check LMI_PAYEE_PURSE with settings.
+		if ($PURSE != $forHash ['LMI_PAYEE_PURSE'])
+			return $this->returnAnswer ( ERROR_MATCH_LMI_PAYEE_PURSE );
+			
+		// Check amount.
+		if ($this->order->getTotalPrice () != $forHash ['LMI_PAYMENT_AMOUNT'])
+			return $this->returnAnswer ( ERROR_WRONG_PAYMENT_AMOUNT );
+			
+		// Check payer and shop WM accounts first letter.
+		if (($PURSE {0} != $forHash ['LMI_PAYEE_PURSE'] {
+			0}))
+				return $this->returnAnswer ( ERROR_MATCH_FIRST_LETTER );
+				
+			// Check if it is not testing payment.
+			if ($forHash ['LMI_MODE'] == 1 && $this->testingMode == false)
+				return $this->returnAnswer ( ERROR_TEST_PAYMENT_NOT_ALLOWED );
 
-        foreach ($forHash as $key => $val) {
-            if (isset($_REQUEST[$key]))
-                $forHash[$key] = $_REQUEST[$key];
-        }
+			if (! isset ( $_POST ['LMI_HASH'] ))
+				return $this->returnAnswer ( ERROR_NO_LMI_HASH );
+				
+			// Create and check signature.
+			$sign = strtoupper ( md5 ( implode ( '', $forHash ) ) );
 
-        // Set Secret key from settings.
-        $forHash['LMI_SECRET_KEY'] = ShopCore::app()->SSettings->$SECRET_KEY;
+			// If OK make order paid.
+			if ($sign != $_POST ['LMI_HASH'])
+				return $this->returnAnswer ( ERROR_WRONG_LMI_HASH );
+				
+			// Set order paid
+			$this->setOrderPaid ();
 
-        // Check testing mode
-        if ($this->testingMode === true)
-            $forHash['LMI_MODE'] = 1;
-        else
-            $forHash['LMI_MODE'] = 0;
+			if (isset ( $_GET ['result'] ) && $_GET ['result'] == 'true')
+				die ( "YES" );
 
-        // Check if order is paid.
-        if ($this->order->getPaid() == true)
-            return $this->returnAnswer(ERROR_ORDER_PAID_BEFORE);
+			return true;
+	}
+	protected function returnAnswer($text) {
+		if (isset ( $_GET ['result'] ) && $_GET ['result'] == 'true')
+			die ( $text );
+		else
+			return $text;
+	}
 
-        // Check LMI_PAYEE_PURSE with settings.
-        if ($PURSE != $forHash['LMI_PAYEE_PURSE'])
-            return $this->returnAnswer(ERROR_MATCH_LMI_PAYEE_PURSE);
+	/**
+	 * Create payment form
+	 *
+	 * @return string Generated form
+	 */
+	public function getForm() {
+		$PURSE = $this->paymentMethod->getId () . '_LMI_PAYEE_PURSE';
 
-        // Check amount.
-        if ($this->order->getTotalPrice() != $forHash['LMI_PAYMENT_AMOUNT'])
-            return $this->returnAnswer(ERROR_WRONG_PAYMENT_AMOUNT);
+		$productsPrice = $this->order->getTotalPriceWithGift ();
+		// ціна доставки
+		$deliveryPrice = $this->order->getDeliveryPrice ();
+		$out_summ = ShopCore::app ()->SCurrencyHelper->convert ( $deliveryPrice + $productsPrice, $this->paymentMethod->getCurrencyId () );
 
-        // Check payer and shop WM accounts first letter.
-        if (($PURSE{0} != $forHash['LMI_PAYEE_PURSE']{0}))
-            return $this->returnAnswer(ERROR_MATCH_FIRST_LETTER);
+		$replace = array (
+				'{PAYMENT_AMOUNT}' => $out_summ,
+				'{PAYMENT_NO}' => $this->order->getId (),
+				'{PAYMENT_DESC}' => 'Оплата заказа номер ' . $this->order->getId () . '.',
+				'{PAYEE_PURSE}' => encode ( ShopCore::app ()->SSettings->$PURSE ),
+				'{SIM_MODE}' => '0',
+				'{SUCCESS_URL}' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?pm=' . $this->paymentMethod->getId () ),
+				'{RESULT_URL}' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?result=true&pm=' . $this->paymentMethod->getId () ),
+				'{FAIL_URL}' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?fail=true&pm=' . $this->paymentMethod->getId () ),
+				'{PAY_BUTTON}' => $this->getPayButton ()
+		);
 
-        // Check if it is not testing payment.
-        if ($forHash['LMI_MODE'] == 1 && $this->testingMode == false)
-            return $this->returnAnswer(ERROR_TEST_PAYMENT_NOT_ALLOWED);
+		$this->render ( 'WebMoney', array (
+				'PAYBUTTON' => $this->getPayButton (),
+				'PAYMENT_AMOUNT' => ShopCore::app ()->SCurrencyHelper->convert ( $this->order->getTotalPriceWithGift (), $this->paymentMethod->getCurrencyId () ),
+				'PAYMENT_NO' => $this->order->getId (),
+				'PAYMENT_DESC' => 'Оплата заказа номер ' . $this->order->getId () . '.',
+				'PAYEE_PURSE' => encode ( ShopCore::app ()->SSettings->$PURSE ),
+				'SIM_MODE' => '0',
+				'SUCCESS_URL' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?pm=' . $this->paymentMethod->getId () ),
+				'RESULT_URL' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?result=true&pm=' . $this->paymentMethod->getId () ),
+				'FAIL_URL' => shop_url ( 'cart/view/' . $this->order->getKey () . '/?fail=true&pm=' . $this->paymentMethod->getId () )
+		) );
 
-        if (!isset($_POST['LMI_HASH']))
-            return $this->returnAnswer(ERROR_NO_LMI_HASH);
+		// return str_replace(array_keys($replace), $replace, $form);
+	}
 
-        // Create and check signature.
-        $sign = strtoupper(md5(implode('', $forHash)));
+	/**
+	 * Create configure form
+	 *
+	 * @return string
+	 */
+	public function getAdminForm() {
+		$PURSE = $this->paymentMethod->getId () . '_LMI_PAYEE_PURSE';
+		$SECRET_KEY = $this->paymentMethod->getId () . '_LMI_SECRET_KEY';
 
-        // If OK make order paid.
-        if ($sign != $_POST['LMI_HASH'])
-            return $this->returnAnswer(ERROR_WRONG_LMI_HASH);
+		$form = '
 
-        // Set order paid
-        $this->setOrderPaid();
-
-        if (isset($_GET['result']) && $_GET['result'] == 'true')
-            die("YES");
-
-        return true;
-    }
-
-    protected function returnAnswer($text) {
-        if (isset($_GET['result']) && $_GET['result'] == 'true')
-            die($text);
-        else
-            return $text;
-    }
-
-    /**
-     * Create payment form
-     *
-     * @return string Generated form
-     */
-    public function getForm() {
-
-        $PURSE = $this->paymentMethod->getId() . '_LMI_PAYEE_PURSE';
-
-        $productsPrice = $this->order->getTotalPriceWithGift();
-        // ціна доставки
-        $deliveryPrice = $this->order->getDeliveryPrice();
-        $out_summ = ShopCore::app()->SCurrencyHelper->convert($deliveryPrice + $productsPrice, $this->paymentMethod->getCurrencyId());
+		<div class="control-group">
+		<label class="control-label" for="inputRecCount">' . lang ( 'Trick seller', 'main' ) . ':</label>
+		<div class="controls">
+		<input type="text" name="LMI_PAYEE_PURSE" value="' . encode ( ShopCore::app ()->SSettings->$PURSE ) . '"  />
+		<span class="help-block">' . lang ( 'Trick seller to which the customer has to make a payment. Format - letter and 12 digits.', 'main' ) . '</span>
+		</div>
+		</div>
 
 
-        $replace = array(
-            '{PAYMENT_AMOUNT}' => $out_summ,
-            '{PAYMENT_NO}' => $this->order->getId(),
-            '{PAYMENT_DESC}' => 'Оплата заказа номер ' . $this->order->getId() . '.',
-            '{PAYEE_PURSE}' => encode(ShopCore::app()->SSettings->$PURSE),
-            '{SIM_MODE}' => '0',
-            '{SUCCESS_URL}' => shop_url('cart/view/' . $this->order->getKey() . '/?pm=' . $this->paymentMethod->getId()),
-            '{RESULT_URL}' => shop_url('cart/view/' . $this->order->getKey() . '/?result=true&pm=' . $this->paymentMethod->getId()),
-            '{FAIL_URL}' => shop_url('cart/view/' . $this->order->getKey() . '/?fail=true&pm=' . $this->paymentMethod->getId()),
-            '{PAY_BUTTON}' => $this->getPayButton(),
-        );
+		 
+		<div class="control-group">
+		<label class="control-label" for="inputRecCount">' . lang ( 'Secret Key:', 'main' ) . '</label>
+		<div class="controls">
+		<input type="text" name="LMI_SECRET_KEY" value="' . encode ( ShopCore::app ()->SSettings->$SECRET_KEY ) . '"/>
 
-        $this->render('WebMoney', array(
-            'PAYBUTTON' => $this->getPayButton(),
-            'PAYMENT_AMOUNT' => ShopCore::app()->SCurrencyHelper->convert($this->order->getTotalPriceWithGift(), $this->paymentMethod->getCurrencyId()),
-            'PAYMENT_NO' => $this->order->getId(),
-            'PAYMENT_DESC' => 'Оплата заказа номер ' . $this->order->getId() . '.',
-            'PAYEE_PURSE' => encode(ShopCore::app()->SSettings->$PURSE),
-            'SIM_MODE' => '0',
-            'SUCCESS_URL' => shop_url('cart/view/' . $this->order->getKey() . '/?pm=' . $this->paymentMethod->getId()),
-            'RESULT_URL' => shop_url('cart/view/' . $this->order->getKey() . '/?result=true&pm=' . $this->paymentMethod->getId()),
-            'FAIL_URL' => shop_url('cart/view/' . $this->order->getKey() . '/?fail=true&pm=' . $this->paymentMethod->getId())
-        ));
+		</div>
+		</div>
 
-        // return str_replace(array_keys($replace), $replace, $form);
-    }
+		';
 
-    /**
-     * Create configure form
-     *
-     * @return string
-     */
-    public function getAdminForm() {
-        $PURSE = $this->paymentMethod->getId() . '_LMI_PAYEE_PURSE';
-        $SECRET_KEY = $this->paymentMethod->getId() . '_LMI_SECRET_KEY';
+		return $form;
+	}
 
-        $form = '
-            
-            <div class="control-group">
-                <label class="control-label" for="inputRecCount">' . lang('Trick seller', 'main') . ':</label>
-                <div class="controls">
-                  <input type="text" name="LMI_PAYEE_PURSE" value="' . encode(ShopCore::app()->SSettings->$PURSE) . '"  />
-                      <span class="help-block">' . lang('Trick seller to which the customer has to make a payment. Format - letter and 12 digits.', 'main') . '</span>
-                </div>
-            </div>
-            
+	/**
+	 * Save settings
+	 *
+	 * @return bool|string
+	 */
+	public function saveSettings(SPaymentMethods $paymentMethod) {
+		$ci = & get_instance ();
+		$ci->load->library ( 'Form_validation' );
 
-           
-             <div class="control-group">
-                <label class="control-label" for="inputRecCount">' . lang('Secret Key:', 'main') . '</label>
-                <div class="controls">
-                  <input type="text" name="LMI_SECRET_KEY" value="' . encode(ShopCore::app()->SSettings->$SECRET_KEY) . '"/>
-                      
-                </div>
-            </div>
+		$ci->form_validation->set_rules ( 'LMI_PAYEE_PURSE', 'Кошелек продавца', 'required' );
+		$ci->form_validation->set_rules ( 'LMI_SECRET_KEY', 'Secret Key', 'required' );
 
-        ';
-
-        return $form;
-    }
-
-    /**
-     * Save settings
-     *
-     * @return bool|string
-     */
-    public function saveSettings(SPaymentMethods $paymentMethod) {
-        $ci = & get_instance();
-        $ci->load->library('Form_validation');
-
-        $ci->form_validation->set_rules('LMI_PAYEE_PURSE', 'Кошелек продавца', 'required');
-        $ci->form_validation->set_rules('LMI_SECRET_KEY', 'Secret Key', 'required');
-
-        if ($ci->form_validation->run() == FALSE)
-            return validation_errors();
-        else {
-            // Save settings
-            ShopCore::app()->SSettings->set($paymentMethod->getId() . '_LMI_PAYEE_PURSE', $_POST['LMI_PAYEE_PURSE']);
-            ShopCore::app()->SSettings->set($paymentMethod->getId() . '_LMI_SECRET_KEY', $_POST['LMI_SECRET_KEY']);
-
-            return true;
-        }
-    }
-
+		if ($ci->form_validation->run () == FALSE)
+			return validation_errors ();
+		else {
+			// Save settings
+			ShopCore::app ()->SSettings->set ( $paymentMethod->getId () . '_LMI_PAYEE_PURSE', $_POST ['LMI_PAYEE_PURSE'] );
+			ShopCore::app ()->SSettings->set ( $paymentMethod->getId () . '_LMI_SECRET_KEY', $_POST ['LMI_SECRET_KEY'] );
+				
+			return true;
+		}
+	}
 }

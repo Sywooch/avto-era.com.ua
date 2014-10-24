@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a row from the 'shop_currencies' table.
  *
@@ -8,1031 +7,1041 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
-{
-
+abstract class BaseSCurrencies extends ShopBaseObject implements Persistent {
+	
 	/**
 	 * Peer class name
 	 */
 	const PEER = 'SCurrenciesPeer';
-
+	
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        SCurrenciesPeer
+	 * 
+	 * @var SCurrenciesPeer
 	 */
 	protected static $peer;
-
+	
 	/**
 	 * The flag var to prevent infinit loop in deep copy
-	 * @var       boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $startCopy = false;
-
+	
 	/**
 	 * The value for the id field.
-	 * @var        int
+	 * 
+	 * @var int
 	 */
 	protected $id;
-
+	
 	/**
 	 * The value for the name field.
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $name;
-
+	
 	/**
 	 * The value for the main field.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $main;
-
+	
 	/**
 	 * The value for the is_default field.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $is_default;
-
+	
 	/**
 	 * The value for the code field.
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $code;
-
+	
 	/**
 	 * The value for the symbol field.
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $symbol;
-
+	
 	/**
 	 * The value for the rate field.
 	 * Note: this column has a database default value of: '1.000'
-	 * @var        string
+	 * 
+	 * @var string
 	 */
 	protected $rate;
-
+	
 	/**
 	 * The value for the showonsite field.
 	 * Note: this column has a database default value of: 0
-	 * @var        int
+	 * 
+	 * @var int
 	 */
 	protected $showonsite;
-
+	
 	/**
-	 * @var        array SProductVariants[] Collection to store aggregation of SProductVariants objects.
+	 *
+	 * @var array SProductVariants[] Collection to store aggregation of SProductVariants objects.
 	 */
 	protected $collCurrencys;
-
+	
 	/**
-	 * @var        array SPaymentMethods[] Collection to store aggregation of SPaymentMethods objects.
+	 *
+	 * @var array SPaymentMethods[] Collection to store aggregation of SPaymentMethods objects.
 	 */
 	protected $collSPaymentMethodss;
-
+	
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $alreadyInSave = false;
-
+	
 	/**
 	 * Flag to prevent endless validation loop, if this object is referenced
 	 * by another object which falls in this transaction.
-	 * @var        boolean
+	 * 
+	 * @var boolean
 	 */
 	protected $alreadyInValidation = false;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $currencysScheduledForDeletion = null;
-
+	
 	/**
 	 * An array of objects scheduled for deletion.
-	 * @var		array
+	 * 
+	 * @var array
 	 */
 	protected $sPaymentMethodssScheduledForDeletion = null;
-
+	
 	/**
 	 * Applies default values to this object.
 	 * This method should be called from the object's constructor (or
 	 * equivalent initialization method).
-	 * @see        __construct()
+	 * 
+	 * @see __construct()
 	 */
-	public function applyDefaultValues()
-	{
+	public function applyDefaultValues() {
 		$this->rate = '1.000';
 		$this->showonsite = 0;
 	}
-
+	
 	/**
 	 * Initializes internal state of BaseSCurrencies object.
-	 * @see        applyDefaults()
+	 * 
+	 * @see applyDefaults()
 	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->applyDefaultValues();
+	public function __construct() {
+		parent::__construct ();
+		$this->applyDefaultValues ();
 	}
-
+	
 	/**
 	 * Get the [id] column value.
-	 * 
-	 * @return     int
+	 *
+	 * @return int
 	 */
-	public function getId()
-	{
+	public function getId() {
 		return $this->id;
 	}
-
+	
 	/**
 	 * Get the [name] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getName()
-	{
+	public function getName() {
 		return $this->name;
 	}
-
+	
 	/**
 	 * Get the [main] column value.
-	 * 
-	 * @return     boolean
+	 *
+	 * @return boolean
 	 */
-	public function getMain()
-	{
+	public function getMain() {
 		return $this->main;
 	}
-
+	
 	/**
 	 * Get the [is_default] column value.
-	 * 
-	 * @return     boolean
+	 *
+	 * @return boolean
 	 */
-	public function getIsDefault()
-	{
+	public function getIsDefault() {
 		return $this->is_default;
 	}
-
+	
 	/**
 	 * Get the [code] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getCode()
-	{
+	public function getCode() {
 		return $this->code;
 	}
-
+	
 	/**
 	 * Get the [symbol] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getSymbol()
-	{
+	public function getSymbol() {
 		return $this->symbol;
 	}
-
+	
 	/**
 	 * Get the [rate] column value.
-	 * 
-	 * @return     string
+	 *
+	 * @return string
 	 */
-	public function getRate()
-	{
+	public function getRate() {
 		return $this->rate;
 	}
-
+	
 	/**
 	 * Get the [showonsite] column value.
-	 * 
-	 * @return     int
+	 *
+	 * @return int
 	 */
-	public function getShowonsite()
-	{
+	public function getShowonsite() {
 		return $this->showonsite;
 	}
-
+	
 	/**
 	 * Set the value of [id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param int $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setId($v)
-	{
+	public function setId($v) {
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = ( int ) $v;
 		}
-
+		
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::ID;
+			$this->modifiedColumns [] = SCurrenciesPeer::ID;
 		}
-
+		
 		return $this;
 	} // setId()
-
+	
 	/**
 	 * Set the value of [name] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setName($v)
-	{
+	public function setName($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->name !== $v) {
 			$this->name = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::NAME;
+			$this->modifiedColumns [] = SCurrenciesPeer::NAME;
 		}
-
+		
 		return $this;
 	} // setName()
-
+	
 	/**
 	 * Sets the value of the [main] column.
 	 * Non-boolean arguments are converted using the following rules:
-	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * * 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 * * 0, '0', 'false', 'off', and 'no' are converted to boolean false
 	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * 
-	 * @param      boolean|integer|string $v The new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param boolean|integer|string $v
+	 *        	The new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setMain($v)
-	{
+	public function setMain($v) {
 		if ($v !== null) {
-			if (is_string($v)) {
-				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			if (is_string ( $v )) {
+				$v = in_array ( strtolower ( $v ), array (
+						'false',
+						'off',
+						'-',
+						'no',
+						'n',
+						'0',
+						'' 
+				) ) ? false : true;
 			} else {
-				$v = (boolean) $v;
+				$v = ( boolean ) $v;
 			}
 		}
-
+		
 		if ($this->main !== $v) {
 			$this->main = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::MAIN;
+			$this->modifiedColumns [] = SCurrenciesPeer::MAIN;
 		}
-
+		
 		return $this;
 	} // setMain()
-
+	
 	/**
 	 * Sets the value of the [is_default] column.
 	 * Non-boolean arguments are converted using the following rules:
-	 *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+	 * * 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 * * 0, '0', 'false', 'off', and 'no' are converted to boolean false
 	 * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * 
-	 * @param      boolean|integer|string $v The new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param boolean|integer|string $v
+	 *        	The new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setIsDefault($v)
-	{
+	public function setIsDefault($v) {
 		if ($v !== null) {
-			if (is_string($v)) {
-				$v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+			if (is_string ( $v )) {
+				$v = in_array ( strtolower ( $v ), array (
+						'false',
+						'off',
+						'-',
+						'no',
+						'n',
+						'0',
+						'' 
+				) ) ? false : true;
 			} else {
-				$v = (boolean) $v;
+				$v = ( boolean ) $v;
 			}
 		}
-
+		
 		if ($this->is_default !== $v) {
 			$this->is_default = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::IS_DEFAULT;
+			$this->modifiedColumns [] = SCurrenciesPeer::IS_DEFAULT;
 		}
-
+		
 		return $this;
 	} // setIsDefault()
-
+	
 	/**
 	 * Set the value of [code] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setCode($v)
-	{
+	public function setCode($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->code !== $v) {
 			$this->code = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::CODE;
+			$this->modifiedColumns [] = SCurrenciesPeer::CODE;
 		}
-
+		
 		return $this;
 	} // setCode()
-
+	
 	/**
 	 * Set the value of [symbol] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setSymbol($v)
-	{
+	public function setSymbol($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->symbol !== $v) {
 			$this->symbol = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::SYMBOL;
+			$this->modifiedColumns [] = SCurrenciesPeer::SYMBOL;
 		}
-
+		
 		return $this;
 	} // setSymbol()
-
+	
 	/**
 	 * Set the value of [rate] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param string $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setRate($v)
-	{
+	public function setRate($v) {
 		if ($v !== null) {
-			$v = (string) $v;
+			$v = ( string ) $v;
 		}
-
+		
 		if ($this->rate !== $v) {
 			$this->rate = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::RATE;
+			$this->modifiedColumns [] = SCurrenciesPeer::RATE;
 		}
-
+		
 		return $this;
 	} // setRate()
-
+	
 	/**
 	 * Set the value of [showonsite] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     SCurrencies The current object (for fluent API support)
+	 *
+	 * @param int $v
+	 *        	new value
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function setShowonsite($v)
-	{
+	public function setShowonsite($v) {
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = ( int ) $v;
 		}
-
+		
 		if ($this->showonsite !== $v) {
 			$this->showonsite = $v;
-			$this->modifiedColumns[] = SCurrenciesPeer::SHOWONSITE;
+			$this->modifiedColumns [] = SCurrenciesPeer::SHOWONSITE;
 		}
-
+		
 		return $this;
 	} // setShowonsite()
-
+	
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
 	 *
 	 * This method can be used in conjunction with isModified() to indicate whether an object is both
 	 * modified _and_ has some values set which are non-default.
 	 *
-	 * @return     boolean Whether the columns in this object are only been set with default values.
+	 * @return boolean Whether the columns in this object are only been set with default values.
 	 */
-	public function hasOnlyDefaultValues()
-	{
-			if ($this->rate !== '1.000') {
-				return false;
-			}
-
-			if ($this->showonsite !== 0) {
-				return false;
-			}
-
+	public function hasOnlyDefaultValues() {
+		if ($this->rate !== '1.000') {
+			return false;
+		}
+		
+		if ($this->showonsite !== 0) {
+			return false;
+		}
+		
 		// otherwise, everything was equal, so return TRUE
 		return true;
 	} // hasOnlyDefaultValues()
-
+	
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (0-based "start column") is specified so that objects can be hydrated
-	 * with a subset of the columns in the resultset rows.  This is needed, for example,
+	 * with a subset of the columns in the resultset rows. This is needed, for example,
 	 * for results of JOIN queries where the resultset row includes columns from two or
 	 * more tables.
 	 *
-	 * @param      array $row The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
-	 * @param      int $startcol 0-based offset column which indicates which restultset column to start with.
-	 * @param      boolean $rehydrate Whether this object is being re-hydrated from the database.
-	 * @return     int next starting column
-	 * @throws     PropelException  - Any caught Exception will be rewrapped as a PropelException.
+	 * @param array $row
+	 *        	The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
+	 * @param int $startcol
+	 *        	0-based offset column which indicates which restultset column to start with.
+	 * @param boolean $rehydrate
+	 *        	Whether this object is being re-hydrated from the database.
+	 * @return int next starting column
+	 * @throws PropelException - Any caught Exception will be rewrapped as a PropelException.
 	 */
-	public function hydrate($row, $startcol = 0, $rehydrate = false)
-	{
+	public function hydrate($row, $startcol = 0, $rehydrate = false) {
 		try {
-
-			$this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-			$this->main = ($row[$startcol + 2] !== null) ? (boolean) $row[$startcol + 2] : null;
-			$this->is_default = ($row[$startcol + 3] !== null) ? (boolean) $row[$startcol + 3] : null;
-			$this->code = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-			$this->symbol = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-			$this->rate = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-			$this->showonsite = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
-			$this->resetModified();
-
-			$this->setNew(false);
-
+			
+			$this->id = ($row [$startcol + 0] !== null) ? ( int ) $row [$startcol + 0] : null;
+			$this->name = ($row [$startcol + 1] !== null) ? ( string ) $row [$startcol + 1] : null;
+			$this->main = ($row [$startcol + 2] !== null) ? ( boolean ) $row [$startcol + 2] : null;
+			$this->is_default = ($row [$startcol + 3] !== null) ? ( boolean ) $row [$startcol + 3] : null;
+			$this->code = ($row [$startcol + 4] !== null) ? ( string ) $row [$startcol + 4] : null;
+			$this->symbol = ($row [$startcol + 5] !== null) ? ( string ) $row [$startcol + 5] : null;
+			$this->rate = ($row [$startcol + 6] !== null) ? ( string ) $row [$startcol + 6] : null;
+			$this->showonsite = ($row [$startcol + 7] !== null) ? ( int ) $row [$startcol + 7] : null;
+			$this->resetModified ();
+			
+			$this->setNew ( false );
+			
 			if ($rehydrate) {
-				$this->ensureConsistency();
+				$this->ensureConsistency ();
 			}
-
+			
 			return $startcol + 8; // 8 = SCurrenciesPeer::NUM_HYDRATE_COLUMNS.
-
-		} catch (Exception $e) {
-			throw new PropelException("Error populating SCurrencies object", $e);
+		} catch ( Exception $e ) {
+			throw new PropelException ( "Error populating SCurrencies object", $e );
 		}
 	}
-
+	
 	/**
 	 * Checks and repairs the internal consistency of the object.
 	 *
 	 * This method is executed after an already-instantiated object is re-hydrated
-	 * from the database.  It exists to check any foreign keys to make sure that
+	 * from the database. It exists to check any foreign keys to make sure that
 	 * the objects related to the current object are correct based on foreign key.
 	 *
 	 * You can override this method in the stub class, but you should always invoke
 	 * the base method from the overridden method (i.e. parent::ensureConsistency()),
 	 * in case your model changes.
 	 *
-	 * @throws     PropelException
+	 * @throws PropelException
 	 */
-	public function ensureConsistency()
-	{
-
+	public function ensureConsistency() {
 	} // ensureConsistency
-
+	
 	/**
 	 * Reloads this object from datastore based on primary key and (optionally) resets all associated objects.
 	 *
 	 * This will only work if the object has been saved and has a valid primary key set.
 	 *
-	 * @param      boolean $deep (optional) Whether to also de-associated any related objects.
-	 * @param      PropelPDO $con (optional) The PropelPDO connection to use.
-	 * @return     void
-	 * @throws     PropelException - if this object is deleted, unsaved or doesn't have pk match in db
+	 * @param boolean $deep
+	 *        	(optional) Whether to also de-associated any related objects.
+	 * @param PropelPDO $con
+	 *        	(optional) The PropelPDO connection to use.
+	 * @return void
+	 * @throws PropelException - if this object is deleted, unsaved or doesn't have pk match in db
 	 */
-	public function reload($deep = false, PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("Cannot reload a deleted object.");
+	public function reload($deep = false, PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "Cannot reload a deleted object." );
 		}
-
-		if ($this->isNew()) {
-			throw new PropelException("Cannot reload an unsaved object.");
+		
+		if ($this->isNew ()) {
+			throw new PropelException ( "Cannot reload an unsaved object." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-
+		
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
-
-		$stmt = SCurrenciesPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
-		$row = $stmt->fetch(PDO::FETCH_NUM);
-		$stmt->closeCursor();
-		if (!$row) {
-			throw new PropelException('Cannot find matching row in the database to reload object values.');
+		
+		$stmt = SCurrenciesPeer::doSelectStmt ( $this->buildPkeyCriteria (), $con );
+		$row = $stmt->fetch ( PDO::FETCH_NUM );
+		$stmt->closeCursor ();
+		if (! $row) {
+			throw new PropelException ( 'Cannot find matching row in the database to reload object values.' );
 		}
-		$this->hydrate($row, 0, true); // rehydrate
-
-		if ($deep) {  // also de-associate any related objects?
-
+		$this->hydrate ( $row, 0, true ); // rehydrate
+		
+		if ($deep) { // also de-associate any related objects?
+			
 			$this->collCurrencys = null;
-
+			
 			$this->collSPaymentMethodss = null;
-
 		} // if (deep)
 	}
-
+	
 	/**
 	 * Removes this object from datastore and sets delete attribute.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     void
-	 * @throws     PropelException
-	 * @see        BaseObject::setDeleted()
-	 * @see        BaseObject::isDeleted()
+	 * @param PropelPDO $con        	
+	 * @return void
+	 * @throws PropelException
+	 * @see BaseObject::setDeleted()
+	 * @see BaseObject::isDeleted()
 	 */
-	public function delete(PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("This object has already been deleted.");
+	public function delete(PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "This object has already been deleted." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection ( SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE );
 		}
-
-		$con->beginTransaction();
+		
+		$con->beginTransaction ();
 		try {
-			$deleteQuery = SCurrenciesQuery::create()
-				->filterByPrimaryKey($this->getPrimaryKey());
-			$ret = $this->preDelete($con);
+			$deleteQuery = SCurrenciesQuery::create ()->filterByPrimaryKey ( $this->getPrimaryKey () );
+			$ret = $this->preDelete ( $con );
 			if ($ret) {
-				$deleteQuery->delete($con);
-				$this->postDelete($con);
-				$con->commit();
-				$this->setDeleted(true);
+				$deleteQuery->delete ( $con );
+				$this->postDelete ( $con );
+				$con->commit ();
+				$this->setDeleted ( true );
 			} else {
-				$con->commit();
+				$con->commit ();
 			}
-		} catch (Exception $e) {
-			$con->rollBack();
+		} catch ( Exception $e ) {
+			$con->rollBack ();
 			throw $e;
 		}
 	}
-
+	
 	/**
 	 * Persists this object to the database.
 	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All modified related objects will also be persisted in the doSave()
-	 * method.  This method wraps all precipitate database operations in a
+	 * method. This method wraps all precipitate database operations in a
 	 * single transaction.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws     PropelException
-	 * @see        doSave()
+	 * @param PropelPDO $con        	
+	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws PropelException
+	 * @see doSave()
 	 */
-	public function save(PropelPDO $con = null)
-	{
-		if ($this->isDeleted()) {
-			throw new PropelException("You cannot save an object that has been deleted.");
+	public function save(PropelPDO $con = null) {
+		if ($this->isDeleted ()) {
+			throw new PropelException ( "You cannot save an object that has been deleted." );
 		}
-
+		
 		if ($con === null) {
-			$con = Propel::getConnection(SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection ( SCurrenciesPeer::DATABASE_NAME, Propel::CONNECTION_WRITE );
 		}
-
-		$con->beginTransaction();
-		$isInsert = $this->isNew();
+		
+		$con->beginTransaction ();
+		$isInsert = $this->isNew ();
 		try {
-			$ret = $this->preSave($con);
+			$ret = $this->preSave ( $con );
 			if ($isInsert) {
-				$ret = $ret && $this->preInsert($con);
+				$ret = $ret && $this->preInsert ( $con );
 			} else {
-				$ret = $ret && $this->preUpdate($con);
+				$ret = $ret && $this->preUpdate ( $con );
 			}
 			if ($ret) {
-				$affectedRows = $this->doSave($con);
+				$affectedRows = $this->doSave ( $con );
 				if ($isInsert) {
-					$this->postInsert($con);
+					$this->postInsert ( $con );
 				} else {
-					$this->postUpdate($con);
+					$this->postUpdate ( $con );
 				}
-				$this->postSave($con);
-				SCurrenciesPeer::addInstanceToPool($this);
+				$this->postSave ( $con );
+				SCurrenciesPeer::addInstanceToPool ( $this );
 			} else {
 				$affectedRows = 0;
 			}
-			$con->commit();
+			$con->commit ();
 			return $affectedRows;
-		} catch (Exception $e) {
-			$con->rollBack();
+		} catch ( Exception $e ) {
+			$con->rollBack ();
 			throw $e;
 		}
 	}
-
+	
 	/**
 	 * Performs the work of inserting or updating the row in the database.
 	 *
 	 * If the object is new, it inserts it; otherwise an update is performed.
 	 * All related objects are also updated in this method.
 	 *
-	 * @param      PropelPDO $con
-	 * @return     int The number of rows affected by this insert/update and any referring fk objects' save() operations.
-	 * @throws     PropelException
-	 * @see        save()
+	 * @param PropelPDO $con        	
+	 * @return int The number of rows affected by this insert/update and any referring fk objects' save() operations.
+	 * @throws PropelException
+	 * @see save()
 	 */
-	protected function doSave(PropelPDO $con)
-	{
+	protected function doSave(PropelPDO $con) {
 		$affectedRows = 0; // initialize var to track total num of affected rows
-		if (!$this->alreadyInSave) {
+		if (! $this->alreadyInSave) {
 			$this->alreadyInSave = true;
-
-			if ($this->isNew() || $this->isModified()) {
+			
+			if ($this->isNew () || $this->isModified ()) {
 				// persist changes
-				if ($this->isNew()) {
-					$this->doInsert($con);
+				if ($this->isNew ()) {
+					$this->doInsert ( $con );
 				} else {
-					$this->doUpdate($con);
+					$this->doUpdate ( $con );
 				}
 				$affectedRows += 1;
-				$this->resetModified();
+				$this->resetModified ();
 			}
-
+			
 			if ($this->currencysScheduledForDeletion !== null) {
-				if (!$this->currencysScheduledForDeletion->isEmpty()) {
-					SProductVariantsQuery::create()
-						->filterByPrimaryKeys($this->currencysScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->currencysScheduledForDeletion->isEmpty ()) {
+					SProductVariantsQuery::create ()->filterByPrimaryKeys ( $this->currencysScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->currencysScheduledForDeletion = null;
 				}
 			}
-
+			
 			if ($this->collCurrencys !== null) {
-				foreach ($this->collCurrencys as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
+				foreach ( $this->collCurrencys as $referrerFK ) {
+					if (! $referrerFK->isDeleted ()) {
+						$affectedRows += $referrerFK->save ( $con );
 					}
 				}
 			}
-
+			
 			if ($this->sPaymentMethodssScheduledForDeletion !== null) {
-				if (!$this->sPaymentMethodssScheduledForDeletion->isEmpty()) {
-					SPaymentMethodsQuery::create()
-						->filterByPrimaryKeys($this->sPaymentMethodssScheduledForDeletion->getPrimaryKeys(false))
-						->delete($con);
+				if (! $this->sPaymentMethodssScheduledForDeletion->isEmpty ()) {
+					SPaymentMethodsQuery::create ()->filterByPrimaryKeys ( $this->sPaymentMethodssScheduledForDeletion->getPrimaryKeys ( false ) )->delete ( $con );
 					$this->sPaymentMethodssScheduledForDeletion = null;
 				}
 			}
-
+			
 			if ($this->collSPaymentMethodss !== null) {
-				foreach ($this->collSPaymentMethodss as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
+				foreach ( $this->collSPaymentMethodss as $referrerFK ) {
+					if (! $referrerFK->isDeleted ()) {
+						$affectedRows += $referrerFK->save ( $con );
 					}
 				}
 			}
-
+			
 			$this->alreadyInSave = false;
-
 		}
 		return $affectedRows;
 	} // doSave()
-
+	
 	/**
 	 * Insert the row in the database.
 	 *
-	 * @param      PropelPDO $con
+	 * @param PropelPDO $con        	
 	 *
-	 * @throws     PropelException
-	 * @see        doSave()
+	 * @throws PropelException
+	 * @see doSave()
 	 */
-	protected function doInsert(PropelPDO $con)
-	{
-		$modifiedColumns = array();
+	protected function doInsert(PropelPDO $con) {
+		$modifiedColumns = array ();
 		$index = 0;
-
-		$this->modifiedColumns[] = SCurrenciesPeer::ID;
+		
+		$this->modifiedColumns [] = SCurrenciesPeer::ID;
 		if (null !== $this->id) {
-			throw new PropelException('Cannot insert a value for auto-increment primary key (' . SCurrenciesPeer::ID . ')');
+			throw new PropelException ( 'Cannot insert a value for auto-increment primary key (' . SCurrenciesPeer::ID . ')' );
 		}
-
-		 // check the columns in natural order for more readable SQL queries
-		if ($this->isColumnModified(SCurrenciesPeer::ID)) {
-			$modifiedColumns[':p' . $index++]  = '`ID`';
+		
+		// check the columns in natural order for more readable SQL queries
+		if ($this->isColumnModified ( SCurrenciesPeer::ID )) {
+			$modifiedColumns [':p' . $index ++] = '`ID`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::NAME)) {
-			$modifiedColumns[':p' . $index++]  = '`NAME`';
+		if ($this->isColumnModified ( SCurrenciesPeer::NAME )) {
+			$modifiedColumns [':p' . $index ++] = '`NAME`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::MAIN)) {
-			$modifiedColumns[':p' . $index++]  = '`MAIN`';
+		if ($this->isColumnModified ( SCurrenciesPeer::MAIN )) {
+			$modifiedColumns [':p' . $index ++] = '`MAIN`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::IS_DEFAULT)) {
-			$modifiedColumns[':p' . $index++]  = '`IS_DEFAULT`';
+		if ($this->isColumnModified ( SCurrenciesPeer::IS_DEFAULT )) {
+			$modifiedColumns [':p' . $index ++] = '`IS_DEFAULT`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::CODE)) {
-			$modifiedColumns[':p' . $index++]  = '`CODE`';
+		if ($this->isColumnModified ( SCurrenciesPeer::CODE )) {
+			$modifiedColumns [':p' . $index ++] = '`CODE`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::SYMBOL)) {
-			$modifiedColumns[':p' . $index++]  = '`SYMBOL`';
+		if ($this->isColumnModified ( SCurrenciesPeer::SYMBOL )) {
+			$modifiedColumns [':p' . $index ++] = '`SYMBOL`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::RATE)) {
-			$modifiedColumns[':p' . $index++]  = '`RATE`';
+		if ($this->isColumnModified ( SCurrenciesPeer::RATE )) {
+			$modifiedColumns [':p' . $index ++] = '`RATE`';
 		}
-		if ($this->isColumnModified(SCurrenciesPeer::SHOWONSITE)) {
-			$modifiedColumns[':p' . $index++]  = '`SHOWONSITE`';
+		if ($this->isColumnModified ( SCurrenciesPeer::SHOWONSITE )) {
+			$modifiedColumns [':p' . $index ++] = '`SHOWONSITE`';
 		}
-
-		$sql = sprintf(
-			'INSERT INTO `shop_currencies` (%s) VALUES (%s)',
-			implode(', ', $modifiedColumns),
-			implode(', ', array_keys($modifiedColumns))
-		);
-
+		
+		$sql = sprintf ( 'INSERT INTO `shop_currencies` (%s) VALUES (%s)', implode ( ', ', $modifiedColumns ), implode ( ', ', array_keys ( $modifiedColumns ) ) );
+		
 		try {
-			$stmt = $con->prepare($sql);
-			foreach ($modifiedColumns as $identifier => $columnName) {
+			$stmt = $con->prepare ( $sql );
+			foreach ( $modifiedColumns as $identifier => $columnName ) {
 				switch ($columnName) {
-					case '`ID`':						
-						$stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+					case '`ID`' :
+						$stmt->bindValue ( $identifier, $this->id, PDO::PARAM_INT );
 						break;
-					case '`NAME`':						
-						$stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+					case '`NAME`' :
+						$stmt->bindValue ( $identifier, $this->name, PDO::PARAM_STR );
 						break;
-					case '`MAIN`':
-						$stmt->bindValue($identifier, (int) $this->main, PDO::PARAM_INT);
+					case '`MAIN`' :
+						$stmt->bindValue ( $identifier, ( int ) $this->main, PDO::PARAM_INT );
 						break;
-					case '`IS_DEFAULT`':
-						$stmt->bindValue($identifier, (int) $this->is_default, PDO::PARAM_INT);
+					case '`IS_DEFAULT`' :
+						$stmt->bindValue ( $identifier, ( int ) $this->is_default, PDO::PARAM_INT );
 						break;
-					case '`CODE`':						
-						$stmt->bindValue($identifier, $this->code, PDO::PARAM_STR);
+					case '`CODE`' :
+						$stmt->bindValue ( $identifier, $this->code, PDO::PARAM_STR );
 						break;
-					case '`SYMBOL`':						
-						$stmt->bindValue($identifier, $this->symbol, PDO::PARAM_STR);
+					case '`SYMBOL`' :
+						$stmt->bindValue ( $identifier, $this->symbol, PDO::PARAM_STR );
 						break;
-					case '`RATE`':						
-						$stmt->bindValue($identifier, $this->rate, PDO::PARAM_STR);
+					case '`RATE`' :
+						$stmt->bindValue ( $identifier, $this->rate, PDO::PARAM_STR );
 						break;
-					case '`SHOWONSITE`':						
-						$stmt->bindValue($identifier, $this->showonsite, PDO::PARAM_INT);
+					case '`SHOWONSITE`' :
+						$stmt->bindValue ( $identifier, $this->showonsite, PDO::PARAM_INT );
 						break;
 				}
 			}
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute INSERT statement [%s]', $sql ), $e );
 		}
-
+		
 		try {
-			$pk = $con->lastInsertId();
-		} catch (Exception $e) {
-			throw new PropelException('Unable to get autoincrement id.', $e);
+			$pk = $con->lastInsertId ();
+		} catch ( Exception $e ) {
+			throw new PropelException ( 'Unable to get autoincrement id.', $e );
 		}
-		$this->setId($pk);
-
-		$this->setNew(false);
+		$this->setId ( $pk );
+		
+		$this->setNew ( false );
 	}
-
+	
 	/**
 	 * Update the row in the database.
 	 *
-	 * @param      PropelPDO $con
+	 * @param PropelPDO $con        	
 	 *
-	 * @see        doSave()
+	 * @see doSave()
 	 */
-	protected function doUpdate(PropelPDO $con)
-	{
-		$selectCriteria = $this->buildPkeyCriteria();
-		$valuesCriteria = $this->buildCriteria();
-		BasePeer::doUpdate($selectCriteria, $valuesCriteria, $con);
+	protected function doUpdate(PropelPDO $con) {
+		$selectCriteria = $this->buildPkeyCriteria ();
+		$valuesCriteria = $this->buildCriteria ();
+		BasePeer::doUpdate ( $selectCriteria, $valuesCriteria, $con );
 	}
-
+	
 	/**
 	 * Array of ValidationFailed objects.
-	 * @var        array ValidationFailed[]
+	 * 
+	 * @var array ValidationFailed[]
 	 */
-	protected $validationFailures = array();
-
+	protected $validationFailures = array ();
+	
 	/**
 	 * Gets any ValidationFailed objects that resulted from last call to validate().
 	 *
 	 *
-	 * @return     array ValidationFailed[]
-	 * @see        validate()
+	 * @return array ValidationFailed[]
+	 * @see validate()
 	 */
-	public function getValidationFailures()
-	{
+	public function getValidationFailures() {
 		return $this->validationFailures;
 	}
-
+	
 	/**
 	 * Validates the objects modified field values and all objects related to this table.
 	 *
 	 * If $columns is either a column name or an array of column names
 	 * only those columns are validated.
 	 *
-	 * @param      mixed $columns Column name or an array of column names.
-	 * @return     boolean Whether all columns pass validation.
-	 * @see        doValidate()
-	 * @see        getValidationFailures()
+	 * @param mixed $columns
+	 *        	Column name or an array of column names.
+	 * @return boolean Whether all columns pass validation.
+	 * @see doValidate()
+	 * @see getValidationFailures()
 	 */
-	public function validate($columns = null)
-	{
-		$res = $this->doValidate($columns);
+	public function validate($columns = null) {
+		$res = $this->doValidate ( $columns );
 		if ($res === true) {
-			$this->validationFailures = array();
+			$this->validationFailures = array ();
 			return true;
 		} else {
 			$this->validationFailures = $res;
 			return false;
 		}
 	}
-
+	
 	/**
 	 * This function performs the validation work for complex object models.
 	 *
 	 * In addition to checking the current object, all related objects will
-	 * also be validated.  If all pass then <code>true</code> is returned; otherwise
+	 * also be validated. If all pass then <code>true</code> is returned; otherwise
 	 * an aggreagated array of ValidationFailed objects will be returned.
 	 *
-	 * @param      array $columns Array of column names to validate.
-	 * @return     mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+	 * @param array $columns
+	 *        	Array of column names to validate.
+	 * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
 	 */
-	protected function doValidate($columns = null)
-	{
-		if (!$this->alreadyInValidation) {
+	protected function doValidate($columns = null) {
+		if (! $this->alreadyInValidation) {
 			$this->alreadyInValidation = true;
 			$retval = null;
-
-			$failureMap = array();
-
-
-			if (($retval = SCurrenciesPeer::doValidate($this, $columns)) !== true) {
-				$failureMap = array_merge($failureMap, $retval);
+			
+			$failureMap = array ();
+			
+			if (($retval = SCurrenciesPeer::doValidate ( $this, $columns )) !== true) {
+				$failureMap = array_merge ( $failureMap, $retval );
 			}
-
-
-				if ($this->collCurrencys !== null) {
-					foreach ($this->collCurrencys as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
+			
+			if ($this->collCurrencys !== null) {
+				foreach ( $this->collCurrencys as $referrerFK ) {
+					if (! $referrerFK->validate ( $columns )) {
+						$failureMap = array_merge ( $failureMap, $referrerFK->getValidationFailures () );
 					}
 				}
-
-				if ($this->collSPaymentMethodss !== null) {
-					foreach ($this->collSPaymentMethodss as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
+			}
+			
+			if ($this->collSPaymentMethodss !== null) {
+				foreach ( $this->collSPaymentMethodss as $referrerFK ) {
+					if (! $referrerFK->validate ( $columns )) {
+						$failureMap = array_merge ( $failureMap, $referrerFK->getValidationFailures () );
 					}
 				}
-
-
+			}
+			
 			$this->alreadyInValidation = false;
 		}
-
-		return (!empty($failureMap) ? $failureMap : true);
+		
+		return (! empty ( $failureMap ) ? $failureMap : true);
 	}
-
+	
 	/**
 	 * Retrieves a field from the object by name passed in as a string.
 	 *
-	 * @param      string $name name
-	 * @param      string $type The type of fieldname the $name is of:
-	 *                     one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
-	 *                     BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
-	 * @return     mixed Value of field.
+	 * @param string $name
+	 *        	name
+	 * @param string $type
+	 *        	The type of fieldname the $name is of:
+	 *        	one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
+	 * @return mixed Value of field.
 	 */
-	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
-	{
-		$pos = SCurrenciesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
-		$field = $this->getByPosition($pos);
+	public function getByName($name, $type = BasePeer::TYPE_PHPNAME) {
+		$pos = SCurrenciesPeer::translateFieldName ( $name, $type, BasePeer::TYPE_NUM );
+		$field = $this->getByPosition ( $pos );
 		return $field;
 	}
-
+	
 	/**
 	 * Retrieves a field from the object by Position as specified in the xml schema.
 	 * Zero-based.
 	 *
-	 * @param      int $pos position in xml schema
-	 * @return     mixed Value of field at $pos
+	 * @param int $pos
+	 *        	position in xml schema
+	 * @return mixed Value of field at $pos
 	 */
-	public function getByPosition($pos)
-	{
-		switch($pos) {
-			case 0:
-				return $this->getId();
+	public function getByPosition($pos) {
+		switch ($pos) {
+			case 0 :
+				return $this->getId ();
 				break;
-			case 1:
-				return $this->getName();
+			case 1 :
+				return $this->getName ();
 				break;
-			case 2:
-				return $this->getMain();
+			case 2 :
+				return $this->getMain ();
 				break;
-			case 3:
-				return $this->getIsDefault();
+			case 3 :
+				return $this->getIsDefault ();
 				break;
-			case 4:
-				return $this->getCode();
+			case 4 :
+				return $this->getCode ();
 				break;
-			case 5:
-				return $this->getSymbol();
+			case 5 :
+				return $this->getSymbol ();
 				break;
-			case 6:
-				return $this->getRate();
+			case 6 :
+				return $this->getRate ();
 				break;
-			case 7:
-				return $this->getShowonsite();
+			case 7 :
+				return $this->getShowonsite ();
 				break;
-			default:
+			default :
 				return null;
 				break;
 		} // switch()
 	}
-
+	
 	/**
 	 * Exports the object as an array.
 	 *
 	 * You can specify the key type of the array by passing one of the class
 	 * type constants.
 	 *
-	 * @param     string  $keyType (optional) One of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME,
-	 *                    BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
-	 *                    Defaults to BasePeer::TYPE_PHPNAME.
-	 * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
-	 * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-	 * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
-	 *
-	 * @return    array an associative array containing the field names (as keys) and field values
+	 * @param string $keyType
+	 *        	(optional) One of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME,
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
+	 *        	Defaults to BasePeer::TYPE_PHPNAME.
+	 * @param boolean $includeLazyLoadColumns
+	 *        	(optional) Whether to include lazy loaded columns. Defaults to TRUE.
+	 * @param array $alreadyDumpedObjects
+	 *        	List of objects to skip to avoid recursion
+	 * @param boolean $includeForeignObjects
+	 *        	(optional) Whether to include hydrated related objects. Default to FALSE.
+	 *        	
+	 * @return array an associative array containing the field names (as keys) and field values
 	 */
-	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
-	{
-		if (isset($alreadyDumpedObjects['SCurrencies'][$this->getPrimaryKey()])) {
+	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false) {
+		if (isset ( $alreadyDumpedObjects ['SCurrencies'] [$this->getPrimaryKey ()] )) {
 			return '*RECURSION*';
 		}
-		$alreadyDumpedObjects['SCurrencies'][$this->getPrimaryKey()] = true;
-		$keys = SCurrenciesPeer::getFieldNames($keyType);
-		$result = array(
-			$keys[0] => $this->getId(),
-			$keys[1] => $this->getName(),
-			$keys[2] => $this->getMain(),
-			$keys[3] => $this->getIsDefault(),
-			$keys[4] => $this->getCode(),
-			$keys[5] => $this->getSymbol(),
-			$keys[6] => $this->getRate(),
-			$keys[7] => $this->getShowonsite(),
+		$alreadyDumpedObjects ['SCurrencies'] [$this->getPrimaryKey ()] = true;
+		$keys = SCurrenciesPeer::getFieldNames ( $keyType );
+		$result = array (
+				$keys [0] => $this->getId (),
+				$keys [1] => $this->getName (),
+				$keys [2] => $this->getMain (),
+				$keys [3] => $this->getIsDefault (),
+				$keys [4] => $this->getCode (),
+				$keys [5] => $this->getSymbol (),
+				$keys [6] => $this->getRate (),
+				$keys [7] => $this->getShowonsite () 
 		);
 		if ($includeForeignObjects) {
 			if (null !== $this->collCurrencys) {
-				$result['Currencys'] = $this->collCurrencys->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+				$result ['Currencys'] = $this->collCurrencys->toArray ( null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects );
 			}
 			if (null !== $this->collSPaymentMethodss) {
-				$result['SPaymentMethodss'] = $this->collSPaymentMethodss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+				$result ['SPaymentMethodss'] = $this->collSPaymentMethodss->toArray ( null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects );
 			}
 		}
 		return $result;
 	}
-
+	
 	/**
 	 * Sets a field from the object by name passed in as a string.
 	 *
-	 * @param      string $name peer name
-	 * @param      mixed $value field value
-	 * @param      string $type The type of fieldname the $name is of:
-	 *                     one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
-	 *                     BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
-	 * @return     void
+	 * @param string $name
+	 *        	peer name
+	 * @param mixed $value
+	 *        	field value
+	 * @param string $type
+	 *        	The type of fieldname the $name is of:
+	 *        	one of the class type constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME
+	 *        	BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM
+	 * @return void
 	 */
-	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
-	{
-		$pos = SCurrenciesPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
-		return $this->setByPosition($pos, $value);
+	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME) {
+		$pos = SCurrenciesPeer::translateFieldName ( $name, $type, BasePeer::TYPE_NUM );
+		return $this->setByPosition ( $pos, $value );
 	}
-
+	
 	/**
 	 * Sets a field from the object by Position as specified in the xml schema.
 	 * Zero-based.
 	 *
-	 * @param      int $pos position in xml schema
-	 * @param      mixed $value field value
-	 * @return     void
+	 * @param int $pos
+	 *        	position in xml schema
+	 * @param mixed $value
+	 *        	field value
+	 * @return void
 	 */
-	public function setByPosition($pos, $value)
-	{
-		switch($pos) {
-			case 0:
-				$this->setId($value);
+	public function setByPosition($pos, $value) {
+		switch ($pos) {
+			case 0 :
+				$this->setId ( $value );
 				break;
-			case 1:
-				$this->setName($value);
+			case 1 :
+				$this->setName ( $value );
 				break;
-			case 2:
-				$this->setMain($value);
+			case 2 :
+				$this->setMain ( $value );
 				break;
-			case 3:
-				$this->setIsDefault($value);
+			case 3 :
+				$this->setIsDefault ( $value );
 				break;
-			case 4:
-				$this->setCode($value);
+			case 4 :
+				$this->setCode ( $value );
 				break;
-			case 5:
-				$this->setSymbol($value);
+			case 5 :
+				$this->setSymbol ( $value );
 				break;
-			case 6:
-				$this->setRate($value);
+			case 6 :
+				$this->setRate ( $value );
 				break;
-			case 7:
-				$this->setShowonsite($value);
+			case 7 :
+				$this->setShowonsite ( $value );
 				break;
 		} // switch()
 	}
-
+	
 	/**
 	 * Populates the object using an array.
 	 *
 	 * This is particularly useful when populating an object from one of the
-	 * request arrays (e.g. $_POST).  This method goes through the column
+	 * request arrays (e.g. $_POST). This method goes through the column
 	 * names, checking to see whether a matching key exists in populated
 	 * array. If so the setByName() method is called for that column.
 	 *
@@ -1041,140 +1050,157 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM.
 	 * The default key type is the column's phpname (e.g. 'AuthorId')
 	 *
-	 * @param      array  $arr     An array to populate the object from.
-	 * @param      string $keyType The type of keys the array uses.
-	 * @return     void
+	 * @param array $arr
+	 *        	An array to populate the object from.
+	 * @param string $keyType
+	 *        	The type of keys the array uses.
+	 * @return void
 	 */
-	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
-	{
-		$keys = SCurrenciesPeer::getFieldNames($keyType);
-
-		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setMain($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setIsDefault($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCode($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setSymbol($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setRate($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setShowonsite($arr[$keys[7]]);
+	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME) {
+		$keys = SCurrenciesPeer::getFieldNames ( $keyType );
+		
+		if (array_key_exists ( $keys [0], $arr ))
+			$this->setId ( $arr [$keys [0]] );
+		if (array_key_exists ( $keys [1], $arr ))
+			$this->setName ( $arr [$keys [1]] );
+		if (array_key_exists ( $keys [2], $arr ))
+			$this->setMain ( $arr [$keys [2]] );
+		if (array_key_exists ( $keys [3], $arr ))
+			$this->setIsDefault ( $arr [$keys [3]] );
+		if (array_key_exists ( $keys [4], $arr ))
+			$this->setCode ( $arr [$keys [4]] );
+		if (array_key_exists ( $keys [5], $arr ))
+			$this->setSymbol ( $arr [$keys [5]] );
+		if (array_key_exists ( $keys [6], $arr ))
+			$this->setRate ( $arr [$keys [6]] );
+		if (array_key_exists ( $keys [7], $arr ))
+			$this->setShowonsite ( $arr [$keys [7]] );
 	}
-
+	
 	/**
 	 * Build a Criteria object containing the values of all modified columns in this object.
 	 *
-	 * @return     Criteria The Criteria object containing all modified values.
+	 * @return Criteria The Criteria object containing all modified values.
 	 */
-	public function buildCriteria()
-	{
-		$criteria = new Criteria(SCurrenciesPeer::DATABASE_NAME);
-
-		if ($this->isColumnModified(SCurrenciesPeer::ID)) $criteria->add(SCurrenciesPeer::ID, $this->id);
-		if ($this->isColumnModified(SCurrenciesPeer::NAME)) $criteria->add(SCurrenciesPeer::NAME, $this->name);
-		if ($this->isColumnModified(SCurrenciesPeer::MAIN)) $criteria->add(SCurrenciesPeer::MAIN, $this->main);
-		if ($this->isColumnModified(SCurrenciesPeer::IS_DEFAULT)) $criteria->add(SCurrenciesPeer::IS_DEFAULT, $this->is_default);
-		if ($this->isColumnModified(SCurrenciesPeer::CODE)) $criteria->add(SCurrenciesPeer::CODE, $this->code);
-		if ($this->isColumnModified(SCurrenciesPeer::SYMBOL)) $criteria->add(SCurrenciesPeer::SYMBOL, $this->symbol);
-		if ($this->isColumnModified(SCurrenciesPeer::RATE)) $criteria->add(SCurrenciesPeer::RATE, $this->rate);
-		if ($this->isColumnModified(SCurrenciesPeer::SHOWONSITE)) $criteria->add(SCurrenciesPeer::SHOWONSITE, $this->showonsite);
-
+	public function buildCriteria() {
+		$criteria = new Criteria ( SCurrenciesPeer::DATABASE_NAME );
+		
+		if ($this->isColumnModified ( SCurrenciesPeer::ID ))
+			$criteria->add ( SCurrenciesPeer::ID, $this->id );
+		if ($this->isColumnModified ( SCurrenciesPeer::NAME ))
+			$criteria->add ( SCurrenciesPeer::NAME, $this->name );
+		if ($this->isColumnModified ( SCurrenciesPeer::MAIN ))
+			$criteria->add ( SCurrenciesPeer::MAIN, $this->main );
+		if ($this->isColumnModified ( SCurrenciesPeer::IS_DEFAULT ))
+			$criteria->add ( SCurrenciesPeer::IS_DEFAULT, $this->is_default );
+		if ($this->isColumnModified ( SCurrenciesPeer::CODE ))
+			$criteria->add ( SCurrenciesPeer::CODE, $this->code );
+		if ($this->isColumnModified ( SCurrenciesPeer::SYMBOL ))
+			$criteria->add ( SCurrenciesPeer::SYMBOL, $this->symbol );
+		if ($this->isColumnModified ( SCurrenciesPeer::RATE ))
+			$criteria->add ( SCurrenciesPeer::RATE, $this->rate );
+		if ($this->isColumnModified ( SCurrenciesPeer::SHOWONSITE ))
+			$criteria->add ( SCurrenciesPeer::SHOWONSITE, $this->showonsite );
+		
 		return $criteria;
 	}
-
+	
 	/**
 	 * Builds a Criteria object containing the primary key for this object.
 	 *
 	 * Unlike buildCriteria() this method includes the primary key values regardless
 	 * of whether or not they have been modified.
 	 *
-	 * @return     Criteria The Criteria object containing value(s) for primary key(s).
+	 * @return Criteria The Criteria object containing value(s) for primary key(s).
 	 */
-	public function buildPkeyCriteria()
-	{
-		$criteria = new Criteria(SCurrenciesPeer::DATABASE_NAME);
-		$criteria->add(SCurrenciesPeer::ID, $this->id);
-
+	public function buildPkeyCriteria() {
+		$criteria = new Criteria ( SCurrenciesPeer::DATABASE_NAME );
+		$criteria->add ( SCurrenciesPeer::ID, $this->id );
+		
 		return $criteria;
 	}
-
+	
 	/**
 	 * Returns the primary key for this object (row).
-	 * @return     int
+	 * 
+	 * @return int
 	 */
-	public function getPrimaryKey()
-	{
-		return $this->getId();
+	public function getPrimaryKey() {
+		return $this->getId ();
 	}
-
+	
 	/**
 	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      int $key Primary key.
-	 * @return     void
+	 * @param int $key
+	 *        	Primary key.
+	 * @return void
 	 */
-	public function setPrimaryKey($key)
-	{
-		$this->setId($key);
+	public function setPrimaryKey($key) {
+		$this->setId ( $key );
 	}
-
+	
 	/**
 	 * Returns true if the primary key for this object is null.
-	 * @return     boolean
+	 * 
+	 * @return boolean
 	 */
-	public function isPrimaryKeyNull()
-	{
-		return null === $this->getId();
+	public function isPrimaryKeyNull() {
+		return null === $this->getId ();
 	}
-
+	
 	/**
 	 * Sets contents of passed object to values from current object.
 	 *
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of SCurrencies (or compatible) type.
-	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
-	 * @throws     PropelException
+	 * @param object $copyObj
+	 *        	An object of SCurrencies (or compatible) type.
+	 * @param boolean $deepCopy
+	 *        	Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @param boolean $makeNew
+	 *        	Whether to reset autoincrement PKs and make the object new.
+	 * @throws PropelException
 	 */
-	public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
-	{
-		$copyObj->setName($this->getName());
-		$copyObj->setMain($this->getMain());
-		$copyObj->setIsDefault($this->getIsDefault());
-		$copyObj->setCode($this->getCode());
-		$copyObj->setSymbol($this->getSymbol());
-		$copyObj->setRate($this->getRate());
-		$copyObj->setShowonsite($this->getShowonsite());
-
-		if ($deepCopy && !$this->startCopy) {
+	public function copyInto($copyObj, $deepCopy = false, $makeNew = true) {
+		$copyObj->setName ( $this->getName () );
+		$copyObj->setMain ( $this->getMain () );
+		$copyObj->setIsDefault ( $this->getIsDefault () );
+		$copyObj->setCode ( $this->getCode () );
+		$copyObj->setSymbol ( $this->getSymbol () );
+		$copyObj->setRate ( $this->getRate () );
+		$copyObj->setShowonsite ( $this->getShowonsite () );
+		
+		if ($deepCopy && ! $this->startCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
-			$copyObj->setNew(false);
+			$copyObj->setNew ( false );
 			// store object hash to prevent cycle
 			$this->startCopy = true;
-
-			foreach ($this->getCurrencys() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addCurrency($relObj->copy($deepCopy));
+			
+			foreach ( $this->getCurrencys () as $relObj ) {
+				if ($relObj !== $this) { // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addCurrency ( $relObj->copy ( $deepCopy ) );
 				}
 			}
-
-			foreach ($this->getSPaymentMethodss() as $relObj) {
-				if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-					$copyObj->addSPaymentMethods($relObj->copy($deepCopy));
+			
+			foreach ( $this->getSPaymentMethodss () as $relObj ) {
+				if ($relObj !== $this) { // ensure that we don't try to copy a reference to ourselves
+					$copyObj->addSPaymentMethods ( $relObj->copy ( $deepCopy ) );
 				}
 			}
-
-			//unflag object copy
+			
+			// unflag object copy
 			$this->startCopy = false;
 		} // if ($deepCopy)
-
+		
 		if ($makeNew) {
-			$copyObj->setNew(true);
-			$copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+			$copyObj->setNew ( true );
+			$copyObj->setId ( NULL ); // this is a auto-increment column, so set to default value
 		}
 	}
-
+	
 	/**
 	 * Makes a copy of this object that will be inserted as a new row in table when saved.
 	 * It creates a new object filling in the simple attributes, but skipping any primary
@@ -1183,19 +1209,19 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     SCurrencies Clone of current object.
-	 * @throws     PropelException
+	 * @param boolean $deepCopy
+	 *        	Whether to also copy all rows that refer (by fkey) to the current row.
+	 * @return SCurrencies Clone of current object.
+	 * @throws PropelException
 	 */
-	public function copy($deepCopy = false)
-	{
+	public function copy($deepCopy = false) {
 		// we use get_class(), because this might be a subclass
-		$clazz = get_class($this);
-		$copyObj = new $clazz();
-		$this->copyInto($copyObj, $deepCopy);
+		$clazz = get_class ( $this );
+		$copyObj = new $clazz ();
+		$this->copyInto ( $copyObj, $deepCopy );
 		return $copyObj;
 	}
-
+	
 	/**
 	 * Returns a peer instance associated with this om.
 	 *
@@ -1203,49 +1229,46 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     SCurrenciesPeer
+	 * @return SCurrenciesPeer
 	 */
-	public function getPeer()
-	{
+	public function getPeer() {
 		if (self::$peer === null) {
-			self::$peer = new SCurrenciesPeer();
+			self::$peer = new SCurrenciesPeer ();
 		}
 		return self::$peer;
 	}
-
-
+	
 	/**
 	 * Initializes a collection based on the name of a relation.
 	 * Avoids crafting an 'init[$relationName]s' method name
 	 * that wouldn't work when StandardEnglishPluralizer is used.
 	 *
-	 * @param      string $relationName The name of the relation to initialize
-	 * @return     void
+	 * @param string $relationName
+	 *        	The name of the relation to initialize
+	 * @return void
 	 */
-	public function initRelation($relationName)
-	{
+	public function initRelation($relationName) {
 		if ('Currency' == $relationName) {
-			return $this->initCurrencys();
+			return $this->initCurrencys ();
 		}
 		if ('SPaymentMethods' == $relationName) {
-			return $this->initSPaymentMethodss();
+			return $this->initSPaymentMethodss ();
 		}
 	}
-
+	
 	/**
 	 * Clears out the collCurrencys collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addCurrencys()
+	 * @return void
+	 * @see addCurrencys()
 	 */
-	public function clearCurrencys()
-	{
+	public function clearCurrencys() {
 		$this->collCurrencys = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collCurrencys collection.
 	 *
@@ -1253,20 +1276,20 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
-	 * @return     void
+	 * @param boolean $overrideExisting
+	 *        	If set to true, the method call initializes
+	 *        	the collection even if it is not empty
+	 *        	
+	 * @return void
 	 */
-	public function initCurrencys($overrideExisting = true)
-	{
-		if (null !== $this->collCurrencys && !$overrideExisting) {
+	public function initCurrencys($overrideExisting = true) {
+		if (null !== $this->collCurrencys && ! $overrideExisting) {
 			return;
 		}
-		$this->collCurrencys = new PropelObjectCollection();
-		$this->collCurrencys->setModel('SProductVariants');
+		$this->collCurrencys = new PropelObjectCollection ();
+		$this->collCurrencys->setModel ( 'SProductVariants' );
 	}
-
+	
 	/**
 	 * Gets an array of SProductVariants objects which contain a foreign key that references this object.
 	 *
@@ -1276,21 +1299,20 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * If this SCurrencies is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array SProductVariants[] List of SProductVariants objects
-	 * @throws     PropelException
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @return PropelCollection|array SProductVariants[] List of SProductVariants objects
+	 * @throws PropelException
 	 */
-	public function getCurrencys($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collCurrencys || null !== $criteria) {
-			if ($this->isNew() && null === $this->collCurrencys) {
+	public function getCurrencys($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collCurrencys || null !== $criteria) {
+			if ($this->isNew () && null === $this->collCurrencys) {
 				// return empty collection
-				$this->initCurrencys();
+				$this->initCurrencys ();
 			} else {
-				$collCurrencys = SProductVariantsQuery::create(null, $criteria)
-					->filterBySCurrencies($this)
-					->find($con);
+				$collCurrencys = SProductVariantsQuery::create ( null, $criteria )->filterBySCurrencies ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collCurrencys;
 				}
@@ -1299,88 +1321,86 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 		}
 		return $this->collCurrencys;
 	}
-
+	
 	/**
 	 * Sets a collection of Currency objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $currencys A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $currencys
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setCurrencys(PropelCollection $currencys, PropelPDO $con = null)
-	{
-		$this->currencysScheduledForDeletion = $this->getCurrencys(new Criteria(), $con)->diff($currencys);
-
-		foreach ($currencys as $currency) {
+	public function setCurrencys(PropelCollection $currencys, PropelPDO $con = null) {
+		$this->currencysScheduledForDeletion = $this->getCurrencys ( new Criteria (), $con )->diff ( $currencys );
+		
+		foreach ( $currencys as $currency ) {
 			// Fix issue with collection modified by reference
-			if ($currency->isNew()) {
-				$currency->setSCurrencies($this);
+			if ($currency->isNew ()) {
+				$currency->setSCurrencies ( $this );
 			}
-			$this->addCurrency($currency);
+			$this->addCurrency ( $currency );
 		}
-
+		
 		$this->collCurrencys = $currencys;
 	}
-
+	
 	/**
 	 * Returns the number of related SProductVariants objects.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related SProductVariants objects.
-	 * @throws     PropelException
+	 * @param Criteria $criteria        	
+	 * @param boolean $distinct        	
+	 * @param PropelPDO $con        	
+	 * @return int Count of related SProductVariants objects.
+	 * @throws PropelException
 	 */
-	public function countCurrencys(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collCurrencys || null !== $criteria) {
-			if ($this->isNew() && null === $this->collCurrencys) {
+	public function countCurrencys(Criteria $criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collCurrencys || null !== $criteria) {
+			if ($this->isNew () && null === $this->collCurrencys) {
 				return 0;
 			} else {
-				$query = SProductVariantsQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = SProductVariantsQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterBySCurrencies($this)
-					->count($con);
+				return $query->filterBySCurrencies ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collCurrencys);
+			return count ( $this->collCurrencys );
 		}
 	}
-
+	
 	/**
 	 * Method called to associate a SProductVariants object to this object
 	 * through the SProductVariants foreign key attribute.
 	 *
-	 * @param      SProductVariants $l SProductVariants
-	 * @return     SCurrencies The current object (for fluent API support)
+	 * @param SProductVariants $l
+	 *        	SProductVariants
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function addCurrency(SProductVariants $l)
-	{
+	public function addCurrency(SProductVariants $l) {
 		if ($this->collCurrencys === null) {
-			$this->initCurrencys();
+			$this->initCurrencys ();
 		}
-		if (!$this->collCurrencys->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddCurrency($l);
+		if (! $this->collCurrencys->contains ( $l )) { // only add it if the **same** object is not already associated
+			$this->doAddCurrency ( $l );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-	 * @param	Currency $currency The currency object to add.
+	 *
+	 * @param Currency $currency
+	 *        	The currency object to add.
 	 */
-	protected function doAddCurrency($currency)
-	{
-		$this->collCurrencys[]= $currency;
-		$currency->setSCurrencies($this);
+	protected function doAddCurrency($currency) {
+		$this->collCurrencys [] = $currency;
+		$currency->setSCurrencies ( $this );
 	}
-
-
+	
 	/**
 	 * If this collection has already been initialized with
 	 * an identical criteria, it returns the collection.
@@ -1389,36 +1409,37 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * been saved, it will retrieve related Currencys from storage.
 	 *
 	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
+	 * api reasonable. You can provide public methods for those you
 	 * actually need in SCurrencies.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @param      string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-	 * @return     PropelCollection|array SProductVariants[] List of SProductVariants objects
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @param string $join_behavior
+	 *        	optional join type to use (defaults to Criteria::LEFT_JOIN)
+	 * @return PropelCollection|array SProductVariants[] List of SProductVariants objects
 	 */
-	public function getCurrencysJoinSProducts($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$query = SProductVariantsQuery::create(null, $criteria);
-		$query->joinWith('SProducts', $join_behavior);
-
-		return $this->getCurrencys($query, $con);
+	public function getCurrencysJoinSProducts($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN) {
+		$query = SProductVariantsQuery::create ( null, $criteria );
+		$query->joinWith ( 'SProducts', $join_behavior );
+		
+		return $this->getCurrencys ( $query, $con );
 	}
-
+	
 	/**
 	 * Clears out the collSPaymentMethodss collection
 	 *
 	 * This does not modify the database; however, it will remove any associated objects, causing
 	 * them to be refetched by subsequent calls to accessor method.
 	 *
-	 * @return     void
-	 * @see        addSPaymentMethodss()
+	 * @return void
+	 * @see addSPaymentMethodss()
 	 */
-	public function clearSPaymentMethodss()
-	{
+	public function clearSPaymentMethodss() {
 		$this->collSPaymentMethodss = null; // important to set this to NULL since that means it is uninitialized
 	}
-
+	
 	/**
 	 * Initializes the collSPaymentMethodss collection.
 	 *
@@ -1426,20 +1447,20 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * however, you may wish to override this method in your stub class to provide setting appropriate
 	 * to your application -- for example, setting the initial array to the values stored in database.
 	 *
-	 * @param      boolean $overrideExisting If set to true, the method call initializes
-	 *                                        the collection even if it is not empty
-	 *
-	 * @return     void
+	 * @param boolean $overrideExisting
+	 *        	If set to true, the method call initializes
+	 *        	the collection even if it is not empty
+	 *        	
+	 * @return void
 	 */
-	public function initSPaymentMethodss($overrideExisting = true)
-	{
-		if (null !== $this->collSPaymentMethodss && !$overrideExisting) {
+	public function initSPaymentMethodss($overrideExisting = true) {
+		if (null !== $this->collSPaymentMethodss && ! $overrideExisting) {
 			return;
 		}
-		$this->collSPaymentMethodss = new PropelObjectCollection();
-		$this->collSPaymentMethodss->setModel('SPaymentMethods');
+		$this->collSPaymentMethodss = new PropelObjectCollection ();
+		$this->collSPaymentMethodss->setModel ( 'SPaymentMethods' );
 	}
-
+	
 	/**
 	 * Gets an array of SPaymentMethods objects which contain a foreign key that references this object.
 	 *
@@ -1449,21 +1470,20 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * If this SCurrencies is new, it will return
 	 * an empty collection or the current collection; the criteria is ignored on a new object.
 	 *
-	 * @param      Criteria $criteria optional Criteria object to narrow the query
-	 * @param      PropelPDO $con optional connection object
-	 * @return     PropelCollection|array SPaymentMethods[] List of SPaymentMethods objects
-	 * @throws     PropelException
+	 * @param Criteria $criteria
+	 *        	optional Criteria object to narrow the query
+	 * @param PropelPDO $con
+	 *        	optional connection object
+	 * @return PropelCollection|array SPaymentMethods[] List of SPaymentMethods objects
+	 * @throws PropelException
 	 */
-	public function getSPaymentMethodss($criteria = null, PropelPDO $con = null)
-	{
-		if(null === $this->collSPaymentMethodss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSPaymentMethodss) {
+	public function getSPaymentMethodss($criteria = null, PropelPDO $con = null) {
+		if (null === $this->collSPaymentMethodss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSPaymentMethodss) {
 				// return empty collection
-				$this->initSPaymentMethodss();
+				$this->initSPaymentMethodss ();
 			} else {
-				$collSPaymentMethodss = SPaymentMethodsQuery::create(null, $criteria)
-					->filterByCurrency($this)
-					->find($con);
+				$collSPaymentMethodss = SPaymentMethodsQuery::create ( null, $criteria )->filterByCurrency ( $this )->find ( $con );
 				if (null !== $criteria) {
 					return $collSPaymentMethodss;
 				}
@@ -1472,92 +1492,90 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 		}
 		return $this->collSPaymentMethodss;
 	}
-
+	
 	/**
 	 * Sets a collection of SPaymentMethods objects related by a one-to-many relationship
 	 * to the current object.
 	 * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
 	 * and new objects from the given Propel collection.
 	 *
-	 * @param      PropelCollection $sPaymentMethodss A Propel collection.
-	 * @param      PropelPDO $con Optional connection object
+	 * @param PropelCollection $sPaymentMethodss
+	 *        	A Propel collection.
+	 * @param PropelPDO $con
+	 *        	Optional connection object
 	 */
-	public function setSPaymentMethodss(PropelCollection $sPaymentMethodss, PropelPDO $con = null)
-	{
-		$this->sPaymentMethodssScheduledForDeletion = $this->getSPaymentMethodss(new Criteria(), $con)->diff($sPaymentMethodss);
-
-		foreach ($sPaymentMethodss as $sPaymentMethods) {
+	public function setSPaymentMethodss(PropelCollection $sPaymentMethodss, PropelPDO $con = null) {
+		$this->sPaymentMethodssScheduledForDeletion = $this->getSPaymentMethodss ( new Criteria (), $con )->diff ( $sPaymentMethodss );
+		
+		foreach ( $sPaymentMethodss as $sPaymentMethods ) {
 			// Fix issue with collection modified by reference
-			if ($sPaymentMethods->isNew()) {
-				$sPaymentMethods->setCurrency($this);
+			if ($sPaymentMethods->isNew ()) {
+				$sPaymentMethods->setCurrency ( $this );
 			}
-			$this->addSPaymentMethods($sPaymentMethods);
+			$this->addSPaymentMethods ( $sPaymentMethods );
 		}
-
+		
 		$this->collSPaymentMethodss = $sPaymentMethodss;
 	}
-
+	
 	/**
 	 * Returns the number of related SPaymentMethods objects.
 	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      PropelPDO $con
-	 * @return     int Count of related SPaymentMethods objects.
-	 * @throws     PropelException
+	 * @param Criteria $criteria        	
+	 * @param boolean $distinct        	
+	 * @param PropelPDO $con        	
+	 * @return int Count of related SPaymentMethods objects.
+	 * @throws PropelException
 	 */
-	public function countSPaymentMethodss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-	{
-		if(null === $this->collSPaymentMethodss || null !== $criteria) {
-			if ($this->isNew() && null === $this->collSPaymentMethodss) {
+	public function countSPaymentMethodss(Criteria $criteria = null, $distinct = false, PropelPDO $con = null) {
+		if (null === $this->collSPaymentMethodss || null !== $criteria) {
+			if ($this->isNew () && null === $this->collSPaymentMethodss) {
 				return 0;
 			} else {
-				$query = SPaymentMethodsQuery::create(null, $criteria);
-				if($distinct) {
-					$query->distinct();
+				$query = SPaymentMethodsQuery::create ( null, $criteria );
+				if ($distinct) {
+					$query->distinct ();
 				}
-				return $query
-					->filterByCurrency($this)
-					->count($con);
+				return $query->filterByCurrency ( $this )->count ( $con );
 			}
 		} else {
-			return count($this->collSPaymentMethodss);
+			return count ( $this->collSPaymentMethodss );
 		}
 	}
-
+	
 	/**
 	 * Method called to associate a SPaymentMethods object to this object
 	 * through the SPaymentMethods foreign key attribute.
 	 *
-	 * @param      SPaymentMethods $l SPaymentMethods
-	 * @return     SCurrencies The current object (for fluent API support)
+	 * @param SPaymentMethods $l
+	 *        	SPaymentMethods
+	 * @return SCurrencies The current object (for fluent API support)
 	 */
-	public function addSPaymentMethods(SPaymentMethods $l)
-	{
+	public function addSPaymentMethods(SPaymentMethods $l) {
 		if ($this->collSPaymentMethodss === null) {
-			$this->initSPaymentMethodss();
+			$this->initSPaymentMethodss ();
 		}
-		if (!$this->collSPaymentMethodss->contains($l)) { // only add it if the **same** object is not already associated
-			$this->doAddSPaymentMethods($l);
+		if (! $this->collSPaymentMethodss->contains ( $l )) { // only add it if the **same** object is not already associated
+			$this->doAddSPaymentMethods ( $l );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
-	 * @param	SPaymentMethods $sPaymentMethods The sPaymentMethods object to add.
+	 *
+	 * @param SPaymentMethods $sPaymentMethods
+	 *        	The sPaymentMethods object to add.
 	 */
-	protected function doAddSPaymentMethods($sPaymentMethods)
-	{
-		$this->collSPaymentMethodss[]= $sPaymentMethods;
-		$sPaymentMethods->setCurrency($this);
+	protected function doAddSPaymentMethods($sPaymentMethods) {
+		$this->collSPaymentMethodss [] = $sPaymentMethods;
+		$sPaymentMethods->setCurrency ( $this );
 	}
-
+	
 	/**
 	 * Clears the current object and sets all attributes to their default values
 	 */
-	public function clear()
-	{
+	public function clear() {
 		$this->id = null;
 		$this->name = null;
 		$this->main = null;
@@ -1568,13 +1586,13 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 		$this->showonsite = null;
 		$this->alreadyInSave = false;
 		$this->alreadyInValidation = false;
-		$this->clearAllReferences();
-		$this->applyDefaultValues();
-		$this->resetModified();
-		$this->setNew(true);
-		$this->setDeleted(false);
+		$this->clearAllReferences ();
+		$this->applyDefaultValues ();
+		$this->resetModified ();
+		$this->setNew ( true );
+		$this->setDeleted ( false );
 	}
-
+	
 	/**
 	 * Resets all references to other model objects or collections of model objects.
 	 *
@@ -1582,41 +1600,39 @@ abstract class BaseSCurrencies extends ShopBaseObject  implements Persistent
 	 * objects with circular references (even in PHP 5.3). This is currently necessary
 	 * when using Propel in certain daemon or large-volumne/high-memory operations.
 	 *
-	 * @param      boolean $deep Whether to also clear the references on all referrer objects.
+	 * @param boolean $deep
+	 *        	Whether to also clear the references on all referrer objects.
 	 */
-	public function clearAllReferences($deep = false)
-	{
+	public function clearAllReferences($deep = false) {
 		if ($deep) {
 			if ($this->collCurrencys) {
-				foreach ($this->collCurrencys as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collCurrencys as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 			if ($this->collSPaymentMethodss) {
-				foreach ($this->collSPaymentMethodss as $o) {
-					$o->clearAllReferences($deep);
+				foreach ( $this->collSPaymentMethodss as $o ) {
+					$o->clearAllReferences ( $deep );
 				}
 			}
 		} // if ($deep)
-
+		
 		if ($this->collCurrencys instanceof PropelCollection) {
-			$this->collCurrencys->clearIterator();
+			$this->collCurrencys->clearIterator ();
 		}
 		$this->collCurrencys = null;
 		if ($this->collSPaymentMethodss instanceof PropelCollection) {
-			$this->collSPaymentMethodss->clearIterator();
+			$this->collSPaymentMethodss->clearIterator ();
 		}
 		$this->collSPaymentMethodss = null;
 	}
-
+	
 	/**
 	 * Return the string representation of this object
 	 *
 	 * @return string
 	 */
-	public function __toString()
-	{
-		return (string) $this->exportTo(SCurrenciesPeer::DEFAULT_STRING_FORMAT);
+	public function __toString() {
+		return ( string ) $this->exportTo ( SCurrenciesPeer::DEFAULT_STRING_FORMAT );
 	}
-
 } // BaseSCurrencies

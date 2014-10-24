@@ -12,101 +12,91 @@
  * Gives a model class the ability to track creation and last modification dates
  * Uses two additional columns storing the creation and update date
  *
- * @author     François Zaninotto
- * @version    $Revision$
- * @package    propel.generator.behavior
+ * @author François Zaninotto
+ * @version $Revision$
+ * @package propel.generator.behavior
  */
-class TimestampableBehavior extends Behavior
-{
+class TimestampableBehavior extends Behavior {
 	// default parameters value
-	protected $parameters = array(
-		'create_column' => 'created_at',
-		'update_column' => 'updated_at'
+	protected $parameters = array (
+			'create_column' => 'created_at',
+			'update_column' => 'updated_at' 
 	);
-
+	
 	/**
 	 * Add the create_column and update_columns to the current table
 	 */
-	public function modifyTable()
-	{
-		if(!$this->getTable()->containsColumn($this->getParameter('create_column'))) {
-			$this->getTable()->addColumn(array(
-				'name' => $this->getParameter('create_column'),
-				'type' => 'TIMESTAMP'
-			));
+	public function modifyTable() {
+		if (! $this->getTable ()->containsColumn ( $this->getParameter ( 'create_column' ) )) {
+			$this->getTable ()->addColumn ( array (
+					'name' => $this->getParameter ( 'create_column' ),
+					'type' => 'TIMESTAMP' 
+			) );
 		}
-		if(!$this->getTable()->containsColumn($this->getParameter('update_column'))) {
-			$this->getTable()->addColumn(array(
-				'name' => $this->getParameter('update_column'),
-				'type' => 'TIMESTAMP'
-			));
+		if (! $this->getTable ()->containsColumn ( $this->getParameter ( 'update_column' ) )) {
+			$this->getTable ()->addColumn ( array (
+					'name' => $this->getParameter ( 'update_column' ),
+					'type' => 'TIMESTAMP' 
+			) );
 		}
 	}
-
+	
 	/**
 	 * Get the setter of one of the columns of the behavior
 	 *
-	 * @param     string $column One of the behavior colums, 'create_column' or 'update_column'
-	 * @return    string The related setter, 'setCreatedOn' or 'setUpdatedOn'
+	 * @param string $column
+	 *        	One of the behavior colums, 'create_column' or 'update_column'
+	 * @return string The related setter, 'setCreatedOn' or 'setUpdatedOn'
 	 */
-	protected function getColumnSetter($column)
-	{
-		return 'set' . $this->getColumnForParameter($column)->getPhpName();
+	protected function getColumnSetter($column) {
+		return 'set' . $this->getColumnForParameter ( $column )->getPhpName ();
 	}
-
-	protected function getColumnConstant($columnName, $builder)
-	{
-		return $builder->getColumnConstant($this->getColumnForParameter($columnName));
+	protected function getColumnConstant($columnName, $builder) {
+		return $builder->getColumnConstant ( $this->getColumnForParameter ( $columnName ) );
 	}
-
+	
 	/**
 	 * Add code in ObjectBuilder::preUpdate
 	 *
-	 * @return    string The code to put at the hook
+	 * @return string The code to put at the hook
 	 */
-	public function preUpdate($builder)
-	{
-		return "if (\$this->isModified() && !\$this->isColumnModified(" . $this->getColumnConstant('update_column', $builder) . ")) {
-	\$this->" . $this->getColumnSetter('update_column') . "(time());
+	public function preUpdate($builder) {
+		return "if (\$this->isModified() && !\$this->isColumnModified(" . $this->getColumnConstant ( 'update_column', $builder ) . ")) {
+	\$this->" . $this->getColumnSetter ( 'update_column' ) . "(time());
 }";
 	}
-
+	
 	/**
 	 * Add code in ObjectBuilder::preInsert
 	 *
-	 * @return    string The code to put at the hook
+	 * @return string The code to put at the hook
 	 */
-	public function preInsert($builder)
-	{
-		return "if (!\$this->isColumnModified(" . $this->getColumnConstant('create_column', $builder) . ")) {
-	\$this->" . $this->getColumnSetter('create_column') . "(time());
+	public function preInsert($builder) {
+		return "if (!\$this->isColumnModified(" . $this->getColumnConstant ( 'create_column', $builder ) . ")) {
+	\$this->" . $this->getColumnSetter ( 'create_column' ) . "(time());
 }
-if (!\$this->isColumnModified(" . $this->getColumnConstant('update_column', $builder) . ")) {
-	\$this->" . $this->getColumnSetter('update_column') . "(time());
+if (!\$this->isColumnModified(" . $this->getColumnConstant ( 'update_column', $builder ) . ")) {
+	\$this->" . $this->getColumnSetter ( 'update_column' ) . "(time());
 }";
 	}
-
-	public function objectMethods($builder)
-	{
+	public function objectMethods($builder) {
 		return "
 /**
  * Mark the current object so that the update date doesn't get updated during next save
  *
- * @return     " . $builder->getStubObjectBuilder()->getClassname() . " The current object (for fluent API support)
+ * @return     " . $builder->getStubObjectBuilder ()->getClassname () . " The current object (for fluent API support)
  */
 public function keepUpdateDateUnchanged()
 {
-	\$this->modifiedColumns[] = " . $this->getColumnConstant('update_column', $builder) . ";
+	\$this->modifiedColumns[] = " . $this->getColumnConstant ( 'update_column', $builder ) . ";
 	return \$this;
 }
 ";
 	}
-
-	public function queryMethods($builder)
-	{
-		$queryClassName = $builder->getStubQueryBuilder()->getClassname();
-		$updateColumnConstant = $this->getColumnConstant('update_column', $builder);
-		$createColumnConstant = $this->getColumnConstant('create_column', $builder);
+	public function queryMethods($builder) {
+		$queryClassName = $builder->getStubQueryBuilder ()->getClassname ();
+		$updateColumnConstant = $this->getColumnConstant ( 'update_column', $builder );
+		$createColumnConstant = $this->getColumnConstant ( 'create_column', $builder );
 		return "
 /**
  * Filter by the latest updated

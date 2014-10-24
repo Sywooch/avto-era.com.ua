@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Base class that represents a query for the 'shop_orders' table.
  *
@@ -135,176 +134,177 @@
  *
  * @package    propel.generator.Shop.om
  */
-abstract class BaseSOrdersQuery extends ModelCriteria
-{
+abstract class BaseSOrdersQuery extends ModelCriteria {
 	
 	/**
 	 * Initializes internal state of BaseSOrdersQuery object.
 	 *
-	 * @param     string $dbName The dabase name
-	 * @param     string $modelName The phpName of a model, e.g. 'Book'
-	 * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
+	 * @param string $dbName
+	 *        	The dabase name
+	 * @param string $modelName
+	 *        	The phpName of a model, e.g. 'Book'
+	 * @param string $modelAlias
+	 *        	The alias for the model in this query, e.g. 'b'
 	 */
-	public function __construct($dbName = 'Shop', $modelName = 'SOrders', $modelAlias = null)
-	{
-		parent::__construct($dbName, $modelName, $modelAlias);
+	public function __construct($dbName = 'Shop', $modelName = 'SOrders', $modelAlias = null) {
+		parent::__construct ( $dbName, $modelName, $modelAlias );
 	}
-
+	
 	/**
 	 * Returns a new SOrdersQuery object.
 	 *
-	 * @param     string $modelAlias The alias of a model in the query
-	 * @param     Criteria $criteria Optional Criteria to build the query from
-	 *
-	 * @return    SOrdersQuery
+	 * @param string $modelAlias
+	 *        	The alias of a model in the query
+	 * @param Criteria $criteria
+	 *        	Optional Criteria to build the query from
+	 *        	
+	 * @return SOrdersQuery
 	 */
-	public static function create($modelAlias = null, $criteria = null)
-	{
+	public static function create($modelAlias = null, $criteria = null) {
 		if ($criteria instanceof SOrdersQuery) {
 			return $criteria;
 		}
-		$query = new SOrdersQuery();
+		$query = new SOrdersQuery ();
 		if (null !== $modelAlias) {
-			$query->setModelAlias($modelAlias);
+			$query->setModelAlias ( $modelAlias );
 		}
 		if ($criteria instanceof Criteria) {
-			$query->mergeWith($criteria);
+			$query->mergeWith ( $criteria );
 		}
 		return $query;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 * Propel uses the instance pool to skip the database if the object exists.
 	 * Go fast if the query is untouched.
 	 *
 	 * <code>
-	 * $obj  = $c->findPk(12, $con);
+	 * $obj = $c->findPk(12, $con);
 	 * </code>
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    SOrders|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return SOrders|array|mixed the result, formatted by the current formatter
 	 */
-	public function findPk($key, $con = null)
-	{
+	public function findPk($key, $con = null) {
 		if ($key === null) {
 			return null;
 		}
-		if ((null !== ($obj = SOrdersPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+		if ((null !== ($obj = SOrdersPeer::getInstanceFromPool ( ( string ) $key ))) && ! $this->formatter) {
 			// the object is alredy in the instance pool
 			return $obj;
 		}
 		if ($con === null) {
-			$con = Propel::getConnection(SOrdersPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( SOrdersPeer::DATABASE_NAME, Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		if ($this->formatter || $this->modelAlias || $this->with || $this->select
-		 || $this->selectColumns || $this->asColumns || $this->selectModifiers
-		 || $this->map || $this->having || $this->joins) {
-			return $this->findPkComplex($key, $con);
+		$this->basePreSelect ( $con );
+		if ($this->formatter || $this->modelAlias || $this->with || $this->select || $this->selectColumns || $this->asColumns || $this->selectModifiers || $this->map || $this->having || $this->joins) {
+			return $this->findPkComplex ( $key, $con );
 		} else {
-			return $this->findPkSimple($key, $con);
+			return $this->findPkSimple ( $key, $con );
 		}
 	}
-
+	
 	/**
 	 * Find object by primary key using raw SQL to go fast.
 	 * Bypass doSelect() and the object formatter by using generated code.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    SOrders A model object, or null if the key is not found
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return SOrders A model object, or null if the key is not found
 	 */
-	protected function findPkSimple($key, $con)
-	{
+	protected function findPkSimple($key, $con) {
 		$sql = 'SELECT `ID`, `USER_ID`, `KEY`, `DELIVERY_METHOD`, `DELIVERY_PRICE`, `PAYMENT_METHOD`, `STATUS`, `PAID`, `USER_FULL_NAME`, `USER_EMAIL`, `USER_PHONE`, `USER_DELIVER_TO`, `USER_COMMENT`, `DATE_CREATED`, `DATE_UPDATED`, `USER_IP`, `TOTAL_PRICE`, `EXTERNAL_ID`, `GIFT_CERT_KEY`, `DISCOUNT`, `GIFT_CERT_PRICE`, `DISCOUNT_INFO`, `ORIGIN_PRICE`, `COMULATIV` FROM `shop_orders` WHERE `ID` = :p0';
 		try {
-			$stmt = $con->prepare($sql);			
-			$stmt->bindValue(':p0', $key, PDO::PARAM_INT);
-			$stmt->execute();
-		} catch (Exception $e) {
-			Propel::log($e->getMessage(), Propel::LOG_ERR);
-			throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), $e);
+			$stmt = $con->prepare ( $sql );
+			$stmt->bindValue ( ':p0', $key, PDO::PARAM_INT );
+			$stmt->execute ();
+		} catch ( Exception $e ) {
+			Propel::log ( $e->getMessage (), Propel::LOG_ERR );
+			throw new PropelException ( sprintf ( 'Unable to execute SELECT statement [%s]', $sql ), $e );
 		}
 		$obj = null;
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$obj = new SOrders();
-			$obj->hydrate($row);
-			SOrdersPeer::addInstanceToPool($obj, (string) $key);
+		if ($row = $stmt->fetch ( PDO::FETCH_NUM )) {
+			$obj = new SOrders ();
+			$obj->hydrate ( $row );
+			SOrdersPeer::addInstanceToPool ( $obj, ( string ) $key );
 		}
-		$stmt->closeCursor();
-
+		$stmt->closeCursor ();
+		
 		return $obj;
 	}
-
+	
 	/**
 	 * Find object by primary key.
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 * @param     PropelPDO $con A connection object
-	 *
-	 * @return    SOrders|array|mixed the result, formatted by the current formatter
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 * @param PropelPDO $con
+	 *        	A connection object
+	 *        	
+	 * @return SOrders|array|mixed the result, formatted by the current formatter
 	 */
-	protected function findPkComplex($key, $con)
-	{
+	protected function findPkComplex($key, $con) {
 		// As the query uses a PK condition, no limit(1) is necessary.
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKey($key)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->formatOne($stmt);
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKey ( $key )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->formatOne ( $stmt );
 	}
-
+	
 	/**
 	 * Find objects by primary key
 	 * <code>
 	 * $objs = $c->findPks(array(12, 56, 832), $con);
 	 * </code>
-	 * @param     array $keys Primary keys to use for the query
-	 * @param     PropelPDO $con an optional connection object
-	 *
-	 * @return    PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
+	 * 
+	 * @param array $keys
+	 *        	Primary keys to use for the query
+	 * @param PropelPDO $con
+	 *        	an optional connection object
+	 *        	
+	 * @return PropelObjectCollection|array|mixed the list of results, formatted by the current formatter
 	 */
-	public function findPks($keys, $con = null)
-	{
+	public function findPks($keys, $con = null) {
 		if ($con === null) {
-			$con = Propel::getConnection($this->getDbName(), Propel::CONNECTION_READ);
+			$con = Propel::getConnection ( $this->getDbName (), Propel::CONNECTION_READ );
 		}
-		$this->basePreSelect($con);
-		$criteria = $this->isKeepQuery() ? clone $this : $this;
-		$stmt = $criteria
-			->filterByPrimaryKeys($keys)
-			->doSelect($con);
-		return $criteria->getFormatter()->init($criteria)->format($stmt);
+		$this->basePreSelect ( $con );
+		$criteria = $this->isKeepQuery () ? clone $this : $this;
+		$stmt = $criteria->filterByPrimaryKeys ( $keys )->doSelect ( $con );
+		return $criteria->getFormatter ()->init ( $criteria )->format ( $stmt );
 	}
-
+	
 	/**
 	 * Filter the query by primary key
 	 *
-	 * @param     mixed $key Primary key to use for the query
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $key
+	 *        	Primary key to use for the query
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKey($key)
-	{
-		return $this->addUsingAlias(SOrdersPeer::ID, $key, Criteria::EQUAL);
+	public function filterByPrimaryKey($key) {
+		return $this->addUsingAlias ( SOrdersPeer::ID, $key, Criteria::EQUAL );
 	}
-
+	
 	/**
 	 * Filter the query by a list of primary keys
 	 *
-	 * @param     array $keys The list of primary key to use for the query
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param array $keys
+	 *        	The list of primary key to use for the query
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByPrimaryKeys($keys)
-	{
-		return $this->addUsingAlias(SOrdersPeer::ID, $keys, Criteria::IN);
+	public function filterByPrimaryKeys($keys) {
+		return $this->addUsingAlias ( SOrdersPeer::ID, $keys, Criteria::IN );
 	}
-
+	
 	/**
 	 * Filter the query on the id column
 	 *
@@ -315,22 +315,23 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterById(array('min' => 12)); // WHERE id > 12
 	 * </code>
 	 *
-	 * @param     mixed $id The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $id
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterById($id = null, $comparison = null)
-	{
-		if (is_array($id) && null === $comparison) {
+	public function filterById($id = null, $comparison = null) {
+		if (is_array ( $id ) && null === $comparison) {
 			$comparison = Criteria::IN;
 		}
-		return $this->addUsingAlias(SOrdersPeer::ID, $id, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::ID, $id, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_id column
 	 *
@@ -341,24 +342,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByUserId(array('min' => 12)); // WHERE user_id > 12
 	 * </code>
 	 *
-	 * @param     mixed $userId The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $userId
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserId($userId = null, $comparison = null)
-	{
-		if (is_array($userId)) {
+	public function filterByUserId($userId = null, $comparison = null) {
+		if (is_array ( $userId )) {
 			$useMinMax = false;
-			if (isset($userId['min'])) {
-				$this->addUsingAlias(SOrdersPeer::USER_ID, $userId['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $userId ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::USER_ID, $userId ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($userId['max'])) {
-				$this->addUsingAlias(SOrdersPeer::USER_ID, $userId['max'], Criteria::LESS_EQUAL);
+			if (isset ( $userId ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::USER_ID, $userId ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -368,37 +370,38 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_ID, $userId, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_ID, $userId, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the key column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByKey('fooValue');   // WHERE key = 'fooValue'
+	 * $query->filterByKey('fooValue'); // WHERE key = 'fooValue'
 	 * $query->filterByKey('%fooValue%'); // WHERE key LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $key The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $key
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByKey($key = null, $comparison = null)
-	{
+	public function filterByKey($key = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($key)) {
+			if (is_array ( $key )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $key)) {
-				$key = str_replace('*', '%', $key);
+			} elseif (preg_match ( '/[\%\*]/', $key )) {
+				$key = str_replace ( '*', '%', $key );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::KEY, $key, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::KEY, $key, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the delivery_method column
 	 *
@@ -409,26 +412,27 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByDeliveryMethod(array('min' => 12)); // WHERE delivery_method > 12
 	 * </code>
 	 *
-	 * @see       filterBySDeliveryMethods()
+	 * @see filterBySDeliveryMethods()
 	 *
-	 * @param     mixed $deliveryMethod The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $deliveryMethod
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDeliveryMethod($deliveryMethod = null, $comparison = null)
-	{
-		if (is_array($deliveryMethod)) {
+	public function filterByDeliveryMethod($deliveryMethod = null, $comparison = null) {
+		if (is_array ( $deliveryMethod )) {
 			$useMinMax = false;
-			if (isset($deliveryMethod['min'])) {
-				$this->addUsingAlias(SOrdersPeer::DELIVERY_METHOD, $deliveryMethod['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $deliveryMethod ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DELIVERY_METHOD, $deliveryMethod ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($deliveryMethod['max'])) {
-				$this->addUsingAlias(SOrdersPeer::DELIVERY_METHOD, $deliveryMethod['max'], Criteria::LESS_EQUAL);
+			if (isset ( $deliveryMethod ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DELIVERY_METHOD, $deliveryMethod ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -438,9 +442,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DELIVERY_METHOD, $deliveryMethod, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DELIVERY_METHOD, $deliveryMethod, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the delivery_price column
 	 *
@@ -451,24 +455,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByDeliveryPrice(array('min' => 12)); // WHERE delivery_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $deliveryPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $deliveryPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDeliveryPrice($deliveryPrice = null, $comparison = null)
-	{
-		if (is_array($deliveryPrice)) {
+	public function filterByDeliveryPrice($deliveryPrice = null, $comparison = null) {
+		if (is_array ( $deliveryPrice )) {
 			$useMinMax = false;
-			if (isset($deliveryPrice['min'])) {
-				$this->addUsingAlias(SOrdersPeer::DELIVERY_PRICE, $deliveryPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $deliveryPrice ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DELIVERY_PRICE, $deliveryPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($deliveryPrice['max'])) {
-				$this->addUsingAlias(SOrdersPeer::DELIVERY_PRICE, $deliveryPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $deliveryPrice ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DELIVERY_PRICE, $deliveryPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -478,9 +483,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DELIVERY_PRICE, $deliveryPrice, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DELIVERY_PRICE, $deliveryPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the payment_method column
 	 *
@@ -491,26 +496,27 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByPaymentMethod(array('min' => 12)); // WHERE payment_method > 12
 	 * </code>
 	 *
-	 * @see       filterBySPaymentMethods()
+	 * @see filterBySPaymentMethods()
 	 *
-	 * @param     mixed $paymentMethod The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $paymentMethod
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByPaymentMethod($paymentMethod = null, $comparison = null)
-	{
-		if (is_array($paymentMethod)) {
+	public function filterByPaymentMethod($paymentMethod = null, $comparison = null) {
+		if (is_array ( $paymentMethod )) {
 			$useMinMax = false;
-			if (isset($paymentMethod['min'])) {
-				$this->addUsingAlias(SOrdersPeer::PAYMENT_METHOD, $paymentMethod['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $paymentMethod ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::PAYMENT_METHOD, $paymentMethod ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($paymentMethod['max'])) {
-				$this->addUsingAlias(SOrdersPeer::PAYMENT_METHOD, $paymentMethod['max'], Criteria::LESS_EQUAL);
+			if (isset ( $paymentMethod ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::PAYMENT_METHOD, $paymentMethod ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -520,9 +526,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::PAYMENT_METHOD, $paymentMethod, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::PAYMENT_METHOD, $paymentMethod, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the status column
 	 *
@@ -533,26 +539,27 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByStatus(array('min' => 12)); // WHERE status > 12
 	 * </code>
 	 *
-	 * @see       filterBySOrderStatuses()
+	 * @see filterBySOrderStatuses()
 	 *
-	 * @param     mixed $status The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $status
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByStatus($status = null, $comparison = null)
-	{
-		if (is_array($status)) {
+	public function filterByStatus($status = null, $comparison = null) {
+		if (is_array ( $status )) {
 			$useMinMax = false;
-			if (isset($status['min'])) {
-				$this->addUsingAlias(SOrdersPeer::STATUS, $status['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $status ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::STATUS, $status ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($status['max'])) {
-				$this->addUsingAlias(SOrdersPeer::STATUS, $status['max'], Criteria::LESS_EQUAL);
+			if (isset ( $status ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::STATUS, $status ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -562,9 +569,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::STATUS, $status, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::STATUS, $status, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the paid column
 	 *
@@ -574,163 +581,177 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByPaid('yes'); // WHERE paid = true
 	 * </code>
 	 *
-	 * @param     boolean|string $paid The value to use as filter.
-	 *              Non-boolean arguments are converted using the following rules:
-	 *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-	 *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-	 *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param boolean|string $paid
+	 *        	The value to use as filter.
+	 *        	Non-boolean arguments are converted using the following rules:
+	 *        	* 1, '1', 'true', 'on', and 'yes' are converted to boolean true
+	 *        	* 0, '0', 'false', 'off', and 'no' are converted to boolean false
+	 *        	Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByPaid($paid = null, $comparison = null)
-	{
-		if (is_string($paid)) {
-			$paid = in_array(strtolower($paid), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+	public function filterByPaid($paid = null, $comparison = null) {
+		if (is_string ( $paid )) {
+			$paid = in_array ( strtolower ( $paid ), array (
+					'false',
+					'off',
+					'-',
+					'no',
+					'n',
+					'0',
+					'' 
+			) ) ? false : true;
 		}
-		return $this->addUsingAlias(SOrdersPeer::PAID, $paid, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::PAID, $paid, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_full_name column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserFullName('fooValue');   // WHERE user_full_name = 'fooValue'
+	 * $query->filterByUserFullName('fooValue'); // WHERE user_full_name = 'fooValue'
 	 * $query->filterByUserFullName('%fooValue%'); // WHERE user_full_name LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userFullName The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userFullName
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserFullName($userFullName = null, $comparison = null)
-	{
+	public function filterByUserFullName($userFullName = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userFullName)) {
+			if (is_array ( $userFullName )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userFullName)) {
-				$userFullName = str_replace('*', '%', $userFullName);
+			} elseif (preg_match ( '/[\%\*]/', $userFullName )) {
+				$userFullName = str_replace ( '*', '%', $userFullName );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_FULL_NAME, $userFullName, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_FULL_NAME, $userFullName, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_email column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserEmail('fooValue');   // WHERE user_email = 'fooValue'
+	 * $query->filterByUserEmail('fooValue'); // WHERE user_email = 'fooValue'
 	 * $query->filterByUserEmail('%fooValue%'); // WHERE user_email LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userEmail The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userEmail
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserEmail($userEmail = null, $comparison = null)
-	{
+	public function filterByUserEmail($userEmail = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userEmail)) {
+			if (is_array ( $userEmail )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userEmail)) {
-				$userEmail = str_replace('*', '%', $userEmail);
+			} elseif (preg_match ( '/[\%\*]/', $userEmail )) {
+				$userEmail = str_replace ( '*', '%', $userEmail );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_EMAIL, $userEmail, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_EMAIL, $userEmail, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_phone column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserPhone('fooValue');   // WHERE user_phone = 'fooValue'
+	 * $query->filterByUserPhone('fooValue'); // WHERE user_phone = 'fooValue'
 	 * $query->filterByUserPhone('%fooValue%'); // WHERE user_phone LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userPhone The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userPhone
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserPhone($userPhone = null, $comparison = null)
-	{
+	public function filterByUserPhone($userPhone = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userPhone)) {
+			if (is_array ( $userPhone )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userPhone)) {
-				$userPhone = str_replace('*', '%', $userPhone);
+			} elseif (preg_match ( '/[\%\*]/', $userPhone )) {
+				$userPhone = str_replace ( '*', '%', $userPhone );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_PHONE, $userPhone, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_PHONE, $userPhone, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_deliver_to column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserDeliverTo('fooValue');   // WHERE user_deliver_to = 'fooValue'
+	 * $query->filterByUserDeliverTo('fooValue'); // WHERE user_deliver_to = 'fooValue'
 	 * $query->filterByUserDeliverTo('%fooValue%'); // WHERE user_deliver_to LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userDeliverTo The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userDeliverTo
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserDeliverTo($userDeliverTo = null, $comparison = null)
-	{
+	public function filterByUserDeliverTo($userDeliverTo = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userDeliverTo)) {
+			if (is_array ( $userDeliverTo )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userDeliverTo)) {
-				$userDeliverTo = str_replace('*', '%', $userDeliverTo);
+			} elseif (preg_match ( '/[\%\*]/', $userDeliverTo )) {
+				$userDeliverTo = str_replace ( '*', '%', $userDeliverTo );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_DELIVER_TO, $userDeliverTo, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_DELIVER_TO, $userDeliverTo, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_comment column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserComment('fooValue');   // WHERE user_comment = 'fooValue'
+	 * $query->filterByUserComment('fooValue'); // WHERE user_comment = 'fooValue'
 	 * $query->filterByUserComment('%fooValue%'); // WHERE user_comment LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userComment The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userComment
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserComment($userComment = null, $comparison = null)
-	{
+	public function filterByUserComment($userComment = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userComment)) {
+			if (is_array ( $userComment )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userComment)) {
-				$userComment = str_replace('*', '%', $userComment);
+			} elseif (preg_match ( '/[\%\*]/', $userComment )) {
+				$userComment = str_replace ( '*', '%', $userComment );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_COMMENT, $userComment, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_COMMENT, $userComment, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the date_created column
 	 *
@@ -741,24 +762,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByDateCreated(array('min' => 12)); // WHERE date_created > 12
 	 * </code>
 	 *
-	 * @param     mixed $dateCreated The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $dateCreated
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDateCreated($dateCreated = null, $comparison = null)
-	{
-		if (is_array($dateCreated)) {
+	public function filterByDateCreated($dateCreated = null, $comparison = null) {
+		if (is_array ( $dateCreated )) {
 			$useMinMax = false;
-			if (isset($dateCreated['min'])) {
-				$this->addUsingAlias(SOrdersPeer::DATE_CREATED, $dateCreated['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $dateCreated ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DATE_CREATED, $dateCreated ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($dateCreated['max'])) {
-				$this->addUsingAlias(SOrdersPeer::DATE_CREATED, $dateCreated['max'], Criteria::LESS_EQUAL);
+			if (isset ( $dateCreated ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DATE_CREATED, $dateCreated ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -768,9 +790,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DATE_CREATED, $dateCreated, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DATE_CREATED, $dateCreated, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the date_updated column
 	 *
@@ -781,24 +803,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByDateUpdated(array('min' => 12)); // WHERE date_updated > 12
 	 * </code>
 	 *
-	 * @param     mixed $dateUpdated The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $dateUpdated
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDateUpdated($dateUpdated = null, $comparison = null)
-	{
-		if (is_array($dateUpdated)) {
+	public function filterByDateUpdated($dateUpdated = null, $comparison = null) {
+		if (is_array ( $dateUpdated )) {
 			$useMinMax = false;
-			if (isset($dateUpdated['min'])) {
-				$this->addUsingAlias(SOrdersPeer::DATE_UPDATED, $dateUpdated['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $dateUpdated ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DATE_UPDATED, $dateUpdated ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($dateUpdated['max'])) {
-				$this->addUsingAlias(SOrdersPeer::DATE_UPDATED, $dateUpdated['max'], Criteria::LESS_EQUAL);
+			if (isset ( $dateUpdated ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DATE_UPDATED, $dateUpdated ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -808,37 +831,38 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DATE_UPDATED, $dateUpdated, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DATE_UPDATED, $dateUpdated, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the user_ip column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByUserIp('fooValue');   // WHERE user_ip = 'fooValue'
+	 * $query->filterByUserIp('fooValue'); // WHERE user_ip = 'fooValue'
 	 * $query->filterByUserIp('%fooValue%'); // WHERE user_ip LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $userIp The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $userIp
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByUserIp($userIp = null, $comparison = null)
-	{
+	public function filterByUserIp($userIp = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($userIp)) {
+			if (is_array ( $userIp )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $userIp)) {
-				$userIp = str_replace('*', '%', $userIp);
+			} elseif (preg_match ( '/[\%\*]/', $userIp )) {
+				$userIp = str_replace ( '*', '%', $userIp );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::USER_IP, $userIp, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::USER_IP, $userIp, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the total_price column
 	 *
@@ -849,24 +873,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByTotalPrice(array('min' => 12)); // WHERE total_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $totalPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $totalPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByTotalPrice($totalPrice = null, $comparison = null)
-	{
-		if (is_array($totalPrice)) {
+	public function filterByTotalPrice($totalPrice = null, $comparison = null) {
+		if (is_array ( $totalPrice )) {
 			$useMinMax = false;
-			if (isset($totalPrice['min'])) {
-				$this->addUsingAlias(SOrdersPeer::TOTAL_PRICE, $totalPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $totalPrice ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::TOTAL_PRICE, $totalPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($totalPrice['max'])) {
-				$this->addUsingAlias(SOrdersPeer::TOTAL_PRICE, $totalPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $totalPrice ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::TOTAL_PRICE, $totalPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -876,65 +901,67 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::TOTAL_PRICE, $totalPrice, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::TOTAL_PRICE, $totalPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the external_id column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByExternalId('fooValue');   // WHERE external_id = 'fooValue'
+	 * $query->filterByExternalId('fooValue'); // WHERE external_id = 'fooValue'
 	 * $query->filterByExternalId('%fooValue%'); // WHERE external_id LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $externalId The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $externalId
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByExternalId($externalId = null, $comparison = null)
-	{
+	public function filterByExternalId($externalId = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($externalId)) {
+			if (is_array ( $externalId )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $externalId)) {
-				$externalId = str_replace('*', '%', $externalId);
+			} elseif (preg_match ( '/[\%\*]/', $externalId )) {
+				$externalId = str_replace ( '*', '%', $externalId );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::EXTERNAL_ID, $externalId, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::EXTERNAL_ID, $externalId, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the gift_cert_key column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByGiftCertKey('fooValue');   // WHERE gift_cert_key = 'fooValue'
+	 * $query->filterByGiftCertKey('fooValue'); // WHERE gift_cert_key = 'fooValue'
 	 * $query->filterByGiftCertKey('%fooValue%'); // WHERE gift_cert_key LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $giftCertKey The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $giftCertKey
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByGiftCertKey($giftCertKey = null, $comparison = null)
-	{
+	public function filterByGiftCertKey($giftCertKey = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($giftCertKey)) {
+			if (is_array ( $giftCertKey )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $giftCertKey)) {
-				$giftCertKey = str_replace('*', '%', $giftCertKey);
+			} elseif (preg_match ( '/[\%\*]/', $giftCertKey )) {
+				$giftCertKey = str_replace ( '*', '%', $giftCertKey );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::GIFT_CERT_KEY, $giftCertKey, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::GIFT_CERT_KEY, $giftCertKey, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the discount column
 	 *
@@ -945,24 +972,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByDiscount(array('min' => 12)); // WHERE discount > 12
 	 * </code>
 	 *
-	 * @param     mixed $discount The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $discount
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDiscount($discount = null, $comparison = null)
-	{
-		if (is_array($discount)) {
+	public function filterByDiscount($discount = null, $comparison = null) {
+		if (is_array ( $discount )) {
 			$useMinMax = false;
-			if (isset($discount['min'])) {
-				$this->addUsingAlias(SOrdersPeer::DISCOUNT, $discount['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $discount ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DISCOUNT, $discount ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($discount['max'])) {
-				$this->addUsingAlias(SOrdersPeer::DISCOUNT, $discount['max'], Criteria::LESS_EQUAL);
+			if (isset ( $discount ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::DISCOUNT, $discount ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -972,9 +1000,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DISCOUNT, $discount, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DISCOUNT, $discount, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the gift_cert_price column
 	 *
@@ -985,24 +1013,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByGiftCertPrice(array('min' => 12)); // WHERE gift_cert_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $giftCertPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $giftCertPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByGiftCertPrice($giftCertPrice = null, $comparison = null)
-	{
-		if (is_array($giftCertPrice)) {
+	public function filterByGiftCertPrice($giftCertPrice = null, $comparison = null) {
+		if (is_array ( $giftCertPrice )) {
 			$useMinMax = false;
-			if (isset($giftCertPrice['min'])) {
-				$this->addUsingAlias(SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $giftCertPrice ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($giftCertPrice['max'])) {
-				$this->addUsingAlias(SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $giftCertPrice ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -1012,37 +1041,38 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::GIFT_CERT_PRICE, $giftCertPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the discount_info column
 	 *
 	 * Example usage:
 	 * <code>
-	 * $query->filterByDiscountInfo('fooValue');   // WHERE discount_info = 'fooValue'
+	 * $query->filterByDiscountInfo('fooValue'); // WHERE discount_info = 'fooValue'
 	 * $query->filterByDiscountInfo('%fooValue%'); // WHERE discount_info LIKE '%fooValue%'
 	 * </code>
 	 *
-	 * @param     string $discountInfo The value to use as filter.
-	 *              Accepts wildcards (* and % trigger a LIKE)
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $discountInfo
+	 *        	The value to use as filter.
+	 *        	Accepts wildcards (* and % trigger a LIKE)
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByDiscountInfo($discountInfo = null, $comparison = null)
-	{
+	public function filterByDiscountInfo($discountInfo = null, $comparison = null) {
 		if (null === $comparison) {
-			if (is_array($discountInfo)) {
+			if (is_array ( $discountInfo )) {
 				$comparison = Criteria::IN;
-			} elseif (preg_match('/[\%\*]/', $discountInfo)) {
-				$discountInfo = str_replace('*', '%', $discountInfo);
+			} elseif (preg_match ( '/[\%\*]/', $discountInfo )) {
+				$discountInfo = str_replace ( '*', '%', $discountInfo );
 				$comparison = Criteria::LIKE;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::DISCOUNT_INFO, $discountInfo, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::DISCOUNT_INFO, $discountInfo, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the origin_price column
 	 *
@@ -1053,24 +1083,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByOriginPrice(array('min' => 12)); // WHERE origin_price > 12
 	 * </code>
 	 *
-	 * @param     mixed $originPrice The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $originPrice
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByOriginPrice($originPrice = null, $comparison = null)
-	{
-		if (is_array($originPrice)) {
+	public function filterByOriginPrice($originPrice = null, $comparison = null) {
+		if (is_array ( $originPrice )) {
 			$useMinMax = false;
-			if (isset($originPrice['min'])) {
-				$this->addUsingAlias(SOrdersPeer::ORIGIN_PRICE, $originPrice['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $originPrice ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::ORIGIN_PRICE, $originPrice ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($originPrice['max'])) {
-				$this->addUsingAlias(SOrdersPeer::ORIGIN_PRICE, $originPrice['max'], Criteria::LESS_EQUAL);
+			if (isset ( $originPrice ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::ORIGIN_PRICE, $originPrice ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -1080,9 +1111,9 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::ORIGIN_PRICE, $originPrice, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::ORIGIN_PRICE, $originPrice, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query on the comulativ column
 	 *
@@ -1093,24 +1124,25 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 	 * $query->filterByComulativ(array('min' => 12)); // WHERE comulativ > 12
 	 * </code>
 	 *
-	 * @param     mixed $comulativ The value to use as filter.
-	 *              Use scalar values for equality.
-	 *              Use array values for in_array() equivalent.
-	 *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param mixed $comulativ
+	 *        	The value to use as filter.
+	 *        	Use scalar values for equality.
+	 *        	Use array values for in_array() equivalent.
+	 *        	Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterByComulativ($comulativ = null, $comparison = null)
-	{
-		if (is_array($comulativ)) {
+	public function filterByComulativ($comulativ = null, $comparison = null) {
+		if (is_array ( $comulativ )) {
 			$useMinMax = false;
-			if (isset($comulativ['min'])) {
-				$this->addUsingAlias(SOrdersPeer::COMULATIV, $comulativ['min'], Criteria::GREATER_EQUAL);
+			if (isset ( $comulativ ['min'] )) {
+				$this->addUsingAlias ( SOrdersPeer::COMULATIV, $comulativ ['min'], Criteria::GREATER_EQUAL );
 				$useMinMax = true;
 			}
-			if (isset($comulativ['max'])) {
-				$this->addUsingAlias(SOrdersPeer::COMULATIV, $comulativ['max'], Criteria::LESS_EQUAL);
+			if (isset ( $comulativ ['max'] )) {
+				$this->addUsingAlias ( SOrdersPeer::COMULATIV, $comulativ ['max'], Criteria::LESS_EQUAL );
 				$useMinMax = true;
 			}
 			if ($useMinMax) {
@@ -1120,391 +1152,381 @@ abstract class BaseSOrdersQuery extends ModelCriteria
 				$comparison = Criteria::IN;
 			}
 		}
-		return $this->addUsingAlias(SOrdersPeer::COMULATIV, $comulativ, $comparison);
+		return $this->addUsingAlias ( SOrdersPeer::COMULATIV, $comulativ, $comparison );
 	}
-
+	
 	/**
 	 * Filter the query by a related SDeliveryMethods object
 	 *
-	 * @param     SDeliveryMethods|PropelCollection $sDeliveryMethods The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SDeliveryMethods|PropelCollection $sDeliveryMethods
+	 *        	The related object(s) to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterBySDeliveryMethods($sDeliveryMethods, $comparison = null)
-	{
+	public function filterBySDeliveryMethods($sDeliveryMethods, $comparison = null) {
 		if ($sDeliveryMethods instanceof SDeliveryMethods) {
-			return $this
-				->addUsingAlias(SOrdersPeer::DELIVERY_METHOD, $sDeliveryMethods->getId(), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::DELIVERY_METHOD, $sDeliveryMethods->getId (), $comparison );
 		} elseif ($sDeliveryMethods instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
-			return $this
-				->addUsingAlias(SOrdersPeer::DELIVERY_METHOD, $sDeliveryMethods->toKeyValue('PrimaryKey', 'Id'), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::DELIVERY_METHOD, $sDeliveryMethods->toKeyValue ( 'PrimaryKey', 'Id' ), $comparison );
 		} else {
-			throw new PropelException('filterBySDeliveryMethods() only accepts arguments of type SDeliveryMethods or PropelCollection');
+			throw new PropelException ( 'filterBySDeliveryMethods() only accepts arguments of type SDeliveryMethods or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the SDeliveryMethods relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function joinSDeliveryMethods($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('SDeliveryMethods');
-
+	public function joinSDeliveryMethods($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'SDeliveryMethods' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'SDeliveryMethods');
+			$this->addJoinObject ( $join, 'SDeliveryMethods' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the SDeliveryMethods relation SDeliveryMethods object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SDeliveryMethodsQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SDeliveryMethodsQuery A secondary query class using the current class as primary query
 	 */
-	public function useSDeliveryMethodsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinSDeliveryMethods($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'SDeliveryMethods', 'SDeliveryMethodsQuery');
+	public function useSDeliveryMethodsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		return $this->joinSDeliveryMethods ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'SDeliveryMethods', 'SDeliveryMethodsQuery' );
 	}
-
+	
 	/**
 	 * Filter the query by a related SPaymentMethods object
 	 *
-	 * @param     SPaymentMethods|PropelCollection $sPaymentMethods The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SPaymentMethods|PropelCollection $sPaymentMethods
+	 *        	The related object(s) to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterBySPaymentMethods($sPaymentMethods, $comparison = null)
-	{
+	public function filterBySPaymentMethods($sPaymentMethods, $comparison = null) {
 		if ($sPaymentMethods instanceof SPaymentMethods) {
-			return $this
-				->addUsingAlias(SOrdersPeer::PAYMENT_METHOD, $sPaymentMethods->getId(), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::PAYMENT_METHOD, $sPaymentMethods->getId (), $comparison );
 		} elseif ($sPaymentMethods instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
-			return $this
-				->addUsingAlias(SOrdersPeer::PAYMENT_METHOD, $sPaymentMethods->toKeyValue('PrimaryKey', 'Id'), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::PAYMENT_METHOD, $sPaymentMethods->toKeyValue ( 'PrimaryKey', 'Id' ), $comparison );
 		} else {
-			throw new PropelException('filterBySPaymentMethods() only accepts arguments of type SPaymentMethods or PropelCollection');
+			throw new PropelException ( 'filterBySPaymentMethods() only accepts arguments of type SPaymentMethods or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the SPaymentMethods relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function joinSPaymentMethods($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('SPaymentMethods');
-
+	public function joinSPaymentMethods($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'SPaymentMethods' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'SPaymentMethods');
+			$this->addJoinObject ( $join, 'SPaymentMethods' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the SPaymentMethods relation SPaymentMethods object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SPaymentMethodsQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SPaymentMethodsQuery A secondary query class using the current class as primary query
 	 */
-	public function useSPaymentMethodsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinSPaymentMethods($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'SPaymentMethods', 'SPaymentMethodsQuery');
+	public function useSPaymentMethodsQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		return $this->joinSPaymentMethods ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'SPaymentMethods', 'SPaymentMethodsQuery' );
 	}
-
+	
 	/**
 	 * Filter the query by a related SOrderStatuses object
 	 *
-	 * @param     SOrderStatuses|PropelCollection $sOrderStatuses The related object(s) to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SOrderStatuses|PropelCollection $sOrderStatuses
+	 *        	The related object(s) to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterBySOrderStatuses($sOrderStatuses, $comparison = null)
-	{
+	public function filterBySOrderStatuses($sOrderStatuses, $comparison = null) {
 		if ($sOrderStatuses instanceof SOrderStatuses) {
-			return $this
-				->addUsingAlias(SOrdersPeer::STATUS, $sOrderStatuses->getId(), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::STATUS, $sOrderStatuses->getId (), $comparison );
 		} elseif ($sOrderStatuses instanceof PropelCollection) {
 			if (null === $comparison) {
 				$comparison = Criteria::IN;
 			}
-			return $this
-				->addUsingAlias(SOrdersPeer::STATUS, $sOrderStatuses->toKeyValue('PrimaryKey', 'Id'), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::STATUS, $sOrderStatuses->toKeyValue ( 'PrimaryKey', 'Id' ), $comparison );
 		} else {
-			throw new PropelException('filterBySOrderStatuses() only accepts arguments of type SOrderStatuses or PropelCollection');
+			throw new PropelException ( 'filterBySOrderStatuses() only accepts arguments of type SOrderStatuses or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the SOrderStatuses relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function joinSOrderStatuses($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('SOrderStatuses');
-
+	public function joinSOrderStatuses($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'SOrderStatuses' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'SOrderStatuses');
+			$this->addJoinObject ( $join, 'SOrderStatuses' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the SOrderStatuses relation SOrderStatuses object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrderStatusesQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrderStatusesQuery A secondary query class using the current class as primary query
 	 */
-	public function useSOrderStatusesQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-	{
-		return $this
-			->joinSOrderStatuses($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'SOrderStatuses', 'SOrderStatusesQuery');
+	public function useSOrderStatusesQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN) {
+		return $this->joinSOrderStatuses ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'SOrderStatuses', 'SOrderStatusesQuery' );
 	}
-
+	
 	/**
 	 * Filter the query by a related SOrderProducts object
 	 *
-	 * @param     SOrderProducts $sOrderProducts  the related object to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SOrderProducts $sOrderProducts
+	 *        	the related object to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterBySOrderProducts($sOrderProducts, $comparison = null)
-	{
+	public function filterBySOrderProducts($sOrderProducts, $comparison = null) {
 		if ($sOrderProducts instanceof SOrderProducts) {
-			return $this
-				->addUsingAlias(SOrdersPeer::ID, $sOrderProducts->getOrderId(), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::ID, $sOrderProducts->getOrderId (), $comparison );
 		} elseif ($sOrderProducts instanceof PropelCollection) {
-			return $this
-				->useSOrderProductsQuery()
-				->filterByPrimaryKeys($sOrderProducts->getPrimaryKeys())
-				->endUse();
+			return $this->useSOrderProductsQuery ()->filterByPrimaryKeys ( $sOrderProducts->getPrimaryKeys () )->endUse ();
 		} else {
-			throw new PropelException('filterBySOrderProducts() only accepts arguments of type SOrderProducts or PropelCollection');
+			throw new PropelException ( 'filterBySOrderProducts() only accepts arguments of type SOrderProducts or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the SOrderProducts relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function joinSOrderProducts($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('SOrderProducts');
-
+	public function joinSOrderProducts($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'SOrderProducts' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'SOrderProducts');
+			$this->addJoinObject ( $join, 'SOrderProducts' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the SOrderProducts relation SOrderProducts object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrderProductsQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrderProductsQuery A secondary query class using the current class as primary query
 	 */
-	public function useSOrderProductsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		return $this
-			->joinSOrderProducts($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'SOrderProducts', 'SOrderProductsQuery');
+	public function useSOrderProductsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		return $this->joinSOrderProducts ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'SOrderProducts', 'SOrderProductsQuery' );
 	}
-
+	
 	/**
 	 * Filter the query by a related SOrderStatusHistory object
 	 *
-	 * @param     SOrderStatusHistory $sOrderStatusHistory  the related object to use as filter
-	 * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SOrderStatusHistory $sOrderStatusHistory
+	 *        	the related object to use as filter
+	 * @param string $comparison
+	 *        	Operator to use for the column comparison, defaults to Criteria::EQUAL
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function filterBySOrderStatusHistory($sOrderStatusHistory, $comparison = null)
-	{
+	public function filterBySOrderStatusHistory($sOrderStatusHistory, $comparison = null) {
 		if ($sOrderStatusHistory instanceof SOrderStatusHistory) {
-			return $this
-				->addUsingAlias(SOrdersPeer::ID, $sOrderStatusHistory->getOrderId(), $comparison);
+			return $this->addUsingAlias ( SOrdersPeer::ID, $sOrderStatusHistory->getOrderId (), $comparison );
 		} elseif ($sOrderStatusHistory instanceof PropelCollection) {
-			return $this
-				->useSOrderStatusHistoryQuery()
-				->filterByPrimaryKeys($sOrderStatusHistory->getPrimaryKeys())
-				->endUse();
+			return $this->useSOrderStatusHistoryQuery ()->filterByPrimaryKeys ( $sOrderStatusHistory->getPrimaryKeys () )->endUse ();
 		} else {
-			throw new PropelException('filterBySOrderStatusHistory() only accepts arguments of type SOrderStatusHistory or PropelCollection');
+			throw new PropelException ( 'filterBySOrderStatusHistory() only accepts arguments of type SOrderStatusHistory or PropelCollection' );
 		}
 	}
-
+	
 	/**
 	 * Adds a JOIN clause to the query using the SOrderStatusHistory relation
 	 *
-	 * @param     string $relationAlias optional alias for the relation
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param string $relationAlias
+	 *        	optional alias for the relation
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function joinSOrderStatusHistory($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		$tableMap = $this->getTableMap();
-		$relationMap = $tableMap->getRelation('SOrderStatusHistory');
-
+	public function joinSOrderStatusHistory($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		$tableMap = $this->getTableMap ();
+		$relationMap = $tableMap->getRelation ( 'SOrderStatusHistory' );
+		
 		// create a ModelJoin object for this join
-		$join = new ModelJoin();
-		$join->setJoinType($joinType);
-		$join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-		if ($previousJoin = $this->getPreviousJoin()) {
-			$join->setPreviousJoin($previousJoin);
+		$join = new ModelJoin ();
+		$join->setJoinType ( $joinType );
+		$join->setRelationMap ( $relationMap, $this->useAliasInSQL ? $this->getModelAlias () : null, $relationAlias );
+		if ($previousJoin = $this->getPreviousJoin ()) {
+			$join->setPreviousJoin ( $previousJoin );
 		}
-
+		
 		// add the ModelJoin to the current object
-		if($relationAlias) {
-			$this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-			$this->addJoinObject($join, $relationAlias);
+		if ($relationAlias) {
+			$this->addAlias ( $relationAlias, $relationMap->getRightTable ()->getName () );
+			$this->addJoinObject ( $join, $relationAlias );
 		} else {
-			$this->addJoinObject($join, 'SOrderStatusHistory');
+			$this->addJoinObject ( $join, 'SOrderStatusHistory' );
 		}
-
+		
 		return $this;
 	}
-
+	
 	/**
 	 * Use the SOrderStatusHistory relation SOrderStatusHistory object
 	 *
-	 * @see       useQuery()
+	 * @see useQuery()
 	 *
-	 * @param     string $relationAlias optional alias for the relation,
-	 *                                   to be used as main alias in the secondary query
-	 * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-	 *
-	 * @return    SOrderStatusHistoryQuery A secondary query class using the current class as primary query
+	 * @param string $relationAlias
+	 *        	optional alias for the relation,
+	 *        	to be used as main alias in the secondary query
+	 * @param string $joinType
+	 *        	Accepted values are null, 'left join', 'right join', 'inner join'
+	 *        	
+	 * @return SOrderStatusHistoryQuery A secondary query class using the current class as primary query
 	 */
-	public function useSOrderStatusHistoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-	{
-		return $this
-			->joinSOrderStatusHistory($relationAlias, $joinType)
-			->useQuery($relationAlias ? $relationAlias : 'SOrderStatusHistory', 'SOrderStatusHistoryQuery');
+	public function useSOrderStatusHistoryQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN) {
+		return $this->joinSOrderStatusHistory ( $relationAlias, $joinType )->useQuery ( $relationAlias ? $relationAlias : 'SOrderStatusHistory', 'SOrderStatusHistoryQuery' );
 	}
-
+	
 	/**
 	 * Exclude object from result
 	 *
-	 * @param     SOrders $sOrders Object to remove from the list of results
-	 *
-	 * @return    SOrdersQuery The current query, for fluid interface
+	 * @param SOrders $sOrders
+	 *        	Object to remove from the list of results
+	 *        	
+	 * @return SOrdersQuery The current query, for fluid interface
 	 */
-	public function prune($sOrders = null)
-	{
+	public function prune($sOrders = null) {
 		if ($sOrders) {
-			$this->addUsingAlias(SOrdersPeer::ID, $sOrders->getId(), Criteria::NOT_EQUAL);
+			$this->addUsingAlias ( SOrdersPeer::ID, $sOrders->getId (), Criteria::NOT_EQUAL );
 		}
-
+		
 		return $this;
 	}
-
 } // BaseSOrdersQuery

@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * This class defines the structure of the 'shop_notification_statuses' table.
  *
@@ -14,55 +12,61 @@
  *
  * @package    propel.generator.Shop.map
  */
-class SNotificationStatusesTableMap extends TableMap
-{
-
+class SNotificationStatusesTableMap extends TableMap {
+	
 	/**
 	 * The (dot-path) name of this class
 	 */
 	const CLASS_NAME = 'Shop.map.SNotificationStatusesTableMap';
-
+	
 	/**
 	 * Initialize the table attributes, columns and validators
 	 * Relations are not initialized by this method since they are lazy loaded
 	 *
-	 * @return     void
-	 * @throws     PropelException
+	 * @return void
+	 * @throws PropelException
 	 */
-	public function initialize()
-	{
+	public function initialize() {
 		// attributes
-		$this->setName('shop_notification_statuses');
-		$this->setPhpName('SNotificationStatuses');
-		$this->setClassname('SNotificationStatuses');
-		$this->setPackage('Shop');
-		$this->setUseIdGenerator(true);
+		$this->setName ( 'shop_notification_statuses' );
+		$this->setPhpName ( 'SNotificationStatuses' );
+		$this->setClassname ( 'SNotificationStatuses' );
+		$this->setPackage ( 'Shop' );
+		$this->setUseIdGenerator ( true );
 		// columns
-		$this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
-		$this->addColumn('POSITION', 'Position', 'SMALLINT', false, null, null);
+		$this->addPrimaryKey ( 'ID', 'Id', 'INTEGER', true, null, null );
+		$this->addColumn ( 'POSITION', 'Position', 'SMALLINT', false, null, null );
 		// validators
 	} // initialize()
-
+	
 	/**
 	 * Build the RelationMap objects for this table relationships
 	 */
-	public function buildRelations()
-	{
-		$this->addRelation('SNotifications', 'SNotifications', RelationMap::ONE_TO_MANY, array('id' => 'status', ), null, null, 'SNotificationss');
-		$this->addRelation('SNotificationStatusesI18n', 'SNotificationStatusesI18n', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', 'CASCADE', 'SNotificationStatusesI18ns');
+	public function buildRelations() {
+		$this->addRelation ( 'SNotifications', 'SNotifications', RelationMap::ONE_TO_MANY, array (
+				'id' => 'status' 
+		), null, null, 'SNotificationss' );
+		$this->addRelation ( 'SNotificationStatusesI18n', 'SNotificationStatusesI18n', RelationMap::ONE_TO_MANY, array (
+				'id' => 'id' 
+		), 'CASCADE', 'CASCADE', 'SNotificationStatusesI18ns' );
 	} // buildRelations()
-
+	
 	/**
 	 *
 	 * Gets the list of behaviors registered for this table
 	 *
 	 * @return array Associative array (name => parameters) of behaviors
 	 */
-	public function getBehaviors()
-	{
-		return array(
-			'i18n' => array('i18n_table' => '%TABLE%_i18n', 'i18n_phpname' => '%PHPNAME%I18n', 'i18n_columns' => 'name', 'locale_column' => 'locale', 'default_locale' => 'ru', 'locale_alias' => '', ),
+	public function getBehaviors() {
+		return array (
+				'i18n' => array (
+						'i18n_table' => '%TABLE%_i18n',
+						'i18n_phpname' => '%PHPNAME%I18n',
+						'i18n_columns' => 'name',
+						'locale_column' => 'locale',
+						'default_locale' => 'ru',
+						'locale_alias' => '' 
+				) 
 		);
 	} // getBehaviors()
-
 } // SNotificationStatusesTableMap

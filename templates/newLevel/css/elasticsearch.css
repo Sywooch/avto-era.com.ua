@@ -1,0 +1,81 @@
+html div div#elasticsearchTab{
+	background-color: #FFFFFF;
+}
+html div div#elasticsearchTab ul{
+	position: inherit;
+	background: inherit; 
+	border: 0px; 
+}
+html div div#elasticsearchTab ul a{
+	font-family: "Open Sans Condensed",sans-serif;
+    font-size: 32px;
+    font-weight: normal;
+}
+html div div#elasticsearchTab div.elasticContainer{
+	padding: 0em 0em;
+	font-family: "Open Sans Condensed",sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    overflow-x: hidden;
+    background-color: #DE4A3C;
+}
+html div div#elasticsearchTab ul li.ui-state-hover{
+	background-color: #DE4A3C;	
+}
+html div div#elasticsearchTab ul li.ui-state-active{
+    background-color: #DE4A3C;
+}
+html div div#elasticsearchTab ul li.ui-tabs-selected{
+    background-color: #DE4A3C;
+}
+html div div#elasticsearchTab form{
+	padding: 10px 40px;
+	vertical-align: text-bottom;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container {
+  display: table;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column {
+  display: table-cell;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column label{
+	color: #ffffff;
+	font-weight: bold;
+    float: left;
+    font-size: 12px;
+    /*margin-bottom: 5px;*/	
+    font-family: Arial,Helvetica,sans-serif;
+}
+html div div#elasticsearchTab div.elasticContainer div.e_s_container div.e_s_column select{
+	color: #000000;
+    float: left;
+    font-size: 15px;
+    margin-bottom: 10px;	
+    font-family: Arial,Helvetica,sans-serif;
+    height: 24px;
+    width: 100px;	
+}
+html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div{
+	color: #666666;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;	
+    float: right;
+    margin-top: 7px !important;
+}
+html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div div.e_s_bt_filter_bus{	
+    background: linear-gradient(to bottom, #F85E06 0%, #FFCC01 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0 1px 1px #d13627;
+    display: inline-block;
+}
+html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button{
+	/*padding: 8px 18px;*/	
+    padding: 5px 20px;	
+}
+html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button span.e_s_text-el{
+	color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    vertical-align: baseline;
+}
+

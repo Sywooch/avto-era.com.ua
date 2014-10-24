@@ -1,100 +1,235 @@
 <section class="mini-layout">
-    <div class="frame_title clearfix">
-        <div class="pull-left">
-            <span class="help-inline"></span>
-            <span class="title">{lang('Orders statistics','admin')}</span>
-        </div>
-    </div>
-    <div class="inside_padd row">
-        <div class="span8">
-            <div class="form-horizontal">
-                <dl class="clearfix">
-                    <dt class="pull-left">{lang('All','admin')} {$totalMonthOrders} {lang('Total orders price','admin')}:</dt>
-                    <dd class="pull-left">{$totalMonthSum} {echo ShopCore::app()->SCurrencyHelper->getSymbol()}</dd>
-                </dl>
-                <div class="control-group">
-                    <label class="control-label">{lang('Date','admin')}:</label>
-                    <div class="controls">
-                        <select name="date">
-                            {foreach $dates as $d}
-                                <option {if $year . '-' . $month == $d}selected {/if} value="{$d}">{$d}</option>
-                            {/foreach}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div id="wrapper_gistogram" class="span8">
-                <div class="chart">
-                    <table class="data-table" border="1" cellpadding="10" cellspacing="0">
-                        <caption>{lang('Days','admin')} / {lang('The amount of orders','admin')}</caption>
-                        <thead>
-                            <tr>
-                                {foreach $data as $key=>$val}
-                                    <th scope="col">{echo encode($key)}</th>
-                                {/foreach}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {foreach $data as $key=>$val}
-                                    <td>{$val.sum}</td>
-                                {/foreach}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="chart">
-                    <table class="data-table" border="1" cellpadding="10" cellspacing="0">
-                        <caption>{lang('Days','admin')} / {lang('Number of Orders','admin')}</caption>
-                        <thead>
-                            <tr>
-                                {foreach $data as $key=>$val}
-                                    <th>{echo encode($key)}</th>
-                                {/foreach}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {foreach $data as $key=>$val}
-                                    <td>{$val.count}</td>
-                                {/foreach}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="frame_title clearfix">
+		<div class="pull-left">
+			<span class="help-inline"></span> <span class="title">{lang('Orders
+				statistics','admin')}</span>
+		</div>
+	</div>
+	<div class="inside_padd row">
+		<div class="span8">
+			<div class="form-horizontal">
+				<dl class="clearfix">
+					<dt class="pull-left">{lang('All','admin')}
+						{$totalMonthOrders} {lang('Total orders price','admin')}:</dt>
+					<dd class="pull-left">{$totalMonthSum} {echo
+						ShopCore::app()->SCurrencyHelper->getSymbol()}</dd>
+				</dl>
+				<div class="control-group">
+					<label class="control-label">{lang('Date','admin')}:</label>
+					<div class="controls">
+						<select name="date"> {foreach $dates as $d}
+							<option {if $year . '-' . $month== $d}selected {/if} value="{$d}">{$d}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+			</div>
+			<div id="wrapper_gistogram" class="span8">
+				<div class="chart">
+					<table class="data-table" border="1" cellpadding="10"
+						cellspacing="0">
+						<caption>{lang('Days','admin')} / {lang('The amount of
+							orders','admin')}</caption>
+						<thead>
+							<tr>
+								{foreach $data as $key=>$val}
+								<th scope="col">{echo encode($key)}</th> {/foreach}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								{foreach $data as $key=>$val}
+								<td>{$val.sum}</td> {/foreach}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="chart">
+					<table class="data-table" border="1" cellpadding="10"
+						cellspacing="0">
+						<caption>{lang('Days','admin')} / {lang('Number of
+							Orders','admin')}</caption>
+						<thead>
+							<tr>
+								{foreach $data as $key=>$val}
+								<th>{echo encode($key)}</th> {/foreach}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								{foreach $data as $key=>$val}
+								<td>{$val.count}</td> {/foreach}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 {literal}
-    <style>
-        .data-table{border:none;border-top:1px solid #ccc;display:none}
-        .data-table thead{background:#f0f0f0}
-        .data-table th,#data-table td{border:none;border-bottom:1px solid #ccc;text-align:left;margin:0;padding:10px}
-        .toggles{background:#ebebeb;color:#545454;height:20px;padding:15px}
-        .toggles p{margin:0}
-        .toggles a{background:#222;border-radius:3px;color:#fff;display:block;float:left;text-decoration:none;margin:0 10px 0 0;padding:0 6px}
-        .toggles a:hover{background:#666}
-        #reset-graph-button{float:right}
-        #wrapper_gistogram{margin-left: 20px;}
-        #figure{height:380px;position:relative}
-        #figure ul{list-style:none;margin:0;padding:0;width: 100%;}
-        .graph{height:283px;position:relative;margin-top: 15px;}
-        .x-axis{bottom:0;color:#555;position:absolute;text-align:center;}
-        .x-axis li{float:left;width:3.2%;padding:5px 0}
-        .y-axis{color:#555;position:absolute;text-align:right;width:100%}
-        .y-axis li{border-top:1px solid #ccc;display:block;height:62px;width:100%}
-        .y-axis li span{display:block;width:40px;margin:-10px 0 0 -60px;padding:0 10px}
-        .bars{height:253px;position:absolute;width:100%;z-index:10}
-        .bar-group{float:left;height:100%;position:relative;width:3.2%;}
-        .bar{bottom:0;cursor:pointer;height:0;position:absolute;text-align:center;width:100%;}
-        .bar.fig0{left:0;background-color: red;}
-        .bar.fig1{left:26px}
-        .bar.fig2{left:52px}
-        .bar span{background:#fefefe;border-radius:3px;left:-8px;display:none;position:absolute;text-shadow:rgba(255,255,255,0.8) 0 1px 0;min-width:30px;padding: 0 5px;z-index:20;-webkit-box-shadow:rgba(0,0,0,0.6) 0 1px 4px;box-shadow:rgba(0,0,0,0.6) 0 1px 4px;margin:0}
-        .bar:hover span{display:block;margin-top:-25px}
-    </style>
-    <script type="text/javascript">
+<style>
+.data-table {
+	border: none;
+	border-top: 1px solid #ccc;
+	display: none
+}
+
+.data-table thead {
+	background: #f0f0f0
+}
+
+.data-table th,#data-table td {
+	border: none;
+	border-bottom: 1px solid #ccc;
+	text-align: left;
+	margin: 0;
+	padding: 10px
+}
+
+.toggles {
+	background: #ebebeb;
+	color: #545454;
+	height: 20px;
+	padding: 15px
+}
+
+.toggles p {
+	margin: 0
+}
+
+.toggles a {
+	background: #222;
+	border-radius: 3px;
+	color: #fff;
+	display: block;
+	float: left;
+	text-decoration: none;
+	margin: 0 10px 0 0;
+	padding: 0 6px
+}
+
+.toggles a:hover {
+	background: #666
+}
+
+#reset-graph-button {
+	float: right
+}
+
+#wrapper_gistogram {
+	margin-left: 20px;
+}
+
+#figure {
+	height: 380px;
+	position: relative
+}
+
+#figure ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.graph {
+	height: 283px;
+	position: relative;
+	margin-top: 15px;
+}
+
+.x-axis {
+	bottom: 0;
+	color: #555;
+	position: absolute;
+	text-align: center;
+}
+
+.x-axis li {
+	float: left;
+	width: 3.2%;
+	padding: 5px 0
+}
+
+.y-axis {
+	color: #555;
+	position: absolute;
+	text-align: right;
+	width: 100%
+}
+
+.y-axis li {
+	border-top: 1px solid #ccc;
+	display: block;
+	height: 62px;
+	width: 100%
+}
+
+.y-axis li span {
+	display: block;
+	width: 40px;
+	margin: -10px 0 0 -60px;
+	padding: 0 10px
+}
+
+.bars {
+	height: 253px;
+	position: absolute;
+	width: 100%;
+	z-index: 10
+}
+
+.bar-group {
+	float: left;
+	height: 100%;
+	position: relative;
+	width: 3.2%;
+}
+
+.bar {
+	bottom: 0;
+	cursor: pointer;
+	height: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+.bar.fig0 {
+	left: 0;
+	background-color: red;
+}
+
+.bar.fig1 {
+	left: 26px
+}
+
+.bar.fig2 {
+	left: 52px
+}
+
+.bar span {
+	background: #fefefe;
+	border-radius: 3px;
+	left: -8px;
+	display: none;
+	position: absolute;
+	text-shadow: rgba(255, 255, 255, 0.8) 0 1px 0;
+	min-width: 30px;
+	padding: 0 5px;
+	z-index: 20;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.6) 0 1px 4px;
+	box-shadow: rgba(0, 0, 0, 0.6) 0 1px 4px;
+	margin: 0
+}
+
+.bar:hover span {
+	display: block;
+	margin-top: -25px
+}
+</style>
+<script type="text/javascript">
         function gistogram() {
             $('.data-table').each(function() {
                 createGraph($(this), $(this).parent());

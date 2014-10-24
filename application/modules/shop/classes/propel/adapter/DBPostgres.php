@@ -13,190 +13,193 @@
  *
  * <a href="http://www.pgsql.org">http://www.pgsql.org</a>
  *
- * @author     Hans Lellelid <hans@xmpl.org> (Propel)
- * @author     Hakan Tandogan <hakan42@gmx.de> (Torque)
- * @version    $Revision$
- * @package    propel.runtime.adapter
+ * @author Hans Lellelid <hans@xmpl.org> (Propel)
+ * @author Hakan Tandogan <hakan42@gmx.de> (Torque)
+ * @version $Revision$
+ * @package propel.runtime.adapter
  */
-class DBPostgres extends DBAdapter
-{
-
+class DBPostgres extends DBAdapter {
+	
 	/**
 	 * This method is used to ignore case.
 	 *
-	 * @param     string  $in  The string to transform to upper case.
-	 * @return    string  The upper case string.
+	 * @param string $in
+	 *        	The string to transform to upper case.
+	 * @return string The upper case string.
 	 */
-	public function toUpperCase($in)
-	{
+	public function toUpperCase($in) {
 		return "UPPER(" . $in . ")";
 	}
-
+	
 	/**
 	 * This method is used to ignore case.
 	 *
-	 * @param     string  $in  The string whose case to ignore.
-	 * @return    string  The string in a case that can be ignored.
+	 * @param string $in
+	 *        	The string whose case to ignore.
+	 * @return string The string in a case that can be ignored.
 	 */
-	public function ignoreCase($in)
-	{
+	public function ignoreCase($in) {
 		return "UPPER(" . $in . ")";
 	}
-
+	
 	/**
 	 * Returns SQL which concatenates the second string to the first.
 	 *
-	 * @param     string  $s1  String to concatenate.
-	 * @param     string  $s2  String to append.
-	 *
-	 * @return    string
+	 * @param string $s1
+	 *        	String to concatenate.
+	 * @param string $s2
+	 *        	String to append.
+	 *        	
+	 * @return string
 	 */
-	public function concatString($s1, $s2)
-	{
+	public function concatString($s1, $s2) {
 		return "($s1 || $s2)";
 	}
-
+	
 	/**
 	 * Returns SQL which extracts a substring.
 	 *
-	 * @param     string   $s  String to extract from.
-	 * @param     integer  $pos  Offset to start from.
-	 * @param     integer  $len  Number of characters to extract.
-	 *
-	 * @return    string
+	 * @param string $s
+	 *        	String to extract from.
+	 * @param integer $pos
+	 *        	Offset to start from.
+	 * @param integer $len
+	 *        	Number of characters to extract.
+	 *        	
+	 * @return string
 	 */
-	public function subString($s, $pos, $len)
-	{
-		return "substring($s from $pos" . ($len > -1 ? "for $len" : "") . ")";
+	public function subString($s, $pos, $len) {
+		return "substring($s from $pos" . ($len > - 1 ? "for $len" : "") . ")";
 	}
-
+	
 	/**
 	 * Returns SQL which calculates the length (in chars) of a string.
 	 *
-	 * @param     string  $s  String to calculate length of.
-	 * @return    string
+	 * @param string $s
+	 *        	String to calculate length of.
+	 * @return string
 	 */
-	public function strLength($s)
-	{
+	public function strLength($s) {
 		return "char_length($s)";
 	}
-
+	
 	/**
-	 * @see       DBAdapter::getIdMethod()
 	 *
-	 * @return    integer
+	 * @see DBAdapter::getIdMethod()
+	 *
+	 * @return integer
 	 */
-	protected function getIdMethod()
-	{
+	protected function getIdMethod() {
 		return DBAdapter::ID_METHOD_SEQUENCE;
 	}
-
+	
 	/**
 	 * Gets ID for specified sequence name.
 	 * Warning: duplicates logic from PgsqlPlatform::getIdentifierPhp().
 	 * Any code modification here must be ported there.
 	 *
-	 * @param     PDO     $con
-	 * @param     string  $name
+	 * @param PDO $con        	
+	 * @param string $name        	
 	 *
-	 * @return    integer
+	 * @return integer
 	 */
-	public function getId(PDO $con, $name = null)
-	{
+	public function getId(PDO $con, $name = null) {
 		if ($name === null) {
-			throw new PropelException("Unable to fetch next sequence ID without sequence name.");
+			throw new PropelException ( "Unable to fetch next sequence ID without sequence name." );
 		}
-		$stmt = $con->query("SELECT nextval(".$con->quote($name).")");
-		$row = $stmt->fetch(PDO::FETCH_NUM);
-
-		return $row[0];
+		$stmt = $con->query ( "SELECT nextval(" . $con->quote ( $name ) . ")" );
+		$row = $stmt->fetch ( PDO::FETCH_NUM );
+		
+		return $row [0];
 	}
-
+	
 	/**
 	 * Returns timestamp formatter string for use in date() function.
-	 * @return    string
+	 * 
+	 * @return string
 	 */
-	public function getTimestampFormatter()
-	{
+	public function getTimestampFormatter() {
 		return "Y-m-d H:i:s O";
 	}
-
+	
 	/**
 	 * Returns timestamp formatter string for use in date() function.
 	 *
-	 * @return    string
+	 * @return string
 	 */
-	public function getTimeFormatter()
-	{
+	public function getTimeFormatter() {
 		return "H:i:s O";
 	}
-
+	
 	/**
-	 * @see       DBAdapter::applyLimit()
 	 *
-	 * @param     string   $sql
-	 * @param     integer  $offset
-	 * @param     integer  $limit
+	 * @see DBAdapter::applyLimit()
+	 *
+	 * @param string $sql        	
+	 * @param integer $offset        	
+	 * @param integer $limit        	
 	 */
-	public function applyLimit(&$sql, $offset, $limit)
-	{
-		if ( $limit > 0 ) {
-			$sql .= " LIMIT ".$limit;
+	public function applyLimit(&$sql, $offset, $limit) {
+		if ($limit > 0) {
+			$sql .= " LIMIT " . $limit;
 		}
-		if ( $offset > 0 ) {
-			$sql .= " OFFSET ".$offset;
+		if ($offset > 0) {
+			$sql .= " OFFSET " . $offset;
 		}
 	}
-
+	
 	/**
-	 * @see       DBAdapter::random()
 	 *
-	 * @param     string  $seed
-	 * @return    string
+	 * @see DBAdapter::random()
+	 *
+	 * @param string $seed        	
+	 * @return string
 	 */
-	public function random($seed=NULL)
-	{
+	public function random($seed = NULL) {
 		return 'random()';
 	}
-
+	
 	/**
-	 * @see        DBAdapter::getDeleteFromClause()
 	 *
-	 * @param     Criteria  $criteria
-	 * @param     string    $tableName
+	 * @see DBAdapter::getDeleteFromClause()
 	 *
-	 * @return    string
+	 * @param Criteria $criteria        	
+	 * @param string $tableName        	
+	 *
+	 * @return string
 	 */
-	public function getDeleteFromClause($criteria, $tableName)
-	{
+	public function getDeleteFromClause($criteria, $tableName) {
 		$sql = 'DELETE ';
-		if ($queryComment = $criteria->getComment()) {
+		if ($queryComment = $criteria->getComment ()) {
 			$sql .= '/* ' . $queryComment . ' */ ';
 		}
-		if ($realTableName = $criteria->getTableForAlias($tableName)) {
-			if ($this->useQuoteIdentifier()) {
-				$realTableName = $this->quoteIdentifierTable($realTableName);
+		if ($realTableName = $criteria->getTableForAlias ( $tableName )) {
+			if ($this->useQuoteIdentifier ()) {
+				$realTableName = $this->quoteIdentifierTable ( $realTableName );
 			}
 			$sql .= 'FROM ' . $realTableName . ' AS ' . $tableName;
 		} else {
-			if ($this->useQuoteIdentifier()) {
-				$tableName = $this->quoteIdentifierTable($tableName);
+			if ($this->useQuoteIdentifier ()) {
+				$tableName = $this->quoteIdentifierTable ( $tableName );
 			}
 			$sql .= 'FROM ' . $tableName;
 		}
-
+		
 		return $sql;
 	}
-
+	
 	/**
-	 * @see        DBAdapter::quoteIdentifierTable()
 	 *
-	 * @param     string  $table
-	 * @return    string
+	 * @see DBAdapter::quoteIdentifierTable()
+	 *
+	 * @param string $table        	
+	 * @return string
 	 */
-	public function quoteIdentifierTable($table)
-	{
+	public function quoteIdentifierTable($table) {
 		// e.g. 'database.table alias' should be escaped as '"database"."table" "alias"'
-		return '"' . strtr($table, array('.' => '"."', ' ' => '" "')) . '"';
+		return '"' . strtr ( $table, array (
+				'.' => '"."',
+				' ' => '" "' 
+		) ) . '"';
 	}
 }

@@ -11,349 +11,337 @@
  * @license
  */
 class ShopAdminKits extends ShopAdminController {
+	public function __construct() {
+		parent::__construct ();
+	}
+	public function index() {
+		$model = ShopKitQuery::create ()->orderById ( Criteria::ASC )->find ();
 
-    public function __construct() {
-        parent::__construct();
-    }
+		$this->render ( __FUNCTION__, array (
+				'model' => $model
+		) );
+	}
 
-    public function index() {
-        $model = ShopKitQuery::create()
-                ->orderById(Criteria::ASC)
-                ->find();
+	/* * ************* Product kits ************** */
 
-        $this->render(__FUNCTION__, array(
-            'model' => $model,
-        ));
-    }
+	/**
+	 * create a kit of products
+	 *
+	 * @param integer $mainProductId
+	 *        	- main product of a kit
+	 * @access public
+	 * @return void
+	 */
+	public function kit_create($mainProductId = null) {
+		$model = new ShopKit ();
 
-    /*     * *************  Product kits  ************** */
+		if (! empty ( $_POST )) {
+			$this->form_validation->set_rules ( $model->rules () );
+				
+			if ($this->form_validation->run ( $this ) == FALSE) {
+				showMessage ( validation_errors (), '', 'r' );
+			} else {
+				$mainProductId = $this->input->post ( 'MainProductId' );
+				$attachedProductsIds = $_POST ['AttachedProductsIds'];
 
-    /**
-     * create a kit of products
-     *
-     * @param	integer $mainProductId - main product of a kit
-     * @access	public
-     * @return	void
-     */
-    public function kit_create($mainProductId = null) {
-        $model = new ShopKit();
+				foreach ( $_POST ['AttachedProductsIds'] as $key => $value ) {
+					$attachedProductsDiscounts [$value] = $_POST ['Discounts'] [$key];
+				}
 
-        if (!empty($_POST)) {
-            $this->form_validation->set_rules($model->rules());
+				$mainProduct = SProductsQuery::create ()->findPk ( $mainProductId );
+				if ($mainProduct === NULL)
+					die ( showMessage ( ShopCore::t ( lang ( 'You did not ask for a set of main commodity', 'admin' ) ) ) );
 
-            if ($this->form_validation->run($this) == FALSE) {
-                showMessage(validation_errors(), '', 'r');
-            } else {
-                $mainProductId = $this->input->post('MainProductId');
-                $attachedProductsIds = $_POST['AttachedProductsIds'];
+				$attachedProducts = SProductsQuery::create ()->findPks ( $attachedProductsIds );
+				if ($attachedProducts->count () === 0)
+					die ( showMessage ( ShopCore::t ( lang ( 'You must attach the goods to create a set', 'admin' ) ) ) );
+					
+				// check if there are doesn't exist same kit
+				$kitCheck = $this->_kitCheck ( $mainProductId, $attachedProductsIds );
 
-                foreach ($_POST['AttachedProductsIds'] as $key => $value) {
-                    $attachedProductsDiscounts[$value] = $_POST['Discounts'][$key];
-                }
+				if ($kitCheck === FALSE) {
+					die ( showMessage ( ShopCore::t ( lang ( 'Kit with such goods already exists', 'admin' ) ) ) );
+				}
 
-                $mainProduct = SProductsQuery::create()
-                        ->findPk($mainProductId);
-                if ($mainProduct === NULL)
-                    die(showMessage(ShopCore::t(lang('You did not ask for a set of main commodity','admin'))));
+				$model->fromArray ( $_POST );
 
-                $attachedProducts = SProductsQuery::create()
-                        ->findPks($attachedProductsIds);
-                if ($attachedProducts->count() === 0)
-                    die(showMessage(ShopCore::t(lang('You must attach the goods to create a set','admin'))));
+				// set max position for this kit between the kits with a same main Product
+				$kitPosition = $this->_calcNewKitPosition ( $mainProductId );
+				$model->setPosition ( $kitPosition );
 
-                // check if there are doesn't exist same kit
-                $kitCheck = $this->_kitCheck($mainProductId, $attachedProductsIds);
+				// main product of a kit
+				$model->setProductId ( $mainProductId );
 
-                if ($kitCheck === FALSE) {
-                    die(showMessage(ShopCore::t(lang('Kit with such goods already exists','admin'))));
-                }
+				foreach ( $attachedProducts as $attachedProduct ) {
+					$shopKitProduct = new ShopKitProduct ();
+					$shopKitProduct->setProductId ( $attachedProduct->getId () );
+					$shopKitProduct->setDiscount ( $attachedProductsDiscounts [$attachedProduct->getId ()] );
+						
+					$model->addShopKitProduct ( $shopKitProduct );
+				}
+				$model->save ();
 
-                $model->fromArray($_POST);
+				showMessage ( ShopCore::t ( lang ( 'Kit created', 'admin' ) ) );
 
-                //set max position for this kit between the kits with a same main Product
-                $kitPosition = $this->_calcNewKitPosition($mainProductId);
-                $model->setPosition($kitPosition);
+				if ($_POST ['action'] == 'tomain')
+					pjax ( '/admin/components/run/shop/kits/index' );
 
-                //main product of a kit
-                $model->setProductId($mainProductId);
+				if ($_POST ['action'] == 'save')
+					pjax ( '/admin/components/run/shop/kits/kit_edit/' . $model->getId () );
+			}
+		} else {
+			if ($mainProductId)
+				$model->setProductId ( $mainProductId );
+			$this->render ( __FUNCTION__, array (
+					'model' => $model
+			) );
+		}
+	}
 
-                foreach ($attachedProducts as $attachedProduct) {
-                    $shopKitProduct = new ShopKitProduct();
-                    $shopKitProduct->setProductId($attachedProduct->getId());
-                    $shopKitProduct->setDiscount($attachedProductsDiscounts[$attachedProduct->getId()]);
+	/**
+	 * edit a kit of products
+	 *
+	 * @access public
+	 * @param integer $roleId
+	 * @return void
+	 */
+	public function kit_edit($kitId, $canChangeMainProduct = true) {
+		$model = ShopKitQuery::create ()->findPk ( $kitId );
 
-                    $model->addShopKitProduct($shopKitProduct);
-                }
-                $model->save();
+		if ($model === null)
+			$this->error404 ( ShopCore::t ( lang ( 'The kit was not found', 'admin' ) ) );
 
-                showMessage(ShopCore::t(lang('Kit created','admin')));
+		if (! empty ( $_POST )) {
+			$this->form_validation->set_rules ( $model->rules () );
+				
+			if ($this->form_validation->run ( $this ) == FALSE) {
+				showMessage ( validation_errors (), '', 'r' );
+			} else {
+				$_POST ['Active'] = ( int ) $_POST ['Active'];
+				$mainProductId = $this->input->post ( 'MainProductId' );
+				$attachedProductsIds = $_POST ['AttachedProductsIds'];
 
-                if ($_POST['action'] == 'tomain')
-                    pjax('/admin/components/run/shop/kits/index');
+				foreach ( $_POST ['AttachedProductsIds'] as $key => $value ) {
+					$attachedProductsDiscounts [$value] = $_POST ['Discounts'] [$key];
+				}
 
-                if ($_POST['action'] == 'save')
-                    pjax('/admin/components/run/shop/kits/kit_edit/' . $model->getId());
-            }
-        } else {
-            if ($mainProductId)
-                $model->setProductId($mainProductId);
-            $this->render(__FUNCTION__, array(
-                'model' => $model,
-            ));
-        }
-    }
+				$mainProduct = SProductsQuery::create ()->findPk ( $mainProductId );
+				if ($mainProduct === NULL)
+					die ( showMessage ( ShopCore::t ( lang ( 'You did not ask for a set of main commodity ', 'admin' ) ) ) );
 
-    /**
-     * edit a kit of products
-     *
-     * @access	public
-     * @param	integer $roleId
-     * @return	void
-     */
-    public function kit_edit($kitId, $canChangeMainProduct = true) {
-        $model = ShopKitQuery::create()
-                ->findPk($kitId);
+				$attachedProducts = SProductsQuery::create ()->findPks ( $attachedProductsIds );
+				if ($attachedProducts->count () === 0)
+					die ( showMessage ( ShopCore::t ( lang ( 'You must attach the goods to create a set', 'admin' ) ) ) );
+					
+				// check if there are doesn't exist same kit
+				$kitCheck = $this->_kitCheck ( $mainProductId, $attachedProductsIds, $model->getId () );
 
-        if ($model === null)
-            $this->error404(ShopCore::t(lang('The kit was not found','admin')));
+				if ($kitCheck === FALSE) {
+					die ( showMessage ( ShopCore::t ( lang ( 'Kit with such goods already exists', 'admin' ) ) ) );
+				}
 
-        if (!empty($_POST)) {
-            $this->form_validation->set_rules($model->rules());
+				$model->fromArray ( $_POST );
 
-            if ($this->form_validation->run($this) == FALSE) {
-                showMessage(validation_errors(), '', 'r');
-            } else {
-                $_POST['Active'] = (int)$_POST['Active'];
-                $mainProductId = $this->input->post('MainProductId');
-                $attachedProductsIds = $_POST['AttachedProductsIds'];
+				// main product of a kit
+				$model->setProductId ( $mainProductId );
 
-                foreach ($_POST['AttachedProductsIds'] as $key => $value) {
-                    $attachedProductsDiscounts[$value] = $_POST['Discounts'][$key];
-                }
+				ShopKitProductQuery::create ()->filterByShopKit ( $model )->delete ();
+				foreach ( $attachedProducts as $attachedProduct ) {
+					$shopKitProduct = new ShopKitProduct ();
+					$shopKitProduct->setProductId ( $attachedProduct->getId () );
+					$shopKitProduct->setDiscount ( $attachedProductsDiscounts [$attachedProduct->getId ()] );
+						
+					$model->addShopKitProduct ( $shopKitProduct );
+				}
+				$model->save ();
 
-                $mainProduct = SProductsQuery::create()
-                        ->findPk($mainProductId);
-                if ($mainProduct === NULL)
-                    die(showMessage(ShopCore::t(lang('You did not ask for a set of main commodity ','admin'))));
+				showMessage ( ShopCore::t ( lang ( 'Changes have been saved', 'admin' ) ) );
 
-                $attachedProducts = SProductsQuery::create()
-                        ->findPks($attachedProductsIds);
-                if ($attachedProducts->count() === 0)
-                    die(showMessage(ShopCore::t(lang('You must attach the goods to create a set','admin'))));
+				if ($_POST ['action'] == 'tomain')
+					pjax ( '/admin/components/run/shop/kits/index' );
+			}
+		} else {
+			$this->render ( __FUNCTION__, array (
+					'model' => $model,
+					'canChangeMainProduct' => $canChangeMainProduct
+			) );
+		}
+	}
 
-                // check if there are doesn't exist same kit
-                $kitCheck = $this->_kitCheck($mainProductId, $attachedProductsIds, $model->getId());
+	/**
+	 * Save kits positions.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function kit_save_positions() {
+		if (sizeof ( $_POST ['Position'] ) > 0) {
+			foreach ( $_POST ['Position'] as $id => $pos ) {
+				ShopKitQuery::create ()->filterById ( $id )->update ( array (
+						'Position' => ( int ) $pos
+				) );
+			}
+		}
+	}
 
-                if ($kitCheck === FALSE) {
-                    die(showMessage(ShopCore::t(lang('Kit with such goods already exists','admin'))));
-                }
+	/**
+	 * Change a kit active status
+	 *
+	 * @param integer $kitId
+	 * @access public
+	 * @return void
+	 */
+	public function kit_change_active($kitId) {
+		$model = ShopKitQuery::create ()->findPk ( $kitId );
 
-                $model->fromArray($_POST);
+		if ($model !== null) {
+			$model->setActive ( ! $model->getActive () );
+			if ($model->save ())
+				showMessage ( lang ( 'Changes have been saved', 'admin' ) );
+		}
+	}
 
-                //main product of a kit
-                $model->setProductId($mainProductId);
+	/**
+	 * delete a kit
+	 *
+	 * @param integer $kitId
+	 * @access public
+	 * @return void
+	 */
+	public function kit_delete() {
+		$kitId = $this->input->post ( 'ids' );
+		$model = ShopKitQuery::create ()->findPks ( $kitId );
 
-                ShopKitProductQuery::create()->filterByShopKit($model)->delete();
-                foreach ($attachedProducts as $attachedProduct) {
-                    $shopKitProduct = new ShopKitProduct();
-                    $shopKitProduct->setProductId($attachedProduct->getId());
-                    $shopKitProduct->setDiscount($attachedProductsDiscounts[$attachedProduct->getId()]);
+		if ($model != null)
+			$model->delete ();
+		showMessage ( lang ( 'Set (s) has been successfully removed (s)', 'admin' ) );
+	}
 
-                    $model->addShopKitProduct($shopKitProduct);
-                }
-                $model->save();
+	/**
+	 * check if there are doesn't exist same kit
+	 *
+	 * @access protected
+	 * @param integer $mainProductId
+	 *        	- main product Id
+	 * @param array $attachedPIds
+	 *        	the ids of atached products
+	 * @return boolean - TRUE if a kit doesnt exist(available for creation)
+	 */
+	protected function _kitCheck($mainProductId, $attachedPIds, $kit = null) {
+		// all existing kit with the same main product
+		$kits = ShopKitQuery::create ();
 
-                showMessage(ShopCore::t(lang('Changes have been saved','admin')));
+		if ($kit !== null) {
+			$kits = $kits->filterById ( $kit, Criteria::NOT_IN );
+		}
 
-                if ($_POST['action'] == 'tomain')
-                    pjax('/admin/components/run/shop/kits/index');
-            }
-        } else {
-            $this->render(__FUNCTION__, array(
-                'model' => $model,
-                'canChangeMainProduct' => $canChangeMainProduct
-            ));
-        }
-    }
+		$kits = $kits->filterByProductId ( $mainProductId )->find ();
+		// if there are exist some kit|kits with a same main product
+		if ($kits->count () > 0) {
+			// getting attached products ids array of these kits
+			foreach ( $kits as $kit ) {
+				$criteria = ShopKitProductQuery::create ()->select ( array (
+						'ProductId'
+				) );
+				$pIds = $kit->getShopKitProducts ( $criteria )->toArray ();
 
-    /**
-     * Save kits positions.
-     *
-     * @access	public
-     * @return	void
-     */
-    public function kit_save_positions() {
-        if (sizeof($_POST['Position']) > 0) {
-            foreach ($_POST['Position'] as $id => $pos) {
-                ShopKitQuery::create()
-                        ->filterById($id)
-                        ->update(array('Position' => (int) $pos));
-            }
-        }
-    }
+				// count the total atached products to a kit in db
+				$attachedPIdsCount = count ( $attachedPIds );
 
-    /**
-     * Change a kit active status
-     * @param	integer $kitId
-     * @access	public
-     * @return	void
-     */
-    public function kit_change_active($kitId) {
-        $model = ShopKitQuery::create()
-                ->findPk($kitId);
+				// if a kit from a db has the same products number
+				if (count ( $pIds ) == $attachedPIdsCount) {
+					// check if there are difference between those kits
+					$pIdsDiff = array_diff ( $pIds, $attachedPIds );
+						
+					// return FALSE if the kits are the same
+					if (empty ( $pIdsDiff ))
+						return FALSE;
+				}
+			}
+		}
 
-        if ($model !== null) {
-            $model->setActive(!$model->getActive());
-            if ($model->save())
-                showMessage(lang('Changes have been saved','admin'));
-        }
-    }
+		// return TRUE if there are doesn't exist same kit
+		return TRUE;
+	}
 
-    /**
-     * delete a kit
-     *
-     * @param integer $kitId
-     * @access public
-     * @return	void
-     */
-    public function kit_delete() {
-        $kitId = $this->input->post('ids');
-        $model = ShopKitQuery::create()
-                ->findPks($kitId);
+	/**
+	 * calculate position for a new kit
+	 *
+	 * @param integer $mainProductId
+	 *        	- main product Id
+	 * @return integer $newPosition - position for a new kit
+	 */
+	protected function _calcNewKitPosition($mainProductId = NULL) {
+		if ($mainProductId !== NULL) {
+			// max position of all existing kit with a same main product
+			$kit = ShopKitQuery::create ()->orderByPosition ( Criteria::DESC )->filterByProductId ( $mainProductId )->limit ( 1 )->findOne ();
+				
+			if ($kit !== null)
+				return $kit->getPosition () + 1;
+		}
 
-        if ($model != null)
-            $model->delete();
-        showMessage(lang('Set (s) has been successfully removed (s)','admin'));
-    }
+		return 0;
+	}
 
-    /**
-     * check if there are doesn't exist same kit
-     *
-     * @access	protected
-     * @param	integer $mainProductId - main product Id
-     * @param	array	$attachedPIds - the ids of atached products
-     * @return	boolean - TRUE if a kit doesnt exist(available for creation)
-     */
-    protected function _kitCheck($mainProductId, $attachedPIds, $kit = null) {
-        //all existing kit with the same main product
-        $kits = ShopKitQuery::create();
+	/* * ************* Other ************** */
 
-        if ($kit !== null) {
-            $kits = $kits->filterById($kit, Criteria::NOT_IN);
-        }
+	/**
+	 * get the list of products
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function get_products_list() {
+		if (isset ( $_GET ['term'] ))
+			$_GET ['q'] = $_GET ['term'];
+		$products = SProductsQuery::create ();
 
-        $kits = $kits->filterByProductId($mainProductId)
-                ->find();
-        //if there are exist some kit|kits with a same main product
-        if ($kits->count() > 0) {
-            //getting attached products ids array of these kits
-            foreach ($kits as $kit) {
-                $criteria = ShopKitProductQuery::create()
-                        ->select(array('ProductId'));
-                $pIds = $kit->getShopKitProducts($criteria)
-                        ->toArray();
+		if (! empty ( $_GET ['q'] )) {
+			$text = $_GET ['q'];
+			if (! strpos ( $text, '%' ))
+				$text = '%' . $text . '%';
+			$products = $products->useI18nQuery ( MY_Controller::getCurrentLocale () )->filterByName ( '%' . $_GET ['q'] . '%' )->endUse ();
+		}
 
-                //count the total atached products to a kit in db
-                $attachedPIdsCount = count($attachedPIds);
+		$products = $products->limit ( ( int ) $_GET ['limit'] )->find ();
 
-                //if a kit from a db has the same products number
-                if (count($pIds) == $attachedPIdsCount) {
-                    //check if there are difference between those kits
-                    $pIdsDiff = array_diff($pIds, $attachedPIds);
+		foreach ( $products as $product ) {
+			$response [] = array (
+					'value' => ShopCore::encode ( $product->getName () ),
+					'identifier' => array (
+							'id' => $product->getId ()
+					)
+			);
+		}
 
-                    //return FALSE if the kits are the same
-                    if (empty($pIdsDiff))
-                        return FALSE;
-                }
-            }
-        }
+		echo json_encode ( $response );
+	}
 
-        //return TRUE if there are doesn't exist same kit
-        return TRUE;
-    }
+	/**
+	 * redirecting
+	 *
+	 * @param
+	 *        	$model
+	 * @param string $entityName
+	 *        	- name of a RBAC entity: role|privilege
+	 * @return void
+	 */
+	protected function _redirect($model, $entityName) {
+		// get controller name from a class name
+		$controllerName = str_replace ( 'ShopAdmin', '', get_class () );
+		$controllerName = strtolower ( $controllerName );
 
-    /**
-     * calculate position for a new kit
-     *
-     * @param	integer $mainProductId - main product Id
-     * @return	integer $newPosition - position for a new kit
-     */
-    protected function _calcNewKitPosition($mainProductId = NULL) {
-        if ($mainProductId !== NULL) {
-            //max position of all existing kit with a same main product
-            $kit = ShopKitQuery::create()
-                    ->orderByPosition(Criteria::DESC)
-                    ->filterByProductId($mainProductId)
-                    ->limit(1)
-                    ->findOne();
+		if ($_POST ['_add'])
+			$redirect_url = $controllerName . '/' . $entityName . '_list';
 
-            if ($kit !== null)
-                return $kit->getPosition() + 1;
-        }
+		if ($_POST ['_create'])
+			$redirect_url = $controllerName . '/' . $entityName . '_create';
 
-        return 0;
-    }
+		if ($_POST ['_edit'])
+			$redirect_url = $controllerName . '/' . $entityName . '_edit' . '/' . $model->getId ();
 
-    /*     * *************  Other  ************** */
-
-    /**
-     * get the list of products
-     * @access	public
-     * @return	void
-     */
-    public function get_products_list() {
-        if (isset($_GET['term']))
-            $_GET['q'] = $_GET['term'];
-        $products = SProductsQuery::create();
-
-        if (!empty($_GET['q'])) {
-            $text = $_GET['q'];
-            if (!strpos($text, '%'))
-                $text = '%' . $text . '%';
-            $products = $products->useI18nQuery(MY_Controller::getCurrentLocale())
-                    ->filterByName('%' . $_GET['q'] . '%')
-                    ->endUse();
-        }
-
-        $products = $products->limit((int) $_GET['limit'])
-                ->find();
-
-        foreach ($products as $product) {
-            $response[] = array(
-                'value' => ShopCore::encode($product->getName()),
-                'identifier' => array(
-                    'id' => $product->getId()
-                )
-            );
-        }
-
-        echo json_encode($response);
-    }
-
-    /**
-     * redirecting
-     *
-     * @param $model
-     * @param string $entityName  - name of a RBAC entity: role|privilege
-     * @return	void
-     */
-    protected function _redirect($model, $entityName) {
-        //get controller name from a class name
-        $controllerName = str_replace('ShopAdmin', '', get_class());
-        $controllerName = strtolower($controllerName);
-
-        if ($_POST['_add'])
-            $redirect_url = $controllerName . '/' . $entityName . '_list';
-
-        if ($_POST['_create'])
-            $redirect_url = $controllerName . '/' . $entityName . '_create';
-
-        if ($_POST['_edit'])
-            $redirect_url = $controllerName . '/' . $entityName . '_edit' . '/' . $model->getId();
-
-        if ($redirect_url !== null)
-            $this->ajaxShopDiv($redirect_url);
-    }
-
+		if ($redirect_url !== null)
+			$this->ajaxShopDiv ( $redirect_url );
+	}
 }
 

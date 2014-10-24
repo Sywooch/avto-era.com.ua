@@ -5,39 +5,29 @@
  * up to version 1315319201.
  * Generated on 2011-09-06 17:26:41 by firstrow
  */
-class PropelMigration_1315319201
-{
-
-	public function preUp($manager)
-	{
+class PropelMigration_1315319201 {
+	public function preUp($manager) {
 		// add the pre-migration code here
 	}
-
-	public function postUp($manager)
-	{
+	public function postUp($manager) {
 		// add the post-migration code here
 	}
-
-	public function preDown($manager)
-	{
+	public function preDown($manager) {
 		// add the pre-migration code here
 	}
-
-	public function postDown($manager)
-	{
+	public function postDown($manager) {
 		// add the post-migration code here
 	}
-
+	
 	/**
 	 * Get the SQL statements for the Up migration
 	 *
 	 * @return array list of the SQL strings to execute for the Up migration
-	 *               the keys being the datasources
+	 *         the keys being the datasources
 	 */
-	public function getUpSQL()
-	{
+	public function getUpSQL() {
 		return array (
-  'Shop' => '
+				'Shop' => '
 # This is a fix for InnoDB in MySQL >= 4.1.x
 # It "suspends judgement" for fkey relationships until are tables are set.
 SET FOREIGN_KEY_CHECKS = 0;
@@ -213,20 +203,19 @@ CREATE TABLE `shop_product_properties_data`
 
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
-',
-);
+' 
+		);
 	}
-
+	
 	/**
 	 * Get the SQL statements for the Down migration
 	 *
 	 * @return array list of the SQL strings to execute for the Down migration
-	 *               the keys being the datasources
+	 *         the keys being the datasources
 	 */
-	public function getDownSQL()
-	{
+	public function getDownSQL() {
 		return array (
-  'Shop' => '
+				'Shop' => '
 # This is a fix for InnoDB in MySQL >= 4.1.x
 # It "suspends judgement" for fkey relationships until are tables are set.
 SET FOREIGN_KEY_CHECKS = 0;
@@ -326,8 +315,7 @@ ALTER TABLE `shop_warehouse_data` DROP FOREIGN KEY `shop_warehouse_data_FK_2`;
 
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
-',
-);
+' 
+		);
 	}
-
 }

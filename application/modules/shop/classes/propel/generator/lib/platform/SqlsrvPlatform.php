@@ -7,23 +7,21 @@
  *
  * @license    MIT License
  */
-
-require_once dirname(__FILE__) . '/MssqlPlatform.php';
+require_once dirname ( __FILE__ ) . '/MssqlPlatform.php';
 
 /**
  * MS SQL Server using pdo_sqlsrv implementation.
  *
- * @author     Benjamin Runnels
- * @version    $Revision$
- * @package    propel.generator.platform
+ * @author Benjamin Runnels
+ * @version $Revision$
+ * @package propel.generator.platform
  */
-class SqlsrvPlatform extends MssqlPlatform
-{
+class SqlsrvPlatform extends MssqlPlatform {
 	/**
-	 * @see        Platform#getMaxColumnNameLength()
+	 *
+	 * @see Platform#getMaxColumnNameLength()
 	 */
-	public function getMaxColumnNameLength()
-	{
+	public function getMaxColumnNameLength() {
 		return 128;
 	}
 }

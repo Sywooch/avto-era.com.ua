@@ -25,13 +25,12 @@
  * @version	1.7.9, 2013-06-02
  */
 
-
 /**
  * PHPExcel_Writer_CSV
  *
- * @category   PHPExcel
- * @package	PHPExcel_Writer_CSV
- * @copyright  Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @category PHPExcel
+ * @package PHPExcel_Writer_CSV
+ * @copyright Copyright (c) 2006 - 2013 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_Writer_IWriter {
 	/**
@@ -46,28 +45,28 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	 *
 	 * @var string
 	 */
-	private $_delimiter	= ',';
+	private $_delimiter = ',';
 
 	/**
 	 * Enclosure
 	 *
 	 * @var string
 	 */
-	private $_enclosure	= '"';
+	private $_enclosure = '"';
 
 	/**
 	 * Line ending
 	 *
 	 * @var string
 	 */
-	private $_lineEnding	= PHP_EOL;
+	private $_lineEnding = PHP_EOL;
 
 	/**
 	 * Sheet index to write
 	 *
 	 * @var int
 	 */
-	private $_sheetIndex	= 0;
+	private $_sheetIndex = 0;
 
 	/**
 	 * Whether to write a BOM (for UTF8).
@@ -86,60 +85,60 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Create a new PHPExcel_Writer_CSV
 	 *
-	 * @param	PHPExcel	$phpExcel	PHPExcel object
+	 * @param PHPExcel $phpExcel
 	 */
 	public function __construct(PHPExcel $phpExcel) {
-		$this->_phpExcel	= $phpExcel;
+		$this->_phpExcel = $phpExcel;
 	}
 
 	/**
 	 * Save PHPExcel to file
 	 *
-	 * @param	string		$pFilename
-	 * @throws	PHPExcel_Writer_Exception
+	 * @param string $pFilename
+	 * @throws PHPExcel_Writer_Exception
 	 */
 	public function save($pFilename = null) {
 		// Fetch sheet
-		$sheet = $this->_phpExcel->getSheet($this->_sheetIndex);
+		$sheet = $this->_phpExcel->getSheet ( $this->_sheetIndex );
 
-		$saveDebugLog = PHPExcel_Calculation::getInstance($this->_phpExcel)->getDebugLog()->getWriteDebugLog();
-		PHPExcel_Calculation::getInstance($this->_phpExcel)->getDebugLog()->setWriteDebugLog(FALSE);
-		$saveArrayReturnType = PHPExcel_Calculation::getArrayReturnType();
-		PHPExcel_Calculation::setArrayReturnType(PHPExcel_Calculation::RETURN_ARRAY_AS_VALUE);
+		$saveDebugLog = PHPExcel_Calculation::getInstance ( $this->_phpExcel )->getDebugLog ()->getWriteDebugLog ();
+		PHPExcel_Calculation::getInstance ( $this->_phpExcel )->getDebugLog ()->setWriteDebugLog ( FALSE );
+		$saveArrayReturnType = PHPExcel_Calculation::getArrayReturnType ();
+		PHPExcel_Calculation::setArrayReturnType ( PHPExcel_Calculation::RETURN_ARRAY_AS_VALUE );
 
 		// Open file
-		$fileHandle = fopen($pFilename, 'wb+');
+		$fileHandle = fopen ( $pFilename, 'wb+' );
 		if ($fileHandle === false) {
-			throw new PHPExcel_Writer_Exception("Could not open file $pFilename for writing.");
+			throw new PHPExcel_Writer_Exception ( "Could not open file $pFilename for writing." );
 		}
 
 		if ($this->_excelCompatibility) {
 			// Write the UTF-16LE BOM code
-			fwrite($fileHandle, "\xFF\xFE");	//	Excel uses UTF-16LE encoding
-			$this->setEnclosure();				//	Default enclosure is "
-			$this->setDelimiter("\t");			//	Excel delimiter is a TAB
+			fwrite ( $fileHandle, "\xFF\xFE" ); // Excel uses UTF-16LE encoding
+			$this->setEnclosure (); // Default enclosure is "
+			$this->setDelimiter ( "\t" ); // Excel delimiter is a TAB
 		} elseif ($this->_useBOM) {
 			// Write the UTF-8 BOM code
-			fwrite($fileHandle, "\xEF\xBB\xBF");
+			fwrite ( $fileHandle, "\xEF\xBB\xBF" );
 		}
 
-		//	Identify the range that we need to extract from the worksheet
-		$maxCol = $sheet->getHighestColumn();
-		$maxRow = $sheet->getHighestRow();
+		// Identify the range that we need to extract from the worksheet
+		$maxCol = $sheet->getHighestColumn ();
+		$maxRow = $sheet->getHighestRow ();
 
 		// Write rows to file
-		for($row = 1; $row <= $maxRow; ++$row) {
+		for($row = 1; $row <= $maxRow; ++ $row) {
 			// Convert the row to an array...
-			$cellsArray = $sheet->rangeToArray('A'.$row.':'.$maxCol.$row,'', $this->_preCalculateFormulas);
+			$cellsArray = $sheet->rangeToArray ( 'A' . $row . ':' . $maxCol . $row, '', $this->_preCalculateFormulas );
 			// ... and write to the file
-			$this->_writeLine($fileHandle, $cellsArray[0]);
+			$this->_writeLine ( $fileHandle, $cellsArray [0] );
 		}
 
 		// Close file
-		fclose($fileHandle);
+		fclose ( $fileHandle );
 
-		PHPExcel_Calculation::setArrayReturnType($saveArrayReturnType);
-		PHPExcel_Calculation::getInstance($this->_phpExcel)->getDebugLog()->setWriteDebugLog($saveDebugLog);
+		PHPExcel_Calculation::setArrayReturnType ( $saveArrayReturnType );
+		PHPExcel_Calculation::getInstance ( $this->_phpExcel )->getDebugLog ()->setWriteDebugLog ( $saveDebugLog );
 	}
 
 	/**
@@ -154,7 +153,8 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set delimiter
 	 *
-	 * @param	string	$pValue		Delimiter, defaults to ,
+	 * @param string $pValue
+	 *        	to ,
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setDelimiter($pValue = ',') {
@@ -174,7 +174,8 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set enclosure
 	 *
-	 * @param	string	$pValue		Enclosure, defaults to "
+	 * @param string $pValue
+	 *        	to "
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setEnclosure($pValue = '"') {
@@ -197,7 +198,8 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set line ending
 	 *
-	 * @param	string	$pValue		Line ending, defaults to OS line ending (PHP_EOL)
+	 * @param string $pValue
+	 *        	defaults to OS line ending (PHP_EOL)
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setLineEnding($pValue = PHP_EOL) {
@@ -217,7 +219,8 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set whether BOM should be used
 	 *
-	 * @param	boolean	$pValue		Use UTF-8 byte-order mark? Defaults to false
+	 * @param boolean $pValue
+	 *        	byte-order mark? Defaults to false
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setUseBOM($pValue = false) {
@@ -237,8 +240,9 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set whether the file should be saved with full Excel Compatibility
 	 *
-	 * @param	boolean	$pValue		Set the file to be written as a fully Excel compatible csv file
-	 *								Note that this overrides other settings such as useBOM, enclosure and delimiter
+	 * @param boolean $pValue
+	 *        	file to be written as a fully Excel compatible csv file
+	 *        	Note that this overrides other settings such as useBOM, enclosure and delimiter
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setExcelCompatibility($pValue = false) {
@@ -258,7 +262,7 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Set sheet index
 	 *
-	 * @param	int		$pValue		Sheet index
+	 * @param int $pValue
 	 * @return PHPExcel_Writer_CSV
 	 */
 	public function setSheetIndex($pValue = 0) {
@@ -269,21 +273,22 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 	/**
 	 * Write line to CSV file
 	 *
-	 * @param	mixed	$pFileHandle	PHP filehandle
-	 * @param	array	$pValues		Array containing values in a row
-	 * @throws	PHPExcel_Writer_Exception
+	 * @param mixed $pFileHandle
+	 * @param array $pValues
+	 *        	values in a row
+	 * @throws PHPExcel_Writer_Exception
 	 */
 	private function _writeLine($pFileHandle = null, $pValues = null) {
-		if (is_array($pValues)) {
+		if (is_array ( $pValues )) {
 			// No leading delimiter
 			$writeDelimiter = false;
-
+				
 			// Build the line
 			$line = '';
-
-			foreach ($pValues as $element) {
+				
+			foreach ( $pValues as $element ) {
 				// Escape enclosures
-				$element = str_replace($this->_enclosure, $this->_enclosure . $this->_enclosure, $element);
+				$element = str_replace ( $this->_enclosure, $this->_enclosure . $this->_enclosure, $element );
 
 				// Add delimiter
 				if ($writeDelimiter) {
@@ -295,19 +300,18 @@ class PHPExcel_Writer_CSV extends PHPExcel_Writer_Abstract implements PHPExcel_W
 				// Add enclosed string
 				$line .= $this->_enclosure . $element . $this->_enclosure;
 			}
-
+				
 			// Add line ending
 			$line .= $this->_lineEnding;
-
+				
 			// Write to file
 			if ($this->_excelCompatibility) {
-				fwrite($pFileHandle, mb_convert_encoding($line,"UTF-16LE","UTF-8"));
+				fwrite ( $pFileHandle, mb_convert_encoding ( $line, "UTF-16LE", "UTF-8" ) );
 			} else {
-				fwrite($pFileHandle, $line);
+				fwrite ( $pFileHandle, $line );
 			}
 		} else {
-			throw new PHPExcel_Writer_Exception("Invalid data row passed to CSV writer.");
+			throw new PHPExcel_Writer_Exception ( "Invalid data row passed to CSV writer." );
 		}
 	}
-
 }
