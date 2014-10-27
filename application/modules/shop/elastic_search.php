@@ -180,26 +180,39 @@ class Elastic_search extends ShopController {
 	 * Get JSON auto brands
 	 */
 	public function getWheelHub(){
-		$auto_brands_retrieved = array();
-		$auto_brands = $this->elasticsearch->getWheelHub();
+		$wheel_hubs_retrieved = array();
+		$wheel_hubs = $this->elasticsearch->getWheelHub();
 	
-		foreach($auto_brands as $h){
-			$auto_brands_retrieved[ $h['id'] ] = $h['value'];
+		foreach($wheel_hubs as $h){
+			$wheel_hubs_retrieved[ $h['id'] ] = $h['value'];
 		}
-		echo $this->elasticsearch->response($wheel_hub_retrieved);
+		echo $this->elasticsearch->response($wheel_hubs_retrieved);
 	}
 	
 	/**
 	 * Get JSON auto brands
 	 */
 	public function getAutoBrands(){
-		$wheel_hub_retrieved = array();
-		$wheel_hub = $this->elasticsearch->getAutoBrands();
+		$auto_brands_retrieved = array();
+		$auto_brands = $this->elasticsearch->getAutoBrands();
 	
-		foreach($wheel_hub as $h){
-			$wheel_hub_retrieved[ $h['id'] ] = $h['value'];
+		foreach($auto_brands as $ab){
+			$auto_brands_retrieved[ $ab['id'] ] = $ab['value'];
 		}
-		echo $this->elasticsearch->response($wheel_hub_retrieved);
+		echo $this->elasticsearch->response($auto_brands_retrieved);
+	}
+	
+	/**
+	 * Get JSON auto brands
+	 */
+	public function getAutoModels(){
+		$auto_model_retrieved = array();
+		$auto_model = $this->elasticsearch->getAutoModels();
+	
+		foreach($auto_model as $am){
+			$auto_model_retrieved[ $am['id'] ] = $am['value'];
+		}
+		echo $this->elasticsearch->response($auto_model_retrieved);
 	}
 	
 }

@@ -64,7 +64,7 @@ class Elasticsearch extends MY_Controller {
 			ORDER BY shop_brands_i18n.name";
 		
 		$query = $this->db->query($sql);
-		$brands = $query->result_array ();
+		$brands = $query->result_array();
 		
 		return $brands;
 	}
@@ -90,7 +90,7 @@ class Elasticsearch extends MY_Controller {
 		
 		
 		$query = $this->db->query($sql);
-		$types = $query->result_array ();
+		$types = $query->result_array();
 		
 		return $types;
 	}
@@ -115,7 +115,7 @@ class Elasticsearch extends MY_Controller {
 	
 	
 		$query = $this->db->query($sql);
-		$types = $query->result_array ();
+		$types = $query->result_array();
 	
 		return $types;
 	}
@@ -138,7 +138,7 @@ class Elasticsearch extends MY_Controller {
 		GROUP BY shop_product_properties_data.value
 		ORDER BY shop_product_properties_data.value";
 		$query = $this->db->query($sql);
-		$widths = $query->result_array ();
+		$widths = $query->result_array();
 		
 		return $widths;
 	}
@@ -160,7 +160,7 @@ class Elasticsearch extends MY_Controller {
 		GROUP BY shop_product_properties_data.value
 		ORDER BY shop_product_properties_data.value";
 		$query = $this->db->query($sql);
-		$heights = $query->result_array ();
+		$heights = $query->result_array();
 	
 		return $heights;
 	}
@@ -184,7 +184,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$diameters = $query->result_array ();
+		$diameters = $query->result_array();
 	
 		return $diameters;
 	}
@@ -212,7 +212,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_brands_i18n.name";
 		
 		$query = $this->db->query($sql);
-		$wheelBrands = $query->result_array ();
+		$wheelBrands = $query->result_array();
 		
 		return $wheelBrands;
 	}
@@ -236,7 +236,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$wheelType = $query->result_array ();
+		$wheelType = $query->result_array();
 		
 		return $wheelType;
 	}
@@ -260,7 +260,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$wheelDiameter = $query->result_array ();
+		$wheelDiameter = $query->result_array();
 		
 		return $wheelDiameter;
 	}
@@ -285,7 +285,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$wheelPCD = $query->result_array ();
+		$wheelPCD = $query->result_array();
 		
 		return $wheelPCD;
 		
@@ -310,7 +310,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$wheelVyletet = $query->result_array ();
+		$wheelVyletet = $query->result_array();
 		
 		return $wheelVyletet;
 	}
@@ -334,7 +334,7 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY shop_product_properties_data.value";
 		
 		$query = $this->db->query($sql);
-		$wheelHub = $query->result_array ();
+		$wheelHub = $query->result_array();
 		
 		return $wheelHub;
 	}
@@ -348,13 +348,30 @@ class Elasticsearch extends MY_Controller {
 	public function getAutoBrands(){
 		$whereStr = $this->makeWhereSQL();
 		
-		$sql = "SELECT podbor_shini_i_diski.id AS id, podbor_shini_i_diski.vendor AS value FROM `podbor_shini_i_diski`
+		$sql = "SELECT podbor_shini_i_diski.vendor AS id, podbor_shini_i_diski.vendor AS value FROM `podbor_shini_i_diski`
 		$whereStr
 		GROUP BY podbor_shini_i_diski.vendor 
 		ORDER BY podbor_shini_i_diski.vendor";
 		
 		$query = $this->db->query($sql);
-		$autoBrands = $query->result_array ();
+		$autoBrands = $query->result_array();
+		
+		return $autoBrands;
+	}
+	
+	/**
+	 * Get auto models
+	 */
+	public function getAutoModels(){
+		$whereStr = $this->makeWhereSQL();
+		
+		$sql = "SELECT podbor_shini_i_diski.car AS id, podbor_shini_i_diski.car AS value FROM `podbor_shini_i_diski`
+		$whereStr
+		GROUP BY podbor_shini_i_diski.car
+		ORDER BY podbor_shini_i_diski.car";
+		
+		$query = $this->db->query($sql);
+		$autoBrands = $query->result_array();
 		
 		return $autoBrands;
 	}
