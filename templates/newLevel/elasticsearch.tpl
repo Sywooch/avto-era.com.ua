@@ -15,7 +15,7 @@
 		    <p>{include_tpl('elasticsearch/disk.tpl')}</p> 
 		  </div>
 		  <div id="esearchtabs-3" class="elasticContainer">
-		  	<p>{lang('ПОДБОР ПО МАРКЕ','newLevel')}</p>  
+		  	<p>{include_tpl('elasticsearch/brand.tpl')}</p>  
 		  </div>
 		</div>
 		<script>
