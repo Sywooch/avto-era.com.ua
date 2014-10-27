@@ -7,26 +7,26 @@ $( document ).ready(function(){
              	   id: 		"e_s_avto_brand_id",
              	   name: 	"podbor_shini_i_diski__id",
              	   label: 	"Производитель",
-             	   url:		"/shop/elastic_search/getWheelBrands",
+             	   url:		"/shop/elastic_search/getAutoBrands",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_avto_model_id",
-             	   name: 	"shop_product_properties_data__value1",
+             	   name: 	"podbor_shini_i_diski__car",
              	   label: 	"Модель",
              	   url:		"/shop/elastic_search/getWheelType",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_avto_year_id",
-             	   name: 	"shop_product_properties_data__value2",
+             	   name: 	"podbor_shini_i_diski__year",
              	   label: 	"Год выпуска",
              	   url:		"/shop/elastic_search/getWheelDiameter",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_avto_modification_id",
-             	   name: 	"shop_product_properties_data__value3",
+             	   name: 	"podbor_shini_i_diski__modification",
              	   label: 	"Модификация",
              	   url:		"/shop/elastic_search/getWheelPCD",
              	   isset:	false,

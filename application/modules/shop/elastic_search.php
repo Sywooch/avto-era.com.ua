@@ -177,11 +177,24 @@ class Elastic_search extends ShopController {
 	}
 	
 	/**
-	 * Get JSON wheel Hub
+	 * Get JSON auto brands
 	 */
 	public function getWheelHub(){
+		$auto_brands_retrieved = array();
+		$auto_brands = $this->elasticsearch->getWheelHub();
+	
+		foreach($auto_brands as $h){
+			$auto_brands_retrieved[ $h['id'] ] = $h['value'];
+		}
+		echo $this->elasticsearch->response($wheel_hub_retrieved);
+	}
+	
+	/**
+	 * Get JSON auto brands
+	 */
+	public function getAutoBrands(){
 		$wheel_hub_retrieved = array();
-		$wheel_hub = $this->elasticsearch->getWheelHub();
+		$wheel_hub = $this->elasticsearch->getAutoBrands();
 	
 		foreach($wheel_hub as $h){
 			$wheel_hub_retrieved[ $h['id'] ] = $h['value'];

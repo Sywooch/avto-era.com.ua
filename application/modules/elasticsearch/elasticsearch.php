@@ -338,6 +338,26 @@ class Elasticsearch extends MY_Controller {
 		
 		return $wheelHub;
 	}
+	
+	// #############################################################################################
+	// ######################################BRANDS#################################################
+	// #############################################################################################
+	/**
+	 * Get auto brands
+	 */
+	public function getAutoBrands(){
+		$whereStr = $this->makeWhereSQL();
+		
+		$sql = "SELECT podbor_shini_i_diski.id AS id, podbor_shini_i_diski.vendor AS value FROM `podbor_shini_i_diski`
+		$whereStr
+		GROUP BY podbor_shini_i_diski.vendor 
+		ORDER BY podbor_shini_i_diski.vendor";
+		
+		$query = $this->db->query($sql);
+		$autoBrands = $query->result_array ();
+		
+		return $autoBrands;
+	}
 	 
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";
