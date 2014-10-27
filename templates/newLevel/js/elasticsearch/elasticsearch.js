@@ -194,7 +194,7 @@
      */
     function selectProducer(thisObj, settings){
     	var divWrapper = $("<div>");
-    	var form = $("<form>", {id: settings.formID, class: settings.formClass, action: "", method: "get"});
+    	var form = $("<form>", {id: settings.formID, class: settings.formClass, action: "", method: "get", action: "/shop/categories/"});
     	    	
     	$(settings.mainContainer).append(divWrapper);
     	divWrapper.append(form);

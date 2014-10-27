@@ -39,6 +39,57 @@ class Elasticsearch extends MY_Controller {
 		return ($status[$code])?$status[$code]:$status[500];
 	}
 	
+	/**
+	 * Retrieve products
+	 */
+	public function getProducts(){
+		$whereStr = $this->makeWhereSQL("");
+		
+		$sql = "SELECT * FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name
+		LIMIT 0, 20 ";
+		
+		$query = $this->db->query($sql);
+		$products = $query->result();
+		
+		return $products;
+	}
+	
+	/**
+	 * Retrieve products
+	 */
+	public function getProductCount(){
+		$whereStr = $this->makeWhereSQL("");
+	
+		$sql = "SELECT count(shop_products.id) FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
+		$whereStr
+		GROUP BY shop_products_i18n.id
+		ORDER BY shop_products_i18n.id";
+	
+		$query = $this->db->query($sql);
+		$products = $query->result();
+	
+		return $products;
+	}
+	
 	// #############################################################################################
 	// ######################################TIRES#################################################
 	// #############################################################################################
