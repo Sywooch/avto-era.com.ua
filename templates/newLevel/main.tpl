@@ -18,6 +18,7 @@ content of page */}
 <link rel="stylesheet" type="text/css"
 	href="{$THEME}{$colorScheme}/colorscheme.css" media="all" />
 	<link media="all" href="{$THEME}css/jquery-ui.1.8.23.css" type="text/css" rel="stylesheet">
+	<link media="all" href="{$THEME}css/jquery.switchbutton.css" type="text/css" rel="stylesheet">
 	<link media="all" href="{$THEME}css/elasticsearch.css" type="text/css" rel="stylesheet">
 
 {if $CI->uri->segment(1) == MY_Controller::getCurrentLocale()} {$lang =
@@ -61,6 +62,7 @@ content of page */}
 		{/literal}
 				
 <script src="{$THEME}js/jquery-ui.1.8.23.min.js" type="text/javascript"></script>
+<script src="{$THEME}js/jquery.switchbutton.js" type="text/javascript"></script>
 <script src="{$THEME}js/elasticsearch/elasticsearch.js?_={echo rand(5, 1000000);}" type="text/javascript"></script>
 
 <!--[if lte IE 9]><script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->

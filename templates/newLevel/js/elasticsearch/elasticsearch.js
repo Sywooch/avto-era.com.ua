@@ -6,10 +6,13 @@
     	var self = this;    	
     	// This is the easiest way to have default options.
         var settings = $.extend({
-        	formID: "mainFilterFormElasticS",
-            formClass: "class",
-            backgroundColor: "white",
-            optionDefValue: ""
+        	formID: 					"mainFilterFormElasticS",
+            formClass: 					"class",
+            backgroundColor: 			"white",
+            optionDefValue: 			"",
+            buttonSwitcher: 			false,
+            buttonSwitcherID: 			"buttonSwitcherID",
+            buttonSwitcherLabel:		"Автоматериалы"
         }, options );
         
         selectProducer(self, settings);        
@@ -53,6 +56,14 @@
     			onChangeAjaxSelect(thisObj, settings, selectID, 0);
     		});
     	});
+    	
+    	if(settings.buttonSwitcher){
+    		$("#" + settings.buttonSwitcherID).switchButton({
+				on_label: "Шины",
+				off_label: "Диски"
+			});
+    	}
+
     };
     
     /**
@@ -222,6 +233,31 @@
     		var divSelectSeparator = $("<div>", {class: "check-appointment p_r  v-a_m e_s_column", style: "width: 20px;"});
     		divInnerContainer.append(divSelectSeparator);
     	});
+    	
+    	if(settings.buttonSwitcher){
+    		//<div class="check-appointment p_r  v-a_m e_s_column">
+    		var divSelectWrapper = $("<div>", {class: "check-appointment p_r  v-a_m e_s_column", style: "vertical-align: top;"});
+    		divInnerContainer.append(divSelectWrapper);
+    		
+    		// <div class="lineForm">
+    		var divLineForm = $("<div>", {style: "height: 52px;"});
+    		divSelectWrapper.append(divLineForm);
+    		
+    		var divLabel  = $("<div>");
+    		divLineForm.append(divLabel);
+    		
+    		// for="ProductBrandId">производитель</label>
+    		var label = $("<label>", {for: settings.buttonSwitcherID});
+    		label.text(settings.buttonSwitcherLabel);
+    		divLabel.append(label);
+    		
+    		var divButtonSwitcher = $("<div>", {class: "switch-wrapper"});
+    		divLineForm.append(divButtonSwitcher);
+    		
+    		var switcherInput = $("<input>", {type: "checkbox", value: "1", checked: "checked", id: settings.buttonSwitcherID});
+    		divButtonSwitcher.append(switcherInput);
+    		
+    	}
     	
     	//  <div class="btBoxFilter">    	
     	var divApplyButton = $("<div>", {class: "e_s_apply_div", style: "float: right;"});
