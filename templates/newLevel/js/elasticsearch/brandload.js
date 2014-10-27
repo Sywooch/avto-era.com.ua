@@ -21,14 +21,14 @@ $( document ).ready(function(){
              	   id: 		"e_s_avto_year_id",
              	   name: 	"podbor_shini_i_diski__year",
              	   label: 	"Год выпуска",
-             	   url:		"/shop/elastic_search/getAutoModels",
+             	   url:		"/shop/elastic_search/getAutoYears",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_avto_modification_id",
              	   name: 	"podbor_shini_i_diski__modification",
              	   label: 	"Модификация",
-             	   url:		"/shop/elastic_search/getAutoModels",
+             	   url:		"/shop/elastic_search/getAutoModification",
              	   isset:	false,
              	   optVal:	null
                 }

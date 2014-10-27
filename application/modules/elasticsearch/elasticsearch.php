@@ -371,9 +371,43 @@ class Elasticsearch extends MY_Controller {
 		ORDER BY podbor_shini_i_diski.car";
 		
 		$query = $this->db->query($sql);
-		$autoBrands = $query->result_array();
+		$autoModels = $query->result_array();
 		
-		return $autoBrands;
+		return $autoModels;
+	}
+	
+	/**
+	 * Get auto years
+	 */
+	public function getAutoYears(){
+		$whereStr = $this->makeWhereSQL();
+	
+		$sql = "SELECT podbor_shini_i_diski.year AS id, podbor_shini_i_diski.year AS value FROM `podbor_shini_i_diski`
+		$whereStr
+		GROUP BY podbor_shini_i_diski.year
+		ORDER BY podbor_shini_i_diski.year";
+	
+		$query = $this->db->query($sql);
+		$autoYears = $query->result_array();
+	
+		return $autoYears;
+	}
+	
+	/**
+	 * Get auto years
+	 */
+	public function getAutoModification(){
+		$whereStr = $this->makeWhereSQL();
+	
+		$sql = "SELECT podbor_shini_i_diski.modification AS id, podbor_shini_i_diski.modification AS value FROM `podbor_shini_i_diski`
+		$whereStr
+		GROUP BY podbor_shini_i_diski.modification
+		ORDER BY podbor_shini_i_diski.modification";
+	
+		$query = $this->db->query($sql);
+		$autoModification = $query->result_array();
+	
+		return $autoModification;
 	}
 	 
 	private function makeWhereSQL($advWhere){

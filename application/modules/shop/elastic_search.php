@@ -203,7 +203,7 @@ class Elastic_search extends ShopController {
 	}
 	
 	/**
-	 * Get JSON auto brands
+	 * Get JSON auto models
 	 */
 	public function getAutoModels(){
 		$auto_model_retrieved = array();
@@ -215,4 +215,30 @@ class Elastic_search extends ShopController {
 		echo $this->elasticsearch->response($auto_model_retrieved);
 	}
 	
+	
+	/**
+	 * Get JSON auto years
+	 */
+	public function getAutoYears(){
+		$auto_year_retrieved = array();
+		$auto_year = $this->elasticsearch->getAutoYears();
+	
+		foreach($auto_year as $ay){
+			$auto_year_retrieved[ $ay['id'] ] = $ay['value'];
+		}
+		echo $this->elasticsearch->response($auto_year_retrieved);
+	}
+	
+	/**
+	 * Get JSON auto years
+	 */
+	public function getAutoModification(){
+		$auto_modification_retrieved = array();
+		$auto_modification = $this->elasticsearch->getAutoModification();
+	
+		foreach($auto_modification as $am){
+			$auto_modification_retrieved[ $am['id'] ] = $am['value'];
+		}
+		echo $this->elasticsearch->response($auto_modification_retrieved);
+	}
 }
