@@ -17,6 +17,8 @@ class Categories extends ShopController {
 		parent::__construct();
 		$this->load->module ( 'elasticsearch' );
 		
+		header('Content-Type: text/html; charset=utf-8');
+		
 		$this->initialize ();
 	}
 	
@@ -52,13 +54,18 @@ class Categories extends ShopController {
 		/**
 		 * Set template file
 		 */
-		$this->templateFile = 'category';
+		$this->templateFile = 'categories';
 		
 		/**
-		 * Enable Query Caching
+		 * Get total product count according to filter parameters
+		 */
+		$totalProducts = $this->elasticsearch->getProductCount();
+		
+		/**
+		 * Geting products model from base
 		 */
 		$this->db->cache_on ();
-		$products = $this->elasticsearch->getProducts();
+		$products = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
 		$this->db->cache_off ();
 		
 		/**
@@ -67,7 +74,6 @@ class Categories extends ShopController {
 		$this->data = array (
 			'title' => "category tytle",
 			'category' => null,
-			'priceRange' => 0,
 			'products' => $products,
 			'model' => & $products,
 			'totalProducts' => $totalProducts,
@@ -78,7 +84,6 @@ class Categories extends ShopController {
 	}
 
 	public function index() {
-		echo "Hello";
 // 		if ($this->categoryModel->getFullPath() !== $this->categoryPath)
 // 			redirect('shop/category/' . $this->categoryModel->getFullPath(), 'location', '301');
 
@@ -125,9 +130,9 @@ class Categories extends ShopController {
 // 		\CMSFactory\Events::create()->registerEvent($this->data, 'category:load');
 // 		\CMSFactory\Events::runFactory();
 
-// 		/** Render template */
-// 		$this->render($this->templateFile, $this->data);
-// 		exit;
+		/** Render template */
+		$this->render($this->templateFile, $this->data);
+		exit;
 	}
 	
 	/**
@@ -135,13 +140,13 @@ class Categories extends ShopController {
 	 *
 	 * @return int
 	 */
-	private function getTotalRow() {
-		$connection = \Propel::getConnection ();
-		$statement = $connection->prepare ( 'SELECT FOUND_ROWS() as `number`' );
-		$statement->execute ();
-		$resultset = $statement->fetchAll ();
-		return $resultset [0] ['number'];
-	}
+// 	private function getTotalRow() {
+// 		$connection = \Propel::getConnection ();
+// 		$statement = $connection->prepare ( 'SELECT FOUND_ROWS() as `number`' );
+// 		$statement->execute ();
+// 		$resultset = $statement->fetchAll ();
+// 		return $resultset [0] ['number'];
+// 	}
 
 }
 

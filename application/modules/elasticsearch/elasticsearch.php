@@ -42,7 +42,7 @@ class Elasticsearch extends MY_Controller {
 	/**
 	 * Retrieve products
 	 */
-	public function getProducts(){
+	public function getProducts($offset = 0, $limit = 24){
 		$whereStr = $this->makeWhereSQL("");
 		
 		$sql = "SELECT * FROM `shop_products` shop_products
@@ -57,7 +57,7 @@ class Elasticsearch extends MY_Controller {
 		$whereStr
 		GROUP BY shop_products_i18n.name
 		ORDER BY shop_products_i18n.name
-		LIMIT 0, 20 ";
+		LIMIT $offset, $limit";
 		
 		$query = $this->db->query($sql);
 		$products = $query->result();
@@ -71,7 +71,7 @@ class Elasticsearch extends MY_Controller {
 	public function getProductCount(){
 		$whereStr = $this->makeWhereSQL("");
 	
-		$sql = "SELECT count(shop_products.id) FROM `shop_products` shop_products
+		$sql = "SELECT * FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
@@ -81,13 +81,13 @@ class Elasticsearch extends MY_Controller {
 		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
 		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 		$whereStr
-		GROUP BY shop_products_i18n.id
-		ORDER BY shop_products_i18n.id";
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name";
 	
 		$query = $this->db->query($sql);
-		$products = $query->result();
+		$num_rows = $query->num_rows();
 	
-		return $products;
+		return $num_rows;
 	}
 	
 	// #############################################################################################
