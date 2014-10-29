@@ -73,7 +73,6 @@ class Categories extends ShopController {
 		 * Prepare products model
 		 */
 		$products = \SProductsQuery::create ()->joinWithI18n()->joinProductVariant ()->withColumn ( 'IF(sum(shop_product_variants.stock) > 0, 1, 0)', 'allstock' )->groupById ()->joinBrand ()->distinct ()->orderBy ( 'allstock', \Criteria::DESC )->findPks( $ids );
-		//var_dump($products);
 		$this->db->cache_off ();
 		
 		/**
