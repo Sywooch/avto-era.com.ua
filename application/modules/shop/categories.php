@@ -36,9 +36,16 @@ class Categories extends ShopController {
 // 			$this->core->error_404 ();
 		
 		/**
-		 * Remove locale/shop/category from request
+		 * Request entity diski/vse-shiny
 		 */
-		$this->categoryPath = "vse-shiny";
+		
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$this->categoryPath = "vse-shiny";
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$this->categoryPath = "diski";
+		}else{
+			$this->categoryPath = "vse-shiny";
+		}
 
 		/**
 		 * Get SCategory Model

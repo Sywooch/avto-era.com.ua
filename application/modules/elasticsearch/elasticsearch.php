@@ -43,7 +43,7 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve products
 	 */
 	public function getProducts($offset = 0, $limit = 24){
-		
+		// Predefined wheels/tyres filter
 		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
 			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
 		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
@@ -76,7 +76,14 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve products
 	 */
 	public function getProductCount(){
-		$whereStr = $this->makeWhereSQL("");
+		// Predefined wheels/tyres filter
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
+		}else{
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
+		}
 	
 		$sql = "SELECT * FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
