@@ -465,13 +465,15 @@ class Elasticsearch extends MY_Controller {
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
 			if($keyValue != "_"){
-				$keyValueUpdated = str_replace("__",".",$keyValue);
-				// If numeric
-				if( is_numeric(substr($keyValueUpdated, -1)) ){
-					$keyValueUpdated = substr($keyValueUpdated, 0, strlen($keyValueUpdated) - 1);
+				if($_GET[$keyValue] != ""){
+					$keyValueUpdated = str_replace("__",".",$keyValue);
+					// If numeric
+					if( is_numeric(substr($keyValueUpdated, -1)) ){
+						$keyValueUpdated = substr($keyValueUpdated, 0, strlen($keyValueUpdated) - 1);
+					}
+					
+					$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
 				}
-				
-				$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
 			}
 		}
 		
