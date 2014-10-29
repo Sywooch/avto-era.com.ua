@@ -46,8 +46,7 @@ integer variable contains the current page number * $banners: array of
 				class="animateListItems items items-catalog {if $_COOKIE['listtable'] == 'table' || $_COOKIE['listtable'] == NULL} table{else:} list{/if}"
 				id="items-catalog-main">
 				<!-- Include template for one product item-->
-				{/*$CI->load->module('new_level')->OPI($model, array('wishlist'=>true,
-				'codeArticle' => true))*/}
+				{$CI->load->module('new_level')->OPI($model, array('wishlist'=>true, 'codeArticle' => true), 'elastic_search_one_product_item')}
 			</ul>
 			<!-- render pagination-->
 			{$pagination} {/if}

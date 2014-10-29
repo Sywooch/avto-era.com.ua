@@ -43,9 +43,9 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve products
 	 */
 	public function getProducts($offset = 0, $limit = 24){
-		$whereStr = $this->makeWhereSQL("");
+		$whereStr = $this->makeWhereSQL("shop_products.active=1 AND ");
 		
-		$sql = "SELECT * FROM `shop_products` shop_products
+		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id

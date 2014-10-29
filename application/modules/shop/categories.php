@@ -54,19 +54,34 @@ class Categories extends ShopController {
 		/**
 		 * Set template file
 		 */
-		$this->templateFile = 'categories';
-		
-		/**
-		 * Get total product count according to filter parameters
-		 */
-		$totalProducts = $this->elasticsearch->getProductCount();
+		$this->templateFile = 'categories';		
 		
 		/**
 		 * Geting products model from base
 		 */
 		$this->db->cache_on ();
-		$products = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
+		$productsBase = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
+		$this->db->cache_off ();		
+		
+		/**
+		 * Enable Query Caching
+		 */
+		$this->db->cache_on ();
+		
+		/**
+		 * Prepare products model
+		 */
+		$products = \SProductsQuery::create ()->joinWithI18n()->findPks(array(( int ) $productsBase[0]->id));
 		$this->db->cache_off ();
+		
+		var_dump($products);
+		
+		return;
+		
+		/**
+		 * Get total product count according to filter parameters
+		 */
+		$totalProducts = $this->elasticsearch->getProductCount();
 		
 		/**
 		 * Render category page
