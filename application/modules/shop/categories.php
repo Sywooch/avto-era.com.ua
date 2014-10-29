@@ -35,16 +35,15 @@ class Categories extends ShopController {
 // 		if (! is_numeric ( $_GET ['per_page'] ) && $_GET ['per_page'] != NULL)
 // 			$this->core->error_404 ();
 		
-// 		/**
-// 		 * Remove locale/shop/category from request
-// 		 */
-// 		$this->categoryPath = ($this->locale == $this->uri->segments [1]) ? implode ( '/', array_slice ( $this->uri->segments, 3 ) ) : implode ( '/', array_slice ( $this->uri->segments, 2 ) );
-		
-// 		/**
-// 		 * Get SCategory Model
-// 		 */
-// 		$this->categoryModel = \SCategoryQuery::create ()->joinWithI18n ( $this->locale )->withColumn ( 'IF(H1 IS NOT NULL AND H1 NOT LIKE "", H1, Name)', 'title' )->filterByFullPath ( $this->categoryPath )->filterByActive ( TRUE )->findOne ();
-// 		var_dump($this->categoryModel);
+		/**
+		 * Remove locale/shop/category from request
+		 */
+		$this->categoryPath = "vse-shiny";
+
+		/**
+		 * Get SCategory Model
+		 */
+		$this->categoryModel = \SCategoryQuery::create ()->joinWithI18n ( $this->locale )->withColumn ( 'IF(H1 IS NOT NULL AND H1 NOT LIKE "", H1, Name)', 'title' )->filterByFullPath ( $this->categoryPath )->findOne ();
 		
 		/**
 		 * Set userPerPage Products Count
@@ -61,7 +60,9 @@ class Categories extends ShopController {
 		 */
 		$this->db->cache_on ();
 		$productsBase = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
-		$this->db->cache_off ();		
+		$this->db->cache_off ();
+
+		$ids = $this->retrieveIDs($productsBase);
 		
 		/**
 		 * Enable Query Caching
@@ -71,12 +72,8 @@ class Categories extends ShopController {
 		/**
 		 * Prepare products model
 		 */
-		$products = \SProductsQuery::create ()->joinWithI18n()->findPks(array(( int ) $productsBase[0]->id));
+		$products = \SProductsQuery::create ()->joinWithI18n()->joinProductVariant ()->withColumn ( 'IF(sum(shop_product_variants.stock) > 0, 1, 0)', 'allstock' )->groupById ()->joinBrand ()->distinct ()->orderBy ( 'allstock', \Criteria::DESC )->findPks( $ids );
 		$this->db->cache_off ();
-		
-		var_dump($products);
-		
-		return;
 		
 		/**
 		 * Get total product count according to filter parameters
@@ -148,6 +145,18 @@ class Categories extends ShopController {
 		/** Render template */
 		$this->render($this->templateFile, $this->data);
 		exit;
+	}
+	
+	/**
+	 * Retrieve all ids
+	 * @param unknown_type $productsBase
+	 */
+	private function retrieveIDs($productsBase){
+		$IDs = array();
+		foreach($productsBase as $value){
+			array_push($IDs, (( int ) $value->id) );
+		}
+		return $IDs;
 	}
 	
 	/**
