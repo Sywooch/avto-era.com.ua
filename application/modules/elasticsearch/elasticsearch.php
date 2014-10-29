@@ -43,7 +43,16 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve products
 	 */
 	public function getProducts($offset = 0, $limit = 24){
-		$whereStr = $this->makeWhereSQL("shop_products.active=1 AND ");
+		
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
+		}else{
+			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
+		}
+		
+		$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
 		
 		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
@@ -464,7 +473,7 @@ class Elasticsearch extends MY_Controller {
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
-			if($keyValue != "_"){
+			if($keyValue != "_" && $keyValue != "product_type"){
 				if($_GET[$keyValue] != ""){
 					$keyValueUpdated = str_replace("__",".",$keyValue);
 					// If numeric

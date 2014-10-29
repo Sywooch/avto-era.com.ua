@@ -1,6 +1,7 @@
 $( document ).ready(function(){ 
 	$("#tiresElasticSContainer").elasticSearch({
 		mainContainer: "#tiresElasticSContainer",
+		type: "tyres",
 		entitySelects: [
                 {	
              	   id: 		"e_s_brand_id",

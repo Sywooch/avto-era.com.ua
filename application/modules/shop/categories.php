@@ -73,6 +73,7 @@ class Categories extends ShopController {
 		 * Prepare products model
 		 */
 		$products = \SProductsQuery::create ()->joinWithI18n()->joinProductVariant ()->withColumn ( 'IF(sum(shop_product_variants.stock) > 0, 1, 0)', 'allstock' )->groupById ()->joinBrand ()->distinct ()->orderBy ( 'allstock', \Criteria::DESC )->findPks( $ids );
+		//var_dump($products);
 		$this->db->cache_off ();
 		
 		/**
@@ -81,11 +82,27 @@ class Categories extends ShopController {
 		$totalProducts = $this->elasticsearch->getProductCount();
 		
 		/**
+		 * Choode order method (default or get)
+		 */
+		if (! $_GET ['order']) {
+			$order_method = $this->getDefaultSort ();
+		} elseif (! empty ( $_GET ['order'] )) {
+			$order_method = $_GET ['order'];
+		}
+		
+		/**
+		 * For order method by get order
+		 */
+// 		if ($order_method) {
+// 			$products = $products->globalSort ( $order_method );
+// 		}
+		
+		/**
 		 * Render category page
 		 */
 		$this->data = array (
-			'title' => "category tytle",
-			'category' => null,
+			'title' => $this->categoryModel->virtualColumns ['title'],
+			'category' => $this->categoryModel,
 			'products' => $products,
 			'model' => & $products,
 			'totalProducts' => $totalProducts,
@@ -93,6 +110,7 @@ class Categories extends ShopController {
 			'brands' => $brands,
 			'order_method' => $order_method
 		);
+
 	}
 
 	public function index() {
@@ -160,17 +178,24 @@ class Categories extends ShopController {
 	}
 	
 	/**
-	 * Get total rows
+	 * Get default sort method
 	 *
-	 * @return int
+	 * @return type
 	 */
-// 	private function getTotalRow() {
-// 		$connection = \Propel::getConnection ();
-// 		$statement = $connection->prepare ( 'SELECT FOUND_ROWS() as `number`' );
-// 		$statement->execute ();
-// 		$resultset = $statement->fetchAll ();
-// 		return $resultset [0] ['number'];
-// 	}
+	public function getDefaultSort() {
+		if ($this->categoryModel) {
+			$order_method = $this->categoryModel->getOrderMethod ();
+			$order_from_db = $this->db->where ( 'id', ( int ) $order_method )->get ( 'shop_sorting' )->result_array ();
+			$order = $order_from_db [0] ['get'];
+		}
+
+		if (! empty ( $order ))
+			return $order;
+		else {
+			$order = $this->db->select ( 'shop_sorting.get' )->from ( 'shop_sorting' )->where ( 'shop_sorting.active', 1 )->order_by ( 'shop_sorting.pos' )->get ()->row ();
+			return $order->get;
+		}
+	}
 
 }
 

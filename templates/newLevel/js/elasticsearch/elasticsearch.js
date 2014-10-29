@@ -12,7 +12,8 @@
             optionDefValue: 			"",
             buttonSwitcher: 			false,
             buttonSwitcherID: 			"buttonSwitcherID",
-            buttonSwitcherLabel:		"Автоматериалы"
+            buttonSwitcherLabel:		"Автоматериалы",
+            type: 						"tyres"
         }, options );
         
         selectProducer(self, settings);        
@@ -202,6 +203,11 @@
     	// <div class="e_s_container">
     	var divInnerContainer = $("<div>", {class: "e_s_container", style: "float: left;"});
     	form.append(divInnerContainer);
+    	
+    	// type hiden resource
+    	// <input id="sort" type="hidden" value="action" name="order">
+    	var hiddenResource = $("<input>", {id: "productType", type: "hidden", value: settings.type, name: "product_type"});
+    	form.append(hiddenResource);
     	
     	settings.entitySelects.forEach(function(elem, index, array){
     		//<div class="check-appointment p_r  v-a_m e_s_column">
