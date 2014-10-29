@@ -117,22 +117,22 @@ class Categories extends ShopController {
 // 		if ($this->categoryModel->getFullPath() !== $this->categoryPath)
 // 			redirect('shop/category/' . $this->categoryModel->getFullPath(), 'location', '301');
 
-// 		/** Pagination */
-// 		$this->load->library('Pagination');
-// 		$this->pagination = new SPagination();
-// 		$config['base_url'] = shop_url('category/' . $this->categoryModel->getFullPath() . SProductsQuery::getFilterQueryString());
-// 		$config['page_query_string'] = true;
-// 		$config['total_rows'] = $this->data['totalProducts'];
-// 		$config['per_page'] = $this->perPage;
-// 		$config['first_link'] = '1';
-// 		$config['next_link'] = '→';
-// 		$config['prev_link'] = '←';
-// 		$config['last_link'] = ceil($this->data['totalProducts'] / $this->perPage);
+		/** Pagination */
+		$this->load->library('Pagination');
+		$this->pagination = new SPagination();
+		$config['base_url'] = shop_url('categories/' . SProductsQuery::getFilterQueryString());
+		$config['page_query_string'] = true;
+		$config['total_rows'] = $this->data['totalProducts'];
+		$config['per_page'] = $this->perPage;
+		$config['first_link'] = '1';
+		$config['next_link'] = '→';
+		$config['prev_link'] = '←';
+		$config['last_link'] = ceil($this->data['totalProducts'] / $this->perPage);
 
-// 		$this->pagination->num_links = 3;
-// 		$this->pagination->initialize($config);
-// 		$this->data['pagination'] = $this->pagination->create_links();
-// 		$this->data['page_number'] = $this->pagination->cur_page;
+		$this->pagination->num_links = 3;
+		$this->pagination->initialize($config);
+		$this->data['pagination'] = $this->pagination->create_links();
+		$this->data['page_number'] = $this->pagination->cur_page;
 
 // 		if ($_GET['per_page'] % $this->perPage != 0)
 // 			redirect($this->uri->uri_string(), 'location');
@@ -154,7 +154,7 @@ class Categories extends ShopController {
 // 		else
 // 			$desc = $this->categoryModel->getName () . " покупайте по самых низких ценах с доставкой по Киеву и Украине, лучшие отзывы и характеристики.";
 
-// 		$this->core->set_meta_tags($title, $this->categoryModel->makePageKeywords(), $desc, $this->pagination->cur_page, 1);
+		$this->core->set_meta_tags($title, $this->categoryModel->makePageKeywords(), $desc, $this->pagination->cur_page, 1);
 
 // 		/** Register event 'category:load' */
 // 		\CMSFactory\Events::create()->registerEvent($this->data, 'category:load');

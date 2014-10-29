@@ -473,7 +473,8 @@ class Elasticsearch extends MY_Controller {
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
-			if($keyValue != "_" && $keyValue != "product_type"){
+			// Filter exclude
+			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
 				if($_GET[$keyValue] != ""){
 					$keyValueUpdated = str_replace("__",".",$keyValue);
 					// If numeric

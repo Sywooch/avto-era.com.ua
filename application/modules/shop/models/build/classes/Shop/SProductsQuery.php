@@ -91,6 +91,17 @@ class SProductsQuery extends BaseSProductsQuery {
 	public static function getFilterQueryString() {
 		$data = array ();
 		
+		// Old variant
+// 		$need = array (
+// 				'p',
+// 				'lp',
+// 				'rp',
+// 				'brand',
+// 				'order',
+// 				'user_per_page',
+// 				'categoryId' 
+// 		);
+		
 		$need = array (
 				'p',
 				'lp',
@@ -98,7 +109,20 @@ class SProductsQuery extends BaseSProductsQuery {
 				'brand',
 				'order',
 				'user_per_page',
-				'categoryId' 
+				'categoryId',
+				
+				'product_type',
+				'shop_brands_i18n__id',
+				'shop_category_i18n__id',
+				'shop_product_properties_data__value1',
+				'shop_product_properties_data__value2',
+				'shop_product_properties_data__value3',
+				'shop_product_properties_data__value4',
+				'shop_product_properties_data__value5',
+				'podbor_shini_i_diski__vendor',
+				'podbor_shini_i_diski__car',
+				'podbor_shini_i_diski__year',
+				'podbor_shini_i_diski__modification'
 		);
 		
 		foreach ( $need as $key => $value ) {
