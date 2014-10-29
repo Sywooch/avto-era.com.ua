@@ -122,12 +122,6 @@
     	var confs = getConfigByID(settings, $(selectObj).attr("id"));
     	$(selectObj).empty();
     	
-    	// Common ALL value
-    	$(selectObj)
-     	.append( $("<option></option>") 
-     	.attr("value", "")
-     	.text("Все") ); 
-    	
 		for (prop in data) {
 			if (!data.hasOwnProperty(prop)) {
 		        continue;
@@ -136,13 +130,34 @@
 	         	.append($("<option></option>")
 	         	.attr("value", prop)
 	         	.text(data[prop]) ); 				
-		}
-		// Re-select
+		}		
+		
+		// Option sortin
+		$( "select#" + $(selectObj).attr("id") + " option" ).sort(sortOptions).appendTo( $(selectObj) );
+		
+		// Common ALL value
+    	$(selectObj)
+     	.prepend( $("<option></option>") 
+     	.attr("value", "")
+     	.text("Все") ); 
+    	
+    	// Re-select
 		if ( $("#" + $(selectObj).attr("id") + " option[value='" + confs.optVal + "']").length > 0 ){
 			$( selectObj ).val(confs.optVal);
 		}else{
+			$( selectObj ).val("");
 			confs.optVal = null;
 		}
+    };
+    
+    /**
+     * Sort Options
+     * @param a
+     * @param b
+     * @returns
+     */
+    function sortOptions(a, b) {         
+        return (a.innerHTML > b.innerHTML) ? 1 : -1;
     };
     
     /**
