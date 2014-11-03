@@ -105,14 +105,23 @@ class Categories extends ShopController {
 			$pieces = explode("|", $itemValue );
 			
 			foreach($pieces as $piecesValue){
+				// Wheels protections
+				if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+					$piecesValue = str_replace (' ', '', $piecesValue);
+					
+					$pos = strpos($piecesValue, "ET");
+					$piecesValue = substr($piecesValue, 0, $pos) . ' ' . substr($piecesValue, $pos);
+				} 
+				
 				if(!in_array($piecesValue, $type_retrieved, true)){
         			array_push($type_retrieved, $piecesValue . "%'");
     			}
 			}
 		}
+		
 		// WHERE tutorial_author LIKE '%jay'
 		$sqlWhere = "WHERE shop_products_i18n.name LIKE '%" . implode ( " OR shop_products_i18n.name LIKE '%" , $type_retrieved );
-		
+// 		var_dump($sqlWhere);
 		
 		$this->db->cache_on ();
 		$productsBase = $this->elasticsearch->getProductsByAvto($sqlWhere, ( int ) $_GET ['per_page'], ( int ) $this->perPage);
