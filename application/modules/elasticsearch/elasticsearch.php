@@ -76,9 +76,19 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve products by avto
 	 */
 	public function getProductsByAvto($where, $offset = 0, $limit = 24){
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' ";
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name == 'Диски' ";
+		}
+		
+		
+		
 		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
-		$where
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		$where 
 		GROUP BY shop_products_i18n.name
 		ORDER BY shop_products_i18n.name
 		LIMIT $offset, $limit";
@@ -87,6 +97,30 @@ class Elasticsearch extends MY_Controller {
 		$products = $query->result();
 		
 		return $products;
+	}
+	
+	/**
+	 * Retrieve COUNT products by avto
+	 */
+	public function getProductsByAvtoCount($where){
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' ";
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name == 'Диски' ";
+		}
+		
+		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		$where
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name";
+	
+		$query = $this->db->query($sql);
+		$num_rows = $query->num_rows();
+	
+		return $num_rows;
 	}
 	
 	/**
