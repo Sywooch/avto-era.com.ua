@@ -2,6 +2,7 @@ $( document ).ready(function(){
 	$("#tiresElasticSContainer").elasticSearch({
 		mainContainer: "#discElasticSContainer",
 		type: "wheels",
+		productTyreWheelID:			"productTyreWheelIDWheel",
 		entitySelects: [
                 {	
              	   id: 		"e_s_disc_brand_id",

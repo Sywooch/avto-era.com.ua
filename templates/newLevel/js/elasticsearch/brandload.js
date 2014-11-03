@@ -4,6 +4,7 @@ $( document ).ready(function(){
 		buttonSwitcher: true,
 		type: "tyres",
 		action: 					"/shop/categories/searchByAvto",
+		productTyreWheelID:			"productTyreWheelIDBrand",
 		entitySelects: [
                 {	
              	   id: 		"e_s_avto_brand_id",

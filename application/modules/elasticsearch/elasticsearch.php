@@ -79,7 +79,7 @@ class Elasticsearch extends MY_Controller {
 		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
 			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' ";
 		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
-			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name == 'Диски' ";
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name = 'Диски' ";
 		}
 		
 		
@@ -106,7 +106,7 @@ class Elasticsearch extends MY_Controller {
 		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
 			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' ";
 		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
-			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name == 'Диски' ";
+			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name = 'Диски' ";
 		}
 		
 		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
