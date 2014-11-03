@@ -17,14 +17,14 @@ $( document ).ready(function(){
              	   url:		"/shop/elastic_search/getTypeOfTires",
              	   isset:	false,
              	   optVal:	null
-                },{
+                }/*,{
              	   id: 		"e_s_sezon_id",
              	   name: 	"shop_product_properties_data__value1",
              	   label: 	"Сезонность",
              	   url:		"/shop/elastic_search/seasons",
              	   isset:	false,
              	   optVal:	null
-                },{
+                }*/,{
              	   id: 		"e_s_width_id",
              	   name: 	"shop_product_properties_data__value2",
              	   label: 	"Ширина",
