@@ -26,11 +26,6 @@ class Categories extends ShopController {
 	 * Initialize all controller
 	 */
 	private function initialize(){
-		
-
-	}
-
-	public function index() {
 		/**
 		 * Set Locale
 		 */
@@ -62,7 +57,10 @@ class Categories extends ShopController {
 		 * Set template file
 		 */
 		$this->templateFile = 'categories';
-		
+
+	}
+
+	public function index() {
 		/**
 		 * Geting products model from base
 		 */
@@ -142,6 +140,10 @@ class Categories extends ShopController {
 		exit;
 	}
 	
+	
+	/**
+	 * Search by avto brands
+	 */
 	public function searchByAvto(){
 		$type_retrieved = array();
 		$types = $this->elasticsearch->getAutoResults();		
@@ -155,12 +157,14 @@ class Categories extends ShopController {
 			
 			foreach($pieces as $piecesValue){
 				if(!in_array($piecesValue, $type_retrieved, true)){
-        			array_push($type_retrieved, $piecesValue);
+        			array_push($type_retrieved, $piecesValue . "%'");
     			}
 			}
 		}
+		// WHERE tutorial_author LIKE '%jay'
+		$sqlWhere = "WHERE shop_products_i18n.name LIKE '%" . implode ( " OR shop_products_i18n.name LIKE '%" , $type_retrieved );
 		
-		//var_dump($type_retrieved);
+		var_dump( $this->elasticsearch->getProductsByAvto($sqlWhere, ( int ) $_GET ['per_page'], ( int ) $this->perPage) );
 			
 	}
 	
@@ -174,6 +178,81 @@ class Categories extends ShopController {
 			array_push($IDs, (( int ) $value->id) );
 		}
 		return $IDs;
+	}
+	
+	/**
+	 * Render results with paginator
+	 * @param unknown_type $ids
+	 */
+	private function renderResults($ids){
+		/**
+		 * Enable Query Caching
+		 */
+		$this->db->cache_on ();
+		
+		/**
+		 * Prepare products model
+		 */
+		$products = \SProductsQuery::create ()->joinWithI18n()->joinProductVariant ()->withColumn ( 'IF(sum(shop_product_variants.stock) > 0, 1, 0)', 'allstock' )->groupById ()->joinBrand ()->distinct ()->orderBy ( 'allstock', \Criteria::DESC )->findPks( $ids );
+		$this->db->cache_off ();
+		
+		/**
+		 * Get total product count according to filter parameters
+		 */
+		$totalProducts = $this->elasticsearch->getProductCount();
+		
+		/**
+		 * Choode order method (default or get)
+		 */
+		if (! $_GET ['order']) {
+			$order_method = $this->getDefaultSort ();
+		} elseif (! empty ( $_GET ['order'] )) {
+			$order_method = $_GET ['order'];
+		}
+		
+		/**
+		 * For order method by get order
+		 */
+		// 		if ($order_method) {
+		// 			$products = $products->globalSort ( $order_method );
+		// 		}
+		
+		/**
+		 * Render category page
+		 */
+		$this->data = array (
+				'title' => $this->categoryModel->virtualColumns ['title'],
+				'category' => $this->categoryModel,
+				'products' => $products,
+				'model' => & $products,
+				'totalProducts' => $totalProducts,
+				'propertiesInCat' => $properties,
+				'brands' => $brands,
+				'order_method' => $order_method
+		);
+		
+		/** Pagination */
+		$this->load->library('Pagination');
+		$this->pagination = new SPagination();
+		$config['base_url'] = shop_url('categories/' . SProductsQuery::getFilterQueryString());
+		$config['page_query_string'] = true;
+		$config['total_rows'] = $this->data['totalProducts'];
+		$config['per_page'] = $this->perPage;
+		$config['first_link'] = '1';
+		$config['next_link'] = '→';
+		$config['prev_link'] = '←';
+		$config['last_link'] = ceil($this->data['totalProducts'] / $this->perPage);
+		
+		$this->pagination->num_links = 3;
+		$this->pagination->initialize($config);
+		$this->data['pagination'] = $this->pagination->create_links();
+		$this->data['page_number'] = $this->pagination->cur_page;
+		
+		$this->core->set_meta_tags($title, $this->categoryModel->makePageKeywords(), $desc, $this->pagination->cur_page, 1);
+		
+		/** Render template */
+		$this->render($this->templateFile, $this->data);
+		exit;
 	}
 	
 	/**

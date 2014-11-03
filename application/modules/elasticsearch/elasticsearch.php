@@ -73,6 +73,23 @@ class Elasticsearch extends MY_Controller {
 	}
 	
 	/**
+	 * Retrieve products by avto
+	 */
+	public function getProductsByAvto($where, $offset = 0, $limit = 24){
+		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		$where
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name
+		LIMIT $offset, $limit";
+		
+		$query = $this->db->query($sql);
+		$products = $query->result();
+		
+		return $products;
+	}
+	
+	/**
 	 * Retrieve products
 	 */
 	public function getProductCount(){
