@@ -13,7 +13,8 @@
             buttonSwitcher: 			false,
             buttonSwitcherID: 			"buttonSwitcherID",
             buttonSwitcherLabel:		"Автоматериалы",
-            type: 						"tyres"
+            type: 						"tyres",
+            productTyreWheelID:			"productTyreWheelID"
         }, options );
         
         selectProducer(self, settings);        
@@ -62,6 +63,12 @@
     		$("#" + settings.buttonSwitcherID).switchButton({
 				on_label: "Шины",
 				off_label: "Диски"
+			}).change(function(){
+				if( $(this).prop("checked") ){
+					$("#" + settings.productTyreWheelID).val("tyres");
+				}else{
+					$("#" + settings.productTyreWheelID).val("wheels");
+				}
 			});
     	}
 
@@ -221,7 +228,7 @@
     	
     	// type hiden resource
     	// <input id="sort" type="hidden" value="action" name="order">
-    	var hiddenResource = $("<input>", {id: "productType", type: "hidden", value: settings.type, name: "product_type"});
+    	var hiddenResource = $("<input>", {id: settings.productTyreWheelID, type: "hidden", value: settings.type, name: "product_type"});
     	form.append(hiddenResource);
     	
     	settings.entitySelects.forEach(function(elem, index, array){
