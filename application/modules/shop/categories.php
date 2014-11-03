@@ -26,14 +26,15 @@ class Categories extends ShopController {
 	 * Initialize all controller
 	 */
 	private function initialize(){
+		
+
+	}
+
+	public function index() {
 		/**
 		 * Set Locale
 		 */
 		$this->locale = \MY_Controller::getCurrentLocale ();
-		
-// 		// ???
-// 		if (! is_numeric ( $_GET ['per_page'] ) && $_GET ['per_page'] != NULL)
-// 			$this->core->error_404 ();
 		
 		/**
 		 * Request entity diski/vse-shiny
@@ -46,7 +47,7 @@ class Categories extends ShopController {
 		}else{
 			$this->categoryPath = "vse-shiny";
 		}
-
+		
 		/**
 		 * Get SCategory Model
 		 */
@@ -60,7 +61,7 @@ class Categories extends ShopController {
 		/**
 		 * Set template file
 		 */
-		$this->templateFile = 'categories';		
+		$this->templateFile = 'categories';
 		
 		/**
 		 * Geting products model from base
@@ -68,7 +69,7 @@ class Categories extends ShopController {
 		$this->db->cache_on ();
 		$productsBase = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
 		$this->db->cache_off ();
-
+		
 		$ids = $this->retrieveIDs($productsBase);
 		
 		/**
@@ -99,30 +100,24 @@ class Categories extends ShopController {
 		/**
 		 * For order method by get order
 		 */
-// 		if ($order_method) {
-// 			$products = $products->globalSort ( $order_method );
-// 		}
+		// 		if ($order_method) {
+		// 			$products = $products->globalSort ( $order_method );
+		// 		}
 		
 		/**
 		 * Render category page
 		 */
 		$this->data = array (
-			'title' => $this->categoryModel->virtualColumns ['title'],
-			'category' => $this->categoryModel,
-			'products' => $products,
-			'model' => & $products,
-			'totalProducts' => $totalProducts,
-			'propertiesInCat' => $properties,
-			'brands' => $brands,
-			'order_method' => $order_method
+				'title' => $this->categoryModel->virtualColumns ['title'],
+				'category' => $this->categoryModel,
+				'products' => $products,
+				'model' => & $products,
+				'totalProducts' => $totalProducts,
+				'propertiesInCat' => $properties,
+				'brands' => $brands,
+				'order_method' => $order_method
 		);
-
-	}
-
-	public function index() {
-// 		if ($this->categoryModel->getFullPath() !== $this->categoryPath)
-// 			redirect('shop/category/' . $this->categoryModel->getFullPath(), 'location', '301');
-
+		
 		/** Pagination */
 		$this->load->library('Pagination');
 		$this->pagination = new SPagination();
@@ -140,35 +135,33 @@ class Categories extends ShopController {
 		$this->data['pagination'] = $this->pagination->create_links();
 		$this->data['page_number'] = $this->pagination->cur_page;
 
-// 		if ($_GET['per_page'] % $this->perPage != 0)
-// 			redirect($this->uri->uri_string(), 'location');
-
-// 		/* Seo block (canonical) */
-// 		if ((!empty($_GET) || strstr($_SERVER['REQUEST_URI'], '?')) && (!$_GET['per_page']))
-// 			$this->template->registerCanonical(site_url($this->uri->uri_string()));
-
-// 		//Назва категрії або (підкатегорії) + купить в Киеве по низкой цене в Интернет магазине Beautiful-cars
-
-// 		/* Set meta tags */
-// 		if ($this->categoryModel->getMetaTitle())
-// 			$title = $this->categoryModel->getMetaTitle();
-// 		else
-// 			$title = $this->categoryModel->getName () . " купить в Киеве по низкой цене в Интернет магазине Beautiful-cars Украина";
-
-// 		if ($this->categoryModel->getMetaDesc())
-// 			$desc = $this->categoryModel->getMetaDesc();
-// 		else
-// 			$desc = $this->categoryModel->getName () . " покупайте по самых низких ценах с доставкой по Киеву и Украине, лучшие отзывы и характеристики.";
-
 		$this->core->set_meta_tags($title, $this->categoryModel->makePageKeywords(), $desc, $this->pagination->cur_page, 1);
-
-// 		/** Register event 'category:load' */
-// 		\CMSFactory\Events::create()->registerEvent($this->data, 'category:load');
-// 		\CMSFactory\Events::runFactory();
 
 		/** Render template */
 		$this->render($this->templateFile, $this->data);
 		exit;
+	}
+	
+	public function searchByAvto(){
+		$type_retrieved = array();
+		$types = $this->elasticsearch->getAutoResults();		
+		
+		foreach($types as $type){
+			// string(21) "235/35 R18#255/35 R18" => |
+			$type['zamen'] = str_replace("#", "|", $type['zamen']);
+			$itemValue = $type['zamen'];
+			
+			$pieces = explode("|", $itemValue );
+			
+			foreach($pieces as $piecesValue){
+				if(!in_array($piecesValue, $type_retrieved, true)){
+        			array_push($type_retrieved, $piecesValue);
+    			}
+			}
+		}
+		
+		//var_dump($type_retrieved);
+			
 	}
 	
 	/**

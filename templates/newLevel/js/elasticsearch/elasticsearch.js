@@ -14,7 +14,8 @@
             buttonSwitcherID: 			"buttonSwitcherID",
             buttonSwitcherLabel:		"Автоматериалы",
             type: 						"tyres",
-            productTyreWheelID:			"productTyreWheelID"
+            productTyreWheelID:			"productTyreWheelID",
+            action: 					"/shop/categories"
         }, options );
         
         selectProducer(self, settings);        
@@ -217,7 +218,7 @@
      */
     function selectProducer(thisObj, settings){
     	var divWrapper = $("<div>");
-    	var form = $("<form>", {id: settings.formID, class: settings.formClass, action: "", method: "get", action: "/shop/categories"});
+    	var form = $("<form>", {id: settings.formID, class: settings.formClass, method: "get", action: settings.action});
     	    	
     	$(settings.mainContainer).append(divWrapper);
     	divWrapper.append(form);

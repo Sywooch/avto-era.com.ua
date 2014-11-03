@@ -475,6 +475,35 @@ class Elasticsearch extends MY_Controller {
 		return $autoModification;
 	}
 	 
+	/**
+	 * Get auto results
+	 */
+	public function getAutoResults(){
+		$whereStr = $this->makeWhereSQL();
+		
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
+			$sql = "SELECT podbor_shini_i_diski.zamen_shini AS zamen FROM `podbor_shini_i_diski`
+			$whereStr
+			GROUP BY podbor_shini_i_diski.zamen_shini
+			ORDER BY podbor_shini_i_diski.zamen_shini";
+		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			$sql = "SELECT podbor_shini_i_diski.zamen_diskov AS zamen FROM `podbor_shini_i_diski`
+			$whereStr
+			GROUP BY podbor_shini_i_diski.zamen_diskov
+			ORDER BY podbor_shini_i_diski.zamen_diskov";
+		}else{
+			$sql = "SELECT podbor_shini_i_diski.zamen_shini AS zamen FROM `podbor_shini_i_diski`
+			$whereStr
+			GROUP BY podbor_shini_i_diski.zamen_shini
+			ORDER BY podbor_shini_i_diski.zamen_shini";
+		}
+	
+		$query = $this->db->query($sql);
+		$autoResults = $query->result_array();
+	
+		return $autoResults;
+	}
+	
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){

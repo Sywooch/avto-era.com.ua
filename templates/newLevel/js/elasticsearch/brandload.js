@@ -3,6 +3,7 @@ $( document ).ready(function(){
 		mainContainer: "#brandElasticSContainer",
 		buttonSwitcher: true,
 		type: "tyres",
+		action: 					"/shop/categories/searchByAvto",
 		entitySelects: [
                 {	
              	   id: 		"e_s_avto_brand_id",
