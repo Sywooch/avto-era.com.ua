@@ -217,7 +217,7 @@ class Elasticsearch extends MY_Controller {
 	 * @return boolean|unknown
 	 */
 	public function getBrands() {
-		$whereStr = $this->makeWhereTyresSQL();
+		$whereStr = $this->makeWhereTyresSQL("shop_category_i18n.name <> 'Диски' AND ");
 		
 		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products 
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
@@ -239,7 +239,7 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve type of tires
 	 */
 	public function getTypeTires() {
-		$whereStr = $this->makeWhereTyresSQL();
+		$whereStr = $this->makeWhereTyresSQL("shop_category_i18n.name <> 'Диски' AND ");
 		
 		$sql = "SELECT shop_category_i18n.id AS id, shop_category_i18n.name AS name FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
@@ -262,7 +262,7 @@ class Elasticsearch extends MY_Controller {
 	 * Return width of tires
 	 */
 	public function getTyreProp() {
-		$whereStr = $this->makeWhereTyresSQL();
+		$whereStr = $this->makeWhereTyresSQL("shop_category_i18n.name <> 'Диски' AND ");
 		
 		$sql = "SELECT shop_products_i18n.name AS name FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
