@@ -166,18 +166,18 @@ class Elasticsearch extends MY_Controller {
 	 * @return boolean|unknown
 	 */
 	public function getBrands() {
-		$whereStr = $this->makeWhereSQL("");
+		//$whereStr = $this->makeWhereSQL("");
+		$whereStr = $this->makeWhereTyresSQL();
+		
 		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products 
-			JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-			JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-			JOIN `shop_category` ON shop_category.id = shop_products.category_id
-			JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id 	
-			JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-			JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-			JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id 
-			$whereStr
-			GROUP BY shop_brands_i18n.name
-			ORDER BY shop_brands_i18n.name";
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
+		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
+		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
+		JOIN `shop_category` ON shop_category.id = shop_products.category_id
+		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		$whereStr
+		GROUP BY shop_brands_i18n.name
+		ORDER BY shop_brands_i18n.name";
 		
 		$query = $this->db->query($sql);
 		$brands = $query->result_array();
@@ -189,17 +189,15 @@ class Elasticsearch extends MY_Controller {
 	 * Retrieve type of tires
 	 */
 	public function getTypeTires() {
-		//$sql = "SELECT * FROM `shop_category_i18n` shop_category_i18n WHERE shop_category_i18n.id IN (SELECT DISTINCT shop_category.id FROM `shop_category` shop_category INNER JOIN `shop_products` shop_products ON shop_category.id = shop_products.brand_id) AND shop_category_i18n.locale = 'ru' AND shop_category_i18n.id <> '102' GROUP BY(shop_category_i18n.name) ORDER BY shop_category_i18n.name";
-		$whereStr = $this->makeWhereSQL("");
+		//$whereStr = $this->makeWhereSQL("");
+		$whereStr = $this->makeWhereTyresSQL();
 		
 		$sql = "SELECT shop_category_i18n.id AS id, shop_category_i18n.name AS name FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 		$whereStr
 		GROUP BY shop_category_i18n.name
 		ORDER BY shop_category_i18n.name";
@@ -212,37 +210,12 @@ class Elasticsearch extends MY_Controller {
 	}
 	
 	/**
-	 * Retrieve type of tires
-	 */
-	public function getSeasons() {
-		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Сезонность' AND ");
-	
-		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-		$whereStr
-		GROUP BY shop_product_properties_data.value
-		ORDER BY shop_product_properties_data.value";
-	
-	
-		$query = $this->db->query($sql);
-		$types = $query->result_array();
-	
-		return $types;
-	}
-	
-	/**
 	 * Return width of tires
 	 */
-	public function getWidth() {
+	public function getTyreProp() {
 		$whereStr = $this->makeWhereTyresSQL();
 		
-		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		$sql = "SELECT shop_products_i18n.name AS name FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
@@ -252,58 +225,10 @@ class Elasticsearch extends MY_Controller {
 		GROUP BY shop_products_i18n.name
 		ORDER BY shop_products_i18n.name";
 		
-		var_dump($sql);
-		
-// 		$query = $this->db->query($sql);
-// 		$widths = $query->result_array();
+		$query = $this->db->query($sql);
+		$widths = $query->result_array();
 		
 		return $widths;
-	}
-	
-	/**
-	 * Return height of tires
-	 */
-	public function getHeight() {
-		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Профиль' AND ");
-		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-		$whereStr
-		GROUP BY shop_product_properties_data.value
-		ORDER BY shop_product_properties_data.value";
-		$query = $this->db->query($sql);
-		$heights = $query->result_array();
-	
-		return $heights;
-	}
-	
-	/**
-	 * Return height of tires
-	 */
-	public function getDiameter() {
-		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Диаметр' AND ");
-		
-		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-		$whereStr
-		GROUP BY shop_product_properties_data.value
-		ORDER BY shop_product_properties_data.value";
-		
-		$query = $this->db->query($sql);
-		$diameters = $query->result_array();
-	
-		return $diameters;
 	}
 	
 	// #############################################################################################
@@ -595,14 +520,14 @@ class Elasticsearch extends MY_Controller {
 	 * @param unknown_type $advWhere
 	 */
 	private function makeWhereTyresSQL($advWhere){
-		$tyresProperties = "shop_products_i18n.name REGEXP ':width\/:height\.R:diameter' AND";
+		$tyresProperties = "shop_products_i18n.name REGEXP ':width\/:height\.R:diameter' AND ";
 		$parameters = array();
 		
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
 			if($keyValue == ":width" || $keyValue == ":height" || $keyValue == ":diameter"){
 				if($_GET[$keyValue] != ""){
-					$parameters[$keyValue] = $_GET[$keyValue];
+					$parameters[$keyValue] = intval(preg_replace("/\D/", "", $_GET[$keyValue]));
 				}else{
 					$parameters[$keyValue] = "[0-9]*";
 				}	

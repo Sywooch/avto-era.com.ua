@@ -66,11 +66,17 @@ class Elastic_search extends ShopController {
 	 * Retrieve width
 	 */
 	public function getWidth(){
+		$regex = "/(\d+)\/(\d+)\WR(\d+)/";
 		$width_retrieved = array();
-		$width = $this->elasticsearch->getWidth();
+		$width = $this->elasticsearch->getTyreProp();
 
 		foreach($width as $t){
-			$width_retrieved[ $t['id'] ] = $t['value'];
+			preg_match($regex, $t['name'],
+					$matches_out);
+			
+			if(!in_array($matches_out[1], $width_retrieved, true) && $matches_out[1] > 90){
+				$width_retrieved[$matches_out[1]] = $matches_out[1];
+			}
 		}
 		
 		echo $this->elasticsearch->response($width_retrieved);
@@ -81,11 +87,16 @@ class Elastic_search extends ShopController {
 	 * Retrieve Height
 	 */
 	public function getHeight(){
+		$regex = "/(\d+)\/(\d+)\WR(\d+)/";
 		$height_retrieved = array();
-		$height = $this->elasticsearch->getHeight();
+		$height = $this->elasticsearch->getTyreProp();
 	
 		foreach($height as $t){
-			$height_retrieved[ $t['id'] ] = $t['value'];
+			preg_match($regex, $t['name'],
+					$matches_out);	
+			if(!in_array($matches_out[2], $height_retrieved, true) && $matches_out[2] > 25 && $matches_out[2] < 200){
+				$height_retrieved[$matches_out[2]] = $matches_out[2];
+			}	
 		}
 	
 		echo $this->elasticsearch->response($height_retrieved);
@@ -96,11 +107,17 @@ class Elastic_search extends ShopController {
 	 * Retrieve Diameter
 	 */
 	public function getDiameter(){
+		$regex = "/(\d+)\/(\d+)\W(R\d+)/";
 		$diameter_retrieved = array();
-		$diameter = $this->elasticsearch->getDiameter();
+		$diameter = $this->elasticsearch->getTyreProp();
 	
 		foreach($diameter as $t){
-			$diameter_retrieved[ $t['id'] ] = $t['value'];
+			preg_match($regex, $t['name'],
+					$matches_out);
+			// && is_numeric($matches_out[3])
+			if(!in_array($matches_out[3], $diameter_retrieved, true) && !preg_match('/null/',$matches_out[3]) ) {
+				$diameter_retrieved[$matches_out[3]] = $matches_out[3];
+			}
 		}
 	
 		echo $this->elasticsearch->response($diameter_retrieved);
