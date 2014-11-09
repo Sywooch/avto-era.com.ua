@@ -175,11 +175,17 @@
     function generateRequestParam(thisObj, settings, selectID){
     	var reqParamArray = {};
     	settings.entitySelects.forEach(function(elem, index, array){
-    		//if(elem.id != selectID){
-    			if ( $( "#" + elem.id ).val() && $( "#" + elem.id ).val() != "" && ( $( "#" + elem.id ).val().trim() ) ) {
-        			reqParamArray[elem.name] = $( "#" + elem.id ).val();
-        		}
-    		//}
+    		if(elem.name == ":width" ||
+    				elem.name == ":height" ||
+    				elem.name == ":diameter"){
+    			reqParamArray[elem.name] = $( "#" + elem.id ).val();
+    		}else{
+				if ( $( "#" + elem.id ).val() && 
+						$( "#" + elem.id ).val() != "" && 
+						( $( "#" + elem.id ).val().trim() ) ) {
+	    			reqParamArray[elem.name] = $( "#" + elem.id ).val();
+	    		}
+    		}
     	});
     	return reqParamArray;
     };

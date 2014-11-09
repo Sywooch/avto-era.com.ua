@@ -240,21 +240,22 @@ class Elasticsearch extends MY_Controller {
 	 * Return width of tires
 	 */
 	public function getWidth() {
-		$whereStr = $this->makeWhereSQL("shop_product_properties_i18n.name='Ширина шины' AND ");
+		$whereStr = $this->makeWhereTyresSQL();
 		
 		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 		$whereStr
-		GROUP BY shop_product_properties_data.value
-		ORDER BY shop_product_properties_data.value";
-		$query = $this->db->query($sql);
-		$widths = $query->result_array();
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name";
+		
+		var_dump($sql);
+		
+// 		$query = $this->db->query($sql);
+// 		$widths = $query->result_array();
 		
 		return $widths;
 	}
@@ -584,6 +585,58 @@ class Elasticsearch extends MY_Controller {
 			}	
 		}
 		
+		return  $whereStr;
+	}
+	
+	/**
+	 * Prepared where sql
+	 * AND shop_products_i18n.name REGEXP '[0-9]*\/[0-9]*\.R[0-9]*'
+	 * (185/65 R14) 
+	 * @param unknown_type $advWhere
+	 */
+	private function makeWhereTyresSQL($advWhere){
+		$tyresProperties = "shop_products_i18n.name REGEXP ':width\/:height\.R:diameter' AND";
+		$parameters = array();
+		
+		$whereStr = "";
+		foreach(array_keys($_GET) as $index => $keyValue){
+			if($keyValue == ":width" || $keyValue == ":height" || $keyValue == ":diameter"){
+				if($_GET[$keyValue] != ""){
+					$parameters[$keyValue] = $_GET[$keyValue];
+				}else{
+					$parameters[$keyValue] = "[0-9]*";
+				}	
+				continue;
+			}						
+			// Filter exclude
+			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
+				if($_GET[$keyValue] != ""){
+					$keyValueUpdated = str_replace("__",".",$keyValue);
+					// If numeric
+					if( is_numeric(substr($keyValueUpdated, -1)) ){
+						$keyValueUpdated = substr($keyValueUpdated, 0, strlen($keyValueUpdated) - 1);
+					}
+						
+					$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
+				}
+			}
+		}
+	
+		$advWhere .= str_replace(array_keys($parameters), $parameters, $tyresProperties);
+		
+		// recombining
+		if( strlen($whereStr) ){
+			if(strlen($advWhere)){
+				$whereStr = "where " . $advWhere . substr($whereStr, 0, strlen($whereStr) - 4);
+			}else{
+				$whereStr = "where " . substr($whereStr, 0, strlen($whereStr) - 4);
+			}
+		}else{
+			if(strlen($advWhere)){
+				$whereStr = "where " . substr($advWhere, 0, strlen($whereStr) - 4);
+			}
+		}
+	
 		return  $whereStr;
 	}
 }
