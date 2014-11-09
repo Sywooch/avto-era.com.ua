@@ -114,8 +114,8 @@ class Elastic_search extends ShopController {
 		foreach($diameter as $t){
 			preg_match($regex, $t['name'],
 					$matches_out);
-			// && is_numeric($matches_out[3])
-			if(!in_array($matches_out[3], $diameter_retrieved, true) && !preg_match('/null/',$matches_out[3]) ) {
+			
+			if(!in_array($matches_out[3], $diameter_retrieved, true) && !preg_match('/null/',$matches_out[3]) && !empty($matches_out[3]) ) {
 				$diameter_retrieved[$matches_out[3]] = $matches_out[3];
 			}
 		}

@@ -115,7 +115,7 @@ class Categories extends ShopController {
 		 */
 		$totalProducts = $this->elasticsearch->getTyresCount();
 	
-		$this->renderResults($ids, $products, $totalProducts, 'categories/');
+		$this->renderResults($ids, $products, $totalProducts, 'categories/searchByTyres');
 	}
 	
 	

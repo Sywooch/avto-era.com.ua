@@ -109,8 +109,7 @@ class SProductsQuery extends BaseSProductsQuery {
 				'brand',
 				'order',
 				'user_per_page',
-				'categoryId',
-				
+				'categoryId',				
 				'product_type',
 				'shop_brands_i18n__id',
 				'shop_category_i18n__id',
@@ -119,18 +118,20 @@ class SProductsQuery extends BaseSProductsQuery {
 				'shop_product_properties_data__value3',
 				'shop_product_properties_data__value4',
 				'shop_product_properties_data__value5',
+				':width',
+				':height',
+				':diameter',
+				'podbor_shini_i_diski__year',
 				'podbor_shini_i_diski__vendor',
 				'podbor_shini_i_diski__car',
 				'podbor_shini_i_diski__year',
 				'podbor_shini_i_diski__modification'
 		);
-		
 		foreach ( $need as $key => $value ) {
 			if (isset ( $_GET [$value] )) {
 				$data [$value] = $_GET [$value];
 			}
 		}
-		
 		return '?' . http_build_query ( $data );
 	}
 	public function mostViewed($limit = 6) {
