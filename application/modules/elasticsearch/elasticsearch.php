@@ -334,24 +334,27 @@ class Elasticsearch extends MY_Controller {
 	
 	/**
 	 * Get Wheel diameter
+	 * Retrieve by reg exp
 	 */
 	public function getWheelDiameter(){
-		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Диаметр диска' AND ");
+		$whereStr = $this->makeWhereWheelsSQL("shop_category_i18n.name='Диски' AND ");
 		
-		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		$sql = "SELECT shop_products_i18n.name AS name FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 		$whereStr
-		GROUP BY shop_product_properties_data.value
-		ORDER BY shop_product_properties_data.value";
+		GROUP BY shop_products_i18n.name
+		ORDER BY shop_products_i18n.name";		
+		
+		var_dump($sql);
 		
 		$query = $this->db->query($sql);
 		$wheelDiameter = $query->result_array();
+		
+		var_dump($wheelDiameter);
 		
 		return $wheelDiameter;
 	}
@@ -529,7 +532,14 @@ class Elasticsearch extends MY_Controller {
 	
 		return $autoResults;
 	}
+	// #############################################################################################
+	// ######################################BRANDS#################################################
+	// #############################################################################################
 	
+	/**
+	 * Simple where sql preparator
+	 * @param unknown_type $advWhere
+	 */
 	private function makeWhereSQL($advWhere){
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
@@ -598,6 +608,86 @@ class Elasticsearch extends MY_Controller {
 	
 		$advWhere .= str_replace(array_keys($parameters), $parameters, $tyresProperties);
 		
+		// recombining
+		if( strlen($whereStr) ){
+			if(strlen($advWhere)){
+				$whereStr = "where " . $advWhere . substr($whereStr, 0, strlen($whereStr) - 4);
+			}else{
+				$whereStr = "where " . substr($whereStr, 0, strlen($whereStr) - 4);
+			}
+		}else{
+			if(strlen($advWhere)){
+				$whereStr = "where " . substr($advWhere, 0, strlen($whereStr) - 4);
+			}
+		}
+	
+		return  $whereStr;
+	}
+	
+	/**
+	 * Prepared where sql
+	 * AND shop_products_i18n.name REGEXP '([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)'
+	 * Disla 804 8x18 5,3x118/122 ET45 DIA72,6 (black)
+	 * :wheels_diameter => ([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)
+	 * :wheels_pcd 		=> ([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?
+	 * :wheels_et		=> (ET[0-9]+)
+	 * :wheels_dia		=> (DIA[0-9]+(\,[0-9]+)?)
+	 * @param unknown_type $advWhere
+	 */
+	private function makeWhereWheelsSQL($advWhere){
+		$tyresProperties = "shop_products_i18n.name REGEXP ':wheels_diameter\.:wheels_pcd(\/[0-9]+)?\.:wheels_et\.:wheels_dia' AND ";
+		$parameters = array();
+	
+		$whereStr = "";
+		foreach(array_keys($_GET) as $index => $keyValue){
+			if($keyValue == ":wheels_diameter"){
+				if($_GET[$keyValue] != ""){
+					$parameters[$keyValue] = $_GET[$keyValue];
+				}else{
+					$parameters[$keyValue] = "([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)";
+				}
+				continue;
+			}
+			if($keyValue == ":wheels_pcd"){
+				if($_GET[$keyValue] != ""){
+					$parameters[$keyValue] = $_GET[$keyValue];
+				}else{
+					$parameters[$keyValue] = "([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)";
+				}
+				continue;
+			}
+			if($keyValue == ":wheels_et"){
+				if($_GET[$keyValue] != ""){
+					$parameters[$keyValue] = $_GET[$keyValue];
+				}else{
+					$parameters[$keyValue] = "(ET[0-9]+)";
+				}
+				continue;
+			}
+			if($keyValue == ":wheels_dia"){
+				if($_GET[$keyValue] != ""){
+					$parameters[$keyValue] = $_GET[$keyValue];
+				}else{
+					$parameters[$keyValue] = "(DIA[0-9]+(\,[0-9]+)?)";
+				}
+				continue;
+			}
+			// Filter exclude
+			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
+				if($_GET[$keyValue] != ""){
+					$keyValueUpdated = str_replace("__",".",$keyValue);
+					// If numeric
+					if( is_numeric(substr($keyValueUpdated, -1)) ){
+						$keyValueUpdated = substr($keyValueUpdated, 0, strlen($keyValueUpdated) - 1);
+					}
+	
+					$whereStr .= "$keyValueUpdated = '$_GET[$keyValue]' AND ";
+				}
+			}
+		}
+	
+		$advWhere .= str_replace(array_keys($parameters), $parameters, $tyresProperties);
+	
 		// recombining
 		if( strlen($whereStr) ){
 			if(strlen($advWhere)){

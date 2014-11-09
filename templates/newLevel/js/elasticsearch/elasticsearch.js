@@ -177,7 +177,11 @@
     	settings.entitySelects.forEach(function(elem, index, array){
     		if(elem.name == ":width" ||
     				elem.name == ":height" ||
-    				elem.name == ":diameter"){
+    				elem.name == ":diameter" ||
+    				elem.name == ":wheels_diameter" ||
+    				elem.name == ":wheels_pcd" ||
+    				elem.name == ":wheels_et" ||
+    				elem.name == ":wheels_dia"){
     			reqParamArray[elem.name] = $( "#" + elem.id ).val();
     		}else{
 				if ( $( "#" + elem.id ).val() && 

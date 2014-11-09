@@ -1,7 +1,1 @@
-shop_brands_i18n__id=&shop_category_i18n__id=&%3Awidth=&%3Aheight=&%3Adiameter=&product_type=tyres
-
-product_type=tyres&shop_brands_i18n__id=52&shop_category_i18n__id=&per_page=24
-
-product_type=tyres&shop_brands_i18n__id=&shop_category_i18n__id=&per_page=24
-
-shop_brands_i18n__id=&shop_product_properties_data__value1=&shop_product_properties_data__value2=&shop_product_properties_data__value3=&shop_product_properties_data__value4=&shop_product_properties_data__value5=&per_page=24
+([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)

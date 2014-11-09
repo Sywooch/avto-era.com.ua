@@ -20,28 +20,28 @@ $( document ).ready(function(){
              	   optVal:	null
                 },{
              	   id: 		"e_s_diameter_disc_id",
-             	   name: 	"shop_product_properties_data__value2",
+             	   name: 	":wheels_diameter",
              	   label: 	"Диаметр",
              	   url:		"/shop/elastic_search/getWheelDiameter",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_pcd_disc_id",
-             	   name: 	"shop_product_properties_data__value3",
+             	   name: 	":wheels_pcd",
              	   label: 	"Выберите PCD",
              	   url:		"/shop/elastic_search/getWheelPCD",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_et_disc_id",
-             	   name: 	"shop_product_properties_data__value4",
+             	   name: 	":wheels_et",
              	   label: 	"Выберите ET",
              	   url:		"/shop/elastic_search/getWheelVyletet",
              	   isset:	false,
              	   optVal:	null
                 },{
              	   id: 		"e_s_hub_disc_id",
-             	   name: 	"shop_product_properties_data__value5",
+             	   name: 	":wheels_dia",
              	   label: 	"Ступицу",
              	   url:		"/shop/elastic_search/getWheelHub",
              	   isset:	false,

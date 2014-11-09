@@ -38,3 +38,11 @@ JOIN `shop_product_properties` ON shop_product_properties_data.property_id = sho
 JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 where shop_products.active=1 AND shop_products_i18n.name REGEXP '[0-9]*\/[0-9]*\.R[0-9]*' 
 GROUP BY shop_products_i18n.name
+//==============================================================
+([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)
+//==============================================================
+
+
+SELECT * FROM `shop_products_i18n` shop_products_i18n
+where
+shop_products_i18n.name REGEXP '([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\.([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\.(ET[0-9]+)\.(DIA[0-9]+(\,[0-9]+)?)'
