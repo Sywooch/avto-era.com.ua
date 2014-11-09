@@ -89,6 +89,35 @@ class Categories extends ShopController {
 		$this->renderResults($ids, $products, $totalProducts, 'categories/');
 	}
 	
+	public function searchByTyres() {
+		/**
+		 * Geting products model from base
+		 */
+		$this->db->cache_on ();
+		$productsBase = $this->elasticsearch->getTyres(( int ) $_GET ['per_page'], ( int ) $this->perPage);
+		$this->db->cache_off ();
+	
+		$ids = $this->retrieveIDs($productsBase);
+	
+		/**
+		 * Enable Query Caching
+		 */
+		$this->db->cache_on ();
+	
+		/**
+		 * Prepare products model
+		 */
+		$products = \SProductsQuery::create ()->joinWithI18n()->joinProductVariant ()->withColumn ( 'IF(sum(shop_product_variants.stock) > 0, 1, 0)', 'allstock' )->groupById ()->joinBrand ()->distinct ()->orderBy ( 'allstock', \Criteria::DESC )->findPks( $ids );
+		$this->db->cache_off ();
+	
+		/**
+		 * Get total product count according to filter parameters
+		 */
+		$totalProducts = $this->elasticsearch->getTyresCount();
+	
+		$this->renderResults($ids, $products, $totalProducts, 'categories/');
+	}
+	
 	
 	/**
 	 * Search by avto brands

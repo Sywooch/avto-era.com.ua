@@ -15,7 +15,7 @@
             buttonSwitcherLabel:		"Автоматериалы",
             type: 						"tyres",
             productTyreWheelID:			"productTyreWheelID",
-            action: 					"/shop/categories"
+            action: 					"/shop/categories/index"
         }, options );
         
         selectProducer(self, settings);        

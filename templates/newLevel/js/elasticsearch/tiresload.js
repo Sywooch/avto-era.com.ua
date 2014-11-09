@@ -3,6 +3,7 @@ $( document ).ready(function(){
 		mainContainer: "#tiresElasticSContainer",
 		type: "tyres",
 		productTyreWheelID:			"productTyreWheelIDTyre",
+		action: 					"/shop/categories/searchByTyres",
 		entitySelects: [
                 {	
              	   id: 		"e_s_brand_id",
