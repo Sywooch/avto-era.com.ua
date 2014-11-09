@@ -159,10 +159,9 @@ class Elastic_search extends ShopController {
 	public function getWheelDiameter(){
 		$regex = "/([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)/";
 		$wheel_diameter_retrieved = array();
-		$wheel_diameter = $this->elasticsearch->getWheelDiameter();
+		$wheel_diameter = $this->elasticsearch->getWheelProp();
 		
 		foreach($wheel_diameter as $d){
-// 			var_dump($d);
 			preg_match($regex, $d['name'],
 					$matches_out);
 			$matches_out_new = array();
@@ -188,11 +187,28 @@ class Elastic_search extends ShopController {
 	 * Get JSON wheel PCD
 	 */
 	public function getWheelPCD(){
+		$regex = "/([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)/";
 		$wheel_pcd_retrieved = array();
-		$wheel_pcd = $this->elasticsearch->getWheelPCDOne();
+		$wheel_pcd = $this->elasticsearch->getWheelProp();
 
 		foreach($wheel_pcd as $p){
-			$wheel_pcd_retrieved[ $p['id'] ] = $p['value'];
+			preg_match($regex, $p['name'],
+					$matches_out);
+			$matches_out_new = array();
+			// ==================================
+			$pt = '/^(\,[0-9]+)?$/';
+			foreach ($matches_out as $key => $value){
+				$res = preg_match($pt, $value);
+				if(!$res && !empty( $value ) ){
+					array_push($matches_out_new, $matches_out[$key]);
+				}
+			}
+			$matches_out = $matches_out_new;
+			// ==================================
+			if( !in_array($matches_out[2], $wheel_diameter_retrieved, true) ){
+				$wheel_pcd_retrieved[$matches_out[2]] = $matches_out[2];
+			}
+			//$wheel_pcd_retrieved[ $p['id'] ] = $p['value'];
 		}
 		echo $this->elasticsearch->response($wheel_pcd_retrieved);
 	}
