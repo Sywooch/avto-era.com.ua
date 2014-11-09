@@ -349,12 +349,8 @@ class Elasticsearch extends MY_Controller {
 		GROUP BY shop_products_i18n.name
 		ORDER BY shop_products_i18n.name";		
 		
-		var_dump($sql);
-		
 		$query = $this->db->query($sql);
 		$wheelDiameter = $query->result_array();
-		
-		var_dump($wheelDiameter);
 		
 		return $wheelDiameter;
 	}

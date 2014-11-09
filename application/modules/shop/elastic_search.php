@@ -157,11 +157,28 @@ class Elastic_search extends ShopController {
 	 * Get JSON of wheel diameter
 	 */
 	public function getWheelDiameter(){
+		$regex = "/([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)/";
 		$wheel_diameter_retrieved = array();
 		$wheel_diameter = $this->elasticsearch->getWheelDiameter();
 		
 		foreach($wheel_diameter as $d){
-			$wheel_diameter_retrieved[ $d['id'] ] = $d['value'];
+// 			var_dump($d);
+			preg_match($regex, $d['name'],
+					$matches_out);
+			$matches_out_new = array();
+			// ==================================
+			$pt = '/^(\,[0-9]+)?$/';
+			foreach ($matches_out as $key => $value){
+				$res = preg_match($pt, $value);
+				if(!$res && !empty( $value ) ){
+					array_push($matches_out_new, $matches_out[$key]);
+				}
+			}
+			$matches_out = $matches_out_new;
+			// ==================================
+			if( !in_array($matches_out[1], $wheel_diameter_retrieved, true) ){
+				$wheel_diameter_retrieved[$matches_out[1]] = $matches_out[1];
+			}
 		}
 		echo $this->elasticsearch->response($wheel_diameter_retrieved);
 		
