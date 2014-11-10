@@ -44,18 +44,12 @@ class Elasticsearch extends MY_Controller {
 	/**
 	 * Retrieve products
 	 */
-	public function getProducts($offset = 0, $limit = 24){
+	public function getProductWheels($offset = 0, $limit = 24){
 		// Predefined wheels/tyres filter
-		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
-		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
-		}else{
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
-		}
-	
+		$whereStr = $this->makeWhereWheelsSQL("shop_products.active = 1 AND shop_category_i18n.name='Диски' AND ");
+		
 		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
-		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
@@ -77,18 +71,12 @@ class Elasticsearch extends MY_Controller {
 	/**
 	 * Retrieve products
 	 */
-	public function getProductCount(){
+	public function getProductCountWheels(){
 		// Predefined wheels/tyres filter
-		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'tyres'){
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name <> 'Диски' AND ");
-		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
-		}else{
-			$whereStr = $this->makeWhereSQL("shop_products.active = 1 AND shop_category_i18n.name = 'Диски' AND ");
-		}
+		$whereStr = $this->makeWhereWheelsSQL("shop_products.active = 1 AND shop_category_i18n.name='Диски' AND ");
 	
 		$sql = "SELECT * FROM `shop_products` shop_products
-		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
@@ -117,8 +105,6 @@ class Elasticsearch extends MY_Controller {
 		}else if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
 			$where = $where . " AND shop_products.active = 1 AND shop_category_i18n.name = 'Диски' ";
 		}
-		
-		
 		
 		$sql = "SELECT shop_products.id AS id FROM `shop_products` shop_products
 		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id
@@ -288,9 +274,10 @@ class Elasticsearch extends MY_Controller {
 	 * Return wheel brands
 	 */
 	public function getWheelBrands(){
-		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND ");
+		$whereStr = $this->makeWhereWheelsSQL("shop_category_i18n.name='Диски' AND ");
 		
 		$sql = "SELECT shop_brands_i18n.id AS id, shop_brands_i18n.name AS name FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
@@ -312,9 +299,10 @@ class Elasticsearch extends MY_Controller {
 	 * Get Wheel types
 	 */
 	public function getWheelType(){
-		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Тип диска' AND ");
+		$whereStr = $this->makeWhereWheelsSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Тип диска' AND ");
 		
 		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
+		JOIN `shop_products_i18n` ON shop_products_i18n.id = shop_products.id 
 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
@@ -345,6 +333,9 @@ class Elasticsearch extends MY_Controller {
 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
+		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
+		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
+		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
 		$whereStr
 		GROUP BY shop_products_i18n.name
 		ORDER BY shop_products_i18n.name";		
@@ -355,79 +346,6 @@ class Elasticsearch extends MY_Controller {
 		return $wheelDiameter;
 	}
 	
-// 	/**
-// 	 * Get wheel pcd
-// 	 *
-// 	 */
-// 	public function getWheelPCDOne(){
-// 		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='PCD1' AND ");
-		
-// 		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-// 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-// 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-// 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-// 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-// 		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-// 		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-// 		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-// 		$whereStr
-// 		GROUP BY shop_product_properties_data.value
-// 		ORDER BY shop_product_properties_data.value";
-		
-// 		$query = $this->db->query($sql);
-// 		$wheelPCD = $query->result_array();
-		
-// 		return $wheelPCD;
-		
-// 	}
-	
-// 	/**
-// 	 * Get Wheel  SUB hub
-// 	 */
-// 	public function getWheelVyletet(){
-// 		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Вылет (ET)' AND ");
-		
-// 		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-// 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-// 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-// 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-// 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-// 		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-// 		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-// 		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-// 		$whereStr
-// 		GROUP BY shop_product_properties_data.value
-// 		ORDER BY shop_product_properties_data.value";
-		
-// 		$query = $this->db->query($sql);
-// 		$wheelVyletet = $query->result_array();
-		
-// 		return $wheelVyletet;
-// 	}
-	
-// 	/**
-// 	 * Get Wheel hub
-// 	 */
-// 	public function getWheelHub(){
-// 		$whereStr = $this->makeWhereSQL("shop_category_i18n.name='Диски' AND shop_product_properties_i18n.name='Диаметр ступицы (DIA)' AND ");
-		
-// 		$sql = "SELECT shop_product_properties_data.value AS id, shop_product_properties_data.value AS value FROM `shop_products` shop_products
-// 		JOIN `shop_brands` ON shop_brands.id = shop_products.brand_id
-// 		JOIN `shop_brands_i18n` ON shop_brands_i18n.id = shop_brands.id
-// 		JOIN `shop_category` ON shop_category.id = shop_products.category_id
-// 		JOIN `shop_category_i18n` ON shop_category_i18n.id = shop_category.id
-// 		JOIN `shop_product_properties_data` ON shop_product_properties_data.product_id = shop_products.id
-// 		JOIN `shop_product_properties` ON shop_product_properties_data.property_id = shop_product_properties.id
-// 		JOIN `shop_product_properties_i18n` ON shop_product_properties_i18n.id = shop_product_properties.id
-// 		$whereStr
-// 		GROUP BY shop_product_properties_data.value
-// 		ORDER BY shop_product_properties_data.value";
-		
-// 		$query = $this->db->query($sql);
-// 		$wheelHub = $query->result_array();
-		
-// 		return $wheelHub;
-// 	}
 	
 	// #############################################################################################
 	// ######################################BRANDS#################################################

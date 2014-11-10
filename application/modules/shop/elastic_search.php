@@ -205,7 +205,7 @@ class Elastic_search extends ShopController {
 			}
 			$matches_out = $matches_out_new;
 			// ==================================
-			if( !in_array($matches_out[2], $wheel_diameter_retrieved, true) ){
+			if( !in_array($matches_out[2], $wheel_pcd_retrieved, true) ){
 				$wheel_pcd_retrieved[$matches_out[2]] = $matches_out[2];
 			}
 		}
@@ -223,7 +223,6 @@ class Elastic_search extends ShopController {
 		foreach($wheel_vyletet as $v){
 			preg_match($regex, $v['name'],
 					$matches_out);
-			//var_dump($matches_out);
 			$matches_out_new = array();
 			// ==================================
 			$pt = '/^(\,[0-9]+)?$|^\/[0-9]+$/';
@@ -235,7 +234,7 @@ class Elastic_search extends ShopController {
 			}
 			$matches_out = $matches_out_new;
 			// ==================================
-			if( !in_array($matches_out[3], $wheel_diameter_retrieved, true) ){
+			if( !in_array($matches_out[3], $wheel_vyletet_retrieved, true) ){
 				$wheel_vyletet_retrieved[$matches_out[3]] = $matches_out[3];
 			}
 		}
@@ -246,11 +245,27 @@ class Elastic_search extends ShopController {
 	 * Get JSON auto brands
 	 */
 	public function getWheelHub(){
+		$regex = "/([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)/";
 		$wheel_hubs_retrieved = array();
 		$wheel_hubs = $this->elasticsearch->getWheelProp();
 	
 		foreach($wheel_hubs as $h){
-			$wheel_hubs_retrieved[ $h['id'] ] = $h['value'];
+			preg_match($regex, $h['name'],
+					$matches_out);			
+			$matches_out_new = array();
+			// ==================================
+			$pt = '/^(\,[0-9]+)?$|^\/[0-9]+$/';
+			foreach ($matches_out as $key => $value){
+				$res = preg_match($pt, $value);
+				if(!$res && !empty( $value ) ){
+					array_push($matches_out_new, $matches_out[$key]);
+				}
+			}
+			$matches_out = $matches_out_new;
+			// ==================================
+			if( !in_array($matches_out[4], $wheel_hubs_retrieved, true) ){
+				$wheel_hubs_retrieved[$matches_out[4]] = $matches_out[4];
+			}
 		}
 		echo $this->elasticsearch->response($wheel_hubs_retrieved);
 	}

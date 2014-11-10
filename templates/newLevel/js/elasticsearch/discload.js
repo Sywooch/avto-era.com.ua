@@ -3,6 +3,7 @@ $( document ).ready(function(){
 		mainContainer: "#discElasticSContainer",
 		type: "wheels",
 		productTyreWheelID:			"productTyreWheelIDWheel",
+        action: 					"/shop/categories/searchByWheels",
 		entitySelects: [
                 {	
              	   id: 		"e_s_disc_brand_id",
@@ -21,7 +22,7 @@ $( document ).ready(function(){
                 },{
              	   id: 		"e_s_diameter_disc_id",
              	   name: 	":wheels_diameter",
-             	   label: 	"Диаметр",
+             	   label: 	"Ширина х Диаметр",
              	   url:		"/shop/elastic_search/getWheelDiameter",
              	   isset:	false,
              	   optVal:	null

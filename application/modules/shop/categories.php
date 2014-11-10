@@ -60,12 +60,12 @@ class Categories extends ShopController {
 
 	}
 
-	public function index() {
+	public function searchByWheels() {
 		/**
 		 * Geting products model from base
 		 */
 		$this->db->cache_on ();
-		$productsBase = $this->elasticsearch->getProducts(( int ) $_GET ['per_page'], ( int ) $this->perPage);
+		$productsBase = $this->elasticsearch->getProductWheels(( int ) $_GET ['per_page'], ( int ) $this->perPage);
 		$this->db->cache_off ();
 		
 		$ids = $this->retrieveIDs($productsBase);
@@ -84,9 +84,9 @@ class Categories extends ShopController {
 		/**
 		 * Get total product count according to filter parameters
 		 */
-		$totalProducts = $this->elasticsearch->getProductCount();
+		$totalProducts = $this->elasticsearch->getProductCountWheels();
 		
-		$this->renderResults($ids, $products, $totalProducts, 'categories/');
+		$this->renderResults($ids, $products, $totalProducts, 'categories/searchByWheels');
 	}
 	
 	public function searchByTyres() {
