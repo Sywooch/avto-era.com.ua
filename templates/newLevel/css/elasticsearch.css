@@ -71,9 +71,9 @@ html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div{
     margin-top: 7px !important;
 }
 html div div#elasticsearchTab div.elasticContainer form div.e_s_apply_div div.e_s_bt_filter_bus{	
-    background: linear-gradient(to bottom, #EF695C 0%, #B50F15 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(to bottom, #FFFFFF 0%, #EAEAEA 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-radius: 5px;
-    box-shadow: 0 1px 1px #d13627;
+    box-shadow: 0px 1px 3px #212121;
     display: inline-block;
 }
 html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button{
@@ -81,9 +81,12 @@ html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button{
     padding: 5px 20px;	
 }
 html div div#elasticsearchTab div.elasticContainer form button.e_s_apply_button span.e_s_text-el{
-	color: #fff;
+	color: #DC4436;
     font-weight: bold;
     font-size: 20px;
     vertical-align: baseline;
+}
+html div div#elasticsearchTab div.elasticContainer LI.elasticSearchList{
+	width: 440px !important;
 }
 

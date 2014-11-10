@@ -16,7 +16,7 @@ integer variable contains the current page number * $banners: array of
 
 <div class="frame-inside page-category">
 	<div class="container">
-		<div class="right-catalog">
+		<div class="right-catalog" style="width: 100% !important;">
 			<!-- Start. Category name and count products in category-->
 			<div class="f-s_0 title-category">
 				<div class="frame-title">
@@ -42,12 +42,14 @@ integer variable contains the current page number * $banners: array of
 			{include_tpl('catalogue_header')}
 			<!-- Start.If count products in category > 0 then show products list and pagination links -->
 			{if $totalProducts > 0}
-			<ul
-				class="animateListItems items items-catalog {if $_COOKIE['listtable'] == 'table' || $_COOKIE['listtable'] == NULL} table{else:} list{/if}"
-				id="items-catalog-main">
-				<!-- Include template for one product item-->
-				{$CI->load->module('new_level')->OPI($model, array('wishlist'=>true, 'codeArticle' => true), 'one_product_item')}
-			</ul>
+			<center>
+				<ul
+					class="animateListItems items items-catalog {if $_COOKIE['listtable'] == 'table' || $_COOKIE['listtable'] == NULL} table{else:} list{/if}"
+					id="items-catalog-main">
+					<!-- Include template for one product item-->
+					{$CI->load->module('new_level')->OPI($model, array('wishlist'=>true, 'codeArticle' => true), 'elasticsearch_one_product_item')}
+				</ul>
+			</center>
 			<!-- render pagination-->
 			{$pagination} {/if}
 			<!-- End.If count products in category > 0 then show products and pagination links -->
@@ -59,13 +61,7 @@ integer variable contains the current page number * $banners: array of
 			</div>
 			{/*/if*/}
 		</div>
-		<div class="filter left-catalog">
-			{$addCats = array(40 => 84, 44 => 84, 41 => 85, 45 => 85, 43 => 86,
-			46 => 86, 78 => 87, 81 => 87, 79 => 88, 82 => 88, 80 => 89, 83 =>
-			89)}
-			
-			{$CI->load->module('smart_filter')->init()}
-		</div>
+		
 	</div>
 </div>
 <!--Start. Popular products -->
