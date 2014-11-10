@@ -21,5 +21,7 @@
 		<script>
 			$( "#elasticsearchTab" ).tabs();
 		</script>
-	<center>
+	</center>
+	</br>
+	</br>
 <!-- Filter Client -->       

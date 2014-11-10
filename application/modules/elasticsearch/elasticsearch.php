@@ -458,7 +458,13 @@ class Elasticsearch extends MY_Controller {
 		$whereStr = "";
 		foreach(array_keys($_GET) as $index => $keyValue){
 			// Filter exclude
-			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
+			if($keyValue != "_" && 
+					$keyValue != "product_type" && 
+					$keyValue != "per_page" &&
+					$keyValue != "rp" &&
+					$keyValue != "lp" &&
+					$keyValue != "user_per_page" &&
+					$keyValue != "order"){
 				if($_GET[$keyValue] != ""){
 					$keyValueUpdated = str_replace("__",".",$keyValue);
 					// If numeric
@@ -507,7 +513,13 @@ class Elasticsearch extends MY_Controller {
 				continue;
 			}						
 			// Filter exclude
-			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
+			if($keyValue != "_" && 
+					$keyValue != "product_type" && 
+					$keyValue != "per_page" &&
+					$keyValue != "rp" &&
+					$keyValue != "lp" &&
+					$keyValue != "user_per_page" &&
+					$keyValue != "order"){
 				if($_GET[$keyValue] != ""){
 					$keyValueUpdated = str_replace("__",".",$keyValue);
 					// If numeric
@@ -587,7 +599,13 @@ class Elasticsearch extends MY_Controller {
 				continue;
 			}
 			// Filter exclude
-			if($keyValue != "_" && $keyValue != "product_type" && $keyValue != "per_page"){
+			if($keyValue != "_" && 
+					$keyValue != "product_type" && 
+					$keyValue != "per_page" &&
+					$keyValue != "rp" &&
+					$keyValue != "lp" &&
+					$keyValue != "user_per_page" &&
+					$keyValue != "order"){
 				if($_GET[$keyValue] != ""){
 					$keyValueUpdated = str_replace("__",".",$keyValue);
 					// If numeric

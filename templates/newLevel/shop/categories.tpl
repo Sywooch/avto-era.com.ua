@@ -59,6 +59,13 @@ integer variable contains the current page number * $banners: array of
 			</div>
 			{/*/if*/}
 		</div>
+		<div class="filter left-catalog">
+			{$addCats = array(40 => 84, 44 => 84, 41 => 85, 45 => 85, 43 => 86,
+			46 => 86, 78 => 87, 81 => 87, 79 => 88, 82 => 88, 80 => 89, 83 =>
+			89)}
+			
+			{$CI->load->module('smart_filter')->init()}
+		</div>
 	</div>
 </div>
 <!--Start. Popular products -->

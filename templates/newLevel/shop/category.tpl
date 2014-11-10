@@ -63,166 +63,177 @@
                 </div>
             {/if}
         </div>
-        <div class="filter left-catalog">
+          
+		<div class="filter left-catalog">
+			<!--
+			<div class="filter-bus_benefits container"
+				style="width: 200px; margin-top: 35px; z-index: 222;">
+				{if $category->getId() != 102}
+				<div class="filter-bus f_l" style="margin-left: -10px;">
+					<div class="title">
+						<span class="text-el">Быстрый подбор автошин</span>
+					</div>
 
-        <div class="filter-bus_benefits container" style="width: 200px; margin-top: 35px; z-index: 222;">
-    {if $category->getId() != 102}    <div class="filter-bus f_l" style="margin-left: -10px;">
-            <div class="title"><span class="text-el">Быстрый подбор автошин</span></div>
-            
-         <form class="d_i-b diskform shinaform" action="" method="get" id="mainFilterForm">
-           <div class="check-appointment p_r  v-a_m">
-                <div class="lineForm">
-                    <select class="color" id="brand2" name="brand[]" >
-                        <option value="0" selected="selected">выберите бренд</option>
-                        {foreach getBrand(102, true) as $b}
-                            <option value="{echo $b->getId()}">{echo $b->getName()}</option>
-                        {/foreach}
-                    </select>
-                </div>
-            </div>
-             
-            <div class="check-appointment p_r  v-a_m m-t_10">
-                <div class="lineForm seltypetr">
-                    <select class="color" id="typetr" name="typetr" >
-                        <option value="0" selected="selected">выберите тип</option>
-                      
-                    </select>
-                </div>
-            </div>
-            <div class="check-appointment p_r  v-a_m m-t_10">
-                <div class="lineForm selsezon">
-                    <select class="color" id="sezon" name="sezon" >
-                        <option value="0" selected="selected">выберите сезон</option>
-                        
-                    </select>
-                </div>
-            </div>
+					<form class="d_i-b diskform shinaform" action="" method="get"
+						id="mainFilterForm">
+						<div class="check-appointment p_r  v-a_m">
+							<div class="lineForm">
+								<select class="color" id="brand2" name="brand[]">
+									<option value="0" selected="selected">выберите бренд</option>
+									{foreach getBrand(102, true) as $b}
+									<option value="{echo $b->getId()}">{echo
+										$b->getName()}</option> {/foreach}
+								</select>
+							</div>
+						</div>
 
-            <div class="check-appointment p_r  v-a_m m-t_10">
-                <div class="lineForm selshirina">
-                    <select class="color" id="shirina" name="shirina" >
-                        <option value="0" selected="selected">выберите ширину</option>
-                        
-                    </select>
-                </div>
-            </div>
+						<div class="check-appointment p_r  v-a_m m-t_10">
+							<div class="lineForm seltypetr">
+								<select class="color" id="typetr" name="typetr">
+									<option value="0" selected="selected">выберите тип</option>
 
-            <div class="check-appointment p_r  v-a_m m-t_10">
-                <div class="lineForm selvysota">
-                    <select class="color" id="vysota" name="vysota" >
-                        <option value="0" selected="selected">выберите высоту</option>
-                        
-                    </select>
-                </div>
-            </div>
+								</select>
+							</div>
+						</div>
+						<div class="check-appointment p_r  v-a_m m-t_10">
+							<div class="lineForm selsezon">
+								<select class="color" id="sezon" name="sezon">
+									<option value="0" selected="selected">выберите сезон</option>
 
-            <div class="check-appointment p_r  v-a_m m-t_10">
-                <div class="lineForm selshnydimatr">
-                    <select class="color" id="shnydimatr" name="shnydimatr" >
-                        <option value="0" selected="selected">выберите диаметр</option>
-                        
-                    </select>
-                </div>
-            </div>
-<div class="btn-filter-bus v-a_m m-t_10">
-                    <button type="submit" class="submitshyny">
-                        <span class="text-el">выбрать</span>
-                    </button>
-                </div>
-           
-               
-                <span class="datas f-s_0"></span>
-            </form>
-      
-        </div>
-        {else:}
+								</select>
+							</div>
+						</div>
 
- <div class="filter-bus f_l" style="margin-left: -10px;">
-            <div class="title"><span class="text-el">Быстрый подбор дисков</span></div>
-    <form class="d_i-b diskform formadisk" action="/shop/category/diski" method="get" >
+						<div class="check-appointment p_r  v-a_m m-t_10">
+							<div class="lineForm selshirina">
+								<select class="color" id="shirina" name="shirina">
+									<option value="0" selected="selected">выберите ширину</option>
 
-            <div class="check-appointment p_r  v-a_m">
+								</select>
+							</div>
+						</div>
 
-                <div class="lineForm">
-                    <select class="color" id="brand" name="brand[]" >
-                        <option value="0" selected="selected">выберите бренд</option>
-                        {foreach getBrand(102) as $b}
-                            <option value="{echo $b->getId()}">{echo $b->getName()}</option>
-                        {/foreach}
-                    </select>
-                </div>
-            </div>
+						<div class="check-appointment p_r  v-a_m m-t_10">
+							<div class="lineForm selvysota">
+								<select class="color" id="vysota" name="vysota">
+									<option value="0" selected="selected">выберите высоту</option>
 
-           
-                <span class="datas f-s_0"></span>
+								</select>
+							</div>
+						</div>
 
-                 <div class="check-appointment p_r  v-a_m m-t_10">
+						<div class="check-appointment p_r  v-a_m m-t_10">
+							<div class="lineForm selshnydimatr">
+								<select class="color" id="shnydimatr" name="shnydimatr">
+									<option value="0" selected="selected">выберите диаметр</option>
 
-                <div class="lineForm seldiametr">
-                    <select class="color" id="diametr" name="p[59][]" >
-                        <option  value="0" selected="selected">выберите диаметр</option>
-                       
-                    </select>
-                </div>
-            </div>
-
-                 <div class="check-appointment p_r  v-a_m m-t_10">
-
-                <div class="lineForm seldisctype">
-                    <select class="color" id="disctype" name="p[65][]" >
-                        <option  value="0" selected="selected">выберите тип</option>
-                    </select>
-                </div>
-            </div>
+								</select>
+							</div>
+						</div>
+						<div class="btn-filter-bus v-a_m m-t_10">
+							<button type="submit" class="submitshyny">
+								<span class="text-el">выбрать</span>
+							</button>
+						</div>
 
 
-     <div class="check-appointment p_r  v-a_m  m-t_10">
+						<span class="datas f-s_0"></span>
+					</form>
 
-                <div class="lineForm selpcd">
-                    <select class="color" id="pcd" name="p[60][]" >
-                        <option  value="0" selected="selected">выберите PCD</option>
-                    </select>
-                </div>
-            </div>
+				</div>
+				{else:}
 
+				<div class="filter-bus f_l" style="margin-left: -10px;">
+					<div class="title">
+						<span class="text-el">Быстрый подбор дисков</span>
+					</div>
+					<form class="d_i-b diskform formadisk"
+						action="/shop/category/diski" method="get">
 
-     <div class="check-appointment p_r  v-a_m m-t_10">
+						<div class="check-appointment p_r  v-a_m">
 
-                <div class="lineForm selet">
-                    <select class="color" id="et" name="p[62][]" >
-                        <option  value="0" selected="selected">выберите ET</option>
-                    </select>
-                </div>
-            </div>
-
-
-     <div class="check-appointment p_r  v-a_m m-t_10">
-
-                <div class="lineForm selstupica">
-                    <select class="color" id="stupica" name="p[63][]" >
-                        <option  value="0" selected="selected">выберите ступицу</option>
-                    </select>
-                </div>
-            </div>
+							<div class="lineForm">
+								<select class="color" id="brand" name="brand[]">
+									<option value="0" selected="selected">выберите бренд</option>
+									{foreach getBrand(102) as $b}
+									<option value="{echo $b->getId()}">{echo
+										$b->getName()}</option> {/foreach}
+								</select>
+							</div>
+						</div>
 
 
+						<span class="datas f-s_0"></span>
 
- <div class="btn-filter-bus v-a_m m-t_10">
-                    <button type="submit" class="submitdisk" >
-                        <span class="text-el">выбрать</span>
-                    </button>
-                </div>
-                
-            </form>
-      
-        </div>
-{/if}
-        
-    </div>
+						<div class="check-appointment p_r  v-a_m m-t_10">
+
+							<div class="lineForm seldiametr">
+								<select class="color" id="diametr" name="p[59][]">
+									<option value="0" selected="selected">выберите диаметр</option>
+
+								</select>
+							</div>
+						</div>
+
+						<div class="check-appointment p_r  v-a_m m-t_10">
+
+							<div class="lineForm seldisctype">
+								<select class="color" id="disctype" name="p[65][]">
+									<option value="0" selected="selected">выберите тип</option>
+								</select>
+							</div>
+						</div>
 
 
-            {$addCats = array(40 => 84, 44 => 84, 41 => 85, 45 => 85, 43 => 86, 46 => 86, 78 => 87, 81 => 87, 79 => 88, 82 => 88, 80 => 89, 83 => 89)}
-<!-- 
+						<div class="check-appointment p_r  v-a_m  m-t_10">
+
+							<div class="lineForm selpcd">
+								<select class="color" id="pcd" name="p[60][]">
+									<option value="0" selected="selected">выберите PCD</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="check-appointment p_r  v-a_m m-t_10">
+
+							<div class="lineForm selet">
+								<select class="color" id="et" name="p[62][]">
+									<option value="0" selected="selected">выберите ET</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="check-appointment p_r  v-a_m m-t_10">
+
+							<div class="lineForm selstupica">
+								<select class="color" id="stupica" name="p[63][]">
+									<option value="0" selected="selected">выберите ступицу</option>
+								</select>
+							</div>
+						</div>
+
+
+
+						<div class="btn-filter-bus v-a_m m-t_10">
+							<button type="submit" class="submitdisk">
+								<span class="text-el">выбрать</span>
+							</button>
+						</div>
+
+					</form>
+
+				</div>
+				{/if}
+
+			</div>
+			-->
+
+			{$addCats = array(40 => 84, 44 => 84, 41 => 85, 45 => 85, 43 => 86,
+			46 => 86, 78 => 87, 81 => 87, 79 => 88, 82 => 88, 80 => 89, 83 =>
+			89)}
+			<!-- 
             {if isset($addCats[$category->getId()]) && $cat = getCat($addCats[$category->getId()])}
                 <div class="frame-category-menu layout-highlight">
                     <div class="inside-padd">
@@ -263,10 +274,10 @@
                     </div>
                 </div>
             {/if} -->
-            <!-- Load filter-->
-            {$CI->load->module('smart_filter')->init()}
-        </div>
-        <!--widget for popular products in this category-->
+			<!-- Load filter-->
+			{$CI->load->module('smart_filter')->init()}
+		</div>
+		<!--widget for popular products in this category-->
     </div>
 </div>
 <!--Start. Popular products -->
