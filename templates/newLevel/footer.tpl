@@ -43,8 +43,8 @@
     <div class="container t-a_c">
         <div class="d_i-b">
             <span class="icon_siteimage"></span>
-            {lang('Создание сайта, раскрутка, магазина от','newLevel')}
-            <a class="siteimage-link" target="_blank" href="http://siteimage.com.ua">{lang('компании Siteimage','newLevel')}</a>
+            {lang('Заботится о пользователе и увеличивает продажи','newLevel')}
+            <a class="siteimage-link" target="_blank" href="http://neoseo.com.ua/">{lang('Команда NeoSeo','newLevel')}</a>
         </div>
         {if function_exists('mobile_site_address')}
             <div class="f_r">

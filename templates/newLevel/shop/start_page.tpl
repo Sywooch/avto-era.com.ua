@@ -4,6 +4,7 @@
             {\Category\RenderMenu::create()->setConfig(array('cache'=>TRUE))->load('start_page_category_menu')}
         </div>
     </div>{ */}
+    <!-- 
     <div class="filter-bus_benefits container">
         <div class="filter-bus f_l">
             <div class="title"><span class="text-el">Быстрый подбор автошин</span></div>
@@ -163,17 +164,7 @@
             </ul>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
+	 -->
     <div id="action_products">
         <div class="preloader"></div>
         {widget_ajax('action_products', '#action_products')}

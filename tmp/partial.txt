@@ -1,1 +1,1 @@
-([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)
+http://avto-era.com.ua/templates/newLevel/css/images/ui-bg_glass_65_ffffff_1x400.png
