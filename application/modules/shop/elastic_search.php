@@ -208,7 +208,6 @@ class Elastic_search extends ShopController {
 			if( !in_array($matches_out[2], $wheel_diameter_retrieved, true) ){
 				$wheel_pcd_retrieved[$matches_out[2]] = $matches_out[2];
 			}
-			//$wheel_pcd_retrieved[ $p['id'] ] = $p['value'];
 		}
 		echo $this->elasticsearch->response($wheel_pcd_retrieved);
 	}
@@ -217,11 +216,28 @@ class Elastic_search extends ShopController {
 	 * Get JSON wheel SubHub
 	 */
 	public function getWheelVyletet(){
+		$regex = "/([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\W([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\W(ET[0-9]+)\W(DIA[0-9]+(\,[0-9]+)?)/";
 		$wheel_vyletet_retrieved = array();
-		$wheel_vyletet = $this->elasticsearch->getWheelVyletet();
+		$wheel_vyletet = $this->elasticsearch->getWheelProp();
 	
 		foreach($wheel_vyletet as $v){
-			$wheel_vyletet_retrieved[ $v['id'] ] = $v['value'];
+			preg_match($regex, $v['name'],
+					$matches_out);
+			//var_dump($matches_out);
+			$matches_out_new = array();
+			// ==================================
+			$pt = '/^(\,[0-9]+)?$|^\/[0-9]+$/';
+			foreach ($matches_out as $key => $value){
+				$res = preg_match($pt, $value);
+				if(!$res && !empty( $value ) ){
+					array_push($matches_out_new, $matches_out[$key]);
+				}
+			}
+			$matches_out = $matches_out_new;
+			// ==================================
+			if( !in_array($matches_out[3], $wheel_diameter_retrieved, true) ){
+				$wheel_vyletet_retrieved[$matches_out[3]] = $matches_out[3];
+			}
 		}
 		echo $this->elasticsearch->response($wheel_vyletet_retrieved);
 	}
@@ -231,7 +247,7 @@ class Elastic_search extends ShopController {
 	 */
 	public function getWheelHub(){
 		$wheel_hubs_retrieved = array();
-		$wheel_hubs = $this->elasticsearch->getWheelHub();
+		$wheel_hubs = $this->elasticsearch->getWheelProp();
 	
 		foreach($wheel_hubs as $h){
 			$wheel_hubs_retrieved[ $h['id'] ] = $h['value'];
