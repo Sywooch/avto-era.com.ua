@@ -46,3 +46,43 @@ GROUP BY shop_products_i18n.name
 SELECT * FROM `shop_products_i18n` shop_products_i18n
 where
 shop_products_i18n.name REGEXP '([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)\.([0-9]+(\,[0-9]+)?x[0-9]+(\,[0-9]+)?)(\/[0-9]+)?\.(ET[0-9]+)\.(DIA[0-9]+(\,[0-9]+)?)'
+================================================================
+SELECT * FROM `shop_products_i18n` shop_products_i18n 
+WHERE shop_products_i18n.name REGEXP '6,5x16\.*ET40|7x16\.*ET38'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

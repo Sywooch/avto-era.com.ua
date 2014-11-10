@@ -139,18 +139,26 @@ class Categories extends ShopController {
 					$piecesValue = str_replace (' ', '', $piecesValue);
 					
 					$pos = strpos($piecesValue, "ET");
-					$piecesValue = substr($piecesValue, 0, $pos) . ' ' . substr($piecesValue, $pos);
+					$piecesValue = substr($piecesValue, 0, $pos) . '\.*' . substr($piecesValue, $pos);
+					
+					if(!in_array($piecesValue, $type_retrieved, true)){
+						array_push($type_retrieved, $piecesValue);
+					}
+				}else{
+					if(!in_array($piecesValue, $type_retrieved, true)){
+						array_push($type_retrieved, $piecesValue . "%'");
+					}	
 				} 
-				
-				if(!in_array($piecesValue, $type_retrieved, true)){
-        			array_push($type_retrieved, $piecesValue . "%'");
-    			}
 			}
 		}
 		
-		// WHERE tutorial_author LIKE '%jay'
-		$sqlWhere = "WHERE shop_products_i18n.name LIKE '%" . implode ( " OR shop_products_i18n.name LIKE '%" , $type_retrieved );
-// 		var_dump($sqlWhere);
+		if(isset($_GET["product_type"]) && trim($_GET["product_type"]) == 'wheels'){
+			// WHERE tutorial_author LIKE '%jay'
+			$sqlWhere = "WHERE shop_products_i18n.name REGEXP '" . implode ( "|" , $type_retrieved ) . "'";
+		}else{
+			// WHERE tutorial_author LIKE '%jay'
+			$sqlWhere = "WHERE shop_products_i18n.name LIKE '%" . implode ( " OR shop_products_i18n.name LIKE '%" , $type_retrieved );
+		}	
 		
 		$this->db->cache_on ();
 		$productsBase = $this->elasticsearch->getProductsByAvto($sqlWhere, ( int ) $_GET ['per_page'], ( int ) $this->perPage);
